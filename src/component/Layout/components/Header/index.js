@@ -19,7 +19,7 @@ function Header() {
                         //check sub
                         if (component.sub) {
                             return (
-                                <li className={cx('nav--menu--sub') + ' ' + cx('menu--sub')}>
+                                <li key={index} className={cx('nav--menu--sub') + ' ' + cx('menu--sub')}>
                                     {component.name}
                                     <ul className={cx('sub--menu')}>
                                         {component.sub.map((object, index) => {

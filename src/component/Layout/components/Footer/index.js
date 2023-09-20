@@ -9,10 +9,10 @@ import {} from '@fortawesome/free-solid-svg-icons';
 function Footer() {
     const cx = classNames.bind(styles);
     return (
-        <footer class="footer text-white test">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4 left column">
+        <footer className="footer text-white test">
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-md-4 left column">
                         <div className="logo">
                             <img alt="Logo" src={logo} />
                         </div>
@@ -33,8 +33,8 @@ function Footer() {
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-2 column">
-                        <ul class="column-title">
+                    <div className="col-md-2 column">
+                        <ul className="column-title">
                             <p className="column-title">Explore</p>
                             <div className='footer-list'><li className='footer-list-text'><a href='google.coms'>About Us</a></li><div className='line'/></div>
                             <div className='footer-list'><li className='footer-list-text'><a href='google.coms'>About Us</a></li><div className='line'/></div>
@@ -42,8 +42,8 @@ function Footer() {
                             <div className='footer-list'><li className='footer-list-text'><a href='google.coms'>About Us</a></li><div className='line'/></div>
                         </ul>
                     </div>
-                    <div class="col-md-2 column">
-                        <ul class="column-title">
+                    <div className="col-md-2 column">
+                        <ul className="column-title">
                             <p className="column-title">Useful Links</p>
                             <div className='footer-list'><li className='footer-list-text'><a href='google.com'>Useful Links</a></li><div className='line'/></div>
                             <div className='footer-list'><li className='footer-list-text'><a href='google.com'>Useful Links</a></li><div className='line'/></div>
@@ -51,8 +51,8 @@ function Footer() {
                             <div className='footer-list'><li className='footer-list-text'><a href='google.com'>Useful Links</a></li><div className='line'/></div>
                         </ul>
                     </div>
-                    <div class="col-md-4 column">
-                        <h2 class="column-title ">Recent Posts</h2>
+                    <div className="col-md-4 column">
+                        <h2 className="column-title ">Recent Posts</h2>
                         <div className={cx('recent-posts1') + ' ' + cx('recent-posts')}>
                             <div className={cx('recent-posts-img')}></div>
                             <div className={cx('recent-content')}>
@@ -83,21 +83,21 @@ function Footer() {
                         </div>
                     </div>
                 </div>
-                <div class="viewmap">
-                    <a class="viewmapbutton" href='google.com'>
+                <div className="viewmap">
+                    <a className="viewmapbutton" href='google.com'>
                         View Maps!
                         <span>
                             <FontAwesomeIcon icon={faMap} />
                         </span>
                     </a>
                 </div>
-                <div class="authorize">
+                <div className="authorize">
                     <div className="copy-right">
-                        <div class="copy-right-text footer-left">Copyright © 2023 <a href='google.com'>WildDale</a> Theme. All rights reserved.</div>
+                        <div className="copy-right-text footer-left">Copyright © 2023 <a href='google.com'>WildDale</a> Theme. All rights reserved.</div>
                         <div className='footer-right'>
-                            <div class="copy-right-text "><a href='google.com'>About Us</a> <div className='copy-button'/></div>
-                            <div class="copy-right-text "><a href='google.com'>Gallery</a> <div className='copy-button' /></div>
-                            <div class="copy-right-text "><a href='google.com'>Contact Us</a></div>
+                            <div className="copy-right-text "><a href='google.com'>About Us</a> <div className='copy-button'/></div>
+                            <div className="copy-right-text "><a href='google.com'>Gallery</a> <div className='copy-button' /></div>
+                            <div className="copy-right-text "><a href='google.com'>Contact Us</a></div>
                         </div>
                     </div>
                 </div>
