@@ -41,6 +41,10 @@ function Footer() {
                 <div class="viewmap">
                     <a class="viewmapbutton">View Maps!</a>
                 </div>
+                <div class="row last">
+                    <div class="col-md-6">Copyright</div>
+                    <div class="col-md-6 text-right">About Us</div>
+                </div>
             </div>
         </footer>
     );

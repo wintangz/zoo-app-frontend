@@ -2,7 +2,8 @@
     background-color: #192136;
     padding: 50px;
 }
-.left {
+.text-right {
+    text-align: right;
 }
 .text {
     line-height: 30px;
@@ -38,4 +39,7 @@
 .column-title {
     line-height: 50px;
     font-weight: 600;
+}
+.last {
+    padding-top: 20px;
 }
