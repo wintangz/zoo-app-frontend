@@ -36,19 +36,19 @@ function Footer() {
                     <div class="col-md-2 column">
                         <ul class="column-title">
                             <p className="column-title">Explore</p>
-                            <div className='footer-list'><li className='footer-list-text'><a href='#'>About Us</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='#'>About Us</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='#'>About Us</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='#'>About Us</a></li><div className='line'/></div>
+                            <div className='footer-list'><li className='footer-list-text'><a href='google.coms'>About Us</a></li><div className='line'/></div>
+                            <div className='footer-list'><li className='footer-list-text'><a href='google.coms'>About Us</a></li><div className='line'/></div>
+                            <div className='footer-list'><li className='footer-list-text'><a href='google.coms'>About Us</a></li><div className='line'/></div>
+                            <div className='footer-list'><li className='footer-list-text'><a href='google.coms'>About Us</a></li><div className='line'/></div>
                         </ul>
                     </div>
                     <div class="col-md-2 column">
                         <ul class="column-title">
                             <p className="column-title">Useful Links</p>
-                            <div className='footer-list'><li className='footer-list-text'><a href='#'>Useful Links</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='#'>Useful Links</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='#'>Useful Links</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='#'>Useful Links</a></li><div className='line'/></div>
+                            <div className='footer-list'><li className='footer-list-text'><a href='google.com'>Useful Links</a></li><div className='line'/></div>
+                            <div className='footer-list'><li className='footer-list-text'><a href='google.com'>Useful Links</a></li><div className='line'/></div>
+                            <div className='footer-list'><li className='footer-list-text'><a href='google.com'>Useful Links</a></li><div className='line'/></div>
+                            <div className='footer-list'><li className='footer-list-text'><a href='google.com'>Useful Links</a></li><div className='line'/></div>
                         </ul>
                     </div>
                     <div class="col-md-4 column">
@@ -56,7 +56,7 @@ function Footer() {
                         <div className={cx('recent-posts1') + ' ' + cx('recent-posts')}>
                             <div className={cx('recent-posts-img')}></div>
                             <div className={cx('recent-content')}>
-                                <a className="recent-title" href="#">
+                                <a className="recent-title" href="google.com">
                                     10 Amazing Wildlife Travel Adventures To Try!
                                 </a>
                                 <p className="recent-date">
@@ -70,7 +70,7 @@ function Footer() {
                         <div className={cx('recent-posts2') + ' ' + cx('recent-posts')}>
                             <div className={cx('recent-posts-img')}></div>
                             <div className={cx('recent-content')}>
-                                <a className="recent-title" href="#">
+                                <a className="recent-title" href="google.com">
                                     Everything Need To Know About Tigers Census
                                 </a>
                                 <p className="recent-date">
@@ -84,7 +84,7 @@ function Footer() {
                     </div>
                 </div>
                 <div class="viewmap">
-                    <a class="viewmapbutton">
+                    <a class="viewmapbutton" href='google.com'>
                         View Maps!
                         <span>
                             <FontAwesomeIcon icon={faMap} />
@@ -93,11 +93,11 @@ function Footer() {
                 </div>
                 <div class="authorize">
                     <div className="copy-right">
-                        <div class="copy-right-text footer-left">Copyright © 2023 <a href='#'>WildDale</a> Theme. All rights reserved.</div>
+                        <div class="copy-right-text footer-left">Copyright © 2023 <a href='google.com'>WildDale</a> Theme. All rights reserved.</div>
                         <div className='footer-right'>
-                            <div class="copy-right-text "><a href='#'>About Us</a> <div className='copy-button'/></div>
-                            <div class="copy-right-text "><a href='#'>Gallery</a> <div className='copy-button' /></div>
-                            <div class="copy-right-text "><a href='#'>Contact Us</a></div>
+                            <div class="copy-right-text "><a href='google.com'>About Us</a> <div className='copy-button'/></div>
+                            <div class="copy-right-text "><a href='google.com'>Gallery</a> <div className='copy-button' /></div>
+                            <div class="copy-right-text "><a href='google.com'>Contact Us</a></div>
                         </div>
                     </div>
                 </div>
