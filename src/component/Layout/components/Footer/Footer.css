@@ -1,0 +1,45 @@
+.test {
+    background-color: #192136;
+    padding: 50px;
+}
+.text-right {
+    text-align: right;
+}
+.text {
+    line-height: 30px;
+}
+.logo {
+    margin-bottom: 20px;
+}
+.social {
+    padding: 50px;
+}
+.left img {
+    max-height: 60px;
+}
+.viewmap {
+    text-align: center;
+    border-bottom: #fff solid 0.1px;
+}
+.viewmapbutton {
+    padding: 13px 45px 13px 30px;
+    display: inline-block;
+    background-color: #ee344e;
+    font-size: 14px;
+    line-height: 16px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+.column {
+    line-height: 30px;
+}
+.column-title {
+    line-height: 50px;
+    font-weight: 600;
+}
+.last {
+    padding-top: 20px;
+}
