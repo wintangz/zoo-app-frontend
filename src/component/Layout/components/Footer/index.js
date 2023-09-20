@@ -34,8 +34,8 @@ function Footer() {
                         <p>About Us</p>
                         <p>About Us</p>
                     </div>
-                    <div class="col-md-4">
-                        <h2 class="column-title">Recent Posts</h2>
+                    <div class="col-md-4 column">
+                        <h2 class="column-title ">Recent Posts</h2>
                     </div>
                 </div>
                 <div class="viewmap">

@@ -1,3 +1,6 @@
+.container{
+    
+}
 .test {
     background-color: #192136;
     padding: 50px;
@@ -35,6 +38,7 @@
 }
 .column {
     line-height: 30px;
+    padding: 70px 15px 35px 15px;
 }
 .column-title {
     line-height: 50px;
