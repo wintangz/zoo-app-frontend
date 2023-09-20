@@ -15,6 +15,10 @@ export const components = [
                 name: 'Services2',
                 path: '/services2',
             },
+            {
+                name: 'Services3',
+                path: '/services3',
+            },
         ],
     },
     {

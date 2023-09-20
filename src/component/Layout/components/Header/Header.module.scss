@@ -52,7 +52,9 @@
                     transition: all 0.3s ease 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s;
                     .sub--menu--object {
                         padding: 12px 0;
-                        border-bottom: solid 1px #e8e8e8;
+                        border-bottom: solid 1px #e8e8e8 ;
+                        font-weight: 500;
+                        
                     }
                     .sub--menu--object:hover {
                         color: var(--primary--button);
