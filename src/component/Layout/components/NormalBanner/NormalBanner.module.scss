@@ -11,11 +11,41 @@
             z-index: 10;
             color: white;
             text-align: center;
-            left: 50%;
-            top: 50%;
-
-            .banner--nav{
+            left: 45%;
+            top: 40%;
+            text-align: center;
+            .banner--title {
+                font-weight: 600;
+                text-transform: capitalize;
+                font-size: 55px;
+                line-height: 65px;
+            }
+            .banner--nav {
                 display: flex;
+                .banner--nav--home {
+                    display: flex;
+                    color: #d0d0bb;
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 20px;
+                    transition: color 0.2s ease-in-out;
+                    .nav--home--icon {
+                        padding-right: 8px;
+                    }
+                }
+                .banner--nav--home:hover{
+                    color: var(--primary--button);
+                }
+                .line{
+                    height: 14px;
+                    width: 2px;
+                    margin: 4px 12px;
+                    background: #d0d0bb;
+                    
+                }
+                .nav--cur{
+                    color: var(--primary--button);
+                }
             }
         }
     }
