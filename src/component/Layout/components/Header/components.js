@@ -1,7 +1,10 @@
+import Home from '~/pages/Home';
+
 export const components = [
     {
         name: 'Home',
-        path: '/#',
+        path: '/home',
+        element: { Home },
     },
     {
         name: 'Services',
