@@ -23,10 +23,12 @@ function NormalBanner() {
                     <h1 className={cx('banner--title')}>{NamePage}</h1>
                     <div >
                         <h3 className={cx('banner--nav')}>
-                            <span><FontAwesomeIcon icon={faHouse}/></span>
-                            <p>House</p>
-                            <div className={cx('line')}/>
-                            <p>{NamePage}</p>
+                            <div className={cx('banner--nav--home')}>
+                                <span className={cx('nav--home--icon')}><FontAwesomeIcon icon={faHouse}/></span>
+                                <p className={cx('nav--home--text')}>House</p>
+                            </div>
+                            <div className={cx('line')}>­</div>
+                            <p className={cx('nav--cur')}>{NamePage}</p>
                         </h3>
                     </div>
                 </div>
