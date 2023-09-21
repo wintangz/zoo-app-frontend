@@ -5,7 +5,7 @@ function Banner() {
     const cx = classNames.bind(styles);
     return (
         <div class="container-fluid">
-            <div class="banner row">
+            <div className={cx('banner')}>
                 <img src={banner} alt='banner' className={cx('banner')} />
             </div>
         </div>
