@@ -35,6 +35,7 @@
                 text-align: center;
                 align-items: center;
                 height: 100%;
+                transition: color 0s ease-in-out;
                 .sub--menu {
                     position: absolute;
                     list-style: none;
@@ -64,6 +65,10 @@
                     }
                 }
             }
+            .nav--menu--sub:hover{
+                color:var(--primary--button)
+            }
+            
         }
         .menu--sub:hover .sub--menu {
             visibility: visible;

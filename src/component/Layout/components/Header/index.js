@@ -42,7 +42,7 @@ function Header() {
                     })}
                 </ul>
                 <div href="" className={cx('nav--menu--cart') + ' ' + cx('nav--menu--sub')}>
-                    <FontAwesomeIcon icon={faCartShopping} style={{ color: '#ffffff' }} />
+                    <span  className={cx('cart--icon')} ><FontAwesomeIcon icon={faCartShopping} style={{ color: '#ffffff' }} /></span>
                 </div>
                 <div className={cx('nav--menu--giveTicket') + ' ' + cx('nav--menu--sub')}>
                     <a href="/#">Get a Ticket</a>
