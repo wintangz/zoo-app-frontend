@@ -1,32 +1,27 @@
-import Home from '~/pages/Home';
-
 export const components = [
     {
         name: 'Home',
-        path: '/home',
-        element: { Home },
+        path: '/',
     },
     {
         name: 'Services',
-        path: '/services',
         sub: [
             {
-                name: 'Services1',
-                path: '/services1',
+                name: 'Buy Ticket',
+                path: '/buy',
             },
             {
-                name: 'Services2',
-                path: '/services2',
+                name: 'Home',
+                path: '/',
             },
             {
                 name: 'Services3',
-                path: '/services3',
+                path: '/service',
             },
         ],
     },
     {
         name: 'Know the zoo',
-        path: '/knowthezoo',
         sub: [
             {
                 name: 'Know the zoo1',
@@ -44,7 +39,6 @@ export const components = [
     },
     {
         name: 'Blog',
-        path: '/blog',
         sub: [
             {
                 name: 'Blog1',

@@ -36,6 +36,10 @@
                 align-items: center;
                 height: 100%;
                 transition: color 0s ease-in-out;
+                a {
+                    text-decoration: none;
+                    color: #fff;
+                }
                 .sub--menu {
                     position: absolute;
                     list-style: none;
@@ -55,20 +59,24 @@
                     transition: all 0.3s ease 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s;
                     .sub--menu--object {
                         padding: 12px 0;
-                        border-bottom: solid 1px #e8e8e8 ;
+                        border-bottom: solid 1px #e8e8e8;
                         font-weight: 500;
-                        
+                        position: relative;
+                        a {
+                            color: #8d909a;
+                        }
                     }
                     .sub--menu--object:hover {
-                        color: var(--primary--button);
                         border-bottom: solid 1px var(--primary--button);
+                        a {
+                            color: var(--primary--button);
+                        }
                     }
                 }
             }
-            .nav--menu--sub:hover{
-                color:var(--primary--button)
+            .nav--menu--sub:hover {
+                color: var(--primary--button);
             }
-            
         }
         .menu--sub:hover .sub--menu {
             visibility: visible;

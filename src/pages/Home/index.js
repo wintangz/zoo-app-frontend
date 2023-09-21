@@ -1,5 +1,3 @@
-import Banner from '~/component/Layout/components/Banner';
-import DefaultLayout from '~/component/Layout/components/Header';
 import homepage from '~/assets/img/homepage.jpg';
 
 function Home() {

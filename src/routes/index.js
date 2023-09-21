@@ -15,12 +15,16 @@ import About from '~/pages/About';
 import Service from '~/pages/Service';
 import Upload from '~/pages/Upload';
 import Search from '~/pages/Search';
+import Buy from '~/pages/Buy';
+import Gallery from '~/pages/Gallery';
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', bannerImage: aboutBanner  },
     { path: 'service', component: Service, layout: NormalLayout, name: 'Service', bannerImage: serviceBanner },
     { path: 'upload', component: Upload, layout: NormalLayout, name: 'Upload', bannerImage: uploadBanner },
     { path: 'search', component: Search, layout: NormalLayout, name: 'Search', bannerImage: searchBanner},
+    { path: 'buy', component: Buy, layout: NormalLayout, name: 'Buy Ticket', bannerImage: searchBanner},
+    { path: 'gallery', component: Gallery, layout: NormalLayout, name: 'Gallery', bannerImage: uploadBanner},
 ];
 
 // private routes dont login will redirect to login pages
