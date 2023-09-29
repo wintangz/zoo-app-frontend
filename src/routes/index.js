@@ -13,7 +13,8 @@ import Animal from '~/pages/Animal';
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', bannerImage: aboutBanner },
-    { path: 'animal', component: Animal, layout: NormalLayout, name: 'Animal', babelImage: aboutBanner },
+    { path: 'news', component: News, layout: NormalLayout, name: 'News' },
+    { path: 'animal', component: Animal, layout: NormalLayout, name: 'Animal' },
 ];
 
 // private routes dont login will redirect to login pages
