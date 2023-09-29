@@ -99,8 +99,8 @@ function Header() {
                             </Link>
                         </div>
                         <div className={styles.navitem_container}>
-                            <Link to="/gallery" className={styles.navitem}>
-                                Gallery
+                            <Link to="/ticket" className={styles.navitem}>
+                                Ticket
                             </Link>
                         </div>
                         <div className={styles.navitem_container}>
