@@ -4,10 +4,7 @@ function Home() {
     return (
         <>
             {/* <DefaultLayout /> */}
-            <div class="container">
-                <div class="homepage col-md-6">
-                    <img src={homepage} alt="homepage" className={'homepage'} />
-                </div>
+            <div class="home--container">
                 <div class="col-md-6">
                     <h2 color="red">Welcome To Wilddale</h2>
                 </div>
