@@ -148,15 +148,18 @@
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: rgb(159, 92, 15, 0.95);
+    background-color: rgba(59, 37, 37, 0.93);
     z-index: 1000;
+    height: 66px;
 }
 
 .logo {
     width: 30%;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
     img {
-        height: 70px;
+        height: 45px;
         margin-left: 100px;
     }
 }

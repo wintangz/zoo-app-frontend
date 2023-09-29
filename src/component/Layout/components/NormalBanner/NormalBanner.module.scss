@@ -1,5 +1,5 @@
 .container {
-    padding-top: 100px;
+    // padding-top: 100px;
 
     .banner--container {
         width: 100%;
@@ -33,17 +33,16 @@
                         padding-right: 8px;
                     }
                 }
-                .banner--nav--home:hover{
+                .banner--nav--home:hover {
                     color: var(--primary--button);
                 }
-                .line{
+                .line {
                     height: 14px;
                     width: 2px;
                     margin: 4px 12px;
                     background: #d0d0bb;
-                    
                 }
-                .nav--cur{
+                .nav--cur {
                     color: var(--primary--button);
                 }
             }

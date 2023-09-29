@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Footer.css';
-import logo from '~/assets/img/logo-final.svg';
+// import logo from '~/assets/img/logo-01.png';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faInstagram, faPinterestP } from '@fortawesome/free-brands-svg-icons';
@@ -15,7 +15,7 @@ function Footer() {
                 <div className="row">
                     <div className="col-md-4 left column">
                         <div className="logo">
-                            <img alt="Logo" src={logo} />
+                            <img alt="Logo" src="https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/LOGO.png" />
                         </div>
                         <p className="text">
                             WildDale is the world largest environment organisations. We actively work towards protecting
@@ -135,7 +135,7 @@ function Footer() {
                 <div className="authorize">
                     <div className="copy-right">
                         <div className="copy-right-text footer-left">
-                            Copyright © 2023 <a href="google.com">WildDale</a> Theme. All rights reserved.
+                            Copyright © 2023 <a href="google.com">ValtSaiGon</a> Theme. All rights reserved.
                         </div>
                         <div className="footer-right">
                             <div className="copy-right-text ">
