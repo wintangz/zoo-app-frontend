@@ -57,25 +57,71 @@
         height: auto;
         transition: all 0.5s 0s ease;
 
-        .tag {
+        .title {
+            display: flex;
+            flex-direction: row;
             border-left-color: #ffc000;
-
             position: relative;
             min-height: 170px;
-            background-color: #fafafa;
+            background-color: #e9cd9c;
             padding: 15px 20px;
             margin-bottom: 10px;
             border-radius: 4px;
 
-            .title {
-                display: flex;
+            img {
+                width: 265px;
+                height: 140px;
+                margin-right: 20px;
 
-                img {
-                    width: 265px;
-                    height: 140px;
-                    margin-right: 20px;
+                object-fit: cover;
+            }
+
+            .info {
+                width: calc(100% - 285px);
+
+                .summary {
+                    line-height: 22px;
+
+                    display: inline-block;
+                    width: 100%;
+                    font-size: 16px;
+                    line-height: 22px;
+                    color: #747272;
+                    padding: 0 17px;
+                    max-height: 88px;
+                    overflow: hidden;
+                    word-wrap: break-word;
+                    white-space: normal;
+                }
+            }
+
+            .meta {
+                position: absolute;
+                z-index: 1;
+                bottom: 16px;
+                right: 0;
+                display: flex;
+                justify-content: flex-end;
+                width: 300px;
+                padding: 0 20px;
+                box-sizing: border-box;
+
+                .date {
+                    color: #747272;
+                    display: inline-block;
+                }
+
+                .type {
+                    width: auto;
+                    text-decoration: none;
+                    cursor: pointer;
+                    margin-left: 56px;
+                    color: rgb(59, 37, 37);
                 }
             }
         }
+
+
+
     }
 }
