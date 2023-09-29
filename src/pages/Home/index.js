@@ -51,6 +51,15 @@ function Home() {
                                         A Safari Volunteering A friendly way to travel and share spaces with majestic
                                         animals
                                     </p>
+                                    <h1>hello</h1>
+                                    <h1>hello</h1>
+                                    <h1>hello</h1>
+                                    <h1>hello</h1>
+                                    <h1>hello</h1>
+                                    <h1>hello</h1>
+                                    <h1>hello</h1>
+                                    <h1>hello</h1>
+                                    <h1>hello</h1>
                                 </div>
                             </div>
                         </div>
