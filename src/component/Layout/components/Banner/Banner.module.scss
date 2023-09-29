@@ -4,7 +4,7 @@
     .content--text {
         position: absolute;
         z-index: 100 !important;
-        top: 35%;
+        top: 25%;
         text-align: center;
         width: 100vw;
 
@@ -64,5 +64,25 @@
                 color: #fdd340;
             }
         }
+    }
+    .content--button {
+        position: absolute;
+        z-index: 100;
+        top: 75%;
+        left: 45%;
+        a {
+            text-decoration: none;
+            color: #fff;
+            background-color: transparent;
+            padding: 15px 32px;
+            border-radius: 50px;
+            border: 1.6px solid #fff;
+            transition: all 0.2s ease;
+        }
+    }
+    .content--button a:hover {
+        color: #565237;
+        background-color: #fdd340;
+        border-color: #fdd340;
     }
 }
