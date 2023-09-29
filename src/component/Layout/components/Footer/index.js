@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Footer.css';
-import logo from '~/assets/img/logo-final.svg';
+import logo from '~/assets/img/logo-01.png';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faInstagram, faPinterestP } from '@fortawesome/free-brands-svg-icons';

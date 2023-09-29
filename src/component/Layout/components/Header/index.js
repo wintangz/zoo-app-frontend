@@ -71,6 +71,7 @@ import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import LoginForm from '../LoginForm/loginform';
 import { useState } from 'react';
+import logo from '~/assets/img/logo-01.png';
 
 function Header() {
     const [open, setOpen] = useState(false);
@@ -78,14 +79,14 @@ function Header() {
         <>
             <header className={styles.container}>
                 <div className={styles.logo}>
-                    <img src="https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/croc.jpg" alt="" />
+                    <img src={logo} alt="" />
                 </div>
                 <div className={styles.navwrap}>
                     <div className={styles.navbar}>
                         <Link to="/" className={styles.navitem}>
                             Home
                         </Link>
-                        <Link to="/about" className={styles.navitem}>
+                        <Link to="/news" className={styles.navitem}>
                             News
                         </Link>
                         <Link to="/animals" className={styles.navitem}>

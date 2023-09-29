@@ -1,0 +1,46 @@
+.background {
+    background-image: url('../../assets/img/news-background.png');
+    width: auto;
+    height: 100vh;
+    filter: blur(7px);
+    z-index: -1;
+    position: relative;
+}
+.container {
+    z-index: 1;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    .recommend {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 705px;
+        padding-top: 150px;
+        margin: 0;
+        position: relative;
+        width: 1280px;
+        left: 120px;
+    }
+    .category {
+        margin-top: 38px;
+        margin-left: 100px;
+        list-style-type: none;
+        .item {
+            display: inline-block;
+            min-width: 155px;
+            height: 36px;
+            line-height: 36px;
+            background-color: rgba(57, 59, 64, 0.18);
+            color: #393b40;
+            border-radius: 4px;
+            text-align: center;
+            margin-right: 20px;
+            cursor: pointer;
+            transition: all 0.2s 0s ease;
+
+            background-color: #3b2525;
+            color: #ffffff;
+        }
+    }
+}
