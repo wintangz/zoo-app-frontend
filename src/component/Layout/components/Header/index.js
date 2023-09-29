@@ -83,21 +83,31 @@ function Header() {
                 </div>
                 <div className={styles.navwrap}>
                     <div className={styles.navbar}>
-                        <Link to="/" className={styles.navitem}>
-                            Home
-                        </Link>
-                        <Link to="/news" className={styles.navitem}>
-                            News
-                        </Link>
-                        <Link to="/animals" className={styles.navitem}>
-                            Animals
-                        </Link>
-                        <Link to="/gallery" className={styles.navitem}>
-                            Gallery
-                        </Link>
-                        <Link to="/about" className={styles.navitem}>
-                            About
-                        </Link>
+                        <div className={styles.navitem_container}>
+                            <Link to="/" className={styles.navitem}>
+                                Home
+                            </Link>
+                        </div>
+                        <div className={styles.navitem_container}>
+                            <Link to="/news" className={styles.navitem}>
+                                News
+                            </Link>
+                        </div>
+                        <div className={styles.navitem_container}>
+                            <Link to="/animals" className={styles.navitem}>
+                                Animals
+                            </Link>
+                        </div>
+                        <div className={styles.navitem_container}>
+                            <Link to="/gallery" className={styles.navitem}>
+                                Gallery
+                            </Link>
+                        </div>
+                        <div className={styles.navitem_container}>
+                            <Link to="/about" className={styles.navitem}>
+                                About
+                            </Link>
+                        </div>
                     </div>
                 </div>
                 <div className={styles.login}>
