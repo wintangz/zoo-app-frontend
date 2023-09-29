@@ -17,6 +17,20 @@ function News() {
                     <div className={styles.item}>Event</div>
                     <div className={styles.item}>Update</div>
                 </div>
+                <div className={styles.news}>
+                    <div className={styles.tags}>
+                        <div className={styles.title}>
+                            hello
+                            <img src="" />
+                        </div>
+                    </div>
+                    <div className={styles.tags}>
+                        <div className={styles.title}>
+                            hello
+                            <img src="" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );
