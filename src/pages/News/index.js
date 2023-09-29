@@ -4,7 +4,7 @@ import RecommendCard from '~/component/Layout/components/RecommendCard/recommend
 
 function News() {
     return (
-        <>
+        <div className={styles.news_container}>
             <div className={styles.background}></div>
             <div className={styles.container}>
                 <div className={styles.recommend}>
@@ -32,7 +32,7 @@ function News() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

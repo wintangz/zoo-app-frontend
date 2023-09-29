@@ -1,10 +1,13 @@
+.news_container {
+    position: relative;
+}
+
 .background {
     background-image: url('../../assets/img/news-background.png');
     width: auto;
     height: 100vh;
     filter: blur(7px);
     z-index: -1;
-    position: relative;
 }
 
 .container {
