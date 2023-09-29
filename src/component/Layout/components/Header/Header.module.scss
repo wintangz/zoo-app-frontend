@@ -154,9 +154,11 @@
 
 .logo {
     width: 30%;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
     img {
-        height: 70px;
+        height: 45px;
         margin-left: 100px;
     }
 }
