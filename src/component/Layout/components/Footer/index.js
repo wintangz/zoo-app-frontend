@@ -9,7 +9,8 @@ import {} from '@fortawesome/free-solid-svg-icons';
 function Footer() {
     const cx = classNames.bind(styles);
     return (
-        <footer className="footer text-white test">
+        <footer className="footer text-white">
+            <div className="background-img"></div>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-4 left column">
@@ -36,19 +37,59 @@ function Footer() {
                     <div className="col-md-2 column">
                         <ul className="column-title">
                             <p className="column-title">Explore</p>
-                            <div className='footer-list'><li className='footer-list-text'><a href='google.coms'>About Us</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='google.coms'>About Us</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='google.coms'>About Us</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='google.coms'>About Us</a></li><div className='line'/></div>
+                            <div className="footer-list">
+                                <li className="footer-list-text">
+                                    <a href="google.coms">About Us</a>
+                                </li>
+                                <div className="line" />
+                            </div>
+                            <div className="footer-list">
+                                <li className="footer-list-text">
+                                    <a href="google.coms">About Us</a>
+                                </li>
+                                <div className="line" />
+                            </div>
+                            <div className="footer-list">
+                                <li className="footer-list-text">
+                                    <a href="google.coms">About Us</a>
+                                </li>
+                                <div className="line" />
+                            </div>
+                            <div className="footer-list">
+                                <li className="footer-list-text">
+                                    <a href="google.coms">About Us</a>
+                                </li>
+                                <div className="line" />
+                            </div>
                         </ul>
                     </div>
                     <div className="col-md-2 column">
                         <ul className="column-title">
                             <p className="column-title">Useful Links</p>
-                            <div className='footer-list'><li className='footer-list-text'><a href='google.com'>Useful Links</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='google.com'>Useful Links</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='google.com'>Useful Links</a></li><div className='line'/></div>
-                            <div className='footer-list'><li className='footer-list-text'><a href='google.com'>Useful Links</a></li><div className='line'/></div>
+                            <div className="footer-list">
+                                <li className="footer-list-text">
+                                    <a href="google.com">Useful Links</a>
+                                </li>
+                                <div className="line" />
+                            </div>
+                            <div className="footer-list">
+                                <li className="footer-list-text">
+                                    <a href="google.com">Useful Links</a>
+                                </li>
+                                <div className="line" />
+                            </div>
+                            <div className="footer-list">
+                                <li className="footer-list-text">
+                                    <a href="google.com">Useful Links</a>
+                                </li>
+                                <div className="line" />
+                            </div>
+                            <div className="footer-list">
+                                <li className="footer-list-text">
+                                    <a href="google.com">Useful Links</a>
+                                </li>
+                                <div className="line" />
+                            </div>
                         </ul>
                     </div>
                     <div className="col-md-4 column">
@@ -84,7 +125,7 @@ function Footer() {
                     </div>
                 </div>
                 <div className="viewmap">
-                    <a className="viewmapbutton" href='google.com'>
+                    <a className="viewmapbutton" href="google.com">
                         View Maps!
                         <span>
                             <FontAwesomeIcon icon={faMap} />
@@ -93,11 +134,19 @@ function Footer() {
                 </div>
                 <div className="authorize">
                     <div className="copy-right">
-                        <div className="copy-right-text footer-left">Copyright © 2023 <a href='google.com'>WildDale</a> Theme. All rights reserved.</div>
-                        <div className='footer-right'>
-                            <div className="copy-right-text "><a href='google.com'>About Us</a> <div className='copy-button'/></div>
-                            <div className="copy-right-text "><a href='google.com'>Gallery</a> <div className='copy-button' /></div>
-                            <div className="copy-right-text "><a href='google.com'>Contact Us</a></div>
+                        <div className="copy-right-text footer-left">
+                            Copyright © 2023 <a href="google.com">WildDale</a> Theme. All rights reserved.
+                        </div>
+                        <div className="footer-right">
+                            <div className="copy-right-text ">
+                                <a href="google.com">About Us</a> <div className="copy-button" />
+                            </div>
+                            <div className="copy-right-text ">
+                                <a href="google.com">Gallery</a> <div className="copy-button" />
+                            </div>
+                            <div className="copy-right-text ">
+                                <a href="google.com">Contact Us</a>
+                            </div>
                         </div>
                     </div>
                 </div>

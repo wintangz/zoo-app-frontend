@@ -1,9 +1,13 @@
-.container-fluid{
+.container-fluid {
     margin: 0 !important;
     padding: 0 !important;
+    background-color: #3b2525;
 }
-.test {
-    background-color: #192136;
+.background-img {
+    width: 100%;
+    height: 220px;
+    background: url(../../../../assets/img/footer-background.png) no-repeat;
+    background-size: cover;
 }
 .text-right {
     text-align: right;
@@ -35,12 +39,12 @@
 }
 .viewmap {
     text-align: center;
-    border-bottom: #272e42 solid 0.1px;
+    border-bottom: #fff solid 0.1px;
 }
 .viewmapbutton {
     padding: 13px 30px 13px 30px;
     display: inline-block;
-    background-color: var(--primary--button);
+    background-color: var(--primary);
     font-size: 14px;
     line-height: 16px;
     border-top-left-radius: 6px;
@@ -64,7 +68,6 @@
     font-size: 19px;
     line-height: 24px;
     margin-bottom: 24px;
-    
 }
 .column-title li {
     list-style: none;
@@ -76,38 +79,34 @@
     padding-bottom: 2px;
     transition: color 0.2s ease-in;
 }
-.footer-list{
+.footer-list {
     margin-bottom: 14px;
     display: grid;
     justify-content: start;
 }
 
-.footer-icon{
+.footer-icon {
     padding-left: 20px;
     font-size: 16px;
 }
-.footer-list-text a{
+.footer-list-text a {
     text-decoration: none;
     color: #dddee1;
     transition: color 0.2s ease-in;
-
 }
-.recent-posts{
+.recent-posts {
     display: flex;
     padding: 16px 0px;
 }
 .recent-posts1 {
     border-bottom: solid 1px #272e42;
 }
-.recent-posts1 >
-.recent-posts-img{
-    background: url('../../../../assets/img/recent-post1.jpg') no-repeat ;
+.recent-posts1 > .recent-posts-img {
+    background: url('../../../../assets/img/recent-post1.jpg') no-repeat;
     background-size: cover;
-
 }
-.recent-posts2 >
-.recent-posts-img{
-    background: url('../../../../assets/img/recent-post2.jpg') no-repeat ;
+.recent-posts2 > .recent-posts-img {
+    background: url('../../../../assets/img/recent-post2.jpg') no-repeat;
     background-size: cover;
 }
 
@@ -117,7 +116,7 @@
     margin-right: 18px;
 }
 
-.recent-title{
+.recent-title {
     text-decoration: none;
     color: #dddee1;
     font-size: 14px;
@@ -126,92 +125,90 @@
     font-weight: 600;
     transition: color 0.2s ease-in;
 }
-.recent-date{
+.recent-date {
     color: #afb2b9;
     font-size: 13px;
 }
-.recent-date > span{
+.recent-date > span {
     padding-right: 8px;
-    color: var(--primary--button);
+    color: var(--primary);
 }
-.row{
+.row {
     margin: 0px 110px !important;
     padding: 0px 15px !important;
 }
-.copy-right{
+.copy-right {
     padding: 20px 15px;
 }
-.authorize{
+.authorize {
     margin: 0px 124px;
-    padding: 0px 15px; 
+    padding: 0px 15px;
 }
-.copy-right{
+.copy-right {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.footer-right{
+.footer-right {
     display: flex;
-
 }
-.copy-right-text{
-
+.copy-right-text {
     padding-right: 4px;
     font-size: 14px;
     font-weight: 600;
     line-height: 25px;
     letter-spacing: 0.2px;
-    color:#afb2b9
+    color: #afb2b9;
 }
-.copy-right-text a{
- text-decoration: none;
- color:#dddee1;
+.copy-right-text a {
+    text-decoration: none;
+    color: #dddee1;
 }
 
-.footer-right .copy-right-text{
+.footer-right .copy-right-text {
     display: flex;
     align-items: center;
 }
 
-.copy-button{
+.copy-button {
     margin-right: 8px;
     margin-left: 6px;
-    border-right:solid 0.8px #afb2b9 ;
+    border-right: solid 0.8px #afb2b9;
     height: 13px;
 }
-.line{
-   width: 100%;
-   height: 1px; 
-   position: relative;
+.line {
+    width: 100%;
+    height: 1px;
+    position: relative;
 }
 .line:before {
-    content: "";
+    content: '';
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     width: 0;
     height: 1px;
-    background-color: var(--primary--button);
+    background-color: var(--primary);
     z-index: -1;
     transition: width 0.2s ease-in;
 }
-.footer-list:hover .line:before{
+.footer-list:hover .line:before {
     width: 100%;
     z-index: 1;
 }
-.footer-list-text:hover a{
-    color: var(--primary--button);
+.footer-list-text:hover a {
+    color: var(--primary);
 }
-.footer-icon:hover{
-    color:var(--primary--button)
+.footer-icon:hover {
+    color: var(--primary);
 }
-.viewmapbutton:hover{
+.viewmapbutton:hover {
     background-color: #fff;
-    color:var(--primary);
+    color: var(--primary);
 }
-.copy-right-text a:hover{
-    color: var(--primary--button)
+.copy-right-text a:hover {
+    color: var(--primary);
 }
 .recent-title:hover {
-    color: var(--primary--button);
+    color: var(--primary);
 }
