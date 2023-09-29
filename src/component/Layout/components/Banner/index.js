@@ -1,5 +1,6 @@
 import banner from '~/assets/img/banner.jpg';
-import styles from './Banner.css';
+import cssStyles from './Banner.css';
+import styles from './Banner.module.scss';
 import classNames from 'classnames/bind';
 import { Fade } from 'react-slideshow-image';
 import { Carousel } from 'react-bootstrap';
@@ -11,7 +12,7 @@ import ReactPlayer from 'react-player';
 import 'bootstrap/dist/css/bootstrap.css';
 import { findDOMNode } from 'react-dom';
 function Banner() {
-    // const cx = classNames.bind(styles);
+    const cx = classNames.bind(styles);
     // const images = [
     //     'https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
     //     'https://images.unsplash.com/photo-1506710507565-203b9f24669b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1536&q=80',
@@ -106,7 +107,7 @@ function Banner() {
         //         </div>
         //     </Fade>
         // </div>
-        <div className="banner--container">
+        <div className={'banner--container ' + ' ' + cx('container-content')}>
             <Carousel>
                 {VideoProperties.map((videoObj) => {
                     return (
@@ -116,20 +117,27 @@ function Banner() {
                                 width="100vw"
                                 pip={true}
                                 playing={true}
-                                height="100%"
+                                height="100vh"
                                 autoplay={'autoplay'}
                                 preload="auto"
                                 loop={true}
                                 muted={true}
                             />
-                            <Carousel.Caption>
-                                <h3>{videoObj.title}</h3>
-                                <p>{videoObj.credit}</p>
-                            </Carousel.Caption>
                         </Carousel.Item>
                     );
                 })}
             </Carousel>
+            <div className={cx('content--text')}>
+                <div className={cx('text--title')}>
+                    <p className={cx('title')}>Welcome To SaiGonZoo Safari</p>
+                </div>
+                <div className={cx('content')}>
+                    <p>Conversation is The</p>
+                    <p>
+                        Life of <span>WildLife</span>
+                    </p>
+                </div>
+            </div>
         </div>
     );
 }
