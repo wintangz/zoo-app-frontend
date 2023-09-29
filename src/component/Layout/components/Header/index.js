@@ -85,7 +85,7 @@ function Header() {
                         <Link to="/" className={styles.navitem}>
                             Home
                         </Link>
-                        <Link to="/news" className={styles.navitem}>
+                        <Link to="/about" className={styles.navitem}>
                             News
                         </Link>
                         <Link to="/animals" className={styles.navitem}>
