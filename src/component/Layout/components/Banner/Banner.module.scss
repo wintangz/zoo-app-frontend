@@ -1,10 +1,11 @@
 .container-content {
     position: relative;
-    width: 100vw;
+    overflow: hidden;
+
     .content--text {
         position: absolute;
         z-index: 100 !important;
-        top: 35%;
+        top: 25%;
         text-align: center;
         width: 100vw;
 
@@ -21,6 +22,7 @@
             margin-bottom: 36px;
             display: inline-block;
         }
+
         .title {
             height: auto;
             width: auto;
@@ -38,10 +40,12 @@
             font-size: 16px;
             margin: 0;
         }
+
         .content {
             color: white;
             width: 100vw;
             margin-left: 25%;
+
             p {
                 z-index: 10;
                 font-family: 'Crimson Pro';
@@ -57,12 +61,37 @@
                 font-weight: 600;
                 font-size: 96px;
             }
+
             p:nth-child(2) {
                 margin-left: 56px;
             }
+
             span {
                 color: #fdd340;
             }
         }
+    }
+
+    .content--button {
+        position: absolute;
+        z-index: 100;
+        top: 75%;
+        left: 45%;
+
+        a {
+            text-decoration: none;
+            color: #fff;
+            background-color: transparent;
+            padding: 15px 32px;
+            border-radius: 50px;
+            border: 1.6px solid #fff;
+            transition: all 0.2s ease;
+        }
+    }
+
+    .content--button a:hover {
+        color: #565237;
+        background-color: #fdd340;
+        border-color: #fdd340;
     }
 }

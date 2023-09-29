@@ -11,6 +11,7 @@ import Video4 from '~/assets/video/tiger_-_70854 (720p).mp4';
 import ReactPlayer from 'react-player';
 import 'bootstrap/dist/css/bootstrap.css';
 import { findDOMNode } from 'react-dom';
+import { Link } from 'react-router-dom';
 function Banner() {
     const cx = classNames.bind(styles);
     // const images = [
@@ -137,6 +138,9 @@ function Banner() {
                         Life of <span>WildLife</span>
                     </p>
                 </div>
+            </div>
+            <div className={cx('content--button')}>
+                <Link to="./news">Explore Safari</Link>
             </div>
         </div>
     );

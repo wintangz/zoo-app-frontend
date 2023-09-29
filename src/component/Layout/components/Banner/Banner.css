@@ -89,6 +89,7 @@ div > button:nth-child(1) {
 .carousel {
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
 }
 .carousel-inner {
     width: 100vw;
