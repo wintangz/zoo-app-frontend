@@ -47,6 +47,7 @@ import axios from 'axios';
 import styles from './loginform.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
+import '../../../../assets/themify-icons.css';
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),

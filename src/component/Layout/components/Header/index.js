@@ -71,7 +71,7 @@ import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import LoginForm from '../LoginForm/loginform';
 import { useState } from 'react';
-import logo from '~/assets/img/logo-01.png';
+// import logo from '~/assets/img/logo-01.png';
 
 function Header() {
     const [open, setOpen] = useState(false);
@@ -79,25 +79,35 @@ function Header() {
         <>
             <header className={styles.container}>
                 <div className={styles.logo}>
-                    <img src={logo} alt="" />
+                    <img src="https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/LOGO-LONG.png" alt="" />
                 </div>
                 <div className={styles.navwrap}>
                     <div className={styles.navbar}>
-                        <Link to="/" className={styles.navitem}>
-                            Home
-                        </Link>
-                        <Link to="/news" className={styles.navitem}>
-                            News
-                        </Link>
-                        <Link to="/animals" className={styles.navitem}>
-                            Animals
-                        </Link>
-                        <Link to="/gallery" className={styles.navitem}>
-                            Gallery
-                        </Link>
-                        <Link to="/about" className={styles.navitem}>
-                            About
-                        </Link>
+                        <div className={styles.navitem_container}>
+                            <Link to="/" className={styles.navitem}>
+                                Home
+                            </Link>
+                        </div>
+                        <div className={styles.navitem_container}>
+                            <Link to="/news" className={styles.navitem}>
+                                News
+                            </Link>
+                        </div>
+                        <div className={styles.navitem_container}>
+                            <Link to="/animals" className={styles.navitem}>
+                                Animals
+                            </Link>
+                        </div>
+                        <div className={styles.navitem_container}>
+                            <Link to="/gallery" className={styles.navitem}>
+                                Gallery
+                            </Link>
+                        </div>
+                        <div className={styles.navitem_container}>
+                            <Link to="/about" className={styles.navitem}>
+                                About
+                            </Link>
+                        </div>
                     </div>
                 </div>
                 <div className={styles.login}>

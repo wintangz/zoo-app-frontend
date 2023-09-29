@@ -148,15 +148,20 @@
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: rgb(159, 92, 15, 0.95);
+    // background-color: rgba(59, 37, 37, 0.93);
+    background-color: rgba(59, 37, 37, 0.73) !important;
     z-index: 1000;
+    height: 66px;
 }
 
 .logo {
     width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     img {
-        height: 70px;
+        height: 45px;
         margin-left: 100px;
     }
 }
@@ -169,15 +174,31 @@
 
     .navbar {
         margin-right: 30px;
+        height: 66px;
+        display: flex;
+        align-items: center;
 
-        .navitem {
-            margin: 40px;
-            color: white;
-            text-decoration: none;
+        .navitem_container {
+            // margin-left: 40px;
+            // margin-right: 40px;
+            width: 120px;
+            height: 66px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .navitem {
+                color: white;
+                text-decoration: none;
+            }
         }
 
-        .navitem:hover {
-            text-shadow: 0 0 10px #ffd036, 0 0 20px #ffd036, 0 0 40px #ffd036;
+        .navitem_container:hover {
+            box-shadow: inset 0px 5px 0px 0px #eeb712;
+
+            .navitem {
+                text-shadow: 0 0 10px #ffd036, 0 0 20px #ffd036, 0 0 40px #ffd036;
+            }
         }
     }
 }
