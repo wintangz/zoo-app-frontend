@@ -191,14 +191,14 @@
                 color: white;
                 text-decoration: none;
             }
-
-            .navitem:hover {
-                text-shadow: 0 0 10px #ffd036, 0 0 20px #ffd036, 0 0 40px #ffd036;
-            }
         }
 
         .navitem_container:hover {
             box-shadow: inset 0px 5px 0px 0px #eeb712;
+
+            .navitem {
+                text-shadow: 0 0 10px #ffd036, 0 0 20px #ffd036, 0 0 40px #ffd036;
+            }
         }
     }
 }
