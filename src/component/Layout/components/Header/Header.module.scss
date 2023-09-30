@@ -188,8 +188,9 @@
             justify-content: center;
 
             .navitem {
-                color: white;
+                color: rgb(221, 221, 221);
                 text-decoration: none;
+                font-weight: normal;
 
                 span {
                     margin-right: 10px;
@@ -215,13 +216,19 @@
 
                         .dropdown_item {
                             left: 10px;
-                            color: white;
+                            color: rgb(221, 221, 221);
                             text-decoration: none;
+                            font-weight: normal;
                         }
                     }
 
                     .dropdown_item_container:hover {
                         background-color: rgba(255, 180, 50, 0.93);
+
+                        .dropdown_item {
+                            color: white;
+                            font-weight: bold;
+                        }
                     }
                 }
             }
@@ -238,6 +245,8 @@
 
             .navitem {
                 text-shadow: 0 0 10px #ffd036, 0 0 20px #ffd036, 0 0 40px #ffd036;
+                color: white;
+                font-weight: bold;
             }
         }
     }

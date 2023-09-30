@@ -72,7 +72,7 @@ import styles from './Header.module.scss';
 import LoginForm from '../LoginForm/loginform';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 // import logo from '~/assets/img/logo-01.png';
 
 function Header() {
@@ -98,16 +98,22 @@ function Header() {
                         <div className={styles.navitem_container}>
                             <div className={styles.navitem}>
                                 <span>Explore</span>
-                                <FontAwesomeIcon icon={faCaretDown} style={{color: "#ffffff",}} />
+                                <FontAwesomeIcon icon={faCaretDown} />
                                 <div className={styles.dropdown}>
                                     <div className={styles.dropdown_item_container}>
-                                        <Link to="/animals" className={styles.dropdown_item}>Animals</Link>
+                                        <Link to="/animals" className={styles.dropdown_item}>
+                                            Animals
+                                        </Link>
                                     </div>
                                     <div className={styles.dropdown_item_container}>
-                                        <Link to="/habitats" className={styles.dropdown_item}>Habitats</Link>
+                                        <Link to="/habitats" className={styles.dropdown_item}>
+                                            Habitats
+                                        </Link>
                                     </div>
                                     <div className={styles.dropdown_item_container}>
-                                        <Link to="/animals" className={styles.dropdown_item}>Zoo Map</Link>
+                                        <Link to="/animals" className={styles.dropdown_item}>
+                                            Zoo Map
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
