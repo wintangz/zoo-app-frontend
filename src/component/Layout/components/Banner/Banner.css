@@ -85,9 +85,9 @@ div > button:nth-child(1) {
 
 .carousel-item {
     transition: opacity 1s ease-in-out !important;
-    li {
-        transition: opacity 1s ease !important;
-    }
+}
+li {
+    transition: opacity 1s ease !important;
 }
 
 .banner--container {

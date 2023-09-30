@@ -7,4 +7,10 @@ const zones = [
         imgUrl: zone1,
         hoverImage: '',
     },
+    {
+        id: 1,
+        name: 'Tropical Rainforest',
+        imgUrl: zone1,
+        hoverImage: '',
+    },
 ];
