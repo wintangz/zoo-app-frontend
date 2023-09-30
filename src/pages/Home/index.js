@@ -1,13 +1,15 @@
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import { Link } from 'react-router-dom';
+
+import { zones } from './zoneComponents.js';
 function Home() {
     const cx = classNames.bind(styles);
     return (
         <>
             {/* <DefaultLayout /> */}
             <div className={cx('home--container')}>
-                <div className="infomation--content">
+                <div className={cx('infomation--content')}>
                     <div className={cx('information')}>
                         <div className={cx('information--left')}>
                             <div className={cx('welcome')}>
@@ -75,6 +77,25 @@ function Home() {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className={cx('zone')}>
+                {zones.map((component) => {
+                    return (
+                        <div className={cx('zone--container')}>
+                            <div
+                                className={cx('zone--background')}
+                                style={{
+                                    background: 'url(' + component.imgUrl + ')',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundSize: 'cover',
+                                }}
+                            ></div>
+                            <div className={cx('zone--title')}>{component.name}</div>
+                            <div className={cx('zone--title-hover')}></div>
+                            <div className={cx('zone--hover')}></div>
+                        </div>
+                    );
+                })}
             </div>
         </>
     );
