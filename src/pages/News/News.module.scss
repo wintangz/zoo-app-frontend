@@ -4,6 +4,7 @@
 
 .background {
     background-image: url('../../assets/img/news-background.png');
+    background-size: 100vw 100vh;
     width: auto;
     height: 100vh;
     filter: blur(7px);
@@ -12,20 +13,22 @@
 
 .container {
     z-index: 1;
-    position: absolute;
     top: 0px;
-    width: 100%;
+    width: 1280px;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
 
     .recommend {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        height: 705px;
-        padding-top: 150px;
-        margin: 0;
-        position: relative;
-        width: 1280px;
-        left: 120px;
+        align-items: center;
+        height: 100vh;
+        margin: auto;
     }
 }
 
