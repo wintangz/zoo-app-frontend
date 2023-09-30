@@ -1,0 +1,57 @@
+.container {
+    max-width: 1200px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    .void {
+        margin-left: -20px;
+        margin-right: -20px;
+
+        .col {
+
+            .header {
+                margin-bottom: 35px;
+
+                .headline {
+                    font-size: 2rem;
+                    line-height: 2rem;
+                    text-align: left;
+                    width: unset;
+                }
+            }
+
+            .slider_waraper {
+                position: relative;
+
+                .swiper_warpper {
+                    transform: translate3d(0px, 0px, 0px);
+
+                    .card {
+                        background-image: url('../../assets/animal/csm_Panda_489066fba9.jpg');
+                        width: 568.5px;
+                        margin-right: 23px;
+
+                        .link_cover {
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            opacity: 0;
+                            display: block;
+                            z-index: 20;
+                        }
+
+                        .content {
+                            position: relative;
+                            z-index: 10;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: flex-end;
+                            align-items: center;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
