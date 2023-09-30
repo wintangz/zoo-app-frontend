@@ -4,10 +4,6 @@ import styles from './Banner.module.scss';
 import classNames from 'classnames/bind';
 import { Fade } from 'react-slideshow-image';
 import { Carousel } from 'react-bootstrap';
-import Video1 from '~/assets/video/elephant_-_81782 (720p).mp4';
-import Video2 from '~/assets/video/panda_-_81457 (720p).mp4';
-import Video3 from '~/assets/video/rhino_-_85697 (720p).mp4';
-import Video4 from '~/assets/video/tiger_-_70854 (720p).mp4';
 import ReactPlayer from 'react-player';
 import 'bootstrap/dist/css/bootstrap.css';
 import { findDOMNode } from 'react-dom';
@@ -67,6 +63,12 @@ function Banner() {
             title: 'Video 4',
             src: 'https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/video/elephant-video.mp4',
             credit: 'Video about elephant',
+        },
+        {
+            id: 5,
+            title: 'Video 5',
+            src: 'https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/video/panda-video.mp4',
+            credit: 'Video about panda',
         },
     ];
 
