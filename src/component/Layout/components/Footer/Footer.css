@@ -1,4 +1,5 @@
 .footer {
+    overflow-x: hidden;
 }
 .container-fluid {
     margin: 0 !important;
@@ -6,12 +7,12 @@
     background-color: #3b2525;
 }
 .background-img {
-    width: 100%;
+    width: 100vw;
     height: 220px;
     text-align: center;
 }
 .background-img img {
-    width: 1519.2px!important;
+    width: 100vw !important;
 }
 .text-right {
     text-align: right;
