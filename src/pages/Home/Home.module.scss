@@ -136,3 +136,78 @@
         }
     }
 }
+
+.zone {
+    margin-top: 160px;
+    position: relative;
+
+    .zone--container {
+        position: relative;
+        height: 40vh;
+
+
+        .zone--background {
+            position: absolute;
+            background: no-repeat;
+            background-size: cover;
+            transition: all 0.6s;
+            width: 100%;
+            height: 100%;
+
+
+
+
+        }
+
+        .zone--title {
+            position: absolute;
+            z-index: 3;
+            font-size: 36px;
+            color: #fff;
+            line-height: 260px;
+            width: 100%;
+            height: 250px;
+            left: 37%;
+            padding-left: 25px;
+        }
+
+        .zone--title-hover {
+            top: 60%;
+            left: 41%;
+            position: absolute;
+            background: url(../../assets/img/title-hover.png) no-repeat;
+            width: 100%;
+            height: 45%;
+            opacity: 0;
+        }
+
+        .zone--hover {
+            position: absolute;
+            right: 7%;
+            width: 50%;
+            height: 100%;
+            opacity: 0;
+            background: transparent;
+            transition: all 0.6s;
+        }
+    }
+
+    .zone--container:hover .zone--hover {
+        opacity: 1;
+        background: url(../../assets/img/img-hover-1.png) no-repeat;
+        background-size: cover;
+        transform: scale(1.1);
+
+    }
+
+    .zone--container:hover .zone--title-hover {
+        transition: opacity 0.6s;
+        opacity: 1;
+    }
+
+    .zone--container:hover .zone--background {
+        transform: scale(1.1);
+    }
+
+
+}

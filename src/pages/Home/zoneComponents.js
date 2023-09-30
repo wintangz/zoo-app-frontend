@@ -1,16 +1,11 @@
 import zone1 from '~/assets/img/zone1.jpg';
+import imghover1 from '~/assets/img/img-hover-1.png';
 
-const zones = [
+export const zones = [
     {
         id: 1,
         name: 'Tropical Rainforest',
         imgUrl: zone1,
-        hoverImage: '',
-    },
-    {
-        id: 1,
-        name: 'Tropical Rainforest',
-        imgUrl: zone1,
-        hoverImage: '',
+        hoverImage: imghover1,
     },
 ];
