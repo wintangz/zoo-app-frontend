@@ -1,16 +1,21 @@
+.news_container {
+    position: relative;
+}
+
 .background {
     background-image: url('../../assets/img/news-background.png');
     width: auto;
     height: 100vh;
     filter: blur(7px);
     z-index: -1;
-    position: relative;
 }
+
 .container {
     z-index: 1;
     position: absolute;
     top: 0px;
     width: 100%;
+
     .recommend {
         display: flex;
         flex-direction: row;
@@ -22,10 +27,14 @@
         width: 1280px;
         left: 120px;
     }
+}
+
+.news_list {
     .category {
         margin-top: 38px;
         margin-left: 100px;
         list-style-type: none;
+
         .item {
             display: inline-block;
             min-width: 155px;
@@ -42,5 +51,15 @@
             background-color: #3b2525;
             color: #ffffff;
         }
+    }
+
+    .news {
+        margin-top: 38px;
+        list-style-type: none;
+        height: auto;
+        transition: all 0.5s 0s ease;
+        padding-left: 100px;
+        padding-right: 100px;
+
     }
 }

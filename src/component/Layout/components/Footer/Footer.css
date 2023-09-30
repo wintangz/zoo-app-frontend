@@ -1,3 +1,5 @@
+.footer {
+}
 .container-fluid {
     margin: 0 !important;
     padding: 0 !important;
@@ -6,8 +8,10 @@
 .background-img {
     width: 100%;
     height: 220px;
-    background: url(../../../../assets/img/footer-background.png) no-repeat;
-    background-size: cover;
+    text-align: center;
+}
+.background-img img {
+    width: 1519.2px!important;
 }
 .text-right {
     text-align: right;

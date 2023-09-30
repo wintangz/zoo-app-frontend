@@ -5,7 +5,7 @@ function DefaultLayout({ children }) {
     return (
         <div>
             <Header />
-            <NormalBanner />
+            {/* <NormalBanner /> */}
             {children}
             <Footer />
         </div>

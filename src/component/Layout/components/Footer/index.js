@@ -10,7 +10,9 @@ function Footer() {
     const cx = classNames.bind(styles);
     return (
         <footer className="footer text-white">
-            <div className="background-img"></div>
+            <div className="background-img">
+                <img src='https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/footer.png' alt=''/>
+            </div>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-4 left column">

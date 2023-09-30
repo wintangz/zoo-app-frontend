@@ -3,11 +3,13 @@ import { createContext } from 'react';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/component/Layout';
 import { Fragment } from 'react';
+import ScrollToTop from './component/ScrollToTop';
 export const NamePageContext = createContext();
 export const BannerPageContext = createContext();
 function App() {
     return (
         <Router>
+            <ScrollToTop/>
             <div className="App">
                 <Routes>
                     {publicRoutes.map((route, index) => {

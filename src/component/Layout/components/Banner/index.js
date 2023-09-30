@@ -47,26 +47,26 @@ function Banner() {
         {
             id: 1,
             title: 'Video 1',
-            src: Video1,
-            credit: 'Video about elephants',
+            src: 'https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/video/tiger-video.mp4',
+            credit: 'Video about tiger',
         },
         {
             id: 2,
             title: 'Video 2',
-            src: Video2,
-            credit: 'Video about panda',
+            src: 'https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/video/crocodile-video.mp4',
+            credit: 'Video about crocodile',
         },
         {
             id: 3,
             title: 'Video 3',
-            src: Video3,
-            credit: 'Video about rhino',
+            src: 'https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/video/giraffe-video.mp4',
+            credit: 'Video about giraffe',
         },
         {
             id: 4,
             title: 'Video 4',
-            src: Video4,
-            credit: 'Video about tiger',
+            src: 'https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/video/elephant-video.mp4',
+            credit: 'Video about elephant',
         },
     ];
 
