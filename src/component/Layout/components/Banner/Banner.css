@@ -83,6 +83,13 @@ div > button:nth-child(1) {
     left: 45%;
 } */
 
+.carousel-item {
+    transition: opacity 1s ease-in-out !important;
+    li {
+        transition: opacity 1s ease !important;
+    }
+}
+
 .banner--container {
     overflow: hidden;
 }
