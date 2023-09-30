@@ -117,7 +117,7 @@ function Banner() {
                         <Carousel.Item key={videoObj.id}>
                             <ReactPlayer
                                 url={videoObj.src}
-                                width="100vw"
+                                width="100vw" 
                                 pip={true}
                                 playing={true}
                                 height="100vh"
