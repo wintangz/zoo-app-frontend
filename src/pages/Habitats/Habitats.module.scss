@@ -1,0 +1,39 @@
+.habitat__container {
+
+    .bg__container {
+        position: relative;
+
+        .bg__img {
+            width: 100%;
+
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+
+        .content {
+            position: absolute;
+            bottom: 10%;
+            text-align: center;
+            width: 100%;
+            z-index: 2;
+
+            .headingtile {
+                font-size: 85px;
+                padding: 16px 20px;
+                margin: 0;
+                color: #FFFFFF;
+                display: inline-block;
+                // max-width: 85%;
+                text-shadow: 6px 0px 5px rgb(13, 10, 5);
+            }
+        }
+    }
+
+    .main__content {
+        margin: 500px 0;
+    }
+
+
+}

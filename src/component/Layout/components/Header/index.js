@@ -71,6 +71,8 @@ import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import LoginForm from '../LoginForm/loginform';
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 // import logo from '~/assets/img/logo-01.png';
 
 function Header() {
@@ -94,9 +96,26 @@ function Header() {
                             </Link>
                         </div>
                         <div className={styles.navitem_container}>
-                            <Link to="/animals" className={styles.navitem}>
-                                Animals
-                            </Link>
+                            <div className={styles.navitem}>
+                                <span>Explore</span>
+                                <FontAwesomeIcon icon={faCaretDown} style={{color: "#ffffff",}} />
+                                <div className={styles.dropdown}>
+                                    <div className={styles.dropdown_item_container}>
+                                        <Link to="/animals" className={styles.dropdown_item}>Animals</Link>
+                                    </div>
+                                    <div className={styles.dropdown_item_container}>
+                                        <Link to="/habitats" className={styles.dropdown_item}>Habitats</Link>
+                                    </div>
+                                    <div className={styles.dropdown_item_container}>
+                                        <Link to="/animals" className={styles.dropdown_item}>Zoo Map</Link>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* <div className={styles.navitem_container}>
+                                <Link to="/animals" className={styles.navitem}>
+                                    Animals
+                                </Link>
+                            </div> */}
                         </div>
                         <div className={styles.navitem_container}>
                             <Link to="/ticket" className={styles.navitem}>

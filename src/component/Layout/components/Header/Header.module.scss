@@ -190,11 +190,51 @@
             .navitem {
                 color: white;
                 text-decoration: none;
+
+                span {
+                    margin-right: 10px;
+                }
+
+                .dropdown {
+                    opacity: 0;
+                    visibility: hidden;
+                    position: absolute;
+                    top: 66px;
+                    right: 383px;
+                    width: 214px;
+                    transition: all 0.2s ease-in;
+                    border-radius: 1px;
+
+                    .dropdown_item_container {
+                        height: 63px;
+                        align-items: center;
+                        padding-top: 22px;
+                        padding-left: 22px;
+                        background-color: rgba(255, 180, 50, 0.73);
+                        border-top: black 1px solid;
+
+                        .dropdown_item {
+                            left: 10px;
+                            color: white;
+                            text-decoration: none;
+                        }
+                    }
+
+                    .dropdown_item_container:hover {
+                        background-color: rgba(255, 180, 50, 0.93);
+                    }
+                }
             }
         }
 
         .navitem_container:hover {
             box-shadow: inset 0px 5px 0px 0px #eeb712;
+
+            .dropdown {
+                visibility: visible;
+                opacity: 1;
+                transition: all 0.2s ease-in;
+            }
 
             .navitem {
                 text-shadow: 0 0 10px #ffd036, 0 0 20px #ffd036, 0 0 40px #ffd036;

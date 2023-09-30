@@ -11,53 +11,72 @@ import gelada from '~/assets/animal/gelada.png';
 function Animals() {
     const slides = [
         {
-            url: 'https://zoo.sandiegozoo.org/sites/default/files/styles/hero_with_nav_gradient/public/hero/jaguar_hero_0.png?itok=GS2zQ4x2',
+            url: lion,
+            title: lion,
         },
         {
-            url: 'https://zoo.sandiegozoo.org/sites/default/files/styles/hero_with_nav_gradient/public/hero/lion_hero.png?itok=9OGH8Gge',
+            url: serval,
+            title: serval,
         },
         {
-            url: 'https://zoo.sandiegozoo.org/sites/default/files/styles/hero_with_nav_gradient/public/hero/gelada_hero.png?itok=afyxDKsI',
+            url: jaguar,
+            title: jaguar,
         },
         {
-            url: 'https://zoo.sandiegozoo.org/sites/default/files/styles/hero_with_nav_gradient/public/hero/giraffe_hero.png?itok=d7jGa7yT',
+            url: giraffe,
+            title: giraffe,
         },
         {
-            url: 'https://zoo.sandiegozoo.org/sites/default/files/styles/hero_with_nav_gradient/public/hero/gelada_hero.png?itok=afyxDKsI',
+            url: gelada,
+            title: gelada,
         },
     ];
+
     const [currentIndex, setCurrenIndex] = useState(0);
 
-    const slider = {
+    const slider_style = {
+        width: '100%',
         height: '100%',
         position: 'relative',
     };
-    const slide = {
+    const slide_style = {
         width: '100%',
         height: '100%',
-        borderRadius: '10px',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
+        // transition: 'transform 0.5s ease, backdrop-filter 0.5s ease',
+        // backdropFilter: 'blur(0)',
     };
     const left_arrow = {
         position: 'absolute',
-        top: '100px',
+        top: '50%',
         transform: 'translate(0, -50)',
         left: '32px',
         fontSize: '45px',
-        color: '#fff',
+        color: 'red',
         zIndex: 1,
         cursor: 'pointer',
     };
     const right_arrow = {
         position: 'absolute',
-        top: '100px',
+        top: '50%',
         transform: 'translate(0, -50)',
         right: '32px',
         fontSize: '45px',
-        color: '#fff',
+        color: 'red',
         zIndex: 1,
         cursor: 'pointer',
+    };
+
+    const dotsContainerStyles = {
+        display: 'flex',
+        justifyContent: 'center',
+    };
+
+    const imgBelow = {
+        margin: '0 3px',
+        cursor: 'pointer',
+        fontSize: '20px',
     };
 
     const goToPrevious = () => {
@@ -70,36 +89,28 @@ function Animals() {
         const newIndex = isLastSlide ? 0 : currentIndex + 1;
         setCurrenIndex(newIndex);
     };
+    const goToSlide = (slideIndex) => {
+        setCurrenIndex(slideIndex);
+    };
 
     return (
         <>
-            <div className={styles.container}>
-                <div class={styles.slide}>
-                    <div class={styles.list}>
-                        <div class={styles.item}>
-                            <img
-                                src="https://zoo.sandiegozoo.org/sites/default/files/styles/hero_with_nav_gradient/public/hero/gelada_hero.png?itok=afyxDKsI"
-                                alt=""
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div class={styles.buttons}>
-                    <button id="prev">a</button>
-                    <button id="next">b</button>
-                </div>
-                <div class={styles.card}></div>
-            </div>
-
             <div className={styles.container_styles}>
-                <div style={slider}>
+                <div style={slider_style}>
                     <div style={left_arrow} onClick={goToPrevious}>
-                        a
+                        pre
                     </div>
                     <div style={right_arrow} onClick={goToNext}>
-                        b
+                        next
                     </div>
-                    <div style={{ ...slide, backgroundImage: `url(${slides[currentIndex].url})` }}></div>
+                    <div style={{ ...slide_style, backgroundImage: `url(${slides[currentIndex].url})` }}></div>
+                    <div style={dotsContainerStyles}>
+                        {slides.map((slide, slideIndex) => (
+                            <div key={slideIndex} style={imgBelow} onClick={() => goToSlide(slideIndex)}>
+                                o
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </>
