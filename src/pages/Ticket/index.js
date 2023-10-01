@@ -7,7 +7,9 @@ import styles from './Ticket.module.scss';
 function Ticket() {
     return (
         <>
-            <NormalBanner />
+            <div className={styles.imgbanner}>
+                <NormalBanner />
+            </div>
             <div className={styles.container}>
                 <div className={styles.void}>
                     <div className={styles.col1}>
