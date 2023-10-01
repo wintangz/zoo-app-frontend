@@ -8,7 +8,7 @@ import aboutBanner from '~/assets/img/t1.jpg';
 
 import Home from '~/pages/Home';
 import News from '~/pages/News';
-import Animals from '~/pages/Gallery copy';
+import Animals from '~/pages/Animals';
 import Ticket from '~/pages/Ticket';
 import About from '~/pages/About';
 import Habitats from '~/pages/Habitats';

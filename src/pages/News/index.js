@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './News.module.scss';
-import RecommendCard from '~/component/Layout/components/Newspage/RecommendCard/recommendcard';
-import Title from '~/component/Layout/components/Newspage/News/News';
+import RecommendCard from '~/pages/News/RecommendCard/recommendcard';
+import Title from '~/pages/News/News/News';
 
 function News() {
     return (
