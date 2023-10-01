@@ -9,6 +9,7 @@ function AnimalBackground() {
             style={{
                 backgroundImage: 'url(' + img + ')',
                 backgroundSize: 'cover',
+                filter: 'blur(2px)',
                 maxWidth: '100%',
             }}
         ></div>
