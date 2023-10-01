@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Gallery.module.scss';
-import product_card from '~/pages/Habitats/data';
+import product_card from '~/pages/Habitats/dataCard';
 // import { AiOutlineClose } from 'react-icons/ai';
 
 const Gallery = () => {
