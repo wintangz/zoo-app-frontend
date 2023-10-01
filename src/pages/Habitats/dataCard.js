@@ -25,21 +25,25 @@ import rhino from '../../assets/animal/rhino.jpg';
 const product_card = [
     {
         id: 1,
+        type: 'polar',
         name: 'Amur Leopard',
         linkImg: amur_leopard,
     },
     {
         id: 2,
+        type: 'savannah',
         name: 'Black Headed Weaver',
         linkImg: blackheaded_weaver,
     },
     {
         id: 3,
+        type: 'sea',
         name: 'Elephant',
         linkImg: elephant,
     },
     {
         id: 4,
+        type: 'woodland',
         name: 'Fox',
         linkImg: fox,
     },
