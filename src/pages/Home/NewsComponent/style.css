@@ -1,0 +1,42 @@
+.tag {
+    text-align: center;
+}
+
+.slick-slide img {
+    width: 640px;
+    height: 400px;
+}
+.imgslider {
+    width: 640px;
+    height: 400px;
+}
+.slick-arrow {
+    display: none !important;
+}
+.slick-dots {
+    position: absolute;
+    top: 93% !important;
+}
+.slick-dots li button:before {
+    font-size: 20px;
+}
+.slick-dots li.slick-active button:before {
+    color: white;
+    opacity: 1;
+}
+.slick-slider .slick-track,
+.slick-slider .slick-list,
+.slick-slide,
+.slick-slider {
+    -webkit-perspective: 1000px !important;
+    perspective: 1000px !important;
+    -webkit-perspective: 1000 !important;
+    -webkit-backface-visibility: hidden !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
+.no-flick {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0.1px);
+    transform: translateZ(0.1px); /* needs an actual value */
+}

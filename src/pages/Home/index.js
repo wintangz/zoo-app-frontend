@@ -1,8 +1,14 @@
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
 import { Link } from 'react-router-dom';
-
+import images from './NewsComponent/postComponent.js';
+import ImageSlider from './NewsComponent/imageSlider.js';
 import { zones } from './zoneComponents.js';
+import news from './NewsComponent/newsList';
+import { Fragment } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 function Home() {
     const cx = classNames.bind(styles);
     return (
@@ -79,6 +85,16 @@ function Home() {
                 </div>
             </div>
             <div className={cx('zone')}>
+                <div className={cx('zone--welcome')}>
+                    <div className={cx('welcome')}>
+                        <p>Safari Tour!</p>
+                    </div>
+                    <div className={cx('information--title')}>
+                        <h1>
+                            Discover Animal <span>Way!</span>
+                        </h1>
+                    </div>
+                </div>
                 {zones.map((component) => {
                     return (
                         <div className={cx('zone--container')}>
@@ -92,10 +108,71 @@ function Home() {
                             ></div>
                             <div className={cx('zone--title')}>{component.name}</div>
                             <div className={cx('zone--title-hover')}></div>
-                            <div className={cx('zone--hover')}></div>
+                            <div
+                                className={cx('zone--hover')}
+                                style={{
+                                    background: 'url(' + component.hoverImage + ') no-repeat',
+                                    backgroundSize: 'cover',
+                                    right: '7%',
+                                    width: '50%',
+                                    height: '100%',
+                                    position: 'absolute',
+                                    opacity: 0,
+                                }}
+                            ></div>
+                            <styles></styles>
                         </div>
                     );
                 })}
+            </div>
+
+            <div className={cx('news')}>
+                <div className={cx('news-container')}>
+                    <div className={cx('content')}>
+                        <div className={cx('news-welcome')}>
+                            <div className={cx('welcome')}>
+                                <p>Safari Tour!</p>
+                            </div>
+                            <div className={cx('information--title')}>
+                                <h1>
+                                    Discover Animal <span>Way!</span>
+                                </h1>
+                            </div>
+                        </div>
+                        <div className={cx('all--news')}>
+                            <div className={cx('news--left')}>
+                                <ImageSlider images={images} />
+                            </div>
+                            <div className={cx('news--right')}>
+                                <div className={cx('news--tab--list')}>
+                                    <p className={cx('tab--list--name')}>Latest</p>
+                                </div>
+                                <div className={cx('news--list')}>
+                                    <ul className={cx('news--ul')}>
+                                        {news.map((post) => {
+                                            return (
+                                                <>
+                                                    <li key={post.id} className={cx('news-obj')}>
+                                                        <Link to={post.path}>
+                                                            <p className={cx('news-name')}>{post.name}</p>
+                                                            <p className={cx('news-date')}>{post.date}</p>
+                                                        </Link>
+                                                    </li>
+                                                </>
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
+                                <div className={cx('more-btn')}>
+                                    <Link to="/news">
+                                        <FontAwesomeIcon icon={faPlus} />
+                                        <p>More</p>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );

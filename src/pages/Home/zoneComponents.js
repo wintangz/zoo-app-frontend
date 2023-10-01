@@ -8,4 +8,16 @@ export const zones = [
         imgUrl: zone1,
         hoverImage: imghover1,
     },
+    {
+        id: 1,
+        name: 'Tropical Rainforest',
+        imgUrl: zone1,
+        hoverImage: imghover1,
+    },
+    {
+        id: 1,
+        name: 'Tropical Rainforest',
+        imgUrl: zone1,
+        hoverImage: imghover1,
+    },
 ];
