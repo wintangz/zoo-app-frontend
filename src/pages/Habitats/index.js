@@ -2,7 +2,8 @@ import React from 'react';
 import styles from './Habitats.module.scss';
 import { useState } from 'react';
 
-import bg from '~/assets/img/news-background.png';
+import bgHabitat from '../../assets/background/bgHabitat.jpg';
+import Gallery from '~/component/Layout/components/Gallery/Gallery';
 
 function Habitats() {
     return (
@@ -10,7 +11,7 @@ function Habitats() {
             <div className={styles.habitat__container}>
                 <div className={styles.bg__container}>
                     <div className={styles.bg__img}>
-                        <img src={bg}></img>
+                        <img src={bgHabitat}></img>
                     </div>
                     <div className={styles.content}>
                         <h1 className={styles.headingtile}>
@@ -18,13 +19,19 @@ function Habitats() {
                         </h1>
                     </div>
                 </div>
-                <div className={styles.main__content}>
-                    <div className={styles.dropdown__container}>
-                        <div className={styles.dropdown__bar}>
-                            <h1>Bar here</h1>
+                <div className={styles.habitat}>
+                    <div className={styles.habitat__list}>
+                        <div className={styles.habitat__item}>
+                            <h1>
+                                <i>Habitat loading...</i>
+                            </h1>
                         </div>
                     </div>
                 </div>
+                <div className={styles.animal__img_container}>
+                    <div className={styles.animal__img_list}>{/* <MainContent /> */}</div>
+                </div>
+                <Gallery />
             </div>
         </>
     );
