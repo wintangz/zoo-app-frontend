@@ -5,7 +5,7 @@ const cx = classNames.bind(styles);
 function Zone() {
     return (
         <div className={cx('zone')}>
-            <div className={cx('zone--welcome')}>
+            {/* <div className={cx('zone--welcome')}>
                 <div className={cx('welcome')}>
                     <p>Safari Tour!</p>
                 </div>
@@ -14,10 +14,11 @@ function Zone() {
                         Discover Animal <span>Way!</span>
                     </h1>
                 </div>
-            </div>
+            </div> */}
             {zones.map((component) => {
                 return (
                     <div className={cx('zone--container')}>
+                        <div className={cx('overlay')}></div>
                         <div
                             className={cx('zone--background')}
                             style={{
