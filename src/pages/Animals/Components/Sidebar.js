@@ -14,12 +14,7 @@ function Sidebar() {
             modules={[Navigation, Pagination, Mousewheel]}
             spaceBetween={20}
             slidesPerView={3}
-            navigation
-            pagination={{ clickable: true }}
-            scrollbar={{ draggable: true }}
             direction='vertical'
-            loop='true'
-            mousewheel='true'
             className={styles.sidebar}>
             <SwiperSlide className={styles.sideitem}>
                 <Link className={styles.habitats}>Rainforest</Link>

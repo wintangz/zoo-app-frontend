@@ -4,16 +4,13 @@ import 'swiper/css';
 import tiger from '~/assets/animals/tiger-entity.png';
 import Sidebar from './Components/Sidebar';
 import AnimalWrapper from './Components/AnimalWrapper';
+import AnimalProfile from './Components/AnimalProfile';
 
 function Animals() {
     return (
         <div className={styles.container}>
             <Sidebar />
-            <div className={styles.animal_profile}>
-                <div className={styles.entity}>
-                    <img src={tiger} />
-                </div>
-            </div>
+            <AnimalProfile />
             <div className={`${styles.animal_list}`}>
                 <AnimalWrapper />
             </div>

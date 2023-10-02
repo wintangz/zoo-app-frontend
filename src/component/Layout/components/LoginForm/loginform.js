@@ -67,6 +67,7 @@ function LoginForm({ open }) {
 
             // Handle the response as needed
             console.log('Login successful:', response.data);
+            localStorage.setItem('token', response.data.accessToken);
 
             // Close the modal or perform other actions
             open(false);

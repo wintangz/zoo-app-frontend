@@ -1,7 +1,8 @@
 .animal_wrapper {
     display: flex;
     align-items: center;
-    width: 75%;
+    width: 90%;
+    left: 0;
 
     .card {
         display: flex;
@@ -37,7 +38,7 @@
 .arrow_left {
     position: absolute;
     width: 1vw;
-    right: 56vw;
+    left: -1vw;
     opacity: 0.3;
 
     img {
