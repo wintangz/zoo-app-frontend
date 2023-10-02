@@ -1,0 +1,24 @@
+.animal_wrapper {
+    display: flex;
+    align-items: center;
+    width: 75%;
+
+    .card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .animal {
+            color: white;
+            user-select: none;
+        }
+
+        img {
+            width: 8vw;
+            height: 8vw;
+            object-fit: cover;
+            border: black 1vh solid;
+            border-radius: 1vh;
+        }
+    }
+}
