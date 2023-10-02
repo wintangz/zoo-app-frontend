@@ -24,8 +24,8 @@ function NormalBanner() {
                     <div >
                         <h3 className={cx('banner--nav')}>
                             <div className={cx('banner--nav--home')}>
-                                <span className={cx('nav--home--icon')}><FontAwesomeIcon icon={faHouse}/></span>
-                                <p className={cx('nav--home--text')}>House</p>
+                                <span className={cx('nav--home--icon')}><FontAwesomeIcon icon={faHouse} /></span>
+                                <p className={cx('nav--home--text')}>Home</p>
                             </div>
                             <div className={cx('line')}>­</div>
                             <p className={cx('nav--cur')}>{NamePage}</p>

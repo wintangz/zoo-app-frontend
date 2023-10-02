@@ -2,6 +2,7 @@
 //Layout
 import { NormalLayout } from '~/component/Layout';
 import AnimalLayout from '~/component/Layout/AnimalLayout/animalLayout';
+import BannerLayout from '~/component/Layout/BannerLayout';
 
 // import banner img
 import aboutBanner from '~/assets/img/t1.jpg';
