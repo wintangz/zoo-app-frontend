@@ -1,0 +1,101 @@
+.about__container {
+    .background {
+        background: url(../../assets/img/t1.jpg);
+    }
+
+    .content {
+        margin-top: 100px;
+        margin-bottom: 50vh;
+        padding: 0;
+        position: relative;
+
+        .front__content {
+            display: grid;
+            grid-template-columns: 63% 37%;
+            left: 0px;
+            height: 600px;
+
+            .form {
+                background-color: rgb(237, 237, 237);
+                height: 100%;
+                z-index: 10;
+                margin-left: 50px;
+
+                .up__line {
+                    margin: 50px 0 0 35px;
+
+                    h2 {
+                        font-weight: bolder;
+                        font-size: 27px;
+                    }
+                }
+
+                .bottom__line {
+                    margin: 25px 0 0 35px;
+
+                    p {
+                        color: rgb(111, 111, 111);
+                        font-size: 16px;
+                    }
+                }
+
+                form {
+                    .row1 {
+                        display: flex;
+                        justify-content: space-around;
+                        margin: 20px 0;
+
+                        input {
+                            border: none;
+                            outline: none;
+                            padding: 12px 85px;
+                        }
+
+                        input::placeholder {
+                            text-align: start;
+                        }
+
+
+
+                    }
+
+                    .row2 {
+                        display: flex;
+                        justify-content: center;
+
+                        textarea {
+                            border: none;
+                            outline: none;
+                            padding: 50px 290px;
+                        }
+
+                        textarea::placeholder {
+                            text-align: left;
+                        }
+                    }
+
+                }
+            }
+
+            .info {
+                background-color: white;
+                height: 70%;
+            }
+        }
+
+        .down__content {
+            z-index: -99999;
+            position: absolute;
+            height: 600px;
+            width: 100%;
+            margin: 0px;
+            top: 420px;
+
+            // touch-action: pan-x pan-y;
+            .map {
+                // background-color: lightgreen;
+                height: 100%;
+            }
+        }
+    }
+}
