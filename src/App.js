@@ -1,15 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { createContext } from 'react';
 import { publicRoutes } from '~/routes';
+import animals from './pages/Animals/AnimalsData';
 import { DefaultLayout } from '~/component/Layout';
 import { Fragment } from 'react';
 import ScrollToTop from './component/ScrollToTop';
+import AnimalLayout from './component/Layout/AnimalLayout/animalLayout';
+import Animals from './pages/Animals/Animals';
 export const NamePageContext = createContext();
 export const BannerPageContext = createContext();
 function App() {
     return (
         <Router>
-            <ScrollToTop/>
+            <ScrollToTop />
             <div className="App">
                 <Routes>
                     {publicRoutes.map((route, index) => {
@@ -38,6 +41,17 @@ function App() {
                             />
                         );
                     })}
+                    <Route
+                        path='/animals/:animalId'
+                        loader={({ params }) => {
+                            console.log(params);
+                        }}
+                        element={
+                            <AnimalLayout>
+                                <Animals></Animals>
+                            </AnimalLayout>
+                        }
+                    />
                 </Routes>
             </div>
         </Router>

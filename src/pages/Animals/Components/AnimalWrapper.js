@@ -22,7 +22,9 @@ function AnimalWrapper() {
             mousewheel='true'>
             {animals.map((animal) => (
                 <SwiperSlide key={animal.id} className={`${styles.card}`}>
-                    <Link className={`${styles.animal}`}><img src={animal.img} /></Link>
+                    <Link to={`/animals/${animal.id}`} onClick={() => setId(animal.id)} className={`${styles.animal}`}>
+                        <img src={animal.img} />
+                    </Link>
                 </SwiperSlide>
             ))}
         </Swiper>
