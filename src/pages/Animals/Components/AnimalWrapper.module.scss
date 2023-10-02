@@ -22,3 +22,25 @@
         }
     }
 }
+
+.arrow_right {
+    position: absolute;
+    width: 1vw;
+    right: 3vw;
+    opacity: 0.3;
+
+    img {
+        width: 5vw;
+    }
+}
+
+.arrow_left {
+    position: absolute;
+    width: 1vw;
+    right: 56vw;
+    opacity: 0.3;
+
+    img {
+        width: 5vw;
+    }
+}
