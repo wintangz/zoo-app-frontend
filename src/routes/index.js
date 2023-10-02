@@ -12,6 +12,7 @@ import Animals from '~/pages/Animals/Animals';
 import Ticket from '~/pages/Ticket';
 import About from '~/pages/About';
 import Habitats from '~/pages/Habitats';
+import Maps from '~/pages/Maps';
 
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
@@ -20,6 +21,7 @@ const publicRoutes = [
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket' },
     { path: 'about', component: About, layout: NormalLayout, name: 'About' },
     { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats' },
+    { path: 'maps', component: Maps, layout: NormalLayout, name: 'maps' },
 ];
 
 // private routes dont login will redirect to login pages

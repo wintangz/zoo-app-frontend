@@ -63,7 +63,8 @@
             .all--news {
                 display: flex;
                 flex-direction: row;
-                margin: 0 120px;
+                justify-content: center;
+                padding-left: 20px;
 
                 .news--right {
                     padding: 35px 24px;

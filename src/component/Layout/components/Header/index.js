@@ -111,7 +111,7 @@ function Header() {
                                         </Link>
                                     </div>
                                     <div className={styles.dropdown_item_container}>
-                                        <Link to="/animals" className={styles.dropdown_item}>
+                                        <Link to="/maps" className={styles.dropdown_item}>
                                             Zoo Map
                                         </Link>
                                     </div>
