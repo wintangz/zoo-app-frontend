@@ -101,7 +101,7 @@ function Header() {
                                 <FontAwesomeIcon icon={faCaretDown} />
                                 <div className={styles.dropdown}>
                                     <div className={styles.dropdown_item_container}>
-                                        <Link to="/animals" className={styles.dropdown_item}>
+                                        <Link to="/animals/1" className={styles.dropdown_item}>
                                             Animals
                                         </Link>
                                     </div>

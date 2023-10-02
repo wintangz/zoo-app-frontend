@@ -14,11 +14,11 @@ function Habitats() {
                     <div className={styles.bg__img}>
                         <img src={bgHabitat}></img>
                     </div>
-                    <div className={styles.content}>
+                    {/* <div className={styles.content}>
                         <h1 className={styles.headingtile}>
                             <div>Habitats</div>
                         </h1>
-                    </div>
+                    </div> */}
                 </div>
                 <div className={styles.habitat}>
                     {habitat_card.map((component) => {
@@ -33,7 +33,6 @@ function Habitats() {
                                     }}
                                 ></div>
                                 <div className={styles.habitat__title}>{component.name}</div>
-                                <div className={styles.habitat__title_hover}></div>
                             </div>
                         );
                     })}

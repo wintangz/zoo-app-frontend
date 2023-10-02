@@ -25,6 +25,8 @@ const Gallery = () => {
         cursor: 'pointer',
     };
 
+    // const polarProductCard = product_card.filter((item) => item.type === 'polar');
+
     return (
         <>
             {/* <div className={model ? 'model open' : 'model'}>

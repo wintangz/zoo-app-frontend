@@ -1,0 +1,46 @@
+.animal_wrapper {
+    display: flex;
+    align-items: center;
+    width: 75%;
+
+    .card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .animal {
+            color: white;
+            user-select: none;
+        }
+
+        img {
+            width: 8vw;
+            height: 8vw;
+            object-fit: cover;
+            border: black 1vh solid;
+            border-radius: 1vh;
+        }
+    }
+}
+
+.arrow_right {
+    position: absolute;
+    width: 1vw;
+    right: 3vw;
+    opacity: 0.3;
+
+    img {
+        width: 5vw;
+    }
+}
+
+.arrow_left {
+    position: absolute;
+    width: 1vw;
+    right: 56vw;
+    opacity: 0.3;
+
+    img {
+        width: 5vw;
+    }
+}

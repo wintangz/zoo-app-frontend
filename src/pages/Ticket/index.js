@@ -83,6 +83,7 @@ function Ticket() {
                                                 <div className={styles.input}>
                                                     <input type="number" min={0}></input>
                                                 </div>
+                                                <div className={styles.col_price}>60.000VND</div>
                                             </div>
                                         </div>
                                         <div className={styles.table_row}>
@@ -94,6 +95,7 @@ function Ticket() {
                                                 <div className={styles.input}>
                                                     <input type="number" min={0}></input>
                                                 </div>
+                                                <div className={styles.col_price}>40.000VND</div>
                                             </div>
                                         </div>
                                         <div className={styles.table_row}>
@@ -105,7 +107,16 @@ function Ticket() {
                                                 <div className={styles.input}>
                                                     <input type="number" min={0}></input>
                                                 </div>
+                                                <div className={styles.col_price}>FREE</div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div className={styles.table_row_sum}>
+                                        <b className={styles.col}>Total price</b>
+                                        <div className={styles.col_price}>
+                                            <span className={styles.show_sum}>
+                                                <span></span>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
