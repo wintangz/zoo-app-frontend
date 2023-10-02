@@ -17,10 +17,9 @@ function AnimalWrapper() {
         <Swiper className={`${styles.animal_wrapper}`}
             modules={[Navigation, Pagination, Mousewheel, EffectCoverflow]}
             spaceBetween={0}
-            slidesPerView={4}
+            slidesPerView={7}
             navigation
-            direction='horizontal'
-            loop='true'>
+            direction='horizontal'>
             {animals.map((animal) => (
                 <SwiperSlide key={animal.id} className={`${styles.card}`}>
                     <Link to={`/animals/${animal.id}`} onClick={() => setId(animal.id)} className={`${styles.animal}`}>
