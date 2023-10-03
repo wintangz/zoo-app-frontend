@@ -73,7 +73,7 @@ import LoginForm from '../LoginForm/loginform';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-// import logo from '~/assets/img/logo-01.png';
+import { logoLong } from '~/assets/all';
 import { components } from './components.js';
 import { NamePageContext } from '~/App';
 function Header() {
@@ -107,7 +107,7 @@ function Header() {
         <>
             <header className={styles.container}>
                 <div className={styles.logo}>
-                    <img src="https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/LOGO-LONG.png" alt="" />
+                    <img src={logoLong} alt="" />
                 </div>
                 <div className={styles.navwrap}>
                     <div className={styles.navbar}>
