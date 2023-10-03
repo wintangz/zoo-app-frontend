@@ -60,8 +60,8 @@ function Ticket() {
             <table className={styles.table}>
                 <tr className={styles.table_row}>
                     <th className={styles.table_header}>Ticket</th>
-                    <th className={styles.table_header}>Quantity</th>
                     <th className={styles.table_header}>Price</th>
+                    <th className={styles.table_header}>Quantity</th>
                 </tr>
                 {tickets.map(ticket => {
                     return (
@@ -70,6 +70,7 @@ function Ticket() {
                                 <b>{ticket.name}</b>
                                 <br />{ticket.info}
                             </td>
+                            <td className={`${styles.table_data} ${styles.price}`}>{ticket.price}</td>
                             <td className={styles.table_data}>
                                 <div className={styles.input}>
                                     <div className={styles.btn} onClick={MinPrice}><AiOutlineMinus /></div>
@@ -78,15 +79,14 @@ function Ticket() {
                                     <div className={styles.btn} onClick={PlusPrice}><AiOutlinePlus /></div>
                                 </div>
                             </td>
-                            <td className={`${styles.table_data} ${styles.price}`}>{ticket.price}</td>
                         </tr>
                     )
                 })}
-                <tr className={styles.table_row}>
-                    <td className={styles.table_data}>
-                        <b>Total Price</b>
+                <tr className={`${styles.table_row} ${styles.total}`}>
+                    <td colSpan='3' className={styles.table_data}>
+                        <b>Total Price: {value1 * 60000 + value2 * 40000 + value4 * 120000}</b>
                     </td>
-                    <td colSpan='2' className={`${styles.table_data} ${styles.price}`}>{value1 * 60000 + value2 * 40000 + value4 * 120000}</td>
+                    {/* <td colSpan='2' className={`${styles.table_data} ${styles.price}`}></td> */}
                 </tr>
             </table>
         </div>

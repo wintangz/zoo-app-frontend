@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faInstagram, faPinterestP } from '@fortawesome/free-brands-svg-icons';
 import { faCalendar, faMap } from '@fortawesome/free-regular-svg-icons';
 import { } from '@fortawesome/free-solid-svg-icons';
+import { logo } from '~/assets/all';
 function Footer() {
     const cx = classNames.bind(styles);
     return (
@@ -17,7 +18,7 @@ function Footer() {
                 <div className="row">
                     <div className="col-md-4 left column">
                         <div className="logo">
-                            <img alt="Logo" src="https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/LOGO.png" />
+                            <img alt="Logo" src={logo} />
                         </div>
                         <p className="text">
                             WildDale is the world largest environment organisations. We actively work towards protecting

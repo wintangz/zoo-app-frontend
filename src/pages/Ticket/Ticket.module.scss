@@ -44,11 +44,16 @@
         border: 1px solid #0c0c0c;
         border-radius: 20%;
 
+        .total {
+            text-align: center;
+            font-size: large;
+        }
+
         .table_row {
             border: 1px solid rgb(0, 0, 0);
 
             .price {
-                text-align: right;
+                text-align: center;
             }
 
             .table_header {
@@ -56,14 +61,14 @@
                 border: 1px solid rgb(0, 0, 0);
                 padding: 25px 120px;
                 font-weight: 600;
-                font-size: larger;
-
+                font-size: x-large;
             }
 
             .table_data {
                 border: 1px solid rgb(0, 0, 0);
                 padding: 10px;
                 background-color: rgba(255, 255, 255, 0.3);
+                font-size: larger;
 
                 .input {
                     display: flex;
@@ -88,7 +93,6 @@
                         padding: 1vh 0;
                         border-radius: 20%;
                     }
-
                 }
             }
         }
@@ -110,7 +114,7 @@
 
     .btn:hover {
         cursor: pointer;
-        background-color: #171717;
+        background-color: #3b2525;
         color: #f8bf02;
     }
 }
