@@ -89,7 +89,6 @@ function Header() {
             headerNavItems.forEach((element, index) => {
                 if (element.textContent === NamePage) {
                     element.classList.add(styles.active);
-                    console.log(element)
                 } else {
                     element.classList.remove(styles.active);
                 }
@@ -107,7 +106,7 @@ function Header() {
         <>
             <header className={styles.container}>
                 <div className={styles.logo}>
-                    <img src="https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/LOGO-LONG.png" alt="" />
+                    <img src='../../../../assets/img/logo-footer.png' alt="" />
                 </div>
                 <div className={styles.navwrap}>
                     <div className={styles.navbar}>
