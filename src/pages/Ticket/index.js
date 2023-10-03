@@ -59,6 +59,7 @@ function Ticket() {
         <div className={styles.table_container}>
             <table className={styles.table}>
                 <tr className={styles.table_row}>
+                    <th className={styles.table_header}></th>
                     <th className={styles.table_header}>Ticket</th>
                     <th className={styles.table_header}>Price</th>
                     <th className={styles.table_header}>Quantity</th>
@@ -66,6 +67,9 @@ function Ticket() {
                 {tickets.map(ticket => {
                     return (
                         <tr className={styles.table_row}>
+                            <td className={styles.table_data1}>
+                                <img src={ticket.img} />
+                            </td>
                             <td className={styles.table_data}>
                                 <b>{ticket.name}</b>
                                 <br />{ticket.info}
@@ -83,7 +87,7 @@ function Ticket() {
                     )
                 })}
                 <tr className={`${styles.table_row} ${styles.total}`}>
-                    <td colSpan='3' className={styles.table_data}>
+                    <td colSpan='4' className={styles.table_data}>
                         <b>Total Price: {value1 * 60000 + value2 * 40000 + value4 * 120000}</b>
                     </td>
                     {/* <td colSpan='2' className={`${styles.table_data} ${styles.price}`}></td> */}

@@ -42,7 +42,9 @@
 
     .table {
         border: 1px solid #0c0c0c;
-        border-radius: 20%;
+        background-image: url('../../assets/ticket/photo-1611418612389-3e442c6c8a26.jpg');
+        background-size: cover;
+        background-position: 20%;
 
         .total {
             text-align: center;
@@ -59,16 +61,31 @@
             .table_header {
                 background-color: rgb(248, 191, 2, 0.675);
                 border: 1px solid rgb(0, 0, 0);
-                padding: 25px 120px;
+                padding: 5vh 7.5vw;
                 font-weight: 600;
                 font-size: x-large;
+            }
+
+            .table_data1 {
+                text-align: center;
+                border: 1px solid rgb(0, 0, 0);
+                background-color: rgba(0, 0, 0, 0.1);
+                font-size: larger;
+                min-height: 100%;
+                width: 50%;
+
+                img {
+                    width: 50%;
+                }
             }
 
             .table_data {
                 border: 1px solid rgb(0, 0, 0);
                 padding: 10px;
-                background-color: rgba(255, 255, 255, 0.3);
+                background-color: rgba(0, 0, 0, 0.1);
                 font-size: larger;
+                text-align: center;
+                color: #ffffff;
 
                 .input {
                     display: flex;
@@ -87,7 +104,7 @@
 
                     .value {
                         text-align: center;
-                        background-color: #ffffff;
+                        background-color: #000000;
                         width: 10%;
                         // height: 220%;
                         padding: 1vh 0;
