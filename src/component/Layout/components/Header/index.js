@@ -70,13 +70,39 @@
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import LoginForm from '../LoginForm/loginform';
-import { useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 // import logo from '~/assets/img/logo-01.png';
-
+import { components } from './components.js';
+import { NamePageContext } from '~/App';
 function Header() {
     const [open, setOpen] = useState(false);
+    const NamePage = useContext(NamePageContext);
+    useEffect(() => {
+        // Use document.querySelectorAll to select all elements with the class
+        const headerNavItems = document.querySelectorAll('.Header_navitem_container__Sy6hN');
+
+        // Check if any elements were found
+        if (headerNavItems.length > 0) {
+            // Loop through the NodeList (similar to an HTMLCollection) using forEach
+            headerNavItems.forEach((element, index) => {
+                if (element.textContent === NamePage) {
+                    element.classList.add(styles.active);
+                    console.log(element)
+                } else {
+                    element.classList.remove(styles.active);
+                }
+                // Access the text content or perform other actions with the element
+            });
+        }
+        return () => {
+            headerNavItems.forEach((element) => {
+                element.classList.remove(styles.active);
+            });
+        }
+
+    }, [NamePage]);
     return (
         <>
             <header className={styles.container}>
@@ -85,7 +111,7 @@ function Header() {
                 </div>
                 <div className={styles.navwrap}>
                     <div className={styles.navbar}>
-                        <div className={styles.navitem_container}>
+                        {/* <div className={styles.navitem_container}>
                             <Link to="/" className={styles.navitem}>
                                 Home
                             </Link>
@@ -117,11 +143,6 @@ function Header() {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div className={styles.navitem_container}>
-                                <Link to="/animals" className={styles.navitem}>
-                                    Animals
-                                </Link>
-                            </div> */}
                         </div>
                         <div className={styles.navitem_container}>
                             <Link to="/ticket" className={styles.navitem}>
@@ -132,7 +153,38 @@ function Header() {
                             <Link to="/about" className={styles.navitem}>
                                 About
                             </Link>
-                        </div>
+                        </div> */}
+                        {components.map((component, index) => {
+                            if (component.sub) {
+                                return (
+                                    <div key={index} name={component.name} className={styles.navitem_container}>
+                                        <div key={index} className={styles.navitem}>
+                                            <span>{component.name}</span>
+                                            <FontAwesomeIcon icon={faCaretDown} />
+                                            <div key={index} className={styles.dropdown}>
+                                                {component.sub.map((subObj, index) => {
+                                                    return (
+                                                        <div key={index} className={styles.dropdown_item_container}>
+                                                            <Link to={subObj.path} className={styles.dropdown_item}>
+                                                                {subObj.name}
+                                                            </Link>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            } else {
+                                return (
+                                    <div name={component.name} className={styles.navitem_container}>
+                                        <Link to={component.path} className={styles.navitem}>
+                                            {component.name}
+                                        </Link>
+                                    </div>
+                                )
+                            }
+                        })}
                     </div>
                 </div>
                 <div className={styles.login}>

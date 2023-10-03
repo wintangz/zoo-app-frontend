@@ -22,7 +22,7 @@ const publicRoutes = [
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket' },
     { path: 'about', component: About, layout: NormalLayout, name: 'About' },
     { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats' },
-    { path: 'maps', component: Maps, layout: NormalLayout, name: 'maps' },
+    { path: 'maps', component: Maps, layout: NormalLayout, name: 'Maps' },
 ];
 
 // private routes dont login will redirect to login pages

@@ -8,12 +8,26 @@ export const components = [
         path: '/news',
     },
     {
-        name: 'Animal',
-        path: '/animal',
+        name: 'Explore',
+        sub: [
+            {
+                name: 'Animals',
+                path: '/animals/1'
+            },
+            {
+                name: 'Habitats',
+                path: '/habitats'
+            },
+            {
+                name: 'Zoo Map',
+                path: '/maps',
+            },
+
+        ]
     },
     {
-        name: 'Gallery',
-        path: '/gallery',
+        name: 'Ticket',
+        path: '/ticket',
     },
     {
         name: 'About',
