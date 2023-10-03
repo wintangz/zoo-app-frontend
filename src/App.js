@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { createContext } from 'react';
 import { publicRoutes } from '~/routes';
-import animals from './pages/Animals/AnimalsData';
 import { DefaultLayout } from '~/component/Layout';
 import { Fragment } from 'react';
 import ScrollToTop from './component/ScrollToTop';
 import AnimalLayout from './component/Layout/AnimalLayout/animalLayout';
 import Animals from './pages/Animals/Animals';
+import { AnimalProvider } from './pages/Animals/AnimalContext';
+
 export const NamePageContext = createContext();
 export const BannerPageContext = createContext();
 function App() {
@@ -47,9 +48,11 @@ function App() {
                             console.log(params);
                         }}
                         element={
-                            <AnimalLayout>
-                                <Animals></Animals>
-                            </AnimalLayout>
+                            <AnimalProvider>
+                                <AnimalLayout>
+                                    <Animals></Animals>
+                                </AnimalLayout>
+                            </AnimalProvider>
                         }
                     />
                 </Routes>

@@ -1,8 +1,8 @@
-import React from "react";
-import tiger from '~/assets/animals/tiger-entity.png'
+import React, { useState } from "react";
+import tiger from '~/assets/animals/tiger.jpg'
 
 const animals = [
-    { id: '1', name: 'Tiger', img: 'https://media.istockphoto.com/id/1018245126/photo/siberian-tiger-portrait.jpg?s=170667a&w=0&k=20&c=pzpXX4olk95jQ8gdD9PJJ54YijC28oim9I9OiPDY0vs=', entity: tiger },
+    { id: '1', name: 'Tiger', img: 'https://media.istockphoto.com/id/1018245126/photo/siberian-tiger-portrait.jpg?s=170667a&w=0&k=20&c=pzpXX4olk95jQ8gdD9PJJ54YijC28oim9I9OiPDY0vs=', content: 'The tiger (Panthera tigris) is the largest living cat species and a member of the genus Panthera. It is most recognisable for its dark vertical stripes on orange fur with a white underside.', picture: tiger },
     { id: '2', name: 'Elephant', img: 'https://images.fineartamerica.com/images-medium-large-5/african-elephant-portrait-san-diego-zoo.jpg' },
     { id: '3', name: 'Giraffe', img: 'https://img.cdn-pictorem.com/uploads/collection/L/LA4AGA8MHN/900_Thula-Photography_Giraffe%20Portrait%201460.jpg' },
     { id: '4', name: 'Lion', img: 'https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/portrait-male-african-lion-brit-finucci.jpg' },
