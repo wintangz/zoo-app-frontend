@@ -178,6 +178,10 @@
         display: flex;
         align-items: center;
 
+        .active {
+            background-color: white !important;
+        }
+
         .navitem_container {
             // margin-left: 40px;
             // margin-right: 40px;

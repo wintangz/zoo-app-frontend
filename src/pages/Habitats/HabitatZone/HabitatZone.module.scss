@@ -1,0 +1,27 @@
+.btnList {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    .btnItem,
+    .btnItemAll {
+        background-color: rgb(248, 191, 2);
+        color: rgb(18, 4, 47);
+        height: 7vh;
+        width: 15vw;
+        border: none;
+        border-radius: 4.25vh;
+        cursor: pointer;
+        transition: opacity 0.15s;
+        font-weight: bold;
+        font-size: 1.5vw;
+        transition: background-color 0.35s,
+            color 0.35s;
+    }
+
+    .btnItem:hover,
+    .btnItemAll:hover {
+        background-color: rgb(18, 4, 47);
+        color: white;
+    }
+}
