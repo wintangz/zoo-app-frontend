@@ -11,7 +11,7 @@ const animals = [
     {
         id: '2', name: 'Elephant', img: 'https://images.fineartamerica.com/images-medium-large-5/african-elephant-portrait-san-diego-zoo.jpg',
         content: 'Elephants are the largest living land animals. Three living species are currently recognised: the African bush elephant, the African forest elephant, and the Asian elephant.',
-        picture: 'https://i.natgeofe.com/n/b64060fa-343c-481b-a24d-7375fef34914/NationalGeographic_1425689_2x3.jpg'
+        picture: 'https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/animal-profile/elephant.jpg'
     },
     { id: '3', name: 'Giraffe', img: 'https://img.cdn-pictorem.com/uploads/collection/L/LA4AGA8MHN/900_Thula-Photography_Giraffe%20Portrait%201460.jpg' },
     { id: '4', name: 'Lion', img: 'https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/portrait-male-african-lion-brit-finucci.jpg' },
