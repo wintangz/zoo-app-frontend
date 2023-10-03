@@ -9,22 +9,25 @@ function AnimalProfile() {
     const { animalId } = useParams();
     console.log({ animalId }.animalId);
     return (
-        <div className={styles.animal_profile}>
-            <div className={styles.animal_info}>
-                {animals.map(animal => {
-                    if ({ animalId }.animalId === animal.id) {
-                        <div className={styles.title}>
-                            {animal.name}
+        animals.map(animal => {
+            if ({ animalId }.animalId === animal.id) {
+                return (
+                    <div className={styles.animal_profile}>
+                        <div className={styles.animal_info}>
+                            <div className={styles.title}>
+                                {animal.name}
+                            </div>
+                            <div className={styles.content}>
+                                {animal.content}
+                            </div>
                         </div>
-                    }
-                })}
-                <div className={styles.content}>The tiger (Panthera tigris) is the largest living cat species and a member of the genus Panthera. It is most recognisable for its dark vertical stripes on orange fur with a white underside. </div>
-            </div>
-
-            <div className={styles.animal_picture}>
-                <img src={tiger} />
-            </div>
-        </div >
+                        <div className={styles.animal_picture}>
+                            <img src={animal.picture} />
+                        </div>
+                    </div>
+                )
+            }
+        })
     )
 }
 

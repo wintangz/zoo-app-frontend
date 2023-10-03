@@ -25,7 +25,8 @@ function AnimalWrapper() {
             direction='horizontal'>
             {animals.name.map((animal) => (
                 <SwiperSlide key={animal.id} className={`${styles.card}`}>
-                    <Link to={`/animals/${animal.id}`} onClick={() => setId(animal.id)} className={`${styles.animal}`}>
+                    <Link to={`/animals/${animal.id}`} onClick={() => setId(animal.id)} className={`${styles.animal}`}
+                        replace='true'>
                         <img src={animal.img} />
                     </Link>
                 </SwiperSlide>
