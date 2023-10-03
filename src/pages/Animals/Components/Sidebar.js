@@ -12,8 +12,8 @@ function Sidebar() {
     return (
         <Swiper
             modules={[Navigation, Pagination, Mousewheel]}
-            spaceBetween={20}
-            slidesPerView={3}
+            spaceBetween={30}
+            slidesPerView={4}
             direction='vertical'
             className={styles.sidebar}>
             <SwiperSlide className={styles.sideitem}>
@@ -27,6 +27,15 @@ function Sidebar() {
             </SwiperSlide>
             <SwiperSlide className={styles.sideitem}>
                 <Link className={styles.habitats}>Savannah</Link>
+            </SwiperSlide>
+            <SwiperSlide className={styles.sideitem}>
+                <Link className={styles.habitats}>Mountain</Link>
+            </SwiperSlide>
+            <SwiperSlide className={styles.sideitem}>
+                <Link className={styles.habitats}>Mountain</Link>
+            </SwiperSlide>
+            <SwiperSlide className={styles.sideitem}>
+                <Link className={styles.habitats}>Mountain</Link>
             </SwiperSlide>
             <SwiperSlide className={styles.sideitem}>
                 <Link className={styles.habitats}>Mountain</Link>
