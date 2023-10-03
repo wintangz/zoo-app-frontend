@@ -6,14 +6,13 @@
     top: 0;
     left: 0;
     box-sizing: border-box;
-    padding-top: 20vh;
+    padding-top: 15vh;
     padding-left: 0;
     background-color: rgb(255, 255, 255, 0.05);
 
     .sideitem {
-        width: 100%;
-        height: 54px;
-        line-height: 54px;
+        // height: 15vh !important;
+        line-height: 10vh;
         font-size: 18px;
         color: #fff;
         text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
