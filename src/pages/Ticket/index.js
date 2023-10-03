@@ -134,8 +134,51 @@
 import React from 'react'
 import styles from './Ticket.module.scss'
 import NormalBanner from '~/component/Layout/components/NormalBanner'
+import { useState } from "react";
+import { Prev } from 'react-bootstrap/esm/PageItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 
 function Ticket() {
+    const [setTotalPrice] = useState(0)
+    // set adult
+    const [value1, setValue1] = useState(0)
+    const PlusPrice = () => {
+        setValue1(value1 + 1)
+    }
+    const MinPrice = () => {
+        if (value1 > 0) { setValue1(value1 - 1) }
+
+    }
+    // set 4 <= children < 15
+    const [value2, setValue2] = useState(0)
+    const PlusPrice2 = () => {
+        setValue2(value2 + 1)
+    }
+    const MinPrice2 = () => {
+        if (value2 > 0) { setValue2(value2 - 1) }
+
+    }
+    // set children < 4
+    const [value3, setValue3] = useState(0)
+    const PlusPrice3 = () => {
+        setValue3(value3 + 1)
+    }
+    const MinPrice3 = () => {
+        if (value3 > 0) { setValue3(value3 - 1) }
+
+    }
+    // set event
+    const [value4, setValue4] = useState(0)
+    const PlusPrice4 = () => {
+        setValue4(value4 + 1)
+    }
+    const MinPrice4 = () => {
+        if (value3 > 0) { setValue4(value3 - 1) }
+
+    }
+
+
     return (<>
         <div className={styles.imgbanner}>
             <NormalBanner />
@@ -150,33 +193,64 @@ function Ticket() {
             <table className={styles.table}>
                 <tr className={styles.table_row}>
                     <th className={styles.table_header}>Ticket</th>
-                    <th className={styles.table_header}>Price</th>
                     <th className={styles.table_header}>Quantity</th>
-                    <th className={styles.table_header}>Add</th>
+                    <th className={styles.table_header}>Price</th>
                 </tr>
                 <tr className={styles.table_row}>
                     <td className={styles.table_data}>Adult</td>
+                    <div className={styles.input}>
+                        <div onClick={MinPrice}><AiOutlineMinus /></div>
+                        <td className={styles.table_data}>
+                            <div>{value1}</div>
+                        </td>
+                        <div onClick={PlusPrice}>
+                            <AiOutlinePlus />
+                        </div>
+                    </div>
                     <td className={styles.table_data}>60.000</td>
-                    <td className={styles.table_data}><input type='number' /></td>
-                    <td className={styles.table_data}><button>Add</button></td>
                 </tr>
                 <tr className={styles.table_row}>
                     <td className={styles.table_data}>Chilren</td>
+                    <div className={styles.input}>
+                        <div onClick={MinPrice2}><AiOutlineMinus /></div>
+                        <td className={styles.table_data}>
+                            <div>{value2}</div>
+                        </td>
+                        <div onClick={PlusPrice2}>
+                            <AiOutlinePlus />
+                        </div>
+                    </div>
                     <td className={styles.table_data}>40.000</td>
-                    <td className={styles.table_data}><input type='number' /></td>
-                    <td className={styles.table_data}><button>Add</button></td>
                 </tr>
                 <tr className={styles.table_row}>
                     <td className={styles.table_data}>Children</td>
+                    <div className={styles.input}>
+                        <div onClick={MinPrice3}><AiOutlineMinus /></div>
+                        <td className={styles.table_data}>
+                            <div>{value3}</div>
+                        </td>
+                        <div onClick={PlusPrice3}>
+                            <AiOutlinePlus />
+                        </div>
+                    </div>
                     <td className={styles.table_data}>Free</td>
-                    <td className={styles.table_data}><input type='number' /></td>
-                    <td className={styles.table_data}><button>Add</button></td>
                 </tr>
                 <tr className={styles.table_row}>
                     <td className={styles.table_data}>Event</td>
+                    <div className={styles.input}>
+                        <div onClick={MinPrice4}><AiOutlineMinus /></div>
+                        <td className={styles.table_data}>
+                            <div>{value4}</div>
+                        </td>
+                        <div onClick={PlusPrice4}>
+                            <AiOutlinePlus />
+                        </div>
+                    </div>
                     <td className={styles.table_data}>120.000</td>
-                    <td className={styles.table_data}><input type='number' /></td>
-                    <td className={styles.table_data}><button>Add</button></td>
+                </tr>
+                <tr className={styles.table_row}>
+                    <td className={styles.table_data}>Total Price</td>
+                    <td colSpan='2' className={styles.table_data}>{value1 * 60000 + value2 * 40000 + value4 * 120000}</td>
                 </tr>
             </table>
         </div>
@@ -184,3 +258,5 @@ function Ticket() {
 }
 
 export default Ticket
+
+
