@@ -40,6 +40,11 @@ function About() {
                                         <textarea placeholder="Message" />
                                     </div>
                                 </div>
+                                <div className={styles.checkbox}>
+                                    <label>
+                                        <input type="checkbox" />Save my name, email, and website in this browser for the next time I comment
+                                    </label>
+                                </div>
                             </form>
                         </div>
                         <div className={styles.info}></div>

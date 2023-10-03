@@ -16,10 +16,10 @@
             height: 600px;
 
             .form {
-                background-color: rgb(237, 237, 237);
+                background-color: rgb(248, 246, 246);
                 height: 100%;
                 z-index: 10;
-                margin-left: 50px;
+                margin-left: 80px;
 
                 .up__line {
                     margin: 50px 0 0 35px;
@@ -43,16 +43,19 @@
                     .row1 {
                         display: flex;
                         justify-content: space-around;
-                        margin: 20px 0;
+                        margin: 5vh 0;
+                        column-gap: -1vw;
 
                         input {
                             border: none;
                             outline: none;
-                            padding: 12px 85px;
+                            // width: 150%;
+                            height: 7vh;
+                            width: 24vw;
                         }
 
                         input::placeholder {
-                            text-align: start;
+                            padding: 20px;
                         }
 
 
@@ -66,13 +69,28 @@
                         textarea {
                             border: none;
                             outline: none;
-                            padding: 50px 290px;
+                            width: 52.2vw;
+                            height: 18vh;
                         }
 
                         textarea::placeholder {
-                            text-align: left;
+                            padding: 20px;
                         }
                     }
+
+                    .checkbox {
+                        font-size: 2.2vh;
+                        font-style: italic;
+                        color: rgb(134, 134, 134);
+                        margin: 4vh 0 0 5vh;
+
+                        label {
+                            input {
+                                margin-left: 2vw;
+                            }
+                        }
+                    }
+
 
                 }
             }
@@ -84,7 +102,7 @@
         }
 
         .down__content {
-            z-index: -99999;
+            z-index: 0;
             position: absolute;
             height: 600px;
             width: 100%;

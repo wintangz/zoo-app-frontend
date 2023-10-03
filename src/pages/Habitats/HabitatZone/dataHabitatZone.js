@@ -3,7 +3,7 @@ import savannahHabitat from '~/assets/background/savannahHabitat.jpg';
 import seaHabitat from '~/assets/background/seaHabitat.jpg';
 import woodlandHabitat from '~/assets/background/woodlandHabitat.jpg';
 
-const habitat_card = [
+const dataHabitatZone = [
     {
         id: 1,
         name: 'Polar Habitat',
@@ -26,4 +26,4 @@ const habitat_card = [
     },
 ];
 
-export default habitat_card;
+export default dataHabitatZone;
