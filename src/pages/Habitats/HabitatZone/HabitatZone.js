@@ -6,14 +6,15 @@ import classNames from 'classnames/bind';
 import { dataHabitatZone } from './dataHabitatZone';
 const cx = classNames.bind(styles);
 
-function HabitatZone({ habitatZone, filterHabitat, setItem }) {
+function HabitatZone({ habitatZone, filterHabitat }) {
     return (
         <div className={styles.btnList}>
-            {
-                habitatZone.map(val => (
-                    <div className={cx('zone')}>
-                        {dataHabitatZone.map((component) => (
-                            <div className={cx('zone--container')} onClick={() => filterHabitat(val)}>
+            {habitatZone.map((zone) => (
+                <div key={zone} className={cx('zone')} onClick={() => filterHabitat(zone)}>
+                    {dataHabitatZone
+                        .filter((component) => component.type === zone)
+                        .map((component) => (
+                            <div key={component.name} className={cx('zone--container')}>
                                 <div className={cx('overlay')}></div>
                                 <div
                                     className={cx('zone--background')}
@@ -39,18 +40,12 @@ function HabitatZone({ habitatZone, filterHabitat, setItem }) {
                                 ></div>
                             </div>
                         ))}
-                    </div>
-                ))
-            }
-            {/* <button
-                className={styles.btnItemAll}
-                onClick={() => setItem(dataGallery)}
-            >
-                Show All Habitat
-            </button> */}
+                </div>
+            ))}
         </div>
     );
 }
+
 
 export default HabitatZone;
 

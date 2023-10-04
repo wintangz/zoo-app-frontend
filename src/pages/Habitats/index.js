@@ -30,7 +30,6 @@ function Habitats() {
                     <HabitatZone
                         habitatZone={habitatZone}
                         filterHabitat={filterHabitat}
-                        setItem={setItem}
                     />
                 </div>
                 <div className={styles.main__content}>
