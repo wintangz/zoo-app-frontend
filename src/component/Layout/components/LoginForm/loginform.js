@@ -67,13 +67,13 @@ function LoginForm({ open }) {
             const response = await axios.post('http://localhost:8080/api/auth/login', values);
 
             // Handle the response as needed
-            console.log(response);
-            console.log('Login successful:', response.data);
             localStorage.setItem('token', response.data.accessToken);
-
+            localStorage.setItem('role', response.data.role.name);
             // Close the modal or perform other actions
-            if (response.status == 200) {
-                window.location = '/mainPage'
+            if (response.status === 200) {
+                if (localStorage.getItem('role') === 'ADMIN') {
+                    window.location = '/mainPage';
+                }
             }
             open(false);
         } catch (error) {
