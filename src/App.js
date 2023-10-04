@@ -6,8 +6,6 @@ import { Fragment } from 'react';
 import ScrollToTop from './component/ScrollToTop';
 import AnimalLayout from './component/Layout/AnimalLayout/animalLayout';
 import Animals from './pages/Animals/Animals';
-import { AnimalProvider } from './pages/Animals/AnimalContext';
-import Home from './pages/Home';
 
 export const NamePageContext = createContext();
 export const BannerPageContext = createContext();
@@ -67,11 +65,9 @@ function App() {
                                             console.log(params);
                                         }}
                                         element={
-                                            <AnimalProvider>
-                                                <AnimalLayout>
-                                                    <Animals></Animals>
-                                                </AnimalLayout>
-                                            </AnimalProvider>
+                                            <AnimalLayout>
+                                                <Animals></Animals>
+                                            </AnimalLayout>
                                         }
                                     />
                                 </>

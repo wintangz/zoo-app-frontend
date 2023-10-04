@@ -1,16 +1,16 @@
 import React from 'react'
 import styles from './AnimalProfile.module.scss'
-import animals from '../AnimalsData'
 
 import tiger from '~/assets/animals/tiger.jpg'
 import { useParams } from 'react-router-dom';
 
-function AnimalProfile() {
+function AnimalProfile(props) {
     const { animalId } = useParams();
-    console.log({ animalId }.animalId);
+    console.log({ animalId });
     return (
-        animals.map(animal => {
-            if ({ animalId }.animalId === animal.id) {
+        props.animals.map(animal => {
+            console.log(animal.id);
+            if (parseInt({ animalId }.animalId) === animal.id) {
                 return (
                     <div className={styles.animal_profile}>
                         <div className={styles.animal_info}>
@@ -18,11 +18,11 @@ function AnimalProfile() {
                                 {animal.name}
                             </div>
                             <div className={styles.content}>
-                                {animal.content}
+                                {animal.description}
                             </div>
                         </div>
                         <div className={styles.animal_picture}>
-                            <img src={animal.picture} />
+                            <img src={animal.imgUrl} />
                         </div>
                     </div>
                 )
