@@ -7,14 +7,11 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import styles from './AnimalWrapper.module.scss'
 import './AnimalWrapper.css'
-import AnimalContext from '../AnimalContext';
 import arrow_right from '~/assets/img/arrow-right.png';
 import arrow_left from '~/assets/img/arrow-left.png';
 
-function AnimalWrapper() {
+function AnimalWrapper(props) {
     const [id, setId] = useState(1);
-
-    const animals = useContext(AnimalContext);
 
     return (
         <Swiper className={`${styles.animal_wrapper}`}
@@ -23,11 +20,11 @@ function AnimalWrapper() {
             slidesPerView={7}
             navigation
             direction='horizontal'>
-            {animals.name.map((animal) => (
+            {props.animals.map((animal) => (
                 <SwiperSlide key={animal.id} className={`${styles.card}`}>
                     <Link to={`/animals/${animal.id}`} onClick={() => setId(animal.id)} className={`${styles.animal}`}
                         replace='true'>
-                        <img src={animal.img} />
+                        <img src={animal.avatarUrl} />
                     </Link>
                 </SwiperSlide>
             ))}
