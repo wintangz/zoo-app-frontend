@@ -7,6 +7,7 @@ import Gallery from '~/pages/Habitats/Gallery/Gallery';
 import dataGallery from './Gallery/dataGallery';
 import HabitatZone from './HabitatZone/HabitatZone';
 import { dataHabitatZone } from './HabitatZone/dataHabitatZone';
+import NormalBanner from '~/component/Layout/components/NormalBanner';
 
 function Habitats() {
 
@@ -22,9 +23,7 @@ function Habitats() {
         <>
             <div className={styles.habitat__container}>
                 <div className={styles.bg__container}>
-                    <div className={styles.bg__img}>
-                        <img src={bgHabitat}></img>
-                    </div>
+                    <NormalBanner />
                 </div>
                 <div className={styles.habitat}>
                     <HabitatZone

@@ -26,7 +26,7 @@
 //     }
 // }
 .btnList {
-    margin: 20vh 0;
+    // margin: 20vh 0;
 
     .zone {
         position: relative;
@@ -105,7 +105,7 @@
                 position: absolute;
                 background: no-repeat;
                 background-size: cover;
-                transition: transform .2s;
+                transition: transform .5s;
                 width: 100%;
                 height: 100%;
                 margin: 0 auto;
@@ -133,7 +133,7 @@
                 width: 50vw;
                 height: 45%;
                 opacity: 0;
-                transition: opacity 0.2s;
+                transition: opacity 0.1s;
                 z-index: 17;
             }
 
@@ -144,7 +144,7 @@
                 // height: 100%;
                 // opacity: 0;
                 // background: transparent;
-                transition: all 0.2s;
+                transition: all 0.5s;
             }
         }
 
@@ -163,7 +163,7 @@
         }
 
         .zone--container:hover .zone--title-hover {
-            transition: opacity 0.2s;
+            transition: opacity 0.25s;
             opacity: 1;
         }
 
