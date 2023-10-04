@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { createContext } from 'react';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/component/Layout';
@@ -12,6 +12,7 @@ export const BannerPageContext = createContext();
 function App() {
     return (
         <Router>
+
             <ScrollToTop />
             <div className="App">
                 <Routes>
@@ -24,34 +25,72 @@ function App() {
                         } else if (route.layout === null) {
                             Layout = Fragment;
                         }
+                        if (route.Authen === "private") {
+                            return (
+                                <Route
+                                    path={route.path}
+                                    element={
+                                        localStorage.getItem('token') ?
+                                            <NamePageContext.Provider value={route.name}>
+                                                <BannerPageContext.Provider value={route.bannerImage}>
+                                                    <Layout>
+                                                        <Page />
+                                                    </Layout>
+                                                </BannerPageContext.Provider>
+                                            </NamePageContext.Provider>
+                                            : <Navigate to="/" />
+                                    }
+                                />
+                            )
 
-                        return (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={
-                                    <NamePageContext.Provider value={route.name}>
-                                        <BannerPageContext.Provider value={route.bannerImage}>
-                                            <Layout>
-                                                <Page />
-                                            </Layout>
-                                        </BannerPageContext.Provider>
-                                    </NamePageContext.Provider>
-                                }
-                            />
-                        );
-                    })}
-                    <Route
-                        path='/animals/:animalId'
-                        loader={({ params }) => {
-                            console.log(params);
-                        }}
-                        element={
-                            <AnimalLayout>
-                                <Animals></Animals>
-                            </AnimalLayout>
+                        } else {
+                            return (
+                                <>
+                                    <Route
+                                        key={index}
+                                        path={route.path}
+                                        element={
+                                            <NamePageContext.Provider value={route.name}>
+                                                <BannerPageContext.Provider value={route.bannerImage}>
+                                                    <Layout>
+                                                        <Page />
+                                                    </Layout>
+                                                </BannerPageContext.Provider>
+                                            </NamePageContext.Provider>
+                                        }
+                                    />
+                                    <Route
+                                        path='/animals/:animalId'
+                                        loader={({ params }) => {
+                                            console.log(params);
+                                        }}
+                                        element={
+                                            <AnimalLayout>
+                                                <Animals></Animals>
+                                            </AnimalLayout>
+                                        }
+                                    />
+                                </>
+
+                            )
                         }
-                    />
+                        // return (
+                        //     <Route
+                        //         key={index}
+                        //         path={route.path}
+                        //         element={
+                        //             <NamePageContext.Provider value={route.name}>
+                        //                 <BannerPageContext.Provider value={route.bannerImage}>
+                        //                     <Layout>
+                        //                         <Page />
+                        //                     </Layout>
+                        //                 </BannerPageContext.Provider>
+                        //             </NamePageContext.Provider>
+                        //         }
+                        //     />
+                        // );
+                    })}
+
                 </Routes>
             </div>
         </Router>
