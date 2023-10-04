@@ -10,31 +10,31 @@ import zone4 from '~/assets/img/zone4.jpg';
 
 
 export const dataHabitatZone = [
-    {
-        id: 1,
-        type: 'polar',
-        name: 'Polar Habitat',
-        imgUrl: zone1,
-        hoverImage: imghover1,
-    },
+    // {
+    //     id: 1,
+    //     type: 'asianRainforest',
+    //     name: 'Asian Rainforest',
+    //     imgUrl: zone1,
+    //     hoverImage: imghover1,
+    // },
     {
         id: 2,
-        type: 'savannah',
-        name: 'Savannah Habitat',
+        type: 'africanSavannah',
+        name: 'African Savannah',
         imgUrl: zone2,
         hoverImage: imghover2,
     },
     {
         id: 3,
-        type: 'sea',
-        name: 'Woodland Habitat',
+        type: 'centralAmericanRainforest',
+        name: 'Central American Rainforest',
         imgUrl: zone3,
         hoverImage: imghover3,
     },
     {
         id: 4,
-        type: 'woodland',
-        name: 'Asian Rainforest Habitat',
+        type: 'asianRainforest',
+        name: 'Asian Rainforest',
         imgUrl: zone4,
         hoverImage: imghover4,
     },
