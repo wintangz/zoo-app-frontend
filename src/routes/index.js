@@ -15,13 +15,13 @@ import Maps from '~/pages/Maps';
 import AdminHome from '~/pages/AdminHome';
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
-    { path: 'news', component: News, layout: NormalLayout, name: 'News' },
-    { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals' },
-    { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket' },
-    { path: 'about', component: About, layout: NormalLayout, name: 'About' },
-    { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats' },
+    { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
+    { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
+    { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
+    { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
+    { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats', Authen: "public" },
     { path: 'maps', component: Maps, layout: NormalLayout, name: 'Maps' },
-    { path: 'mainPage', component: AdminHome, layout: AdminMainPage, name: 'AdminHome' },
+    { path: 'mainPage', component: AdminHome, layout: AdminMainPage, name: 'AdminHome', Authen: "private" },
 ];
 
 // private routes dont login will redirect to login pages

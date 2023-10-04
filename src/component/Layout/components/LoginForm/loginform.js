@@ -1,48 +1,8 @@
-// import '../../assests/themify-icons.css';
-// import styles from './loginform.module.scss';
-
-// function LoginForm({ open }) {
-//     return (<>
-//         <div className={`${styles.overlay}`}>
-//             <div className={styles.modal}>
-//                 <div className={styles.close} onClick={() => open(false)}>
-//                     <i className='ti-close'></i>
-//                 </div>
-
-//                 <h1>Login</h1>
-
-//                 <div className={styles.form}>
-
-//                     <div className={styles.field}>
-//                         <label for='' className={styles.label}>
-//                             <i className='ti-user'></i>
-//                             <div className={styles.title}>Username</div>
-//                         </label>
-//                         <input type='text' className={styles.input} placeholder='Username'></input>
-//                     </div>
-
-//                     <div className={styles.field}>
-//                         <label for='' className={styles.label}>
-//                             <i className='ti-lock'></i>
-//                             <div className={styles.title}>Password</div>
-//                         </label>
-//                         <input type='password' className={styles.input} placeholder='Password'></input>
-//                     </div>
-
-//                     <button id='login'>Login</button>
-//                 </div>
-//                 <div className={styles.footer}></div>
-//             </div>
-//         </div>
-//     </>);
-// }
-
-// export default LoginForm;
-
 import React, { useEffect } from 'react';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
+import jwt_decode from "jwt-decode";
 
 import styles from './loginform.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -68,12 +28,26 @@ function LoginForm({ open }) {
 
             // Handle the response as needed
             localStorage.setItem('token', response.data.accessToken);
-            localStorage.setItem('role', response.data.role.name);
+            var token = response.data.accessToken;
+            var decode = jwt_decode(token);
+            localStorage.setItem('role', decode.roles)
+            console.log(decode.roles);
             // Close the modal or perform other actions
+            decode.roles.map((roles) => {
+                console.log(roles);
+            })
             if (response.status === 200) {
-                if (localStorage.getItem('role') === 'ADMIN') {
-                    window.location = '/mainPage';
-                }
+                decode.roles.map((role) => {
+                    if (role === 'ADMIN') {
+                        window.location = '/mainPage';
+                    }
+                })
+                // if (localStorage.getItem('role')) {
+                //     console.log("true")
+                //     window.location = '/mainPage';
+                // } else {
+                //     console.log(false);
+                // }
             }
             open(false);
         } catch (error) {
