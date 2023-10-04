@@ -1,38 +1,42 @@
 import imghover1 from '~/assets/img/img-hover-1.png';
+import imghover2 from '~/assets/img/img-hover-2.png';
+import imghover3 from '~/assets/img/img-hover-3.png';
+import imghover4 from '~/assets/img/img-hover-4.png';
 
-import polarHabitat from '~/assets/background/polarHatbitat.jpg';
-import savannahHabitat from '~/assets/background/savannahHabitat.jpg';
-import seaHabitat from '~/assets/background/seaHabitat.jpg';
-import woodlandHabitat from '~/assets/background/woodlandHabitat.jpg';
+import zone1 from '~/assets/img/zone1.jpg';
+import zone2 from '~/assets/img/zone2.jpg';
+import zone3 from '~/assets/img/zone3.jpg';
+import zone4 from '~/assets/img/zone4.jpg';
+
 
 export const dataHabitatZone = [
     {
         id: 1,
         type: 'polar',
         name: 'Polar Habitat',
-        imgUrl: polarHabitat,
+        imgUrl: zone1,
         hoverImage: imghover1,
     },
     {
         id: 2,
         type: 'savannah',
         name: 'Savannah Habitat',
-        imgUrl: savannahHabitat,
-        hoverImage: imghover1,
+        imgUrl: zone2,
+        hoverImage: imghover2,
     },
     {
         id: 3,
         type: 'sea',
-        name: 'Sea Habitat',
-        imgUrl: seaHabitat,
-        hoverImage: imghover1,
+        name: 'Woodland Habitat',
+        imgUrl: zone3,
+        hoverImage: imghover3,
     },
     {
         id: 4,
         type: 'woodland',
-        name: 'Woodland Habitat',
-        imgUrl: woodlandHabitat,
-        hoverImage: imghover1,
+        name: 'Asian Rainforest Habitat',
+        imgUrl: zone4,
+        hoverImage: imghover4,
     },
 ];
 
