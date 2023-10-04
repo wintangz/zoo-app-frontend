@@ -32,9 +32,9 @@ function Habitats() {
                         filterHabitat={filterHabitat}
                     />
                 </div>
-                <div className={styles.main__content}>
+                {/* <div className={styles.main__content}>
                     <Gallery item={item} />
-                </div>
+                </div> */}
             </div>
         </>
     );
