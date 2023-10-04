@@ -19,7 +19,7 @@ export const components = [
                 path: '/habitats'
             },
             {
-                name: 'Zoo Map',
+                name: 'ZooMap',
                 path: '/maps',
             },
 

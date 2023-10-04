@@ -12,23 +12,22 @@ function Header() {
     const NamePage = useContext(NamePageContext);
     const lineRef = useRef(null);
     useEffect(() => {
-        // Use document.querySelectorAll to select all elements with the class
         const headerNavItems = document.querySelectorAll(`.${styles.navitem_container}`);
-        // Check if any elements were found
+        const child = document.querySelectorAll(`.${styles.dropdown_item}`);
         if (headerNavItems.length > 0) {
             // Loop through the NodeList (similar to an HTMLCollection) using forEach
             headerNavItems.forEach((element, index) => {
-                if (element.textContent === NamePage) {
+                console.log(NamePage)
+                if (typeof (NamePage) === 'undefined' || NamePage === "Maps" || NamePage === "Habitats") {
+                    console.log("zoo");
+                    if (element.textContent === "ExploreAnimalsHabitatsZooMap") {
+                        element.classList.add(styles.active);
+                    }
+                } else if (element.textContent === NamePage) {
                     element.classList.add(styles.active);
-                } else {
-                    element.classList.remove(styles.active);
                 }
-                // Access the text content or perform other actions with the element
             });
         }
-
-
-
         return () => {
             headerNavItems.forEach((element) => {
                 element.classList.remove(styles.active);
@@ -37,7 +36,17 @@ function Header() {
 
     }, [NamePage]);
     useEffect(() => {
-        lineRef.current.style.left = "47.5%";
+        const headerNavItems = document.querySelectorAll(`.${styles.active}`);
+        headerNavItems.forEach((element) => {
+            const name = element.textContent;
+            switch (name) {
+                case "Home": { lineRef.current.style.left = '47.5%'; lineRef.current.style.width = '38px'; break; }
+                case "News": { lineRef.current.style.left = '55.5%'; lineRef.current.style.width = '38px'; break; }
+                case "ExploreAnimalsHabitatsZooMap": { lineRef.current.style.left = '62%'; lineRef.current.style.width = '80px'; break; }
+                case "Ticket": { lineRef.current.style.left = '71.2%'; lineRef.current.style.width = '42px'; break; }
+                case "About": { lineRef.current.style.left = '79%'; lineRef.current.style.width = '45px'; break; }
+            }
+        })
     }, [])
     const handleHover = (element) => {
         // Move the .line element to the hovered element
