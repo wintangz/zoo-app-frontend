@@ -1,29 +1,38 @@
+import imghover1 from '~/assets/img/img-hover-1.png';
+
 import polarHabitat from '~/assets/background/polarHatbitat.jpg';
 import savannahHabitat from '~/assets/background/savannahHabitat.jpg';
 import seaHabitat from '~/assets/background/seaHabitat.jpg';
 import woodlandHabitat from '~/assets/background/woodlandHabitat.jpg';
 
-const dataHabitatZone = [
+export const dataHabitatZone = [
     {
         id: 1,
+        type: 'polar',
         name: 'Polar Habitat',
-        linkHabitat: polarHabitat,
+        imgUrl: polarHabitat,
+        hoverImage: imghover1,
     },
     {
         id: 2,
+        type: 'savannah',
         name: 'Savannah Habitat',
-        linkHabitat: savannahHabitat,
+        imgUrl: savannahHabitat,
+        hoverImage: imghover1,
     },
     {
         id: 3,
+        type: 'sea',
         name: 'Sea Habitat',
-        linkHabitat: seaHabitat,
+        imgUrl: seaHabitat,
+        hoverImage: imghover1,
     },
     {
         id: 4,
+        type: 'woodland',
         name: 'Woodland Habitat',
-        linkHabitat: woodlandHabitat,
+        imgUrl: woodlandHabitat,
+        hoverImage: imghover1,
     },
 ];
 
-export default dataHabitatZone;

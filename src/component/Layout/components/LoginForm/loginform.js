@@ -39,7 +39,7 @@
 
 // export default LoginForm;
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
@@ -48,6 +48,7 @@ import styles from './loginform.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import '../../../../assets/themify-icons.css';
+
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
@@ -78,6 +79,26 @@ function LoginForm({ open }) {
             setSubmitting(false);
         }
     };
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            // Check if the click is outside the modal
+            if (!document.querySelector(`.${styles.modal}`).contains(event.target)) {
+                // Close the modal
+                open(false);
+            }
+        };
+
+        // Add the event listener when the component mounts
+        document.addEventListener('mousedown', handleOutsideClick);
+
+        // Remove the event listener when the component unmounts
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, [open]);
+
+
 
     return (
         <div className={`${styles.overlay}`}>

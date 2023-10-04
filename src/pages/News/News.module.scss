@@ -51,6 +51,23 @@
             cursor: pointer;
             transition: all 0.2s 0s ease;
 
+            background-color: #ffffff;
+            color: #342a2a;
+        }
+
+        .item:hover {
+            display: inline-block;
+            min-width: 155px;
+            height: 36px;
+            line-height: 36px;
+            background-color: rgba(57, 59, 64, 0.18);
+            color: #393b40;
+            border-radius: 4px;
+            text-align: center;
+            margin-right: 20px;
+            cursor: pointer;
+            transition: all 0.2s 0s ease;
+
             background-color: #3b2525;
             color: #ffffff;
         }

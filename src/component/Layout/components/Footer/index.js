@@ -5,19 +5,20 @@ import styles from './Footer.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faInstagram, faPinterestP } from '@fortawesome/free-brands-svg-icons';
 import { faCalendar, faMap } from '@fortawesome/free-regular-svg-icons';
-import {} from '@fortawesome/free-solid-svg-icons';
+import { } from '@fortawesome/free-solid-svg-icons';
+import { logo } from '~/assets/all';
 function Footer() {
     const cx = classNames.bind(styles);
     return (
         <footer className="footer text-white">
             <div className="background-img">
-                <img src='https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/footer.png' alt=''/>
+                <img src='https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/footer.png' alt='' />
             </div>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-4 left column">
                         <div className="logo">
-                            <img alt="Logo" src="https://wintang-zoo.s3.ap-southeast-1.amazonaws.com/LOGO.png" />
+                            <img alt="Logo" src={logo} />
                         </div>
                         <p className="text">
                             WildDale is the world largest environment organisations. We actively work towards protecting
@@ -127,7 +128,7 @@ function Footer() {
                     </div>
                 </div>
                 <div className="viewmap">
-                    <a className="viewmapbutton" href="google.com">
+                    <a className="viewmapbutton" href="/maps">
                         View Maps!
                         <span>
                             <FontAwesomeIcon icon={faMap} />
