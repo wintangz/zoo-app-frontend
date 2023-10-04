@@ -73,7 +73,7 @@ import LoginForm from '../LoginForm/loginform';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-// import logo from '~/assets/img/logo-01.png';
+import { logoLong } from '~/assets/all';
 import { components } from './components.js';
 import { NamePageContext } from '~/App';
 function Header() {
@@ -81,8 +81,8 @@ function Header() {
     const NamePage = useContext(NamePageContext);
     useEffect(() => {
         // Use document.querySelectorAll to select all elements with the class
-        const headerNavItems = document.querySelectorAll('.Header_navitem_container__Sy6hN');
-
+        const headerNavItems = document.querySelectorAll(`.${styles.navitem_container}`);
+        console.log(headerNavItems)
         // Check if any elements were found
         if (headerNavItems.length > 0) {
             // Loop through the NodeList (similar to an HTMLCollection) using forEach
@@ -106,7 +106,7 @@ function Header() {
         <>
             <header className={styles.container}>
                 <div className={styles.logo}>
-                    <img src='../../../../assets/img/logo-footer.png' alt="" />
+                    <img src={logoLong} alt="" />
                 </div>
                 <div className={styles.navwrap}>
                     <div className={styles.navbar}>
