@@ -1,147 +1,3 @@
-// .wrapper {
-//     color: var(--color);
-//     font-weight: 550;
-//     padding-left: 100px;
-//     padding-right: 100px;
-//     display: flex;
-//     width: 100%;
-//     background: var(--primary);
-//     height: 100px;
-//     align-items: center;
-//     justify-content: space-between;
-//     position: fixed;
-//     z-index: 99999999;
-//     .header--logo {
-//         .header--logo--img {
-//             max-height: 60px;
-//         }
-//     }
-
-//     .nav {
-//         display: flex;
-//         height: 100%;
-//         .nav--menu--main {
-//             position: relative;
-//             display: flex;
-//             align-items: center;
-//             list-style: none;
-//             margin-bottom: 0px;
-
-//             .nav--menu--sub {
-//                 // margin: 15px 17px;X
-//                 position: relative;
-//                 display: flex;
-//                 text-align: center;
-//                 align-items: center;
-//                 height: 100%;
-//                 transition: color 0s ease-in-out;
-//                 a {
-//                     text-decoration: none;
-//                     color: #fff;
-//                     font-weight: 600;
-//                     font-size: 1.1rem;
-//                     margin-left: 40px;
-//                     position: relative;
-//                 }
-//                 a::after {
-//                     content: '';
-//                     position: absolute;
-//                     left: 0;
-//                     bottom: -6px;
-//                     width: 100%;
-//                     height: 3px;
-//                     background: white;
-//                     border-radius: 5px;
-//                     transform-origin: 5px;
-//                     transform: scaleX(0);
-//                     transition: transform 0.4s;
-//                 }
-
-//                 a:hover:after {
-//                     transform: scale(1);
-//                 }
-//                 .sub--menu {
-//                     position: absolute;
-//                     list-style: none;
-//                     top: 100px;
-//                     color: #8d909a;
-//                     min-width: 250px;
-//                     text-align: left;
-//                     background-color: white;
-//                     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-//                     border-top: solid 3px var(--primary--button);
-//                     padding: 7px 25px;
-//                     margin-top: -3px;
-//                     visibility: hidden;
-//                     opacity: 0;
-//                     transform: translateY(-3em);
-//                     z-index: -1;
-//                     transition: all 0.3s ease 0s, visibility 0s linear 0.3s, z-index 0s linear 0.01s;
-//                     .sub--menu--object {
-//                         padding: 12px 0;
-//                         border-bottom: solid 1px #e8e8e8;
-//                         font-weight: 500;
-//                         position: relative;
-//                         a {
-//                             color: #8d909a;
-//                         }
-//                     }
-//                     .sub--menu--object:hover {
-//                         border-bottom: solid 1px var(--primary--button);
-//                         a {
-//                             color: var(--primary--button);
-//                         }
-//                     }
-//                 }
-//             }
-//             .nav--menu--sub:hover {
-//                 color: var(--primary--button);
-//             }
-//         }
-//         .menu--sub:hover .sub--menu {
-//             visibility: visible;
-//             opacity: 1;
-//             z-index: 1;
-//             transform: translateY(0);
-//             transition-delay: 0s, 0s, 0.3s;
-//         }
-//     }
-//     .nav--menu--cart {
-//         display: flex;
-//         align-items: center;
-//         margin-left: 40px;
-//     }
-//     .nav--menu--login {
-//         display: flex;
-//         align-items: center;
-//         padding-left: 24px;
-//         .login-btn {
-//             padding: 14px 40px;
-//             color: var(--color);
-//             border: 2px solid #fff;
-//             border-radius: 50px;
-//             text-decoration: none;
-//             font-weight: 600;
-//             font-size: 1.1rem;
-//             position: relative;
-//         }
-//         .login-btn:before {
-//             content: '';
-//             position: absolute;
-//             top: 0;
-//             left: 0;
-//             height: 100%;
-//             width: 0;
-//             background-color: black;
-//             border-radius: 50px;
-//             z-index: -1;
-//             transition: width 0.2s ease-out;
-//         }
-//         .login-btn:hover:before {
-//             width: 100%;
-//         }
-//     }
-// }
 .container {
     display: flex;
     flex-direction: row;
@@ -166,6 +22,9 @@
     }
 }
 
+
+
+
 .navwrap {
     display: flex;
     width: 65%;
@@ -178,8 +37,35 @@
         display: flex;
         align-items: center;
 
+        .line {
+
+            position: absolute;
+            z-index: 1;
+            transition: all 0.2s ease-in-out;
+            /* Added transition for smooth movement */
+            background-color: rgb(105, 224, 255);
+            height: 5px;
+            width: 38px;
+            top: 0px;
+        }
+
+
         .active {
-            background-color: white !important;
+            text-shadow: 0 0 10px #ffd036, 0 0 20px #ffd036, 0 0 40px #ffd036;
+            color: white;
+            font-weight: bold;
+        }
+
+        .item_0,
+        .item_1,
+        .item_2,
+        .item_3,
+        .item_4 {
+            color: #ffd036;
+        }
+
+        .navitem_container.active.item_1+.line {
+            left: 50%
         }
 
         .navitem_container {
@@ -239,7 +125,6 @@
         }
 
         .navitem_container:hover {
-            box-shadow: inset 0px 5px 0px 0px #eeb712;
 
             .dropdown {
                 visibility: visible;
