@@ -3,7 +3,6 @@ import styles from './Ticket.module.scss'
 import NormalBanner from '~/component/Layout/components/NormalBanner'
 import { useState } from "react";
 import { Prev } from 'react-bootstrap/esm/PageItem';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { tickets } from './Tickets'
 import TicketDetail from './TicketDetail';
 
