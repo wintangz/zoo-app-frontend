@@ -1,9 +1,8 @@
+import { useContext, useState } from 'react';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import styles from './Ticket.module.scss';
-import { useState, createContext, useContext, useEffect } from 'react';
-import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
 
 import { TotalQuantityContext } from './index';
-import axios from 'axios';
 
 export default function TicketDetail(props) {
     const [value, setValue] = useState(0);

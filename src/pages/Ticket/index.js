@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
-import styles from './Ticket.module.scss'
-import NormalBanner from '~/component/Layout/components/NormalBanner'
-import { useState, createContext, useContext } from "react";
-import TicketDetail from './TicketDetail';
 import axios from 'axios';
+import { createContext, useEffect, useState } from 'react';
+import NormalBanner from '~/component/Layout/components/NormalBanner';
+import styles from './Ticket.module.scss';
+import TicketDetail from './TicketDetail';
 
 // import { Link } from 'react-router-dom';
 

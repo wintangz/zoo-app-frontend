@@ -12,7 +12,7 @@ const DateTimeFormatComponent = ({ apiDateTime }) => {
             const parsedDate = parseISO(apiDateTime);
 
             // Format the date using date-fns to 'dd/MM/yy'
-            const formatted = format(parsedDate, 'dd MMM, yy');
+            const formatted = format(parsedDate, 'MMMM do, yyyy');
 
             // Set the formatted date to the state
             setFormattedDate(formatted);

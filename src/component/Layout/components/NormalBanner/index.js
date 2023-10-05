@@ -1,9 +1,9 @@
-import classNames from 'classnames/bind';
-import styles from './NormalBanner.module.scss';
-import { useContext } from 'react';
-import { NamePageContext, BannerPageContext } from '~/App';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames/bind';
+import { useContext } from 'react';
+import { BannerPageContext, NamePageContext } from '~/App';
+import styles from './NormalBanner.module.scss';
 function NormalBanner() {
     const NamePage = useContext(NamePageContext);
     const BannerPage = useContext(BannerPageContext);
@@ -23,10 +23,10 @@ function NormalBanner() {
                     <h1 className={cx('banner--title')}>{NamePage}</h1>
                     <div >
                         <h3 className={cx('banner--nav')}>
-                            <div className={cx('banner--nav--home')}>
+                            <a className={cx('banner--nav--home')} href='/'>
                                 <span className={cx('nav--home--icon')}><FontAwesomeIcon icon={faHouse} /></span>
                                 <p className={cx('nav--home--text')}>Home</p>
-                            </div>
+                            </a>
                             <div className={cx('line')}>­</div>
                             <p className={cx('nav--cur')}>{NamePage}</p>
                         </h3>

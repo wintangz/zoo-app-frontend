@@ -14,14 +14,17 @@
             left: 45%;
             top: 40%;
             text-align: center;
+
             .banner--title {
                 font-weight: 600;
                 text-transform: capitalize;
                 font-size: 55px;
                 line-height: 65px;
             }
+
             .banner--nav {
                 display: flex;
+
                 .banner--nav--home {
                     display: flex;
                     color: #d0d0bb;
@@ -29,19 +32,25 @@
                     font-size: 16px;
                     line-height: 20px;
                     transition: color 0.2s ease-in-out;
+                    text-decoration: none;
+
                     .nav--home--icon {
                         padding-right: 8px;
                     }
                 }
+
                 .banner--nav--home:hover {
                     color: var(--primary--button);
+                    cursor: pointer;
                 }
+
                 .line {
                     height: 14px;
                     width: 2px;
                     margin: 4px 12px;
                     background: #d0d0bb;
                 }
+
                 .nav--cur {
                     color: var(--primary--button);
                 }
