@@ -14,6 +14,7 @@ function News() {
         const result = await recommendService.getRecommend();
         setRecommendResult(result);
     }
+    // fetchApi()
 
     useEffect(() => {
         fetchApi();

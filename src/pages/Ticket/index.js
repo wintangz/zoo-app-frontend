@@ -1,10 +1,17 @@
 import React, { useEffect } from 'react'
 import styles from './Ticket.module.scss'
 import NormalBanner from '~/component/Layout/components/NormalBanner'
-import { useState } from "react";
-import { Prev } from 'react-bootstrap/esm/PageItem';
-import { tickets } from './Tickets'
+import { useState, createContext, useContext } from "react";
 import TicketDetail from './TicketDetail';
+import axios from 'axios';
+
+// import { Link } from 'react-router-dom';
+
+
+export const TotalPriceContext = createContext();
+export const TotalQuantityContext = createContext();
+export const setTotalPriceContext = createContext();
+export const setTotalQuantityContext = createContext();
 
 function Ticket() {
     const [totalPrice, setTotalPrice] = useState(0)
@@ -16,10 +23,25 @@ function Ticket() {
     }
     const handleReduceQuantity = (price) => {
         // console.log(totalQuantity)
-
         setTotalQuantity(prev => prev - 1)
         setTotalPrice(prev => prev - Number(price))
     }
+    const [tickets, setTickets] = useState([]);
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/tickets');
+            // console.log(response.data.data);
+            setTickets(response.data.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     // useEffect(() => {
     //     if (totalQuantity == 0) {
     //         setTotalPrice(0)
@@ -28,6 +50,10 @@ function Ticket() {
     // }, [totalQuantity])
 
     return (<>
+        {/* <TotalPriceContext.Provider value={{ totalPrice }}>
+            <TotalQuantityContext.Provider value={[totalQuantity]}>
+                <setTotalPriceContext.Provider value={{ setTotalPrice }}>
+                    <setTotalQuantityContext.Provider value={{ setTotalQuantity }}> */}
         <div className={styles.imgbanner}>
             <NormalBanner />
         </div>
@@ -47,9 +73,11 @@ function Ticket() {
                 </tr>
                 {tickets.map(ticket => {
                     return <TicketDetail ticket={ticket}
+                        // key={ticket.id}
                         increaseQuantity={(price) => handleIncreaseQuantity(price)}
                         reduceQuantity={(price) => handleReduceQuantity(price)} />
                 })}
+
                 <tr className={`${styles.table_row} ${styles.total}`}>
                     <td colSpan='4' className={styles.table_data}>
                         <b>Total Price: {totalPrice}</b>
@@ -58,10 +86,14 @@ function Ticket() {
                 </tr>
             </table>
         </div>
-
         <div className={styles.buy}>
-            <b className={styles.btn}>Add To Cart</b>
+            <a href="/add">Add To Cart</a>
+            <a href="/viewCart">View Cart</a>
         </div>
+        {/* </setTotalQuantityContext.Provider>
+                </setTotalPriceContext.Provider>
+            </TotalQuantityContext.Provider>
+        </TotalPriceContext.Provider> */}
     </>)
 }
 
