@@ -30,12 +30,7 @@ function LoginForm({ open }) {
             localStorage.setItem('token', response.data.accessToken);
             var token = response.data.accessToken;
             var decode = jwt_decode(token);
-            localStorage.setItem('role', decode.roles)
-            console.log(decode.roles);
             // Close the modal or perform other actions
-            decode.roles.map((roles) => {
-                console.log(roles);
-            })
             if (response.status === 200) {
                 decode.roles.map((role) => {
                     if (role === 'ADMIN') {

@@ -40,11 +40,11 @@ function Header() {
         headerNavItems.forEach((element) => {
             const name = element.textContent;
             switch (name) {
-                case "Home": { lineRef.current.style.left = '47.5%'; lineRef.current.style.width = '38px'; break; }
-                case "News": { lineRef.current.style.left = '55.5%'; lineRef.current.style.width = '38px'; break; }
-                case "ExploreAnimalsHabitatsZooMap": { lineRef.current.style.left = '62%'; lineRef.current.style.width = '80px'; break; }
-                case "Ticket": { lineRef.current.style.left = '71.2%'; lineRef.current.style.width = '42px'; break; }
-                case "About": { lineRef.current.style.left = '79%'; lineRef.current.style.width = '45px'; break; }
+                case "Home": { lineRef.current.style.left = '46%'; lineRef.current.style.width = '5.8%'; break; }
+                case "News": { lineRef.current.style.left = '53.8%'; lineRef.current.style.width = '5.8%'; break; }
+                case "ExploreAnimalsHabitatsZooMap": { lineRef.current.style.left = '61%'; lineRef.current.style.width = '6.3%'; break; }
+                case "Ticket": { lineRef.current.style.left = '69.6%'; lineRef.current.style.width = '5.8%'; break; }
+                case "About": { lineRef.current.style.left = '77.6%'; lineRef.current.style.width = '5.8%'; break; }
             }
         })
     }, [])
@@ -52,25 +52,25 @@ function Header() {
         // Move the .line element to the hovered element
         // lineRef.current.style.left = `${element.offsetLeft}px`;
         switch (element) {
-            case "Home": { lineRef.current.style.left = '47.5%'; lineRef.current.style.width = '38px'; break; }
-            case "News": { lineRef.current.style.left = '55.5%'; lineRef.current.style.width = '38px'; break; }
-            case "Explore": { lineRef.current.style.left = '62%'; lineRef.current.style.width = '80px'; break; }
-            case "Ticket": { lineRef.current.style.left = '71.2%'; lineRef.current.style.width = '42px'; break; }
-            case "About": { lineRef.current.style.left = '79%'; lineRef.current.style.width = '45px'; break; }
+            case "Home": { lineRef.current.style.left = '46%'; lineRef.current.style.width = '5.8%'; break; }
+            case "News": { lineRef.current.style.left = '53.8%'; lineRef.current.style.width = '5.8%'; break; }
+            case "Explore": { lineRef.current.style.left = '61%'; lineRef.current.style.width = '6.3%'; break; }
+            case "Ticket": { lineRef.current.style.left = '69.6%'; lineRef.current.style.width = '5.8%'; break; }
+            case "About": { lineRef.current.style.left = '77.6%'; lineRef.current.style.width = '5.8%'; break; }
         }
     };
     const handleUnHover = (element) => {
         document.querySelector(`.${styles.active}`).classList.contains("Home");
         if (document.querySelector(`.${styles.active}`).classList.contains("Home")) {
-            lineRef.current.style.left = '47.5%'; lineRef.current.style.width = '38px';
+            lineRef.current.style.left = '46%'; lineRef.current.style.width = '5.8%';
         } else if (document.querySelector(`.${styles.active}`).classList.contains("News")) {
-            lineRef.current.style.left = '55.5%'; lineRef.current.style.width = '38px';
+            lineRef.current.style.left = '53.8%'; lineRef.current.style.width = '5.8%';
         } else if (document.querySelector(`.${styles.active}`).classList.contains("Explore")) {
-            lineRef.current.style.left = '62%'; lineRef.current.style.width = '80px';
+            lineRef.current.style.left = '61%'; lineRef.current.style.width = '6.3%';
         } else if (document.querySelector(`.${styles.active}`).classList.contains("Ticket")) {
-            lineRef.current.style.left = '71.2%'; lineRef.current.style.width = '42px';
+            lineRef.current.style.left = '69.6%'; lineRef.current.style.width = '5.8%';
         } else if (document.querySelector(`.${styles.active}`).classList.contains("About")) {
-            lineRef.current.style.left = '79%'; lineRef.current.style.width = '45px';
+            lineRef.current.style.left = '77.6%'; lineRef.current.style.width = '5.8%';
         }
     }
     return (

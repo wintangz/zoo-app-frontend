@@ -7,12 +7,13 @@ import { faFacebookF, faInstagram, faPinterestP } from '@fortawesome/free-brands
 import { faCalendar, faMap } from '@fortawesome/free-regular-svg-icons';
 import { } from '@fortawesome/free-solid-svg-icons';
 import { logo } from '~/assets/all';
+import footer from '~/assets/img/footer-2.png'
 function Footer() {
     const cx = classNames.bind(styles);
     return (
         <footer className="footer text-white">
             <div className="background-img">
-                <img src='https://previews.dropbox.com/p/thumb/ACDMTN-kKNgomdSpo4NDrPbbz5dENNH6pY1rmvT8rs8_t8OPKpk_Rab6uQwqtX2IEPkweJm4fkMN0xJoora0mYUeraEJ8OMcRMCODg36CXiVuaeU003zRDBJjVv7ITXPQOU00ncthCBtcQ5tXr02u9YWQ93DWdqifUjerzY7fq59ShUn3vIDGnsqY6xolbmZONUUeN-wu7AMSgaz0q6oykFy9sFaABlwsImgKuLtc-Ia5Oakk2JEFAebiaQ4OXEOAEi3PC_0A7SjU4iu4clIhKSRJn7JlJlrYwxeTpvAa0CYvmgPg1HuXgayUQ9_KJ54cEN1VxIZDRPrGHlzO_yVYZcN/p.png' alt='' />
+                <img src={footer} alt='' />
             </div>
             <div className="container-fluid">
                 <div className="row">
