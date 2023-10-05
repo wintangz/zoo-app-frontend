@@ -30,7 +30,7 @@ function News() {
                     {recommendResult.map((card) => (
                         <RecommendCard thumbnailUrl={card.thumbnailUrl}
                             title={card.title}
-                            content={card.content}
+                            shortDescription={card.shortDescription}
                             createdDate={card.createdDate} />
                     ))}
                 </div>)}
