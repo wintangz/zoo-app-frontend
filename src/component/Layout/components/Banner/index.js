@@ -11,7 +11,7 @@ const VideoProperties = [
     {
         id: 1,
         title: 'Video 1',
-        src: 'http://localhost:8080/animals/video/tiger-video.mp4',
+        src: 'https://firebasestorage.googleapis.com/v0/b/wintangz.appspot.com/o/video%2Ftiger-video.mp4?alt=media&token=0c458270-812a-4852-baa0-a07e00ea6693&_gl=1*1f8bghu*_ga*OTc2NDkwNzUyLjE2OTY0OTQzMzM.*_ga_CW55HF8NVT*MTY5NjQ5NDMzMy4xLjEuMTY5NjQ5NDM3OC4xNS4wLjA.',
         credit: 'Video about tiger',
         duration: 30000,
     },
