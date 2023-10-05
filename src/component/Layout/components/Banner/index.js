@@ -7,33 +7,41 @@ import ReactPlayer from 'react-player';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
+import * as assets from '~/utils/assets-src.js';
 const VideoProperties = [
     {
         id: 1,
         title: 'Video 1',
-        src: 'https://firebasestorage.googleapis.com/v0/b/wintangz.appspot.com/o/video%2Ftiger-video.mp4?alt=media&token=0c458270-812a-4852-baa0-a07e00ea6693&_gl=1*1f8bghu*_ga*OTc2NDkwNzUyLjE2OTY0OTQzMzM.*_ga_CW55HF8NVT*MTY5NjQ5NDMzMy4xLjEuMTY5NjQ5NDM3OC4xNS4wLjA.',
+        src: assets.video1,
         credit: 'Video about tiger',
         duration: 30000,
     },
     {
         id: 2,
         title: 'Video 2',
-        src: 'http://localhost:8080/animals/video/crocodile-video.mp4',
+        src: assets.video2,
         credit: 'Video about crocodile',
         duration: 8,
     },
     {
         id: 3,
         title: 'Video 3',
-        src: 'http://localhost:8080/animals/video/panda-video.mp4',
+        src: assets.video3,
         credit: 'Video about giraffe',
         duration: 16,
     },
     {
         id: 4,
         title: 'Video 4',
-        src: 'http://localhost:8080/animals/video/elephant-video.mp4',
+        src: assets.video4,
         credit: 'Video about elephant',
+        duration: 8,
+    },
+    {
+        id: 5,
+        title: 'Video 5',
+        src: assets.video5,
+        credit: 'Video about panda',
         duration: 8,
     },
 ];

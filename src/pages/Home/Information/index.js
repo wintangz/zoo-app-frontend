@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './infor.module.scss';
 import { Link } from 'react-router-dom';
+import * as assets from '~/utils/assets-src';
 const cx = classNames.bind(styles);
 function Information() {
     return (
@@ -68,7 +69,9 @@ function Information() {
                     </div>
                     <div className={cx('information--right')}>
                         <div className={cx('information--img')}>
-                            <div className={cx('information--img--background')}></div>
+                            <div className={cx('information--img--background')}
+                                style={{ background: 'url(' + assets.information + ')' }}
+                            ></div>
                         </div>
                     </div>
                 </div>
