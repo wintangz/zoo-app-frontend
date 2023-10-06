@@ -3,10 +3,11 @@ import { BiLeftArrow, BiRightArrow } from 'react-icons/bi';
 import NewsPost from '../News/newsPost';
 import styles from './Pagination.module.scss';
 
-const itemsPerPage = 2;
+const itemsPerPage = 5;
 
-const Pagination = ({ data }) => {
+const Pagination = ({ newsResult }) => {
     const [currentPage, setCurrentPage] = useState(1);
+    const data = newsResult ? newsResult.slice().reverse() : [];
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -79,13 +80,6 @@ const Pagination = ({ data }) => {
                     <div className={styles.btn} onClick={() => handlePageChange(currentPage - 1)}>
                         {currentPage > 1 && <BiLeftArrow />}
                     </div>
-                    {/* {Array.from({ length: totalPages }, (_, index) => (
-                        <div className={styles.number_wrap}>
-                            <div className={styles.btnNumber} key={index} onClick={() => handlePageChange(index + 1)}>
-                                {index + 1}
-                            </div>
-                        </div>
-                    ))} */}
                     {renderPageNumbers()}
 
                     <div className={styles.btn} onClick={() => handlePageChange(currentPage + 1)}>

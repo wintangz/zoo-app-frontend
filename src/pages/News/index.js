@@ -51,7 +51,7 @@ function News() {
                 </div>)} */}
             </div>
             <div>
-                <Pagination itemsPerPage={itemsPerPage} data={newsResult} />
+                <Pagination itemsPerPage={itemsPerPage} newsResult={newsResult} />
             </div>
         </div>
     );
