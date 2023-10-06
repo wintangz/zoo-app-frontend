@@ -15,7 +15,7 @@ const validationSchema = Yup.object().shape({
     password: Yup.string().required('Password is required'),
 });
 
-function LoginForm({ open }) {
+function LoginForm({ open, setOpenRegisterForm }) {
     const initialValues = {
         username: '',
         password: '',
@@ -71,7 +71,10 @@ function LoginForm({ open }) {
         };
     }, [open]);
 
-
+    const handleRegisterClick = () => {
+        setOpenRegisterForm(true); // Open the register form
+        open(false); // Close the login form
+    };
 
     return (
         <div className={`${styles.overlay}`}>
@@ -112,7 +115,11 @@ function LoginForm({ open }) {
                             />
                         </div>
 
-                        <button type="submit" id="login">
+                        <button onClick={handleRegisterClick} className={styles.linkBtn}>
+                            Don't have Account yet, Register now!!!
+                        </button>
+
+                        <button className={styles.submit} type="submit" id="login">
                             Login
                         </button>
                     </Form>
