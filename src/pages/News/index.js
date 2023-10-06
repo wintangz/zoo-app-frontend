@@ -1,21 +1,25 @@
-import React from 'react';
-import styles from './News.module.scss';
+import { useEffect, useState } from 'react';
+import * as newsService from '~/api/newsService';
 import RecommendCard from '~/pages/News/RecommendCard/recommendcard';
-import Title from '~/pages/News/News/News';
-import * as recommendService from '~/api/recommendService';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import styles from './News.module.scss';
+import Pagination from './Pagination/Pagination';
 
 function News() {
-
+    //news
+    const [newsResult, setNewsResult] = useState(null);
+    //recommendCard
     const [recommendResult, setRecommendResult] = useState(null);
 
     const fetchApi = async () => {
-        const result = await recommendService.getRecommend();
+        const result = await newsService.getRecommend();
         setRecommendResult(result);
-    }
-    // fetchApi()
 
+        const resultTitle = await newsService.getNews();
+        setNewsResult(resultTitle);
+    }
+
+    // const data = [];
+    const itemsPerPage = 5;
     useEffect(() => {
         fetchApi();
     }, []);
@@ -28,10 +32,7 @@ function News() {
 
                 {recommendResult && (<div className={styles.recommend}>
                     {recommendResult.map((card) => (
-                        <RecommendCard thumbnailUrl={card.thumbnailUrl}
-                            title={card.title}
-                            shortDescription={card.shortDescription}
-                            createdDate={card.createdDate} />
+                        <RecommendCard post={card} />
                     ))}
                 </div>)}
 
@@ -42,14 +43,19 @@ function News() {
                     <div className={styles.item}>Event</div>
                     <div className={styles.item}>Update</div>
                 </div>
-                <div className={styles.news}>
-                    <Title />
-                    <Title />
-                    <Title />
-                </div>
+                {/* {newsResult && (<div className={styles.news}>
+                    {newsResult.map((news) => (
+                        <NewsPost post={news} />
+                    ))
+                    }
+                </div>)} */}
+            </div>
+            <div>
+                <Pagination itemsPerPage={itemsPerPage} data={newsResult} />
             </div>
         </div>
     );
 }
 
 export default News;
+

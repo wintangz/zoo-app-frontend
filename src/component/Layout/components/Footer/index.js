@@ -2,12 +2,12 @@ import classNames from 'classnames/bind';
 import styles from './Footer.css';
 // import logo from '~/assets/img/logo-01.png';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faInstagram, faPinterestP } from '@fortawesome/free-brands-svg-icons';
 import { faCalendar, faMap } from '@fortawesome/free-regular-svg-icons';
 import { } from '@fortawesome/free-solid-svg-icons';
-import { logo } from '~/assets/all';
-import footer from '~/assets/img/footer-2.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import footer from '~/assets/img/footer-2.png';
+import { logo } from '~/utils/assets-src';
 function Footer() {
     const cx = classNames.bind(styles);
     return (

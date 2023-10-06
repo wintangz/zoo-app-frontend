@@ -1,5 +1,4 @@
-import styles from './RegisterForm.module.scss'
-import React from 'react'
+import styles from './RegisterForm.module.scss';
 
 function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
 
@@ -109,9 +108,9 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
                         </div>
                     </form>
 
-                    <button onClick={handleLoginClick} className={styles.linkBtn}>
-                        Have an Account, Login now!!!
-                    </button>
+                    <div className={styles.linkBtn_warp}>
+                        Have an Account, <b onClick={handleLoginClick} className={styles.linkBtn}>Login now!!!</b>
+                    </div>
 
 
                     <button className={styles.submit}>
