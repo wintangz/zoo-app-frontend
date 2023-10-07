@@ -1,3 +1,9 @@
+//Layout
+export const logo = "https://zoowebstorage.blob.core.windows.net/animals/assets/logo/LOGO.png";
+export const logo_long = "https://zoowebstorage.blob.core.windows.net/animals/assets/logo/LOGO_LONG.png";
+export const logo_dark = "https://zoowebstorage.blob.core.windows.net/animals/assets/logo/LOGO_DARK.png";
+export const logo_long_dark = "https://zoowebstorage.blob.core.windows.net/animals/assets/logo/LOGO_DARK_LONG.png";
+//Layout end
 // Home page
 
 export const video1 = "https://zoowebstorage.blob.core.windows.net/animals/video/tiger-video.mp4";

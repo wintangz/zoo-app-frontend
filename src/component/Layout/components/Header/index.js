@@ -1,13 +1,13 @@
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './Header.module.scss';
+import { NamePageContext } from '~/App';
+import { logo_long } from '~/utils/assets-src';
 import LoginForm from '../LoginForm/loginform';
 import RegisterForm from '../RegisterForm/index';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { logoLong } from '~/assets/all';
+import styles from './Header.module.scss';
 import { components } from './components.js';
-import { NamePageContext } from '~/App';
 function Header() {
     const [open, setOpen] = useState(false);
     const NamePage = useContext(NamePageContext);
@@ -82,7 +82,7 @@ function Header() {
         <>
             <header className={styles.container}>
                 <div className={styles.logo}>
-                    <img src={logoLong} alt="" />
+                    <img src={logo_long} />
                 </div>
                 <div className={styles.navwrap}>
                     <div className={styles.navbar}>

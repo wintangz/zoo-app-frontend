@@ -88,13 +88,17 @@
         }
     }
 
-    .linkBtn {
-        margin-top: 1vh;
-        background: none;
-        color: black;
-        text-decoration: underline;
-        border: none;
-        cursor: pointer;
+    .linkBtn_warp {
+
+        padding-top: 2vh;
+
+        .linkBtn {
+            background: none;
+            color: rgb(214, 190, 8);
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
     }
 
     .submit {
