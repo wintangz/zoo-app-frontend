@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import styles from './RegisterForm.module.scss'
 import React, { useEffect } from 'react';
-=======
-import styles from './RegisterForm.module.scss';
->>>>>>> 0468230353a6bd31205a64f6ae8f010d86accdde
 
 function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
 

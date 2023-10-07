@@ -12,7 +12,7 @@ export const components = [
         sub: [
             {
                 name: 'Animals',
-                path: '/animals/1'
+                path: '/animals/Asian%20Rainforest/1'
             },
             {
                 name: 'Habitats',
