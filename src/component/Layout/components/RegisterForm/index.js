@@ -1,5 +1,5 @@
 import styles from './RegisterForm.module.scss'
-import React from 'react'
+import React, { useEffect } from 'react';
 
 function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
 
@@ -32,6 +32,26 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
         setOpenLoginForm(true); // Open the login form
         setOpenRegisterForm(false); // Close the register form
     };
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            const containerElement = document.querySelector(`.${styles.overlay}`);
+            console.log(containerElement); // Add this line for debugging
+
+            // Check if the click is outside the form
+            if (containerElement && !containerElement.contains(event.target)) {
+                setOpenRegisterForm(false);
+            }
+        };
+
+        // Add the event listener when the component mounts
+        document.addEventListener('mousedown', handleOutsideClick);
+
+        // Remove the event listener when the component unmounts
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+        };
+    }, [setOpenRegisterForm]);
 
     return (
         <>
