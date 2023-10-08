@@ -83,9 +83,11 @@
                 .input {
                     width: 23vw;
                     height: 7vh;
+                    outline: none;
+                    border: 1px solid rgb(181, 181, 181);
                     border-radius: 1vw;
-                    margin-top: 2vh;
                     padding-left: 0.8vw;
+                    margin-top: 2vh;
                     font-size: large;
                 }
             }
