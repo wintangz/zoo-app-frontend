@@ -35,7 +35,7 @@ function LoginForm({ open, setOpenRegisterForm }) {
             if (response.status === 200) {
                 decode.roles.map((role) => {
                     if (role === 'ADMIN') {
-                        window.location = '/mainPage';
+                        window.location = '/dashboard';
                     }
                 })
                 // if (localStorage.getItem('role')) {

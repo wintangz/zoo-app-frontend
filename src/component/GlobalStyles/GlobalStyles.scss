@@ -1,25 +1,44 @@
-@import 'normalize.css';
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+// @import 'normalize.css';
+// @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap');
 
-:root {
-    --primary: #f8bf02;
-    --color: white;
-    --primary--button: #f8bf02;
-}
+// :root {
+//     --primary: #f8bf02;
+//     --color: white;
+//     --primary--button: #f8bf02;
+// }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+// * {
+//     margin: 0;
+//     padding: 0;
+//     box-sizing: border-box;
+// }
 
-html {
-    font-size: 62.5%;
-}
+// html {
+//     font-size: 62.5%;
+// }
 
+// body {
+//     font-family: 'Lato', sans-serif;
+//     font-size: 1.6rem;
+//     line-height: 1;
+//     text-rendering: optimizeSpeed;
+//     background-color: rgb(253, 227, 197);
+// }
+
+// ::-webkit-scrollbar-track {
+//     background: #e0e0e0;
+// }
+
+// ::-webkit-scrollbar-thumb {
+//     background: #888;
+// }
+
+// ::-webkit-scrollbar-track:hover {
+//     background: #555;
+// }
 body {
     font-family: 'Lato', sans-serif;
-    font-size: 1.6rem;
+    // font-size: 1.6rem;
     line-height: 1;
     text-rendering: optimizeSpeed;
     background-color: #fff3e6;

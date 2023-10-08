@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import styles from './Footer.css';
-// import logo from '~/assets/img/logo-01.png';
 
 import { faFacebookF, faInstagram, faPinterestP } from '@fortawesome/free-brands-svg-icons';
 import { faCalendar, faMap } from '@fortawesome/free-regular-svg-icons';
@@ -13,7 +12,6 @@ function Footer() {
     return (
         <footer className="footer text-white">
             <div className="background-img">
-                <img src={footer} alt='' />
             </div>
             <div className="container-fluid">
                 <div className="row">
