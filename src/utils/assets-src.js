@@ -1,4 +1,5 @@
 // Home page
+export const logo = "https://zoowebstorage.blob.core.windows.net/animals/assets/logo/LOGO_LONG.png";
 
 export const video1 = "https://zoowebstorage.blob.core.windows.net/animals/video/tiger-video.mp4";
 export const video2 = "https://zoowebstorage.blob.core.windows.net/animals/video/crocodile-video.mp4";

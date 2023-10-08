@@ -4,7 +4,7 @@ import LoginForm from '../LoginForm/loginform';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { logoLong } from '~/assets/all';
+import { logo } from '~/utils/assets-src';
 import { components } from './components.js';
 import { NamePageContext } from '~/App';
 function Header() {
@@ -77,7 +77,7 @@ function Header() {
         <>
             <header className={styles.container}>
                 <div className={styles.logo}>
-                    <img src={logoLong} alt="" />
+                    <img src={logo} alt="" />
                 </div>
                 <div className={styles.navwrap}>
                     <div className={styles.navbar}>

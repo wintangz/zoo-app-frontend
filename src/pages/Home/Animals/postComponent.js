@@ -1,36 +1,32 @@
-import lion from '~/assets/img/lion.png';
-import gira from '~/assets/img/gira.png';
-import tigers from '~/assets/img/tigers.png';
-import ele from '~/assets/img/ele.png';
-import zebra from '~/assets/img/zebra.png';
+import { icon1, icon2, icon3, icon4, icon5 } from "~/utils/assets-src";
 const images = [
     {
         id: 1,
-        src: lion,
+        src: icon1,
         name: 'Lion',
         alt: 'Image 1',
     },
     {
         id: 2,
-        src: gira,
+        src: icon2,
         name: 'Giraffes',
         alt: 'Image 2 ',
     },
     {
         id: 3,
-        src: tigers,
+        src: icon3,
         name: 'Tiger',
         alt: 'Image 3',
     },
     {
         id: 4,
-        src: ele,
+        src: icon4,
         name: 'Elephant',
         alt: 'Image 3',
     },
     {
         id: 5,
-        src: zebra,
+        src: icon5,
         name: 'Zebra',
         alt: 'Image 3',
     },
