@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
-import * as Yup from 'yup';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import jwt_decode from "jwt-decode";
+import { useEffect } from 'react';
+import * as Yup from 'yup';
 
-import styles from './loginform.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { logo_long_dark } from '~/utils/assets-src';
 import '../../../../assets/themify-icons.css';
+import styles from './loginform.module.scss';
 
 
 const validationSchema = Yup.object().shape({
@@ -15,7 +16,7 @@ const validationSchema = Yup.object().shape({
     password: Yup.string().required('Password is required'),
 });
 
-function LoginForm({ open }) {
+function LoginForm({ open, setOpenRegisterForm }) {
     const initialValues = {
         username: '',
         password: '',
@@ -71,7 +72,10 @@ function LoginForm({ open }) {
         };
     }, [open]);
 
-
+    const handleRegisterClick = () => {
+        setOpenRegisterForm(true); // Open the register form
+        open(false); // Close the login form
+    };
 
     return (
         <div className={`${styles.overlay}`}>
@@ -80,7 +84,10 @@ function LoginForm({ open }) {
                     <FontAwesomeIcon icon={faClose} />
                 </div>
 
-                <h1>Login</h1>
+                <div className={styles.headerwrap}>
+                    <div className={styles.imgwarp}><img src={logo_long_dark} /></div>
+                    <h1>Login</h1>
+                </div>
 
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
                     <Form className={styles.form}>
@@ -112,13 +119,17 @@ function LoginForm({ open }) {
                             />
                         </div>
 
-                        <button type="submit" id="login">
+                        <div>
+                            Don't have Account yet, <b onClick={handleRegisterClick} className={styles.linkBtn}>Register now!!!</b>
+                        </div>
+
+                        <button className={styles.submit} type="submit" id="login">
                             Login
                         </button>
                     </Form>
                 </Formik>
 
-                <div className={styles.footer}></div>
+                {/* <div className={styles.footer}></div> */}
             </div>
         </div>
     );

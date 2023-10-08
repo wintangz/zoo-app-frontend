@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Animals.module.scss';
 import 'swiper/css';
+import AnimalBackground from './Components/AnimalBackground/AnimalBackground'
 import Sidebar from './Components/Sidebar/Sidebar';
 import AnimalWrapper from './Components/AnimalWrapper/AnimalWrapper';
 import AnimalProfile from './Components/AnimalProfile/AnimalProfile';
@@ -10,18 +11,27 @@ function Animals() {
 
     const [animals, setAnimals] = useState(null);
 
-    const fetchApi = async () => {
+    const [habitats, setHabitats] = useState(null);
+
+    const fetchApi1 = async () => {
         const result = await animalsService.getAnimals();
         setAnimals(result);
     }
 
+    const fetchApi2 = async () => {
+        const result = await animalsService.getHabitats();
+        setHabitats(result);
+    }
+
     useEffect(() => {
-        fetchApi();
+        fetchApi1();
+        fetchApi2();
     }, []);
 
     return (
         <div className={styles.container}>
-            <Sidebar />
+            {habitats && <AnimalBackground habitats={habitats} />}
+            {habitats && <Sidebar habitats={habitats} />}
             {animals && <AnimalProfile animals={animals} />}
             {animals && <AnimalWrapper animals={animals} />}
         </div>

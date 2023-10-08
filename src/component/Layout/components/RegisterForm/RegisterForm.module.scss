@@ -1,0 +1,125 @@
+.overlay {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.4);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: white;
+    max-width: 120vh;
+    width: 100%;
+    position: relative;
+    padding: 15px;
+    border-radius: 10px;
+
+    h1 {
+        font-size: 3rem;
+        color: rgb(248, 191, 2);
+        text-align: center;
+    }
+
+    .form {
+        margin-top: 0;
+
+        .inputBox {
+            width: 100%;
+            margin-top: 2vh;
+
+            input {
+                position: relative;
+                height: 5vh;
+                width: 100%;
+                outline: none;
+                border: 1px solid rgb(218, 217, 217);
+                border-radius: 6px;
+                padding: 0 1vh;
+                margin-top: 1vh;
+            }
+        }
+
+        .column {
+            display: flex;
+            column-gap: 3vh;
+
+            .selectBox {
+                width: 100%;
+                margin-top: 2vh;
+
+                select {
+                    position: relative;
+                    height: 5vh;
+                    width: 100%;
+                    outline: none;
+                    border: 1px solid rgb(218, 217, 217);
+                    border-radius: 6px;
+                    padding: 0 1vh;
+                    margin-top: 1vh;
+                    color: rgb(126, 126, 126);
+                }
+            }
+
+        }
+
+        .genderCheck {
+            margin-top: 2vh;
+
+            :where(.gender, .option) {
+                margin-top: 0.7vh;
+                display: flex;
+                align-items: center;
+                column-gap: 10vh;
+            }
+
+            .option {
+                column-gap: 1vh;
+
+                :where(input, label) {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .linkBtn_warp {
+
+        padding-top: 2vh;
+
+        .linkBtn {
+            background: none;
+            color: rgb(214, 190, 8);
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+    }
+
+    .submit {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        height: 6vh;
+        background: rgb(248, 191, 2);
+        border: none;
+        outline: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1.7rem;
+        color: white;
+        font-weight: 700;
+        margin: 3vh 0 0 10vh;
+    }
+
+    .submit:hover {
+        filter: brightness(80%);
+        transition: all .2s ease-in-out;
+    }
+}

@@ -1,0 +1,36 @@
+.container {
+    padding-top: 3vh;
+    padding-bottom: 1vh;
+
+    .wrapper {
+        .news_wrapper {
+            width: 85%;
+            margin: 0 auto;
+        }
+
+        .btnwrap {
+
+            display: flex;
+            justify-content: center;
+
+            .number_wrap {
+                padding: 1vw;
+
+                .btnNumber {}
+
+                .btnNumber:hover {
+                    cursor: pointer;
+                }
+            }
+
+            .btn {
+                padding: 1vw;
+            }
+
+            .btn:hover {
+                cursor: pointer;
+                color: rgb(214, 190, 8);
+            }
+        }
+    }
+}

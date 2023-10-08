@@ -22,18 +22,18 @@ function AnimalWrapper(props) {
             direction='horizontal'>
             {props.animals.map((animal) => (
                 <SwiperSlide key={animal.id} className={`${styles.card}`}>
-                    <Link to={`/animals/${animal.id}`} onClick={() => setId(animal.id)} className={`${styles.animal}`}
+                    <Link to={`/animals/${animal.habitat}/${animal.id}`} onClick={() => setId(animal.id)} className={`${styles.animal}`}
                         replace='true'>
-                        <img src={animal.avatarUrl} />
+                        <img src={animal.avatarUrl} alt='' />
                     </Link>
                 </SwiperSlide>
             ))}
 
             <div className={styles.arrow_right}>
-                <img src={arrow_right} />
+                <img src={arrow_right} alt='' />
             </div>
             <div className={styles.arrow_left}>
-                <img src={arrow_left} />
+                <img src={arrow_left} alt='' />
             </div>
         </Swiper>
     )

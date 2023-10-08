@@ -60,10 +60,7 @@ function App() {
                                         }
                                     />
                                     <Route
-                                        path='/animals/:animalId'
-                                        loader={({ params }) => {
-                                            console.log(params);
-                                        }}
+                                        path='/animals/:habitat/:animalId'
                                         element={
                                             <AnimalLayout>
                                                 <Animals></Animals>

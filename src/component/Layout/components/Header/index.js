@@ -1,12 +1,13 @@
-import { Link } from 'react-router-dom';
-import styles from './Header.module.scss';
-import LoginForm from '../LoginForm/loginform';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { logo } from '~/utils/assets-src';
 import { components } from './components.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { NamePageContext } from '~/App';
+import LoginForm from '../LoginForm/loginform';
+import RegisterForm from '../RegisterForm/index';
+import styles from './Header.module.scss';
 function Header() {
     const [open, setOpen] = useState(false);
     const NamePage = useContext(NamePageContext);
@@ -73,6 +74,10 @@ function Header() {
             lineRef.current.style.left = '77.6%'; lineRef.current.style.width = '5.8%';
         }
     }
+
+    const [openLoginForm, setOpenLoginForm] = useState(false);
+    const [openRegisterForm, setOpenRegisterForm] = useState(false);
+
     return (
         <>
             <header className={styles.container}>
@@ -124,13 +129,15 @@ function Header() {
                     </div>
                 </div>
                 <div className={styles.login}>
-                    <Link onClick={() => setOpen(true)} className={`${styles.loginitem} ${styles.js_open}`}>
+                    <Link onClick={() => setOpenLoginForm(true)} className={`${styles.loginitem} ${styles.js_open}`}>
                         Log In
                     </Link>
                 </div>
             </header>
 
             {open && <LoginForm open={setOpen} />}
+            {openRegisterForm && <RegisterForm setOpenLoginForm={setOpenLoginForm} setOpenRegisterForm={setOpenRegisterForm} />}
+            {openLoginForm && <LoginForm open={setOpenLoginForm} setOpenRegisterForm={setOpenRegisterForm} />}
         </>
     );
 }

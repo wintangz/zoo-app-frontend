@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Mousewheel } from 'swiper/modules';
 import styles from './Sidebar.module.scss'
@@ -9,6 +9,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 function Sidebar() {
+    const { habitat } = useParams();
     return (
         <Swiper
             modules={[Navigation, Pagination, Mousewheel]}
