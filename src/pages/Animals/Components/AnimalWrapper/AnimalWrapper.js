@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Mousewheel, EffectCoverflow } from 'swiper/modules';
 import 'swiper/css'
@@ -11,7 +11,7 @@ import arrow_right from '~/assets/img/arrow-right.png';
 import arrow_left from '~/assets/img/arrow-left.png';
 
 function AnimalWrapper(props) {
-    const [id, setId] = useState(1);
+    const { habitat } = useParams();
 
     return (
         <Swiper className={`${styles.animal_wrapper}`}
@@ -20,15 +20,18 @@ function AnimalWrapper(props) {
             slidesPerView={7}
             navigation
             direction='horizontal'>
-            {props.animals.map((animal) => (
-                <SwiperSlide key={animal.id} className={`${styles.card}`}>
-                    <Link to={`/animals/${animal.habitat}/${animal.id}`} onClick={() => setId(animal.id)} className={`${styles.animal}`}
-                        replace='true'>
-                        <img src={animal.avatarUrl} alt='' />
-                    </Link>
-                </SwiperSlide>
-            ))}
-
+            {props.animals.map((animal) => {
+                if (animal.habitat === habitat) {
+                    return (
+                        <SwiperSlide key={animal.id} className={`${styles.card}`}>
+                            <Link to={`/animals/${animal.habitat}/${animal.id}`} className={`${styles.animal}`}
+                                replace='true'>
+                                <img src={animal.avatarUrl} alt='' />
+                            </Link>
+                        </SwiperSlide>
+                    );
+                }
+            })}
             <div className={styles.arrow_right}>
                 <img src={arrow_right} alt='' />
             </div>

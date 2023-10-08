@@ -32,8 +32,8 @@ function Animals() {
         <div className={styles.container}>
             {habitats && <AnimalBackground habitats={habitats} />}
             {habitats && <Sidebar habitats={habitats} />}
-            {animals && <AnimalProfile animals={animals} />}
-            {animals && <AnimalWrapper animals={animals} />}
+            {animals && <AnimalProfile animals={animals} habitats={habitats} />}
+            {animals && <AnimalWrapper animals={animals} habitats={habitats} />}
         </div>
     );
 }
