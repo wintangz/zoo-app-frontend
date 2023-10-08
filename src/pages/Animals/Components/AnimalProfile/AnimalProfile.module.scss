@@ -9,10 +9,11 @@
     .animal_info {
         position: absolute;
         color: white;
-        left: 10vw;
-        top: 9vw;
-        bottom: 0;
         margin: auto;
+        height: fit-content;
+        right: 35vw;
+        bottom: 0;
+        top: 0;
 
         .title {
             font-size: 4vw;
