@@ -137,11 +137,7 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
                             <div className={styles.inputBox}>
                                 <label>Username</label>
                                 <Field type='text' name='username' placeholder='Username' />
-                                <ErrorMessage
-                                    name='username'
-                                    component='div'
-                                    className={styles.error}
-                                />
+                                <ErrorMessage name='username' component='div' className={styles.error} />
                             </div>
                             <div className={styles.column}>
                                 <div className={styles.inputBox}>
@@ -180,7 +176,7 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
                                 </div>
                             </div>
                             <div className={styles.genderCheck}>
-                                <h3>Gender</h3>
+                                <h5>Gender</h5>
                                 <div className={styles.gender}>
                                     <div className={styles.option}>
                                         <Field type='radio' id='check-male' name='gender' value='male' />
