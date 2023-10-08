@@ -1,13 +1,13 @@
-import { Box, IconButton, useTheme } from '@mui/material';
-import { useContext } from 'react';
-import { ColorModeContext, tokens } from '~/theme';
-import InputBase from '@mui/material/InputBase';
-import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import SearchIcon from '@mui/icons-material/Search';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import { Box, IconButton, useTheme } from '@mui/material';
+import InputBase from '@mui/material/InputBase';
+import { useContext } from 'react';
+import { ColorModeContext, tokens } from '~/theme';
 
 const Topbar = () => {
     const theme = useTheme();
@@ -23,7 +23,6 @@ const Topbar = () => {
                     <SearchIcon />
                 </IconButton>
             </Box>
-
             {/* ICONS */}
             <Box display="flex">
                 <IconButton onClick={colorMode.toggleColorMode}>

@@ -1,35 +1,37 @@
 //public routes dont need login to redirect
 //Layout
 import { NormalLayout } from '~/component/Layout';
-import AnimalLayout from '~/component/Layout/AnimalLayout/animalLayout';
 import AdminMainPage from '~/component/Layout/AdminMainPage';
+import AnimalLayout from '~/component/Layout/AnimalLayout/animalLayout';
 // import banner img
 
-import Home from '~/pages/Home';
-import News from '~/pages/News';
-import Animals from '~/pages/Animals/Animals';
-import Ticket from '~/pages/Ticket';
 import About from '~/pages/About';
+import Animals from '~/pages/Animals/Animals';
 import Habitats from '~/pages/Habitats';
+import Home from '~/pages/Home';
 import Maps from '~/pages/Maps';
+import News from '~/pages/News';
+import Ticket from '~/pages/Ticket';
+import Summary from '~/pages/Ticket/Summary/index';
 
 //Admin routes
-import Dashboard from '~/pages/AdminPage/Dashboard';
 import Bar from '~/pages/AdminPage/Bar/index';
+import Calendar from '~/pages/AdminPage/Calendar';
 import Contacts from '~/pages/AdminPage/Contacts';
+import Dashboard from '~/pages/AdminPage/Dashboard';
 import FAQ from '~/pages/AdminPage/FAQ';
 import Form from '~/pages/AdminPage/Form';
 import Geography from '~/pages/AdminPage/Geography';
 import Invoices from '~/pages/AdminPage/Invoices';
 import Line from '~/pages/AdminPage/Line';
-import Team from '~/pages/AdminPage/Team';
-import Calendar from '~/pages/AdminPage/Calendar';
 import Pie from '~/pages/AdminPage/Pie';
+import Team from '~/pages/AdminPage/Team';
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
+    { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
     { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats', Authen: "public" },
     { path: 'maps', component: Maps, layout: NormalLayout, name: 'Maps' },
@@ -52,3 +54,4 @@ const publicRoutes = [
 const privateRoutes = [];
 
 export { privateRoutes, publicRoutes };
+

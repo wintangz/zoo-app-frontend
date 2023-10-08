@@ -1,0 +1,45 @@
+.imgbanner {
+    background-image: url('');
+}
+
+.container {
+    padding-top: 5vh;
+
+    .progress {
+        height: 1px;
+        margin-bottom: calc((1rem + 1px)*-1);
+        background-color: rgba(60, 87, 36, .175);
+        max-width: 85%;
+
+        .progress_bar {
+            background-color: var(--primary) !important;
+        }
+    }
+
+    .row {
+        .col {
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+
+            .first_step {
+                .progress_number {
+                    display: block;
+                    width: 2rem;
+                    height: 2rem;
+                    margin: auto;
+                    text-align: center;
+                    line-height: calc(2rem - 4px);
+                    color: var(--primary);
+                    border: 1.5px solid var(--primary);
+                    border-radius: 50%;
+                    background-color: #fff;
+                }
+
+                .progress_title {
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
