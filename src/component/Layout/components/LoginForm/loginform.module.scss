@@ -9,13 +9,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 80vh;
 
     .modal {
         font-size: 62.5%;
 
         background-color: white;
-        width: 27%;
-        height: 65%;
+        max-width: 60vh;
+        width: 100%;
         position: relative;
         padding: 15px;
         border-radius: 10px;
@@ -65,6 +66,7 @@
             align-items: center;
             justify-content: center;
             // padding-top: 2.5vh;
+            margin-bottom: 5vh;
 
             .field {
                 display: flex;
@@ -85,9 +87,11 @@
                 .input {
                     width: 23vw;
                     height: 7vh;
+                    outline: none;
+                    border: 1px solid rgb(181, 181, 181);
                     border-radius: 1vw;
-                    margin-top: 2vh;
                     padding-left: 0.8vw;
+                    margin-top: 2vh;
                     font-size: large;
                 }
             }

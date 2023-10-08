@@ -49,10 +49,6 @@ function Ticket() {
     // }, [totalQuantity])
 
     return (<>
-        {/* <TotalPriceContext.Provider value={{ totalPrice }}>
-            <TotalQuantityContext.Provider value={[totalQuantity]}>
-                <setTotalPriceContext.Provider value={{ setTotalPrice }}>
-                    <setTotalQuantityContext.Provider value={{ setTotalQuantity }}> */}
         <div className={styles.imgbanner}>
             <NormalBanner />
         </div>
@@ -86,13 +82,8 @@ function Ticket() {
             </table>
         </div>
         <div className={styles.buy}>
-            <a href="/add">Add To Cart</a>
-            <a href="/viewCart">View Cart</a>
+            <a href="/summary" className={styles.btn}>Buy</a>
         </div>
-        {/* </setTotalQuantityContext.Provider>
-                </setTotalPriceContext.Provider>
-            </TotalQuantityContext.Provider>
-        </TotalPriceContext.Provider> */}
     </>)
 }
 

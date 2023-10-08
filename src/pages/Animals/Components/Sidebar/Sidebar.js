@@ -8,39 +8,24 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
-function Sidebar() {
-    const { habitat } = useParams();
+function Sidebar(props) {
     return (
         <Swiper
             modules={[Navigation, Pagination, Mousewheel]}
             spaceBetween={30}
             slidesPerView={4}
             direction='vertical'
-            className={styles.sidebar}>
-            <SwiperSlide className={styles.sideitem}>
-                <Link className={styles.habitats}>Rainforest</Link>
-            </SwiperSlide>
-            <SwiperSlide className={styles.sideitem}>
-                <Link className={styles.habitats}>Desert</Link>
-            </SwiperSlide>
-            <SwiperSlide className={styles.sideitem}>
-                <Link className={styles.habitats}>Grassland</Link>
-            </SwiperSlide>
-            <SwiperSlide className={styles.sideitem}>
-                <Link className={styles.habitats}>Savannah</Link>
-            </SwiperSlide>
-            <SwiperSlide className={styles.sideitem}>
-                <Link className={styles.habitats}>Mountain</Link>
-            </SwiperSlide>
-            <SwiperSlide className={styles.sideitem}>
-                <Link className={styles.habitats}>Mountain</Link>
-            </SwiperSlide>
-            <SwiperSlide className={styles.sideitem}>
-                <Link className={styles.habitats}>Mountain</Link>
-            </SwiperSlide>
-            <SwiperSlide className={styles.sideitem}>
-                <Link className={styles.habitats}>Mountain</Link>
-            </SwiperSlide>
+            className={styles.sidebar}
+            mousewheel={true}>
+            {props.habitats.map((habitat) => {
+                return (
+                    <SwiperSlide className={styles.sideitem}>
+                        <Link to={`/animals/${habitat.name}/0`}
+                            className={styles.habitats}
+                            replace='true'>{habitat.name}</Link>
+                    </SwiperSlide>
+                );
+            })}
         </Swiper>
     )
 }

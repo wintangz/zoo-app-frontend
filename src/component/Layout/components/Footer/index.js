@@ -5,14 +5,13 @@ import { faFacebookF, faInstagram, faPinterestP } from '@fortawesome/free-brands
 import { faCalendar, faMap } from '@fortawesome/free-regular-svg-icons';
 import { } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import footer from '~/assets/img/footer-2.png';
 import { logo } from '~/utils/assets-src';
 function Footer() {
     const cx = classNames.bind(styles);
     return (
         <footer className="footer text-white">
-            <div className="background-img">
-            </div>
+            {/* <div className="background-img">
+            </div> */}
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-4 left column">

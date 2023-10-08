@@ -39,8 +39,8 @@ function Header() {
         headerNavItems.forEach((element) => {
             const name = element.textContent;
             switch (name) {
-                case "Home": { lineRef.current.style.left = '46%'; lineRef.current.style.width = '5.8%'; break; }
-                case "News": { lineRef.current.style.left = '53.8%'; lineRef.current.style.width = '5.8%'; break; }
+                case "Home": { lineRef.current.style.left = '45.5%'; lineRef.current.style.width = '5.8%'; break; }
+                case "News": { lineRef.current.style.left = '53.5%'; lineRef.current.style.width = '5.8%'; break; }
                 case "ExploreAnimalsHabitatsZooMap": { lineRef.current.style.left = '61%'; lineRef.current.style.width = '6.3%'; break; }
                 case "Ticket": { lineRef.current.style.left = '69.6%'; lineRef.current.style.width = '5.8%'; break; }
                 case "About": { lineRef.current.style.left = '77.6%'; lineRef.current.style.width = '5.8%'; break; }
@@ -51,8 +51,8 @@ function Header() {
         // Move the .line element to the hovered element
         // lineRef.current.style.left = `${element.offsetLeft}px`;
         switch (element) {
-            case "Home": { lineRef.current.style.left = '46%'; lineRef.current.style.width = '5.8%'; break; }
-            case "News": { lineRef.current.style.left = '53.8%'; lineRef.current.style.width = '5.8%'; break; }
+            case "Home": { lineRef.current.style.left = '45.5%'; lineRef.current.style.width = '5.8%'; break; }
+            case "News": { lineRef.current.style.left = '53.5%'; lineRef.current.style.width = '5.8%'; break; }
             case "Explore": { lineRef.current.style.left = '61%'; lineRef.current.style.width = '6.3%'; break; }
             case "Ticket": { lineRef.current.style.left = '69.6%'; lineRef.current.style.width = '5.8%'; break; }
             case "About": { lineRef.current.style.left = '77.6%'; lineRef.current.style.width = '5.8%'; break; }
@@ -61,9 +61,9 @@ function Header() {
     const handleUnHover = (element) => {
         document.querySelector(`.${styles.active}`).classList.contains("Home");
         if (document.querySelector(`.${styles.active}`).classList.contains("Home")) {
-            lineRef.current.style.left = '46%'; lineRef.current.style.width = '5.8%';
+            lineRef.current.style.left = '45.5%'; lineRef.current.style.width = '5.8%';
         } else if (document.querySelector(`.${styles.active}`).classList.contains("News")) {
-            lineRef.current.style.left = '53.8%'; lineRef.current.style.width = '5.8%';
+            lineRef.current.style.left = '53.5%'; lineRef.current.style.width = '5.8%';
         } else if (document.querySelector(`.${styles.active}`).classList.contains("Explore")) {
             lineRef.current.style.left = '61%'; lineRef.current.style.width = '6.3%';
         } else if (document.querySelector(`.${styles.active}`).classList.contains("Ticket")) {

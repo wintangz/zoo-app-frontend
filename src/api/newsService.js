@@ -1,8 +1,8 @@
-import * as request from '~/utils/request';
+import * as axiosClient from '~/utils/axiosClient';
 
 export const getRecommend = async () => {
     try {
-        const res = await request.get('news/recommend')
+        const res = await axiosClient.get('news/recommend')
         console.log(res.data)
         return res.data;
     } catch (error) {
@@ -12,7 +12,7 @@ export const getRecommend = async () => {
 
 export const getNews = async () => {
     try {
-        const res = await request.get('news')
+        const res = await axiosClient.get('news')
         console.log(res.data)
         return res.data;
     } catch (error) {

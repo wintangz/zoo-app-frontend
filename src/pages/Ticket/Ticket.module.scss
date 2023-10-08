@@ -81,7 +81,7 @@
                 border: 1px solid rgb(0, 0, 0);
                 padding: 10px;
                 background-color: rgba(0, 0, 0, 0.1);
-                font-size: larger;
+                font-size: x-large;
                 text-align: center;
                 color: #ffffff;
 
@@ -114,52 +114,52 @@
     }
 }
 
-// .buy {
-//     display: flex;
-//     justify-content: center;
-//     margin: 3vh;
-
-//     .btn {
-//         padding: 15px 35px 14px 35px;
-//         border-radius: 2em;
-//         background-color: #f8bf02;
-//         color: #ffffff;
-//         text-decoration: inherit;
-//     }
-
-//     .btn:hover {
-//         cursor: pointer;
-//         background-color: #3b2525;
-//         color: #f8bf02;
-//     }
-// }
-
 .buy {
-    margin-top: 7vh;
-    margin-bottom: 3vh;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin: 3vh;
 
-    a {
-        padding: 15px 30px;
-        text-decoration: none;
+    .btn {
+        padding: 15px 35px 14px 35px;
         border-radius: 2em;
-        color: black;
-        font-weight: 600;
-        transition: all 0.2s linear;
+        background-color: #f8bf02;
+        color: #ffffff;
+        text-decoration: inherit;
     }
 
-    a:nth-child(1) {
-        background-color: rgb(248, 191, 2);
-        margin-right: 40px;
-    }
-
-    a:nth-child(2) {
-        border: 0.8px solid black;
-    }
-
-    a:hover {
-        border-color: black;
-        background-color: #171717;
-        color: white;
+    .btn:hover {
+        cursor: pointer;
+        background-color: #3b2525;
+        color: #f8bf02;
     }
 }
+
+// .buy {
+//     margin-top: 7vh;
+//     margin-bottom: 3vh;
+//     text-align: center;
+
+//     a {
+//         padding: 15px 30px;
+//         text-decoration: none;
+//         border-radius: 2em;
+//         color: black;
+//         font-weight: 600;
+//         transition: all 0.2s linear;
+//     }
+
+//     a:nth-child(1) {
+//         background-color: rgb(248, 191, 2);
+//         margin-right: 40px;
+//     }
+
+//     a:nth-child(2) {
+//         border: 0.8px solid black;
+//     }
+
+//     a:hover {
+//         border-color: black;
+//         background-color: #171717;
+//         color: white;
+//     }
+// }
