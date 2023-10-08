@@ -1,4 +1,6 @@
 .about__container {
+    font-size: 62.5%;
+
     .background {
         background: url(../../assets/img/t1.jpg);
     }
@@ -141,10 +143,12 @@
                     height: 22vh;
                     margin-top: 1vh;
 
+
                     .icon {
                         display: flex;
                         justify-content: center;
                         margin-bottom: 10px;
+
 
                         span {
                             display: flex;
@@ -156,9 +160,11 @@
                             margin: 10px;
                             background-color: rgb(248, 191, 2);
 
+
                             svg {
                                 min-width: 40px;
                                 height: 5vh;
+
 
                             }
                         }
@@ -169,16 +175,20 @@
                         display: block;
                         margin-top: 2vh;
 
+
                         h1 {
                             font-size: 2rem;
                             font-weight: 600;
                             margin-right: 3vw;
+
                         }
 
                         p {
                             font-size: 1.4rem;
                             color: rgb(145, 145, 145);
                             margin-left: 1vw;
+                            font-size: 62.5%;
+
                         }
                     }
                 }

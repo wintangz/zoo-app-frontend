@@ -18,9 +18,7 @@ function Header() {
         if (headerNavItems.length > 0) {
             // Loop through the NodeList (similar to an HTMLCollection) using forEach
             headerNavItems.forEach((element, index) => {
-                console.log(NamePage)
                 if (typeof (NamePage) === 'undefined' || NamePage === "Maps" || NamePage === "Habitats") {
-                    console.log("zoo");
                     if (element.textContent === "ExploreAnimalsHabitatsZooMap") {
                         element.classList.add(styles.active);
                     }
