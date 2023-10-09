@@ -13,7 +13,8 @@
         height: fit-content;
         right: 35vw;
         bottom: 0;
-        top: 0;
+        top: 5vh;
+        max-width: 40vw;
 
         .title {
             font-size: 4vw;
@@ -39,9 +40,9 @@
         width: 25vw;
         height: 25vw;
         right: 9vw;
-        top: 4vw;
+        top: 5vh;
         bottom: 0;
-        margin: auto;
+        margin: auto 0;
 
         img {
             width: 100%;
