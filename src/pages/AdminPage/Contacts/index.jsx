@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '~/theme';
-import { mockDataContacts } from '~/data/mockData';
+import { mockDataContacts } from '~/api/data/mockData';
 import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { useTheme } from '@mui/material';
 

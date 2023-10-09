@@ -1,7 +1,7 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from '~/theme';
-import { mockDataTeam } from '~/data/mockData';
+import { mockDataTeam } from '~/api/data/mockData';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
@@ -53,9 +53,9 @@ function Team() {
                         backgroundColor={access === 'admin' ? colors.greenAccent[600] : colors.greenAccent[700]}
                         borderRadius="4px"
                     >
-                        {access === 'admin' && <AdminPanelSettingsOutlinedIcon />}
-                        {access === 'manager' && <SecurityOutlinedIcon />}
-                        {access === 'user' && <LockOpenOutlinedIcon />}
+                        {access === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
+                        {access === 'STAFF' && <SecurityOutlinedIcon />}
+                        {access === 'ZOO_TRAINER' && <LockOpenOutlinedIcon />}
                         <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
                             {access}
                         </Typography>
@@ -97,7 +97,7 @@ function Team() {
                     },
                 }}
             >
-                <DataGrid rows={mockDataTeam} columns={columns} />
+                <DataGrid rows={mockDataTeam} columns={columns} getRowId={(row) => row.id} />
             </Box>
         </Box>
     );

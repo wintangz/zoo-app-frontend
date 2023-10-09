@@ -16,6 +16,7 @@ import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
+import { decode } from '~/utils/axiosClient';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
@@ -102,10 +103,10 @@ const Sidebar = () => {
                                     fontWeight="bold"
                                     sx={{ m: '10px 0 0 0' }}
                                 >
-                                    Lộc
+                                    {decode(localStorage.getItem('token')).sub}
                                 </Typography>
                                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                                    USER ROLE
+                                    {decode(localStorage.getItem('token')).roles[0]}
                                 </Typography>
                             </Box>
                         </Box>

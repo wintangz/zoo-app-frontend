@@ -1,8 +1,8 @@
 import { tokens } from '~/theme';
 import { useTheme as utheme } from '@mui/material';
 import { ResponsiveChoropleth } from '@nivo/geo';
-import { mockGeographyData as data } from '~/data/mockData';
-import { geoFeatures } from '~/data/mockGeoFeatures';
+import { mockGeographyData as data } from '~/api/data/mockData';
+import { geoFeatures } from '~/api/data/mockGeoFeatures';
 const geographyChart = ({ isDashboard }) => {
     const theme = utheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);

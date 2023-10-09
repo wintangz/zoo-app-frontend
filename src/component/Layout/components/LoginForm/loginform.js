@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logo_long_dark } from '~/utils/assets-src';
 import '../../../../assets/themify-icons.css';
 import styles from './loginform.module.scss';
-
+import { decode } from '~/utils/axiosClient';
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
@@ -30,7 +30,7 @@ function LoginForm({ open, setOpenRegisterForm }) {
             // Handle the response as needed
             localStorage.setItem('token', response.data.accessToken);
             var token = response.data.accessToken;
-            var decode = jwt_decode(token);
+            decode(token);
             // Close the modal or perform other actions
             if (response.status === 200) {
                 decode.roles.map((role) => {
