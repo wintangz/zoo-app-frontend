@@ -1,12 +1,12 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import styles from './Ticket.module.scss';
 
-import { TotalQuantityContext } from './index';
+// import { TotalQuantityContext } from './index';
 
 export default function TicketDetail(props) {
     const [value, setValue] = useState(0);
-    const totalQty = useContext(TotalQuantityContext);
+    // const totalQty = useContext(TotalQuantityContext);
     const PlusPrice = () => {
         setValue(value + 1);
         props.increaseQuantity(props.ticket.price);

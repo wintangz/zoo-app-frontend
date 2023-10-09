@@ -14,9 +14,11 @@
         justify-content: center;
         align-items: center;
 
+
         .animal {
             color: white;
             user-select: none;
+            overflow: hidden;
         }
 
         img {
@@ -24,6 +26,12 @@
             height: 8vw;
             object-fit: cover;
             border: black 1vh solid;
+            border-radius: 1vh;
+            transition: all 0.5s;
+        }
+
+        img:hover {
+            border: rgb(108, 108, 108) 1vh solid;
             border-radius: 1vh;
         }
     }

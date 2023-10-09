@@ -36,6 +36,12 @@
             cursor: pointer;
             font-size: larger;
             line-height: 5.5vh;
+            text-shadow: 0 0 10px #000000, 0 0 20px #000000, 0 0 40px #000000;
+        }
+
+        .habitats:hover {
+            text-shadow: 0 0 20px #000000, 0 0 40px #000000, 0 0 80px #000000;
+            font-weight: bolder;
         }
     }
 }

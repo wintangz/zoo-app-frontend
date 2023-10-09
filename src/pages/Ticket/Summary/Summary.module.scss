@@ -6,38 +6,95 @@
     padding-top: 5vh;
 
     .progress {
-        height: 1px;
-        margin-bottom: calc((1rem + 1px)*-1);
-        background-color: rgba(60, 87, 36, .175);
-        max-width: 85%;
 
         .progress_bar {
             background-color: var(--primary) !important;
+            height: 1px;
+            margin-bottom: calc((1rem + 1px)*-1);
+            max-width: 85%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .row {
+            .col {
+                position: relative;
+                display: flex;
+                justify-content: space-around;
+
+                .first_step {
+                    .progress_number {
+                        display: block;
+                        width: 2rem;
+                        height: 2rem;
+                        margin: auto;
+                        text-align: center;
+                        line-height: calc(2rem - 4px);
+                        color: var(--primary);
+                        border: 1.5px solid var(--primary);
+                        border-radius: 50%;
+                        background-color: #fff;
+                    }
+
+                    .progress_title {
+                        text-align: center;
+                    }
+                }
+            }
         }
     }
 
-    .row {
-        .col {
-            position: relative;
-            display: flex;
-            justify-content: space-around;
+    .checkout_form {
+        .container {
+            height: 100%;
 
-            .first_step {
-                .progress_number {
-                    display: block;
-                    width: 2rem;
-                    height: 2rem;
-                    margin: auto;
-                    text-align: center;
-                    line-height: calc(2rem - 4px);
-                    color: var(--primary);
-                    border: 1.5px solid var(--primary);
-                    border-radius: 50%;
-                    background-color: #fff;
+            .row {
+                margin-bottom: 1.5rem !important;
+                display: flex;
+                justify-content: space-around;
+
+                .card {
+                    width: 25vw;
+                    height: 21vh;
+
+                    .card_header {
+                        background-color: var(--primary);
+                        background-size: auto;
+                        background-position: center top;
+                        height: 20%;
+                    }
+
+                    .card_body {
+                        padding: 1vh 3vh;
+                        margin: 0;
+                        background-color: #ffffff;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    .checkout_summary {
+        --bs-gutter-x: 1.5rem;
+        --bs-gutter-y: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .col {
+            .card {
+                width: 100%;
+                margin-top: 5vh;
+
+                .card_header {
+                    background-color: var(--primary);
+                    background-size: auto;
+                    background-position: center top;
                 }
 
-                .progress_title {
-                    text-align: center;
+                .card_body {
+                    background-color: #fff;
                 }
             }
         }
