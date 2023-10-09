@@ -1,23 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Habitats.module.scss';
-import { useState } from 'react';
 
-import bgHabitat from '~/assets/background/bgHabitat.jpg';
-import Gallery from '~/pages/Habitats/Gallery/Gallery';
-import dataGallery from './Gallery/dataGallery';
 import HabitatZone from './HabitatZone/HabitatZone';
-import { dataHabitatZone } from './HabitatZone/dataHabitatZone';
 import NormalBanner from '~/component/Layout/components/NormalBanner';
+import * as animalsService from '~/api/animalsService';
 
 function Habitats() {
 
-    const [item, setItem] = useState(dataGallery);
-    const habitatZone = [...new Set(dataHabitatZone.map((val) => val.type))];
+    const [animals, setAnimals] = useState(null);
 
-    const filterHabitat = (temp) => {
-        const newHabitat = dataGallery.filter((newval) => newval.type === temp);
-        setItem(newHabitat);
+    const [habitats, setHabitats] = useState(null);
+
+    const fetchApi = async () => {
+        const resultAnimal = await animalsService.getAnimals();
+        setAnimals(resultAnimal);
+
+        const resultHabitat = await animalsService.getHabitats();
+        setHabitats(resultHabitat);
     }
+
+    useEffect(() => {
+        fetchApi();
+    }, []);
 
     return (
         <>
@@ -26,14 +30,8 @@ function Habitats() {
                     <NormalBanner />
                 </div>
                 <div className={styles.habitat}>
-                    <HabitatZone
-                        habitatZone={habitatZone}
-                        filterHabitat={filterHabitat}
-                    />
+                    <HabitatZone animals={animals} habitats={habitats} />
                 </div>
-                {/* <div className={styles.main__content}>
-                    <Gallery item={item} />
-                </div> */}
             </div>
         </>
     );
