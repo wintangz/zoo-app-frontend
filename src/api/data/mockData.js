@@ -1,5 +1,4 @@
 import { tokens } from "../../theme";
-import api from "~/utils/axiosClient";
 // export const getUser = async () => {
 //     try {
 //         const token = localStorage.getItem('token');

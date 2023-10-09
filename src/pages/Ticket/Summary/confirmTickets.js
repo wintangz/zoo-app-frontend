@@ -3,16 +3,19 @@
 import styles from './Summary.module.scss';
 
 function ConfirmTickets(props) {
-    // const ticket = useContext(TicketContext);
-    // const { totalPrice, totalQuantity } = useContext(TicketContext);
     return (
-        <tr className={styles.table_row}>
-            <td></td>
-            <td>dfndj</td>
-            <td>18000</td>
-            <td>1</td>
-            <td>555555</td>
-        </tr>
+        props.cart.map((cart) =>
+            cart.quantity !== 0 && (
+                <tr className={styles.table_row}>
+                    <td><img alt="lorem" src={cart.imgUrl} /></td>
+                    <td>{cart.name}</td>
+                    <td>{cart.price === 0 ? 'Free' : cart.price}</td>
+                    <td>{cart.quantity}</td>
+                    <td>{cart.totalItemPrice === 0 ? 'Free' : cart.price}</td>
+                </tr>
+            )
+        )
+
     )
 }
 
