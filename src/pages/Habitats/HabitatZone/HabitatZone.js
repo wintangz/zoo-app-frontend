@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import styles from "./HabitatZone.module.scss";
-import dataGallery from "../Gallery/dataGallery";
 import Gallery from "../Gallery/Gallery";
-import { dataHabitatZone } from "./dataHabitatZone";
 
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 function HabitatZone({ animals, habitats }) {
 
-    const [item, setItem] = useState(animals);
-    const habitatZone = [...new Set(habitats.map((val) => val.name))];
+    const [item, setItem] = useState(animals || []);
+    const habitatZone = [...new Set((habitats || []).map((val) => val.name))];
+
 
     const filterHabitat = (temp) => {
         const newHabitat = animals.filter((newval) => newval.habitat === temp);
