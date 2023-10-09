@@ -1,14 +1,13 @@
-import { useState } from 'react';
 import NormalBanner from '~/component/Layout/components/NormalBanner';
 import styles from './Summary.module.scss';
 import ConfirmTickets from './confirmTickets';
 import Information from './information';
 
-import { createContext } from 'react';
+// import { createContext, useState } from 'react';
 
-export const TicketContext = createContext();
+// export const TicketContext = createContext();
 function Summary() {
-    const [confirm, setConfirm] = useState()
+    // const [confirm, setConfirm] = useState([])
     return (<>
         <div className={styles.imgbanner}>
             <NormalBanner />
@@ -55,6 +54,8 @@ function Summary() {
                                         <ConfirmTickets confirm={confirm} />
                                     </TicketContext.Provider>
                                 })} */}
+                                <ConfirmTickets />
+                                <ConfirmTickets />
                                 <ConfirmTickets />
                                 <tr className={`${styles.table_row} ${styles.total}`}>
                                     <td className={styles.table_data}>
