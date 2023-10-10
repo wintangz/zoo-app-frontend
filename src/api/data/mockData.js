@@ -1,5 +1,6 @@
 import { tokens } from "../../theme";
 import api from "~/utils/axiosClient";
+
 export const getUser = async () => {
     try {
         const token = localStorage.getItem('token');
@@ -13,18 +14,10 @@ export const getUser = async () => {
     } catch (error) {
     }
 }
-const results = await getUser();
 
-export const mockDataTeam = results.map((user) => ({
-    id: user.id,
-    name: user.lastname + ' ' + user.firstname,
-    email: user.email,
-    age: user.birthdate,
-    phone: user.phone,
-    access: user.roles[0].name
-}))
 
-console.log(mockDataTeam);
+
+// console.log(mockDataTeam);
 // export const mockDataTeam = [
 //     {
 //         id: 1,

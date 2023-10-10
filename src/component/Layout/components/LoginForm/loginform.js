@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import jwt_decode from "jwt-decode";
 import { useEffect } from 'react';
 import * as Yup from 'yup';
 
@@ -30,12 +29,12 @@ function LoginForm({ open, setOpenRegisterForm }) {
             // Handle the response as needed
             localStorage.setItem('token', response.data.accessToken);
             var token = response.data.accessToken;
-            decode(token);
+            var tokendecode = decode(token);
             // Close the modal or perform other actions
             if (response.status === 200) {
-                decode.roles.map((role) => {
+                tokendecode.roles.map((role) => {
                     if (role === 'ADMIN') {
-                        window.location = '/dashboard';
+                        window.location = '/team';
                     }
                 })
                 // if (localStorage.getItem('role')) {
