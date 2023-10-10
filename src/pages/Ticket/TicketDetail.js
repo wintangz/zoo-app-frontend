@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { useAppContext } from '~/context';
 import styles from './Ticket.module.scss';
 
 
 export default function TicketDetail(props) {
-    const [value, setValue] = useState(0);
-    // const totalQty = useContext(TotalQuantityContext);
     const { setCart, cart } = useAppContext()
+
+    const [value, setValue] = useState(0)
     const PlusPrice = () => {
         setValue(value + 1);
         props.increaseQuantity(props.ticket.price);
@@ -17,6 +17,7 @@ export default function TicketDetail(props) {
             } : item
         }
         ));
+        localStorage.setItem(`ticket_${props.ticket.id}`, (value + 1).toString());
     };
     const MinPrice = () => {
         if (value > 0) {
@@ -27,8 +28,24 @@ export default function TicketDetail(props) {
                     ...item, quantity: item.quantity - 1, totalItemPrice: (item.quantity - 1) * item.price
                 } : item
             }));
+            localStorage.setItem(`ticket_${props.ticket.id}`, (value - 1).toString());
         }
     };
+    useEffect(() => {
+        const storedValue = localStorage.getItem(`ticket_${props.ticket.id}`);
+        if (storedValue) {
+            setValue(parseInt(storedValue, 10));
+        }
+        const clearTicketLocalStorage = () => {
+            localStorage.removeItem(`ticket_${props.ticket.id}`);
+        };
+
+        window.addEventListener('beforeunload', clearTicketLocalStorage);
+
+        return () => {
+            window.removeEventListener('beforeunload', clearTicketLocalStorage);
+        };
+    }, [props.ticket.id]);
 
 
     return (

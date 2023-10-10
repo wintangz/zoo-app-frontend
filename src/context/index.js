@@ -7,7 +7,7 @@ export const useAppContext = () => useContext(AppContext);
 export default function Context({ children }) {
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalQuantity, setTotalQuantity] = useState(0)
-    const [auth, setAuth] = useState(true)//check Login
+    // const [auth, setAuth] = useState(false)//check Login
     const [tickets, setTickets] = useState([]);
     const [cart, setCart] = useState([]);
 
@@ -22,7 +22,7 @@ export default function Context({ children }) {
     }, []);
 
     return (
-        <AppContext.Provider value={{ auth, setAuth, totalPrice, totalQuantity, setTotalPrice, setTotalQuantity, tickets, setTickets, setCart, cart }}>
+        <AppContext.Provider value={{ totalPrice, totalQuantity, setTotalPrice, setTotalQuantity, tickets, setTickets, setCart, cart }}>
             {children}
         </AppContext.Provider>
     );

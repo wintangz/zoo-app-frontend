@@ -5,6 +5,7 @@ import { faFacebookF, faInstagram, faPinterestP } from '@fortawesome/free-brands
 import { faCalendar, faMap } from '@fortawesome/free-regular-svg-icons';
 import { } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 import { logo } from '~/utils/assets-src';
 function Footer() {
     const cx = classNames.bind(styles);
@@ -126,12 +127,12 @@ function Footer() {
                     </div>
                 </div>
                 <div className="viewmap">
-                    <a className="viewmapbutton" href="/maps">
+                    <Link className="viewmapbutton" to={"/maps"}>
                         View Maps!
                         <span>
                             <FontAwesomeIcon icon={faMap} />
                         </span>
-                    </a>
+                    </Link>
                 </div>
                 <div className="authorize">
                     <div className="copy-right">

@@ -2,6 +2,7 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { BannerPageContext, NamePageContext } from '~/App';
 import styles from './NormalBanner.module.scss';
 function NormalBanner() {
@@ -23,10 +24,10 @@ function NormalBanner() {
                     <h1 className={cx('banner--title')}>{NamePage}</h1>
                     <div >
                         <h3 className={cx('banner--nav')}>
-                            <a className={cx('banner--nav--home')} href='/'>
+                            <Link className={cx('banner--nav--home')} to={'/'}>
                                 <span className={cx('nav--home--icon')}><FontAwesomeIcon icon={faHouse} /></span>
                                 <p className={cx('nav--home--text')}>Home</p>
-                            </a>
+                            </Link>
                             <div className={cx('line')}>­</div>
                             <p className={cx('nav--cur')}>{NamePage}</p>
                         </h3>
