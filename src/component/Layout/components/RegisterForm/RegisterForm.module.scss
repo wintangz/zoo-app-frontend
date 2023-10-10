@@ -58,11 +58,16 @@
                 border-radius: 6px;
                 padding: 0 1vh;
                 margin-top: 0.8vh;
+                transition: border 0.3s ease-in-out;
+            }
+
+            input:focus {
+                border: 1px solid rgb(248, 191, 2);
             }
 
             .error {
                 color: red;
-                font-size: 0.9em;
+                font-size: 1rem;
                 margin-bottom: -0.3em;
             }
         }

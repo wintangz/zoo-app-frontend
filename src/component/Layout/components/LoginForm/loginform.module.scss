@@ -93,6 +93,12 @@
                     padding-left: 0.8vw;
                     margin-top: 2vh;
                     font-size: large;
+                    transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+                }
+
+                .input:focus {
+                    border: 1px solid rgba(248, 191, 2, 0.5);
+                    box-shadow: 0 0 20px rgba(248, 191, 2, 0.4);
                 }
             }
 

@@ -56,6 +56,7 @@
                             height: 7vh;
                             width: 24vw;
                             padding: 3vh;
+                            font-size: 1rem;
                         }
 
                         input:focus {
@@ -77,6 +78,7 @@
                             width: 50vw;
                             height: 18vh;
                             padding: 3vh;
+                            font-size: 1rem;
                         }
 
                         textarea:focus {
@@ -137,6 +139,7 @@
                 flex-direction: column;
                 align-items: flex-start;
                 margin-right: 10vw;
+                font-size: 1.5rem;
 
                 div {
                     display: flex;
@@ -163,9 +166,7 @@
 
                             svg {
                                 min-width: 40px;
-                                height: 5vh;
-
-
+                                height: 6vh;
                             }
                         }
 

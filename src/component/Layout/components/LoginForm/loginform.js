@@ -103,7 +103,7 @@ function LoginForm({ open, setOpenRegisterForm }) {
                                 name="username"
                                 component="div"
                                 className={styles.error}
-                                style={{ color: 'red' }}
+                                style={{ color: 'red', fontSize: '1.2rem' }}
                             />
                         </div>
 
@@ -117,11 +117,11 @@ function LoginForm({ open, setOpenRegisterForm }) {
                                 name="password"
                                 component="div"
                                 className={styles.error}
-                                style={{ color: 'red' }}
+                                style={{ color: 'red', fontSize: '1.2rem' }}
                             />
                         </div>
 
-                        <div>
+                        <div style={{ fontSize: '1rem' }}>
                             Don't have Account yet, <b onClick={handleRegisterClick} className={styles.linkBtn}>Register now!!!</b>
                         </div>
 

@@ -43,18 +43,6 @@ function HabitatZone({ animals, habitats }) {
                                 ></div>
                                 <div className={cx("zone--title")}>{component.name}</div>
                                 <div className={cx("zone--title-hover")}></div>
-                                <div
-                                    className={cx("zone--hover")}
-                                    style={{
-                                        background: "url(" + component.hoverImage + ") no-repeat",
-                                        backgroundSize: "cover",
-                                        right: "7%",
-                                        width: "50%",
-                                        height: "100%",
-                                        position: "absolute",
-                                        opacity: 0,
-                                    }}
-                                ></div>
                             </div>
                         ))}
                     {/* Add Gallery component for each zone */}
