@@ -38,6 +38,7 @@ function HabitatZone({ animals, habitats }) {
                                         background: "url(" + component.imgUrl + ")",
                                         backgroundRepeat: "no-repeat",
                                         backgroundSize: "cover",
+                                        backgroundPosition: "center bottom -200px",
                                     }}
                                 ></div>
                                 <div className={cx("zone--title")}>{component.name}</div>
