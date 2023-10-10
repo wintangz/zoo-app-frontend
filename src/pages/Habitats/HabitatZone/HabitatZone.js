@@ -1,27 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./HabitatZone.module.scss";
 import Gallery from "../Gallery/Gallery";
+import InfiniteScroll from "react-infinite-scroll-hook";
 
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 function HabitatZone({ animals, habitats }) {
-
-    const [item, setItem] = useState(animals || []);
+    const [items, setItems] = useState(animals || []);
     const habitatZone = [...new Set((habitats || []).map((val) => val.name))];
-
+    const [selectedZone, setSelectedZone] = useState(null);
 
     const filterHabitat = (temp) => {
         const newHabitat = animals.filter((newval) => newval.habitat === temp);
-        setItem(newHabitat);
-    }
-
-    const [selectedZone, setSelectedZone] = useState(null);
+        setItems(newHabitat);
+    };
 
     const handleZoneClick = (zone) => {
         filterHabitat(zone);
-        setSelectedZone(selectedZone === zone ? null : zone); // Toggle the selected zone
+        setSelectedZone(selectedZone === zone ? null : zone);
     };
+
+    const loadMoreItems = () => {
+        // Add logic to load more items (e.g., fetch from API)
+        // For this example, I'm just adding 5 more items each time
+        const moreItems = (animals || []).slice(items.length, items.length + 5);
+        setItems([...items, ...moreItems]);
+    };
+
+    const [infiniteRef] = InfiniteScroll({
+        loading: false, // You can set this to true if you want to load items initially
+        hasNextPage: true, // Set to false when you've loaded all items
+        onLoadMore: loadMoreItems,
+        rootMargin: "0px 0px 100px 0px", // Adjust as needed
+    });
 
     return (
         <div className={styles.btnList}>
@@ -48,7 +60,9 @@ function HabitatZone({ animals, habitats }) {
                     {/* Add Gallery component for each zone */}
                     {selectedZone === zone && (
                         <div key={`gallery-${zone}`} className={styles.galleryWrapper}>
-                            <Gallery item={animals.filter((item) => item.habitat === zone)} />
+                            <div ref={infiniteRef}>
+                                <Gallery item={items.filter((item) => item.habitat === zone)} />
+                            </div>
                         </div>
                     )}
                 </div>
