@@ -27,11 +27,6 @@ function Header() {
                     if (element.textContent === "Ticket") {
                         element.classList.add(styles.active);
                     }
-                } else if (element.textContent === NamePage) {
-                } else if (NamePage === "Summary") {
-                    if (element.textContent === "Ticket") {
-                        element.classList.add(styles.active);
-                    }
                 }
                 else if (element.textContent === NamePage) {
                     element.classList.add(styles.active);
