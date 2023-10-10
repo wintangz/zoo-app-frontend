@@ -53,7 +53,7 @@ function Summary() {
                                     <th>Ticket</th>
                                     <th>Unit Price</th>
                                     <th>Quantity</th>
-                                    <th>Price</th>
+                                    <th>Total Price</th>
                                 </tr>
                                 <ConfirmTickets cart={cart} />
                                 <tr className={`${styles.table_row} ${styles.total}`}>

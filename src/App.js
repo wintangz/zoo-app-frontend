@@ -1,15 +1,21 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { createContext } from 'react';
-import { publicRoutes } from '~/routes';
+import { Fragment, createContext, useEffect } from 'react';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { DefaultLayout } from '~/component/Layout';
-import { Fragment } from 'react';
-import ScrollToTop from './component/ScrollToTop';
+import { publicRoutes } from '~/routes';
 import AnimalLayout from './component/Layout/AnimalLayout/animalLayout';
+import ScrollToTop from './component/ScrollToTop';
 import Animals from './pages/Animals/Animals';
 
 export const NamePageContext = createContext();
 export const BannerPageContext = createContext();
 function App() {
+    useEffect(() => {
+        // Clear localStorage when the application starts
+        localStorage.removeItem('ticket_1');
+        localStorage.removeItem('ticket_2');
+        localStorage.removeItem('ticket_3');
+        localStorage.removeItem('ticket_4');
+    }, []);
     return (
         <Router>
 

@@ -1,5 +1,6 @@
-import { createContext } from 'react';
+import { createContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import LoginForm from '~/component/Layout/components/LoginForm/loginform';
 import NormalBanner from '~/component/Layout/components/NormalBanner';
 import { useAppContext } from '~/context';
 import styles from './Ticket.module.scss';
@@ -10,6 +11,7 @@ import TicketDetail from './TicketDetail';
 export const TicketContext = createContext();
 function Ticket() {
     const { setTotalQuantity, setTotalPrice, totalPrice, tickets, auth } = useAppContext();
+    const [open, setOpen] = useState(false);
     const handleIncreaseQuantity = (price) => {
         // console.log(price)
         setTotalQuantity(prev => prev + 1)
@@ -20,7 +22,6 @@ function Ticket() {
         setTotalQuantity(prev => prev - 1)
         setTotalPrice(prev => prev - Number(price))
     }
-    // const contextValue = { totalPrice, totalQuantity };
 
     // useEffect(() => {
     //     if (totalQuantity == 0) {
@@ -48,7 +49,7 @@ function Ticket() {
                         <th className={styles.table_header}>Price</th>
                         <th className={styles.table_header}>Quantity</th>
                     </tr>
-                    {tickets.map(ticket => {
+                    {tickets && tickets.map(ticket => {
                         return <TicketDetail ticket={ticket}
                             // key={ticket.id}
                             increaseQuantity={(price) => handleIncreaseQuantity(price)}
@@ -63,10 +64,13 @@ function Ticket() {
                 </table>
             </div>
             <div className={styles.buy}>
-                {/* {auth ? <Link to="/summary" className={styles.btn}>Buy</Link>
-                    : <Link to="/" className={styles.btn}>Buy</Link>
+                {/* {auth ? <Link to="/summary" className={styles.btn}>Checkout</Link>
+                    : <Link onClick={() => setOpen(true)} className={styles.btn}>Checkout</Link>
                 } */}
-                <Link to="/summary" className={styles.btn}>CheckOut</Link>
+                <Link to={localStorage.getItem("token") ? "/summary" : undefined} onClick={localStorage.getItem("token") ? undefined : () => setOpen(true)} className={styles.btn}>
+                    CheckOut
+                </Link>
+                {open && <LoginForm open={setOpen} />}
             </div>
         </>
     )
