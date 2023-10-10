@@ -12,7 +12,6 @@ function Home() {
             <News />
             <Zone />
             <Animals />
-            <NewWiddle />
         </div>
     );
 }

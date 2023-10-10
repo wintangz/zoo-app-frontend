@@ -27,7 +27,7 @@ export default function Information() {
             </div>
             <div className={styles.card}>
                 <div className={styles.card_header}>
-                    <h5>Method Of Payment</h5>
+                    <h5>Payment Method</h5>
                 </div>
                 <div className={styles.card_body}>
                     <p>Selected payment type:</p>

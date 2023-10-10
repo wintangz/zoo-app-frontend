@@ -1,13 +1,23 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from '~/theme';
-import { mockDataTeam } from '~/api/data/mockData';
+import * as mockData from '~/api/data/mockData';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import AdminHeader from '~/component/Layout/components/AdminHeader';
+import { useEffect, useState } from 'react';
 
 function Team() {
+    const [users, setUsers] = useState(null);
+    const fetchapi = async () => {
+        const result = await mockData.getUser();
+        setUsers(result);
+    };
+    useEffect(() => {
+        fetchapi();
+    }, []);
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
@@ -16,13 +26,14 @@ function Team() {
             headerName: 'ID',
         },
         {
-            field: 'name',
+            field: 'firstname', // Keep the field as 'firstname'
             headerName: 'Name',
             flex: 1,
             cellClassName: 'name-column--cell',
+            valueGetter: (params) => `${params.row.lastname} ${params.row.firstname}`,
         },
         {
-            field: 'age',
+            field: 'birthDate',
             headerName: 'Age',
             type: 'number',
             headerAlign: 'left',
@@ -39,10 +50,16 @@ function Team() {
             flex: 1,
         },
         {
-            field: 'access',
+            field: 'roles',
             headerName: 'Access Level',
             flex: 1,
-            renderCell: ({ row: { access } }) => {
+            valueGetter: (params) => {
+                // Assuming 'roles' is an array of objects with 'name' property
+                const roleNames = params.row.roles.map((role) => role.name).join(', ');
+                return roleNames;
+            },
+            renderCell: ({ row }) => {
+                const roles = row.roles;
                 return (
                     <Box
                         width="60%"
@@ -50,14 +67,14 @@ function Team() {
                         p="5px"
                         display="flex"
                         justifyContent="center"
-                        backgroundColor={access === 'admin' ? colors.greenAccent[600] : colors.greenAccent[700]}
+                        backgroundColor={roles[0].name === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
                         borderRadius="4px"
                     >
-                        {access === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
-                        {access === 'STAFF' && <SecurityOutlinedIcon />}
-                        {access === 'ZOO_TRAINER' && <LockOpenOutlinedIcon />}
+                        {roles[0].name === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
+                        {roles[0].name === 'STAFF' && <SecurityOutlinedIcon />}
+                        {roles[0].name === 'ZOO_TRAINER' && <LockOpenOutlinedIcon />}
                         <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
-                            {access}
+                            {roles[0].name}
                         </Typography>
                     </Box>
                 );
@@ -66,7 +83,7 @@ function Team() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="TEAM" subtitle="Managing the Team Members" />
+            <AdminHeader title="User Management" subtitle="Managing the Team Members" />
             <Box
                 m="40px 0 0 0"
                 height="75vh"
@@ -97,7 +114,7 @@ function Team() {
                     },
                 }}
             >
-                <DataGrid rows={mockDataTeam} columns={columns} getRowId={(row) => row.id} />
+                {users && <DataGrid rows={users} columns={columns} getRowId={(row) => row.id} />}
             </Box>
         </Box>
     );

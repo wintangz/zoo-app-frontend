@@ -1,6 +1,7 @@
-import { createContext, useEffect, useState } from 'react';
-import * as ticketService from '~/api/ticketService';
+import { createContext } from 'react';
+import { Link } from 'react-router-dom';
 import NormalBanner from '~/component/Layout/components/NormalBanner';
+import { useAppContext } from '~/context';
 import styles from './Ticket.module.scss';
 import TicketDetail from './TicketDetail';
 
@@ -8,8 +9,7 @@ import TicketDetail from './TicketDetail';
 
 export const TicketContext = createContext();
 function Ticket() {
-    const [totalPrice, setTotalPrice] = useState(0)
-    const [totalQuantity, setTotalQuantity] = useState(0)
+    const { setTotalQuantity, setTotalPrice, totalPrice, tickets, auth } = useAppContext();
     const handleIncreaseQuantity = (price) => {
         // console.log(price)
         setTotalQuantity(prev => prev + 1)
@@ -21,16 +21,6 @@ function Ticket() {
         setTotalPrice(prev => prev - Number(price))
     }
     // const contextValue = { totalPrice, totalQuantity };
-    const [tickets, setTickets] = useState([]);
-
-    const fetchData = async () => {
-        const result = await ticketService.getTickets();
-        setTickets(result);
-    }
-
-    useEffect(() => {
-        fetchData();
-    }, []);
 
     // useEffect(() => {
     //     if (totalQuantity == 0) {
@@ -40,7 +30,6 @@ function Ticket() {
     // }, [totalQuantity])
 
     return (
-        // <TicketContext.Provider value={contextValue}>
         <>
             <div className={styles.imgbanner}>
                 <NormalBanner />
@@ -68,16 +57,18 @@ function Ticket() {
 
                     <tr className={`${styles.table_row} ${styles.total}`}>
                         <td colSpan='4' className={styles.table_data}>
-                            <b>Total Price: {totalPrice}</b>
+                            <b>Total Price: {totalPrice} VND</b>
                         </td>
                     </tr>
                 </table>
             </div>
             <div className={styles.buy}>
-                <a href="/summary" className={styles.btn}>Buy</a>
+                {/* {auth ? <Link to="/summary" className={styles.btn}>Buy</Link>
+                    : <Link to="/" className={styles.btn}>Buy</Link>
+                } */}
+                <Link to="/summary" className={styles.btn}>CheckOut</Link>
             </div>
         </>
-        // </TicketContext.Provider>
     )
 }
 
