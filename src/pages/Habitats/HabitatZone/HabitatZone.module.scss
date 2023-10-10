@@ -3,7 +3,6 @@
     .zone {
         position: relative;
         overflow: hidden;
-        cursor: pointer;
 
         .zone--welcome {
             display: flex;
@@ -49,6 +48,7 @@
             position: relative;
             height: 40vh;
             width: 100vw;
+            cursor: pointer;
 
             .overlay {
                 position: absolute;
@@ -109,12 +109,12 @@
             }
 
             .zone--hover {
-                // position: absolute;
+                position: absolute;
                 // right: 7%;
-                // width: 50%;
+                // width: 10%;
                 // height: 100%;
-                // opacity: 0;
-                // background: transparent;
+                opacity: 0;
+                background: transparent;
                 transition: all 0.5s;
             }
         }
