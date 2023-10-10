@@ -1,14 +1,19 @@
-import { useState } from 'react';
 import NormalBanner from '~/component/Layout/components/NormalBanner';
+import { useAppContext } from '~/context';
 import styles from './Summary.module.scss';
 import ConfirmTickets from './confirmTickets';
 import Information from './information';
 
-import { createContext } from 'react';
-
-export const TicketContext = createContext();
 function Summary() {
-    const [confirm, setConfirm] = useState()
+    const { cart, totalPrice, totalQuantity } = useAppContext()
+    // const handleSubmitBuy = async () => {
+    //     try {
+    //         // const {data} = await axios.post('/')
+    //         alert(totalQuantity);
+    //     } catch (error) {
+
+    //     }
+    // }
     return (<>
         <div className={styles.imgbanner}>
             <NormalBanner />
@@ -50,21 +55,20 @@ function Summary() {
                                     <th>Quantity</th>
                                     <th>Price</th>
                                 </tr>
-                                {/* {confirm.map(confirm => {
-                                    return <TicketContext.Provider value={confirm.ticket}>
-                                        <ConfirmTickets confirm={confirm} />
-                                    </TicketContext.Provider>
-                                })} */}
-                                <ConfirmTickets />
+                                <ConfirmTickets cart={cart} />
                                 <tr className={`${styles.table_row} ${styles.total}`}>
                                     <td className={styles.table_data}>
-                                        <b>Total:</b>
+                                        <b>Total: {totalPrice}</b>
+                                        <b>Total quantity: {totalQuantity}</b>
                                     </td>
                                 </tr>
                             </table>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className={styles.btn}>
+                {/* <button onClick={handleSubmitBuy} className={styles.btn}>Buy</button> */}
             </div>
         </div>
     </>)

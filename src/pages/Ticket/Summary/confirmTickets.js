@@ -1,19 +1,21 @@
-import { useContext } from 'react';
+// import { useContext } from 'react';
 // import { TicketContext } from '../index';
-import { TicketContext } from '..';
 import styles from './Summary.module.scss';
 
 function ConfirmTickets(props) {
-    const ticket = useContext(TicketContext);
-    // const { totalPrice, totalQuantity } = useContext(TicketContext);
     return (
-        <tr className={styles.table_row}>
-            <td></td>
-            <td>{props.ticket}</td>
-            <td>18000</td>
-            <td>1</td>
-            <td>{props.totalPrice}</td>
-        </tr>
+        props.cart.map((cart) =>
+            cart.quantity !== 0 && (
+                <tr className={styles.table_row}>
+                    <td><img alt="lorem" src={cart.imgUrl} /></td>
+                    <td>{cart.name}</td>
+                    <td>{cart.price === 0 ? 'Free' : cart.price}</td>
+                    <td>{cart.quantity}</td>
+                    <td>{cart.totalItemPrice === 0 ? 'Free' : cart.price}</td>
+                </tr>
+            )
+        )
+
     )
 }
 

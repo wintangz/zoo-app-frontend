@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import styles from "./HabitatZone.module.scss";
-import dataGallery from "../Gallery/dataGallery";
 import Gallery from "../Gallery/Gallery";
-import { dataHabitatZone } from "./dataHabitatZone";
 
 import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
-function HabitatZone({ habitatZone, filterHabitat }) {
+function HabitatZone({ animals, habitats }) {
+
+    const [item, setItem] = useState(animals || []);
+    const habitatZone = [...new Set((habitats || []).map((val) => val.name))];
+
+
+    const filterHabitat = (temp) => {
+        const newHabitat = animals.filter((newval) => newval.habitat === temp);
+        setItem(newHabitat);
+    }
+
     const [selectedZone, setSelectedZone] = useState(null);
 
     const handleZoneClick = (zone) => {
@@ -19,8 +27,8 @@ function HabitatZone({ habitatZone, filterHabitat }) {
         <div className={styles.btnList}>
             {habitatZone.map((zone) => (
                 <div key={zone} className={cx("zone")} onClick={() => handleZoneClick(zone)}>
-                    {dataHabitatZone
-                        .filter((component) => component.type === zone)
+                    {habitats
+                        .filter((component) => component.name === zone)
                         .map((component) => (
                             <div key={component.name} className={cx("zone--container")}>
                                 <div className={cx("overlay")}></div>
@@ -51,7 +59,7 @@ function HabitatZone({ habitatZone, filterHabitat }) {
                     {/* Add Gallery component for each zone */}
                     {selectedZone === zone && (
                         <div key={`gallery-${zone}`} className={styles.galleryWrapper}>
-                            <Gallery item={dataGallery.filter((item) => item.type === zone)} />
+                            <Gallery item={animals.filter((item) => item.habitat === zone)} />
                         </div>
                     )}
                 </div>

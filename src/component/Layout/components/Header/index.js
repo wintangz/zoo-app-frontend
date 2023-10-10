@@ -17,11 +17,17 @@ function Header() {
         const child = document.querySelectorAll(`.${styles.dropdown_item}`);
         if (headerNavItems.length > 0) {
             // Loop through the NodeList (similar to an HTMLCollection) using forEach
+            console.log(NamePage);
             headerNavItems.forEach((element, index) => {
                 if (typeof (NamePage) === 'undefined' || NamePage === "Maps" || NamePage === "Habitats") {
                     if (element.textContent === "ExploreAnimalsHabitatsZooMap") {
                         element.classList.add(styles.active);
                     }
+                } else if (NamePage === "Summary") {
+                    if (element.textContent === "Ticket") {
+                        element.classList.add(styles.active);
+                    }
+                } else if (element.textContent === NamePage) {
                 } else if (NamePage === "Summary") {
                     if (element.textContent === "Ticket") {
                         element.classList.add(styles.active);

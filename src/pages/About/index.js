@@ -92,7 +92,7 @@ function About() {
                         style={{
                             position: "absolute",
                             width: "100%",
-                            top: "64vh",
+                            top: "68vh",
                         }}
                     >
                         <div className={styles.map}>
