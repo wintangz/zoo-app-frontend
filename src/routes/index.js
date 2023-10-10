@@ -17,8 +17,8 @@ import Summary from '~/pages/Ticket/Summary/index';
 //Admin routes
 import Bar from '~/pages/AdminPage/Bar/index';
 import Calendar from '~/pages/AdminPage/Calendar';
-import Contacts from '~/pages/AdminPage/Contacts';
-import Dashboard from '~/pages/AdminPage/Dashboard';
+// import Contacts from '~/pages/AdminPage/Contacts';
+// import Dashboard from '~/pages/AdminPage/Dashboard';
 import FAQ from '~/pages/AdminPage/FAQ';
 import Form from '~/pages/AdminPage/Form';
 import Geography from '~/pages/AdminPage/Geography';
@@ -37,9 +37,9 @@ const publicRoutes = [
     { path: 'maps', component: Maps, layout: NormalLayout, name: 'Maps' },
 
     // Admin routes
-    { path: 'dashboard', component: Dashboard, layout: AdminMainPage, name: 'Dasboard', Authen: "private" },
+    // { path: 'dashboard', component: Dashboard, layout: AdminMainPage, name: 'Dasboard', Authen: "private" },
     { path: 'bar', component: Bar, layout: AdminMainPage, name: 'Bar', Authen: "private" },
-    { path: 'contacts', component: Contacts, layout: AdminMainPage, name: 'Contacts', Authen: "private" },
+    // { path: 'contacts', component: Contacts, layout: AdminMainPage, name: 'Contacts', Authen: "private" },
     { path: 'faq', component: FAQ, layout: AdminMainPage, name: 'FAQ', Authen: "private" },
     { path: 'form', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'geography', component: Geography, layout: AdminMainPage, name: 'Geography', Authen: "private" },

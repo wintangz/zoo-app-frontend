@@ -1,9 +1,9 @@
 import { Box, Typography, useTheme } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '~/theme';
 import * as mockData from '~/api/data/mockData';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
+import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,14 @@ function Team() {
     const [users, setUsers] = useState(null);
     const fetchapi = async () => {
         const result = await mockData.getUser();
+        console.log(result);
+        result.map((element) => {
+            element.roles.map((role) => {
+                if (role.name === 'ZOO_TRAINER') {
+                    return (role.name = 'TRAINER');
+                }
+            });
+        });
         setUsers(result);
     };
     useEffect(() => {
@@ -33,16 +41,27 @@ function Team() {
             valueGetter: (params) => `${params.row.lastname} ${params.row.firstname}`,
         },
         {
-            field: 'birthDate',
+            field: 'dateOfBirth',
             headerName: 'Age',
-            type: 'number',
+            headerAlign: 'left',
+            align: 'left',
+            flex: 1,
+        },
+        {
+            field: 'nationality',
+            headerName: 'National',
+            headerAlign: 'left',
+            align: 'left',
+        },
+        {
+            field: 'address',
+            headerName: 'Address',
             headerAlign: 'left',
             align: 'left',
         },
         {
             field: 'phone',
             headerName: 'Phone Number',
-            flex: 1,
         },
         {
             field: 'email',
@@ -72,7 +91,7 @@ function Team() {
                     >
                         {roles[0].name === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
                         {roles[0].name === 'STAFF' && <SecurityOutlinedIcon />}
-                        {roles[0].name === 'ZOO_TRAINER' && <LockOpenOutlinedIcon />}
+                        {roles[0].name === 'TRAINER' && <PetsOutlinedIcon />}
                         <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
                             {roles[0].name}
                         </Typography>
@@ -112,9 +131,21 @@ function Team() {
                     '& .MuiCheckbox-root': {
                         color: `${colors.greenAccent[200]} !important`,
                     },
+                    '& .MuiDataGrid-toolbarContainer .MuiButton-text': {
+                        color: `${colors.grey[100]} !important`,
+                    },
                 }}
             >
-                {users && <DataGrid rows={users} columns={columns} getRowId={(row) => row.id} />}
+                {users && (
+                    <DataGrid
+                        rows={users}
+                        columns={columns}
+                        getRowId={(row) => row.id}
+                        components={{ Toolbar: GridToolbar }}
+                        checkboxSelection
+                        disableRowSelectionOnClick
+                    />
+                )}
             </Box>
         </Box>
     );

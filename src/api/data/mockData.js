@@ -1,6 +1,5 @@
 import { tokens } from "../../theme";
 import api from "~/utils/axiosClient";
-
 export const getUser = async () => {
     try {
         const token = localStorage.getItem('token');
@@ -15,7 +14,29 @@ export const getUser = async () => {
     }
 }
 
+export const createStaff = async (values) => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        const res = await api.post('users/staff', values, config)
+        return res;
+    } catch (error) {
+    }
+}
+// const results = await getUser();
 
+// export const mockDataTeam = results.map((user) => ({
+//     id: user.id,
+//     name: user.lastname + ' ' + user.firstname,
+//     email: user.email,
+//     age: user.birthdate,
+//     phone: user.phone,
+//     access: user.roles[0].name
+// }))
 
 // console.log(mockDataTeam);
 // export const mockDataTeam = [

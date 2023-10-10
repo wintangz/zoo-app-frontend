@@ -9,9 +9,9 @@ export const get = async (path, options = {}) => {
     return response.data
 }
 
-export const post = async (path, options = {}) => {
-    const response = await api.post(path, options = {});
-    return response.data
+export const post = async (path, options = {}, values) => {
+    const response = await api.post(path, values, options = {});
+    return response
 }
 
 export const decode = (token) => {
