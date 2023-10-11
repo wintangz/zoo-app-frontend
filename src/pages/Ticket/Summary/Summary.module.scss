@@ -1,61 +1,73 @@
 .imgbanner {
-    background-image: url('');
+    background-image: url('../../../assets/img/t2.jpg');
 }
 
 .container {
     padding-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 85%;
+    margin: 0 auto;
 
-    .progress {
+    // .progress {
 
-        .progress_bar {
-            background-color: var(--primary) !important;
-            height: 1px;
-            margin-bottom: calc((1rem + 1px)*-1);
-            max-width: 85%;
-            margin-right: auto;
-            margin-left: auto;
-        }
+    //     .progress_bar {
+    //         background-color: var(--primary) !important;
+    //         height: 1px;
+    //         margin-bottom: calc((1rem + 1px)*-1);
+    //         max-width: 85%;
+    //         margin-right: auto;
+    //         margin-left: auto;
+    //     }
 
-        .row {
-            .col {
-                position: relative;
-                display: flex;
-                justify-content: space-around;
+    //     .row {
+    //         .col {
+    //             position: relative;
+    //             display: flex;
+    //             justify-content: space-around;
 
-                .first_step {
-                    .progress_number {
-                        display: block;
-                        width: 2rem;
-                        height: 2rem;
-                        margin: auto;
-                        text-align: center;
-                        line-height: calc(2rem - 4px);
-                        color: var(--primary);
-                        border: 1.5px solid var(--primary);
-                        border-radius: 50%;
-                        background-color: #fff;
-                    }
+    //             .first_step {
+    //                 .progress_number {
+    //                     display: block;
+    //                     width: 2rem;
+    //                     height: 2rem;
+    //                     margin: auto;
+    //                     text-align: center;
+    //                     line-height: calc(2rem - 4px);
+    //                     color: var(--primary);
+    //                     border: 1.5px solid var(--primary);
+    //                     border-radius: 50%;
+    //                     background-color: #fff;
+    //                 }
 
-                    .progress_title {
-                        text-align: center;
-                    }
-                }
-            }
-        }
-    }
+    //                 .progress_title {
+    //                     text-align: center;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     .checkout_form {
+        width: 100%;
+
         .container {
             height: 100%;
+            width: 85%;
 
             .row {
+                width: 100%;
                 margin-bottom: 1.5rem !important;
                 display: flex;
                 justify-content: space-around;
 
                 .card {
-                    width: 25vw;
+                    // width: 25vw;
                     height: 21vh;
+                    width: 100%;
+                    margin-bottom: 20px;
 
                     .card_header {
                         background-color: var(--primary);
@@ -69,6 +81,8 @@
                         margin: 0;
                         background-color: #ffffff;
                         height: 100%;
+
+                        .table_data {}
                     }
                 }
             }
@@ -81,8 +95,11 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        width: 100%;
 
         .col {
+            width: 100%;
+
             .card {
                 width: 100%;
                 margin-top: 5vh;
@@ -95,8 +112,81 @@
 
                 .card_body {
                     background-color: #fff;
+
+                    .table {
+                        width: 100%;
+                        border-collapse: collapse;
+
+                        .table_row {
+                            img {
+                                width: 50%;
+                            }
+
+                            .table_data {}
+                        }
+                    }
                 }
             }
         }
+    }
+
+    .card {
+        width: 85%;
+
+        .card_header {}
+
+        .card_body {
+            .radioContainer {
+                display: flex;
+                align-items: center;
+
+                .paymentRadio {
+                    display: none;
+
+                }
+
+                .payment {
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                    border: 2px solid var(--primary);
+                    margin-right: 10px;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease-in-out;
+                    padding-left: 2vw;
+                }
+
+                .payment:hover {
+                    background-color: #f0f0f0;
+                }
+
+                .paymentRadio:checked+.payment {
+                    background-color: var(--primary);
+                }
+            }
+
+        }
+    }
+
+    .btn {
+        width: 7vw;
+        height: 5vh;
+        text-align: center;
+        margin-top: 3vh;
+        margin-bottom: 2vh;
+        border: none;
+        outline: none;
+        border-radius: 3vw;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 600;
+        background: rgb(248, 191, 2);
+    }
+
+    .btn:hover {
+        background-color: white;
+        color: rgb(248, 191, 2);
+        transition: all .2s ease-in-out;
     }
 }

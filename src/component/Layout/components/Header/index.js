@@ -23,7 +23,7 @@ function Header() {
                     if (element.textContent === "ExploreAnimalsHabitatsZooMap") {
                         element.classList.add(styles.active);
                     }
-                } else if (NamePage === "Summary") {
+                } else if (NamePage === "Summary" || NamePage === "Thanks") {
                     if (element.textContent === "Ticket") {
                         element.classList.add(styles.active);
                     }

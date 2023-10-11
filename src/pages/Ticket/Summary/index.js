@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { confirmTicketPurchase } from '~/api/confirmService';
 import NormalBanner from '~/component/Layout/components/NormalBanner';
 import { useAppContext } from '~/context';
 import styles from './Summary.module.scss';
@@ -5,23 +7,32 @@ import ConfirmTickets from './confirmTickets';
 import Information from './information';
 
 function Summary() {
-    const { cart, totalPrice, totalQuantity } = useAppContext()
-    // const handleSubmitBuy = async () => {
-    //     try {
-    //         // const {data} = await axios.post('/')
-    //         alert(totalQuantity);
-    //     } catch (error) {
 
-    //     }
+    const { cart, totalPrice, totalQuantity } = useAppContext();
+    const handleSubmitBuy = async () => {
+        try {
+            const result = await confirmTicketPurchase(cart, totalPrice, totalQuantity);
+            // alert('Purchase successful');
+            window.open(result.data, '_blank');
+        } catch (error) {
+            console.error(error.message);
+            // alert('Purchase failed');
+        }
+    };
+    const [info, setInfo] = useState(null);
+
+    // const fetchApi = async () => {
+    //     const result = await getInfo();
+    //     setInfo(result);
     // }
+
     return (<>
         <div className={styles.imgbanner}>
             <NormalBanner />
         </div>
         <div className={styles.container}>
-            <div className={styles.progress}>
+            {/* <div className={styles.progress}>
                 <div className={styles.progress_bar}></div>
-
                 <div className={styles.row}>
                     <div className={styles.col}>
                         <div className={styles.first_step}>
@@ -34,7 +45,7 @@ function Summary() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className={styles.checkout_form}>
                 <div className={styles.container}>
                     <Information />
@@ -49,16 +60,16 @@ function Summary() {
                         <div className={styles.card_body}>
                             <table className={styles.table}>
                                 <tr className={styles.table_row}>
-                                    <th></th>
-                                    <th>Ticket</th>
-                                    <th>Unit Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total Price</th>
+                                    <th className={styles.table_data}></th>
+                                    <th className={styles.table_data}>Ticket</th>
+                                    <th className={styles.table_data}>Unit Price</th>
+                                    <th className={styles.table_data}>Quantity</th>
+                                    <th className={styles.table_data}>Total Price</th>
                                 </tr>
                                 <ConfirmTickets cart={cart} />
                                 <tr className={`${styles.table_row} ${styles.total}`}>
                                     <td className={styles.table_data}>
-                                        <b>Total: {totalPrice}</b>
+                                        <b>Total: {totalPrice} VND</b>
                                         <b>Total quantity: {totalQuantity}</b>
                                     </td>
                                 </tr>
@@ -67,8 +78,19 @@ function Summary() {
                     </div>
                 </div>
             </div>
-            <div className={styles.btn}>
-                {/* <button onClick={handleSubmitBuy} className={styles.btn}>Buy</button> */}
+            <div className={styles.card}>
+                <div className={styles.card_header}>
+                    <h5>Payment Method</h5>
+                </div>
+                <div className={styles.card_body}>
+                    <label className={styles.radioContainer}>
+                        <input type="radio" name="paymentMethod" className={styles.paymentRadio} />
+                        <span className={styles.payment}>MoMo</span>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <button onClick={handleSubmitBuy} className={styles.btn}>Buy</button>
             </div>
         </div>
     </>)

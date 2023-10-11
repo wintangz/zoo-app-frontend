@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useAppContext } from '~/context';
 import { logo_long_dark } from '~/utils/assets-src';
 import { decode } from '~/utils/axiosClient';
 import '../../../../assets/themify-icons.css';
@@ -21,7 +20,6 @@ function LoginForm({ open, setOpenRegisterForm }) {
         username: '',
         password: '',
     };
-    const { setAuth } = useAppContext();
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
