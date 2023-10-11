@@ -68,6 +68,20 @@ export const updateUser = async (id, values) => {
     } catch (error) {
     }
 }
+
+export const logout = async (values) => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        const res = await api.post('auth/logout', values, config)
+        return res;
+    } catch (error) {
+    }
+}
 // const results = await getUser();
 
 // export const mockDataTeam = results.map((user) => ({

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import Button from '@mui/material/Button';
+
 import { Link } from 'react-router-dom';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { tokens } from '~/theme';
@@ -15,10 +17,12 @@ import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import { decode } from '~/utils/axiosClient';
+import { logout } from '~/api/data/mockData';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
     return (
         <MenuItem
             active={selected === title}
@@ -39,7 +43,15 @@ const Sidebar = () => {
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [selected, setSelected] = useState('Dashboard');
-
+    const handleLogout = () => {
+        const res = logout(localStorage.getItem('token'));
+        res.then((result) => {
+            if (result.status === 200) {
+                localStorage.removeItem('token');
+                window.location = '/';
+            }
+        });
+    };
     return (
         <Box
             sx={{
@@ -199,6 +211,13 @@ const Sidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />
+                        <Button
+                            variant="contained"
+                            sx={{ width: '70%', marginTop: '2vh', marginBottom: '4vh' }}
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </Button>
                     </Box>
                 </Menu>
             </ProSidebar>
