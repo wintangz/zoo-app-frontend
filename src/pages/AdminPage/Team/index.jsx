@@ -77,27 +77,27 @@ function Team() {
                 const roleNames = params.row.roles.map((role) => role.name).join(', ');
                 return roleNames;
             },
-            renderCell: ({ row }) => {
-                const roles = row.roles;
-                return (
-                    <Box
-                        width="60%"
-                        m="0"
-                        p="5px"
-                        display="flex"
-                        justifyContent="center"
-                        backgroundColor={roles[0].name === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
-                        borderRadius="4px"
-                    >
-                        {roles[0].name === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
-                        {roles[0].name === 'STAFF' && <SecurityOutlinedIcon />}
-                        {roles[0].name === 'TRAINER' && <PetsOutlinedIcon />}
-                        <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
-                            {roles[0].name}
-                        </Typography>
-                    </Box>
-                );
-            },
+            // renderCell: ({ row }) => {
+            //     const roles = row.roles;
+            //     return (
+            //         <Box
+            //             width="60%"
+            //             m="0"
+            //             p="5px"
+            //             display="flex"
+            //             justifyContent="center"
+            //             backgroundColor={roles[0].name === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
+            //             borderRadius="4px"
+            //         >
+            //             {roles[0].name === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
+            //             {roles[0].name === 'STAFF' && <SecurityOutlinedIcon />}
+            //             {roles[0].name === 'TRAINER' && <PetsOutlinedIcon />}
+            //             <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
+            //                 {roles[0].name}
+            //             </Typography>
+            //         </Box>
+            //     );
+            // },
         },
     ];
     return (
@@ -143,7 +143,6 @@ function Team() {
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}
                         checkboxSelection
-                        disableRowSelectionOnClick
                     />
                 )}
             </Box>

@@ -26,6 +26,7 @@ import Invoices from '~/pages/AdminPage/Invoices';
 import Line from '~/pages/AdminPage/Line';
 import Pie from '~/pages/AdminPage/Pie';
 import Team from '~/pages/AdminPage/Team';
+import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
@@ -41,13 +42,14 @@ const publicRoutes = [
     { path: 'bar', component: Bar, layout: AdminMainPage, name: 'Bar', Authen: "private" },
     // { path: 'contacts', component: Contacts, layout: AdminMainPage, name: 'Contacts', Authen: "private" },
     { path: 'faq', component: FAQ, layout: AdminMainPage, name: 'FAQ', Authen: "private" },
-    { path: 'form', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'geography', component: Geography, layout: AdminMainPage, name: 'Geography', Authen: "private" },
     { path: 'invoices', component: Invoices, layout: AdminMainPage, name: 'Invoices', Authen: "private" },
     { path: 'line', component: Line, layout: AdminMainPage, name: 'Line', Authen: "private" },
     { path: 'pie', component: Pie, layout: AdminMainPage, name: 'Pie', Authen: "private" },
     { path: 'team', component: Team, layout: AdminMainPage, name: 'Team', Authen: "private" },
     { path: 'calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
+    { path: 'staff/form', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
+    { path: 'staff/update', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
 ];
 
 // private routes dont login will redirect to login pages

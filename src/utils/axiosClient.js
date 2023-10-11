@@ -14,6 +14,11 @@ export const post = async (path, options = {}, values) => {
     return response
 }
 
+export const put = async (path, options = {}, values) => {
+    const response = await api.put(path, values, options);
+    return response;
+}
+
 export const decode = (token) => {
     return jwtDecode(token);
 }

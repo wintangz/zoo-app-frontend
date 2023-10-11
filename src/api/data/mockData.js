@@ -27,6 +27,47 @@ export const createStaff = async (values) => {
     } catch (error) {
     }
 }
+
+export const getUserById = async (values) => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        const res = await api.get(`users/${values}`, config)
+        return res.data.data;
+    } catch (error) {
+    }
+}
+
+export const updateStaff = async (values) => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        const res = await api.put('users/staff', values, config)
+        return res;
+    } catch (error) {
+    }
+}
+export const updateUser = async (id, values) => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        const res = await api.put(`users/${id}`, values, config)
+        return res;
+    } catch (error) {
+    }
+}
 // const results = await getUser();
 
 // export const mockDataTeam = results.map((user) => ({
