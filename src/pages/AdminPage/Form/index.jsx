@@ -1,24 +1,24 @@
 import {
     Box,
     Button,
-    TextField,
     FormControl,
-    RadioGroup,
     FormControlLabel,
     Radio,
-    useTheme,
+    RadioGroup,
+    TextField,
     Typography,
+    useTheme,
 } from '@mui/material';
-import { Formik } from 'formik';
-import * as yup from 'yup';
+import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
-import { tokens } from '~/theme';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { createStaff } from '~/api/data/mockData';
-import Modal from '@mui/material/Modal';
+import { Formik } from 'formik';
 import { useState } from 'react';
+import * as yup from 'yup';
+import { createStaff } from '~/api/data/mockData';
+import AdminHeader from '~/component/Layout/components/AdminHeader';
+import { tokens } from '~/theme';
 
 function Form() {
     const theme = useTheme({ isDashboard: false });

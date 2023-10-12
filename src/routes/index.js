@@ -27,6 +27,7 @@ import Line from '~/pages/AdminPage/Line';
 import Pie from '~/pages/AdminPage/Pie';
 import Team from '~/pages/AdminPage/Team';
 import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
+import ThankYouPage from '~/pages/Ticket/Thanks';
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
@@ -36,6 +37,7 @@ const publicRoutes = [
     { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
     { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats', Authen: "public" },
     { path: 'maps', component: Maps, layout: NormalLayout, name: 'Maps' },
+    { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
 
     // Admin routes
     // { path: 'dashboard', component: Dashboard, layout: AdminMainPage, name: 'Dasboard', Authen: "private" },

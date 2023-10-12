@@ -68,7 +68,7 @@ function Ticket() {
                     : <Link onClick={() => setOpen(true)} className={styles.btn}>Checkout</Link>
                 } */}
                 <Link to={localStorage.getItem("token") ? "/summary" : undefined} onClick={localStorage.getItem("token") ? undefined : () => setOpen(true)} className={styles.btn}>
-                    CheckOut
+                    Check Out
                 </Link>
                 {open && <LoginForm open={setOpen} />}
             </div>
