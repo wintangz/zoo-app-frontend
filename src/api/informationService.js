@@ -1,9 +1,8 @@
 import * as axiosClient from '~/utils/axiosClient';
+import { decode } from '~/utils/axiosClient';
 
-export const getInfo = async () => {
+export const getInfo = async (token) => {
     try {
-        const res = await axiosClient.get('users')
-        const token = localStorage.getItem('token');
         const config = {
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -11,7 +10,11 @@ export const getInfo = async () => {
             }
         }
 
-        return res.data;
+        const userId = decode(token).userId;
+        // const userId = 1;
+        const result = await axiosClient.get(`users/${userId}`, config)
+
+        return result.data;
     } catch (error) {
         console.log(error);
     }

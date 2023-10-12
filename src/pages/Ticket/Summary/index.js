@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { confirmTicketPurchase } from '~/api/confirmService';
+import { getInfo } from '~/api/informationService';
 import NormalBanner from '~/component/Layout/components/NormalBanner';
 import { useAppContext } from '~/context';
 import styles from './Summary.module.scss';
@@ -21,10 +22,16 @@ function Summary() {
     };
     const [info, setInfo] = useState(null);
 
-    // const fetchApi = async () => {
-    //     const result = await getInfo();
-    //     setInfo(result);
-    // }
+    const token = localStorage.getItem('token');
+
+    const fetchApi = async () => {
+        const result = await getInfo(token);
+        setInfo(result);
+    }
+
+    useEffect(() => {
+        fetchApi();
+    }, []);
 
     return (<>
         <div className={styles.imgbanner}>
@@ -48,7 +55,7 @@ function Summary() {
             </div> */}
             <div className={styles.checkout_form}>
                 <div className={styles.container}>
-                    <Information />
+                    <Information info={info} />
                 </div>
             </div>
             <div className={styles.checkout_summary}>
@@ -85,7 +92,7 @@ function Summary() {
                 <div className={styles.card_body}>
                     <label className={styles.radioContainer}>
                         <input type="radio" name="paymentMethod" className={styles.paymentRadio} />
-                        <span className={styles.payment}>MoMo</span>
+                        <span className={styles.payment}>VNPAY</span>
                     </label>
                 </div>
             </div>

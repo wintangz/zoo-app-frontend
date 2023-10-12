@@ -10,6 +10,7 @@ export default function Context({ children }) {
     // const [auth, setAuth] = useState(false)//check Login
     const [tickets, setTickets] = useState([]);
     const [cart, setCart] = useState([]);
+    const [userAuth, setUserAuth] = useState(undefined);
 
     const fetchData = async () => {
         const result = await getTickets();
@@ -22,7 +23,7 @@ export default function Context({ children }) {
     }, []);
 
     return (
-        <AppContext.Provider value={{ totalPrice, totalQuantity, setTotalPrice, setTotalQuantity, tickets, setTickets, setCart, cart }}>
+        <AppContext.Provider value={{ userAuth, setUserAuth, totalPrice, totalQuantity, setTotalPrice, setTotalQuantity, tickets, setTickets, setCart, cart }}>
             {children}
         </AppContext.Provider>
     );

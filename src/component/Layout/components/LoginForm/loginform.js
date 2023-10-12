@@ -32,6 +32,8 @@ function LoginForm({ open, setOpenRegisterForm }) {
             var tokendecode = decode(token);
             // Close the modal or perform other actions
             if (response.status === 200) {
+                // const {data} = await getInfo(token)
+                console.log(tokendecode)
                 decode(token).roles.map((role) => {
                     if (role === 'ADMIN') {
                         window.location = '/team';
