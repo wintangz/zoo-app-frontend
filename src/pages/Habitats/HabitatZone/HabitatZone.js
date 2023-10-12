@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./HabitatZone.module.scss";
 import Gallery from "../Gallery/Gallery";
 import classNames from "classnames/bind";
-
+import hoverImg from "~/assets/hover/PNG_image.png"
 
 const cx = classNames.bind(styles);
 
@@ -42,7 +42,7 @@ function HabitatZone({ animals, habitats }) {
                                 ></div>
                                 <div className={cx("zone--title")}>{component.name}</div>
                                 <div className={cx("zone--title-hover")}></div>
-                                {/* <div
+                                <div
                                     className={cx("zone--hover")}
                                     style={{
                                         backgroundImage: `url(${hoverImg})`,
@@ -54,7 +54,7 @@ function HabitatZone({ animals, habitats }) {
                                         position: "absolute",
                                         opacity: 0,
                                     }}
-                                ></div> */}
+                                ></div>
                             </div>
                         ))}
                     {/* Add Gallery component for each zone */}
