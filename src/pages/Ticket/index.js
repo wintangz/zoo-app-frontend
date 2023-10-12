@@ -44,8 +44,8 @@ function Ticket() {
             <div className={styles.table_container}>
                 <table className={styles.table}>
                     <tr className={styles.table_row}>
-                        <th className={styles.table_header}></th>
-                        <th className={styles.table_header}>Ticket</th>
+                        <th className={styles.table_header}>Ticket Image</th>
+                        <th className={styles.table_header}>Ticket Type</th>
                         <th className={styles.table_header}>Price</th>
                         <th className={styles.table_header}>Quantity</th>
                     </tr>
