@@ -5,6 +5,7 @@ import * as mockData from '~/api/data/mockData';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { useEffect, useState } from 'react';
 
@@ -25,7 +26,6 @@ function Team() {
     useEffect(() => {
         fetchapi();
     }, []);
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
@@ -77,32 +77,33 @@ function Team() {
                 const roleNames = params.row.roles.map((role) => role.name).join(', ');
                 return roleNames;
             },
-            // renderCell: ({ row }) => {
-            //     const roles = row.roles;
-            //     return (
-            //         <Box
-            //             width="60%"
-            //             m="0"
-            //             p="5px"
-            //             display="flex"
-            //             justifyContent="center"
-            //             backgroundColor={roles[0].name === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
-            //             borderRadius="4px"
-            //         >
-            //             {roles[0].name === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
-            //             {roles[0].name === 'STAFF' && <SecurityOutlinedIcon />}
-            //             {roles[0].name === 'TRAINER' && <PetsOutlinedIcon />}
-            //             <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
-            //                 {roles[0].name}
-            //             </Typography>
-            //         </Box>
-            //     );
-            // },
+            renderCell: ({ row }) => {
+                const roles = row.roles;
+                return (
+                    <Box
+                        width="60%"
+                        m="0"
+                        p="5px"
+                        display="flex"
+                        justifyContent="center"
+                        backgroundColor={roles[0].name === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
+                        borderRadius="4px"
+                    >
+                        {roles[0].name === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
+                        {roles[0].name === 'STAFF' && <SecurityOutlinedIcon />}
+                        {roles[0].name === 'TRAINER' && <PetsOutlinedIcon />}
+                        {roles[0].name === 'CUSTOMER' && <AccountCircleOutlinedIcon />}
+                        <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
+                            {roles[0].name}
+                        </Typography>
+                    </Box>
+                );
+            },
         },
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="User Management" subtitle="Managing the Team Members" />
+            <AdminHeader title="User Management" subtitle="Show user info" />
             <Box
                 m="40px 0 0 0"
                 height="75vh"
