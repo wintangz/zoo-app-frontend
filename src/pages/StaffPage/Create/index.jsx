@@ -71,15 +71,17 @@ function CreateZooTrainer() {
         //         "name": "ADMIN"
         //     }
         // ]
-        const res = createZooTrainer(values);
-        res.then((result) => {
+
+        const test = async () => {
+            const result = await createZooTrainer(values);
+            console.log(result);
             const status = result.status;
             if (status === 200) {
                 setOpen(true);
             }
-        });
-        console.log(values);
-        resetForm();
+            resetForm();
+        };
+        test();
     };
     const initialValues = {
         username: '',

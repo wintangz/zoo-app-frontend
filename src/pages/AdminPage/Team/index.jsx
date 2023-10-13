@@ -1,13 +1,14 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { tokens } from '~/theme';
-import * as mockData from '~/api/data/mockData';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
+import { Box, Typography, useTheme } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
+import * as mockData from '~/api/data/mockData';
+import AdminHeader from '~/component/Layout/components/AdminHeader';
+import { tokens } from '~/theme';
+import { decode } from '~/utils/axiosClient';
 
 function Team() {
     const [users, setUsers] = useState(null);
@@ -23,8 +24,24 @@ function Team() {
         });
         setUsers(result);
     };
+
+    const getZooTrainer = async () => {
+        const result = await mockData.getZooTrainer();
+        setUsers(result);
+    };
+
     useEffect(() => {
-        fetchapi();
+        const token = localStorage.getItem('token');
+        decode(token).roles.map((role) => {
+            if (role === 'ADMIN') {
+                fetchapi();
+                return;
+            }
+            if (role === 'STAFF') {
+                getZooTrainer();
+                return;
+            }
+        });
     }, []);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);

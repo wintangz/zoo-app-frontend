@@ -27,15 +27,13 @@ function LoginForm({ open, setOpenRegisterForm }) {
             const response = await axios.post('http://localhost:8080/api/auth/login', values);
 
             // Handle the response as needed
-            localStorage.setItem('token', response.data.accessToken);
-            var token = response.data.accessToken;
-            var tokendecode = decode(token);
+            var token = response.data.data.accessToken;
+            localStorage.setItem('token', token);
             // Close the modal or perform other actions
             if (response.status === 200) {
                 // const {data} = await getInfo(token)
-                console.log(tokendecode)
                 decode(token).roles.map((role) => {
-                    if (role === 'ADMIN') {
+                    if (role !== 'CUSTOMER') {
                         window.location = '/team';
                     }
                 })

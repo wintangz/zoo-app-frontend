@@ -14,6 +14,20 @@ export const getUser = async () => {
     }
 }
 
+export const getZooTrainer = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        const res = await api.get('users/zoo-trainers', config)
+        return res.data.data;
+    } catch (error) {
+    }
+}
+
 export const createStaff = async (values) => {
     try {
         const token = localStorage.getItem('token');
