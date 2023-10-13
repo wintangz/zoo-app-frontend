@@ -25,31 +25,29 @@ function LoginForm({ open, setOpenRegisterForm }) {
         try {
             // Send a POST request to the login API
             const response = await axios.post('http://localhost:8080/api/auth/login', values);
+            console.log(response);
 
             // Handle the response as needed
-            localStorage.setItem('token', response.data.accessToken);
-            var token = response.data.accessToken;
-            var tokendecode = decode(token);
+            localStorage.setItem('token', response.data.data.accessToken);
+            var token = response.data.data.accessToken;
+            if (token) {
+                var tokendecode = decode(token);
+            }
             // Close the modal or perform other actions
             if (response.status === 200) {
                 // const {data} = await getInfo(token)
                 console.log(tokendecode)
-                decode(token).roles.map((role) => {
+                tokendecode.roles.map((role) => {
                     if (role === 'ADMIN') {
                         window.location = '/team';
                     }
                 })
-                // if (localStorage.getItem('role')) {
-                //     console.log("true")
-                //     window.location = '/mainPage';
-                // } else {
-                //     console.log(false);
-                // }
+
             }
             open(false);
         } catch (error) {
             // Handle errors
-            console.error('Error during login:', error);
+            console.error(error);
         } finally {
             setSubmitting(false);
         }

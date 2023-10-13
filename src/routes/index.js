@@ -15,19 +15,20 @@ import Ticket from '~/pages/Ticket';
 import Summary from '~/pages/Ticket/Summary/index';
 
 //Admin routes
-import Bar from '~/pages/AdminPage/Bar/index';
+// import Bar from '~/pages/AdminPage/Bar/index';
 import Calendar from '~/pages/AdminPage/Calendar';
 // import Contacts from '~/pages/AdminPage/Contacts';
 // import Dashboard from '~/pages/AdminPage/Dashboard';
-import FAQ from '~/pages/AdminPage/FAQ';
+// import FAQ from '~/pages/AdminPage/FAQ';
 import Form from '~/pages/AdminPage/Form';
-import Geography from '~/pages/AdminPage/Geography';
-import Invoices from '~/pages/AdminPage/Invoices';
-import Line from '~/pages/AdminPage/Line';
-import Pie from '~/pages/AdminPage/Pie';
+// import Geography from '~/pages/AdminPage/Geography';
+// import Invoices from '~/pages/AdminPage/Invoices';
+// import Line from '~/pages/AdminPage/Line';
+// import Pie from '~/pages/AdminPage/Pie';
 import Team from '~/pages/AdminPage/Team';
 import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
 import ThankYouPage from '~/pages/Ticket/Thanks';
+import EditProfile from '~/pages/AdminPage/EditProfile';
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
@@ -41,17 +42,18 @@ const publicRoutes = [
 
     // Admin routes
     // { path: 'dashboard', component: Dashboard, layout: AdminMainPage, name: 'Dasboard', Authen: "private" },
-    { path: 'bar', component: Bar, layout: AdminMainPage, name: 'Bar', Authen: "private" },
+    // { path: 'bar', component: Bar, layout: AdminMainPage, name: 'Bar', Authen: "private" },
     // { path: 'contacts', component: Contacts, layout: AdminMainPage, name: 'Contacts', Authen: "private" },
-    { path: 'faq', component: FAQ, layout: AdminMainPage, name: 'FAQ', Authen: "private" },
-    { path: 'geography', component: Geography, layout: AdminMainPage, name: 'Geography', Authen: "private" },
-    { path: 'invoices', component: Invoices, layout: AdminMainPage, name: 'Invoices', Authen: "private" },
-    { path: 'line', component: Line, layout: AdminMainPage, name: 'Line', Authen: "private" },
-    { path: 'pie', component: Pie, layout: AdminMainPage, name: 'Pie', Authen: "private" },
+    // { path: 'faq', component: FAQ, layout: AdminMainPage, name: 'FAQ', Authen: "private" },
+    // { path: 'geography', component: Geography, layout: AdminMainPage, name: 'Geography', Authen: "private" },
+    // { path: 'invoices', component: Invoices, layout: AdminMainPage, name: 'Invoices', Authen: "private" },
+    // { path: 'line', component: Line, layout: AdminMainPage, name: 'Line', Authen: "private" },
+    // { path: 'pie', component: Pie, layout: AdminMainPage, name: 'Pie', Authen: "private" },
     { path: 'team', component: Team, layout: AdminMainPage, name: 'Team', Authen: "private" },
     { path: 'calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'staff/form', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'staff/update', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
+    { path: 'edit', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
 ];
 
 // private routes dont login will redirect to login pages

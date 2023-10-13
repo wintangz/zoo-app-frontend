@@ -10,15 +10,17 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { useEffect, useState } from 'react';
 import Actions from './actions.jsx';
+import { decode } from '~/utils/axiosClient.js';
+import { type } from '@testing-library/user-event/dist/type/index.js';
 
 function Team() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const currId = decode(localStorage.getItem('token')).sub;
     const [remove, setRemove] = useState(null);
     const [users, setUsers] = useState(null);
     const fetchapi = async () => {
-        const result = await mockData.getUser();
-        console.log(result);
+        let result = await mockData.getUser();
         result.map((element) => {
             element.roles.map((role) => {
                 if (role.name === 'ZOO_TRAINER') {
@@ -26,6 +28,8 @@ function Team() {
                 }
             });
         });
+        result = result.filter((item) => item.id !== Number.parseInt(currId));
+        console.log(result);
         setUsers(result);
     };
     useEffect(() => {
@@ -85,9 +89,9 @@ function Team() {
                 const roles = row.roles;
                 return (
                     <Box
-                        width="60%"
+                        width="80%"
                         m="0"
-                        p="5px"
+                        p="5px 15px"
                         display="flex"
                         justifyContent="center"
                         backgroundColor={roles[0].name === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
@@ -108,7 +112,7 @@ function Team() {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',
-            width: 150,
+            width: 80,
             renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
         },
     ];
