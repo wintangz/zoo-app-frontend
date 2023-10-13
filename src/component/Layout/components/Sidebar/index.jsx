@@ -3,16 +3,9 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { Menu, MenuItem, ProSidebar } from 'react-pro-sidebar';
 
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutlined';
-import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
-import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Link } from 'react-router-dom';
 import { logout } from '~/api/data/mockData';
@@ -52,6 +45,22 @@ const Sidebar = () => {
             }
         });
     };
+    const userRole = decode(localStorage.getItem('token')).roles[0];
+    let titleData = '';
+    let titleCreate = '';
+    let titleUpdate = '';
+    let titleNews = '';
+
+    if (userRole === 'ADMIN') {
+        titleData = 'View All User';
+        titleCreate = 'Create New Staff';
+        titleUpdate = 'Update Staff';
+    } else if (userRole === 'STAFF') {
+        titleData = 'View All Zoo Trainer';
+        titleCreate = 'Create New Zoo Trainer';
+        titleUpdate = 'Update Zoo Trainer';
+        titleNews = 'View All News';
+    }
     return (
         <Box
             sx={{
@@ -89,7 +98,7 @@ const Sidebar = () => {
                         {!isCollapsed && (
                             <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
                                 <Typography variant="h3" color={colors.grey[100]}>
-                                    ADMINIS
+                                    {userRole}
                                 </Typography>
                                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                                     <MenuOutlinedIcon />
@@ -130,25 +139,34 @@ const Sidebar = () => {
                             Data
                         </Typography>
                         <Item
-                            title="Manage User"
+                            title={titleData}
                             to="/team"
                             icon={<PeopleOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
+                        {userRole === 'STAFF' && (
+                            <Item
+                                title={titleNews}
+                                to="/viewallnew"
+                                icon={<PeopleOutlinedIcon />}
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+                        )}
 
                         <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
                             Pages
                         </Typography>
                         <Item
-                            title="Create New Staff"
+                            title={titleCreate}
                             to="/staff/form"
                             icon={<PersonOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
                         <Item
-                            title="Update Staff"
+                            title={titleUpdate}
                             to="/staff/update"
                             icon={<PersonOutlinedIcon />}
                             selected={selected}

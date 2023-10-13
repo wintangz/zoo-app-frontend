@@ -9,6 +9,7 @@ import * as mockData from '~/api/data/mockData';
 import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
+import { getUsersWithRoles } from '~/utils/getUserByRole';
 
 function Team() {
     const [users, setUsers] = useState(null);
@@ -27,7 +28,8 @@ function Team() {
 
     const getZooTrainer = async () => {
         const result = await mockData.getZooTrainer();
-        setUsers(result);
+        const mdata = getUsersWithRoles(result, ['ZOO_TRAINER']);
+        setUsers(mdata);
     };
 
     useEffect(() => {
@@ -43,6 +45,16 @@ function Team() {
             }
         });
     }, []);
+    const userRole = decode(localStorage.getItem('token')).roles[0];
+    let title = '';
+    let subtitle = '';
+    if (userRole === 'ADMIN') {
+        title = 'User Management';
+        subtitle = 'Show user info';
+    } else if (userRole === 'STAFF') {
+        title = 'Zoo Trainer Management';
+        subtitle = 'Show zoo trainer info';
+    }
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
@@ -120,7 +132,7 @@ function Team() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="User Management" subtitle="Show user info" />
+            <AdminHeader title={title} subtitle={subtitle} />
             <Box
                 m="40px 0 0 0"
                 height="75vh"
