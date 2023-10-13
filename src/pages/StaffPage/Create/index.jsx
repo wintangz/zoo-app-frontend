@@ -9,26 +9,38 @@ import {
     Typography,
     useTheme,
 } from '@mui/material';
+import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Formik } from 'formik';
-import moment from 'moment/moment';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as yup from 'yup';
-import { updateUser } from '~/api/data/mockData';
+import { createZooTrainer } from '~/api/data/mockData';
+import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { tokens } from '~/theme';
-function Form({ props, id, setShow, setOpen }) {
-    const [users, setUsers] = useState(props);
-    useEffect(() => {
-        setUsers(props);
-    }, [props]);
 
+function CreateZooTrainer() {
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
-
+    const [open, setOpen] = useState(false);
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: colors.grey[500],
+        border: '2px solid #000',
+        color: colors.grey[100],
+        boxShadow: 24,
+        pt: 2,
+        px: 4,
+        pb: 3,
+    };
     const isNonMobile = useMediaQuery('(min-width: 600px)');
     const handleFormSubmit = async (values, { resetForm }) => {
+        console.log(values.dateOfBirth);
         const inputDate = new Date(values.dateOfBirth);
 
         // Get the date part in the "yyyy-MM-dd" format
@@ -46,38 +58,48 @@ function Form({ props, id, setShow, setOpen }) {
 
         // Combine the date and time zone offset to get the final formatted string
         const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-        console.log(formattedDateTime);
+
         values.dateOfBirth = formattedDateTime;
         if (values.sex === 'male') {
             values.sex = true;
         } else if (values.sex === 'female') {
             values.sex = false;
         }
-        const res = updateUser(id, values);
-        res.then((result) => {
+        // values.roles =  [
+        //     {
+        //         "id": "1",
+        //         "name": "ADMIN"
+        //     }
+        // ]
+
+        const test = async () => {
+            const result = await createZooTrainer(values);
+            console.log(result);
             const status = result.status;
             if (status === 200) {
                 setOpen(true);
             }
-        });
-        setShow(false);
-
-        resetForm();
+            resetForm();
+        };
+        test();
     };
     const initialValues = {
-        username: users.username,
-        lastname: users.lastname,
-        firstname: users.firstname,
-        sex: users.sex ? 'male' : 'female',
-        dateOfBirth: moment(users.dateOfBirth),
-        address: users.address,
-        nationality: users.nationality,
-        phone: users.phone,
-        email: users.email,
+        username: '',
+        password: '',
+        lastname: '',
+        firstname: '',
+        sex: 'male',
+        dateOfBirth: null,
+        address: '',
+        nationality: '',
+        phone: '',
+        email: '',
     };
 
     const phoneRegExp = /^\s*(?:\+?(\d{1,3}))?[- (]*(\d{3})[- )]*(\d{3})[- ]*(\d{4})(?: *[x/#]{1}(\d+))?\s*$/;
     const userSchema = yup.object().shape({
+        username: yup.string().required('required'),
+        password: yup.string().required('required').min(8, 'Must be min 8 characters').max(30),
         lastname: yup.string().required('required'),
         firstname: yup.string().required('required'),
         sex: yup.string().required('required'),
@@ -88,15 +110,28 @@ function Form({ props, id, setShow, setOpen }) {
         email: yup.string().email('Invalid email').required('required'),
     });
 
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (
         <>
-            <Box m="20px">
-                <Formik
-                    onSubmit={handleFormSubmit}
-                    initialValues={initialValues}
-                    validationSchema={userSchema}
-                    enableReinitialize={true}
+            <div>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="parent-modal-title"
+                    aria-describedby="parent-modal-description"
                 >
+                    <Box sx={{ ...style, width: 400 }}>
+                        <h2 id="parent-modal-title">Create new zoo trainer successfully!</h2>
+                        <p id="parent-modal-description">New zoo trsiner have been add to DataBase!</p>
+                        <Button onClick={handleClose}>Close</Button>
+                    </Box>
+                </Modal>
+            </div>
+            <Box m="20px">
+                <AdminHeader title="CREATE ZOO TRAINER" subtitle="Create a New Zoo Trainer Profile" />
+                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
                         <form onSubmit={handleSubmit}>
                             <Box
@@ -111,10 +146,39 @@ function Form({ props, id, setShow, setOpen }) {
                                     fullWidth
                                     variant="filled"
                                     type="text"
+                                    label="User Name"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.username}
+                                    name="username"
+                                    error={!!touched.username && !!errors.username}
+                                    helperText={touched.username && errors.username}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
+                                />
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
+                                    label="Password"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.password}
+                                    name="password"
+                                    error={!!touched.password && !!errors.password}
+                                    helperText={touched.password && errors.password}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
+                                />
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
                                     label="Last Name"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    defaultValue=" "
                                     value={values.lastname}
                                     name="lastname"
                                     error={!!touched.lastname && !!errors.lastname}
@@ -130,7 +194,6 @@ function Form({ props, id, setShow, setOpen }) {
                                     label="First Name"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    defaultValue=" "
                                     value={values.firstname}
                                     name="firstname"
                                     error={!!touched.firstname && !!errors.firstname}
@@ -156,7 +219,6 @@ function Form({ props, id, setShow, setOpen }) {
                                         name="sex"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
                                         value={values.sex}
                                         sx={{ display: 'inline-block' }}
                                         label="Gender"
@@ -186,11 +248,11 @@ function Form({ props, id, setShow, setOpen }) {
                                         gridColumn: 'span 1',
                                     }}
                                 >
-                                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <DatePicker
-                                            value={moment(values.dateOfBirth)}
+                                            value={values.dateOfBirth}
                                             onChange={(date) => {
-                                                handleChange({ target: { name: 'dateOfBirth', value: moment(date) } });
+                                                handleChange({ target: { name: 'dateOfBirth', value: date } });
                                             }}
                                             textField={(params) => (
                                                 <TextField
@@ -230,7 +292,6 @@ function Form({ props, id, setShow, setOpen }) {
                                     label="Address"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    defaultValue=" "
                                     value={values.address}
                                     name="address"
                                     error={!!touched.address && !!errors.address}
@@ -246,7 +307,6 @@ function Form({ props, id, setShow, setOpen }) {
                                     label="National"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    defaultValue=" "
                                     value={values.nationality}
                                     name="nationality"
                                     error={!!touched.nationality && !!errors.nationality}
@@ -262,7 +322,6 @@ function Form({ props, id, setShow, setOpen }) {
                                     label="Contact"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    defaultValue=" "
                                     value={values.phone}
                                     name="phone"
                                     error={!!touched.phone && !!errors.phone}
@@ -275,10 +334,9 @@ function Form({ props, id, setShow, setOpen }) {
                                     fullWidth
                                     variant="filled"
                                     type="text"
-                                    label="Emai"
+                                    label="Email"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    defaultValue=" "
                                     value={values.email}
                                     name="email"
                                     error={!!touched.email && !!errors.email}
@@ -290,7 +348,7 @@ function Form({ props, id, setShow, setOpen }) {
                             </Box>
                             <Box display="flex" justifyContent="end" mt="20px">
                                 <Button type="submit" color="secondary" variant="contained">
-                                    UPDATE ACCOUNT
+                                    CREATE NEW ZOO TRAINER
                                 </Button>
                             </Box>
                         </form>
@@ -301,4 +359,4 @@ function Form({ props, id, setShow, setOpen }) {
     );
 }
 
-export default Form;
+export default CreateZooTrainer;

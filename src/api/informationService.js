@@ -10,7 +10,7 @@ export const getInfo = async (token) => {
             }
         }
 
-        const userId = decode(token).userId;
+        const userId = decode(token).sub;
         // const userId = 1;
         const result = await axiosClient.get(`users/${userId}`, config)
 

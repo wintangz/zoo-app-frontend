@@ -1,5 +1,5 @@
-import { tokens } from "../../theme";
 import api from "~/utils/axiosClient";
+import { tokens } from "../../theme";
 export const getUser = async () => {
     try {
         const token = localStorage.getItem('token');
@@ -14,6 +14,20 @@ export const getUser = async () => {
     }
 }
 
+export const getZooTrainer = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        const res = await api.get('users/zoo-trainers', config)
+        return res.data.data;
+    } catch (error) {
+    }
+}
+
 export const createStaff = async (values) => {
     try {
         const token = localStorage.getItem('token');
@@ -23,6 +37,19 @@ export const createStaff = async (values) => {
             }
         }
         const res = await api.post('users/staff', values, config)
+        return res;
+    } catch (error) {
+    }
+}
+export const createZooTrainer = async (values) => {
+    try {
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        const res = await api.post('users/zoo-trainers', values, config)
         return res;
     } catch (error) {
     }

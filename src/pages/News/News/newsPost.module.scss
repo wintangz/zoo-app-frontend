@@ -4,10 +4,11 @@
     border-left-color: #ffc000;
     position: relative;
     min-height: 170px;
-    background-color: #ebdba8;
+    background-color: rgb(235, 235, 235);
     padding: 15px 20px;
     margin-bottom: 10px;
     border-radius: 4px;
+    border: rgb(0, 0, 0, 0.5) 2px solid;
 
     img {
         width: 265px;
@@ -19,14 +20,15 @@
 
     .info {
         width: calc(100% - 285px);
+        font-size: small;
 
         .summary {
-            line-height: 22px;
+            line-height: 4vh;
 
             display: inline-block;
             width: 100%;
             font-size: 16px;
-            line-height: 22px;
+            // line-height: 22px;
             color: #747272;
             padding: 0 17px;
             max-height: 88px;
@@ -48,7 +50,7 @@
         box-sizing: border-box;
 
         .date {
-            color: #747272;
+            color: #5e5c5c;
             display: inline-block;
         }
 
@@ -57,7 +59,7 @@
             text-decoration: none;
             cursor: pointer;
             margin-left: 56px;
-            color: rgb(59, 37, 37);
+            color: rgb(20, 20, 20);
         }
     }
 }

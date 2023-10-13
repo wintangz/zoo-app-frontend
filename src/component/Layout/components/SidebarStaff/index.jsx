@@ -1,27 +1,21 @@
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import { Link } from 'react-router-dom';
-import 'react-pro-sidebar/dist/css/styles.css';
-import { tokens } from '~/theme';
+import { useState } from 'react';
+import { Menu, MenuItem, ProSidebar } from 'react-pro-sidebar';
+
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import { decode } from '~/utils/axiosClient';
+import 'react-pro-sidebar/dist/css/styles.css';
+import { Link } from 'react-router-dom';
 import { logout } from '~/api/data/mockData';
-import { useState } from 'react';
-import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
+import { tokens } from '~/theme';
+import { decode } from '~/utils/axiosClient';
+
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
     return (
         <MenuItem
             active={selected === title}
@@ -36,21 +30,12 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
         </MenuItem>
     );
 };
-let role = null;
-if (localStorage.getItem('token')) {
-    role = decode(localStorage.getItem('token')).roles[0];
-}
 
 const Sidebar = () => {
-    const [open, setOpen] = useState(true);
-
-    const handleClick = () => {
-        setOpen(!open);
-    };
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [selected, setSelected] = useState('Dashboard');
+    const [selected, setSelected] = useState();
     const handleLogout = () => {
         const res = logout(localStorage.getItem('token'));
         res.then((result) => {
@@ -65,7 +50,6 @@ const Sidebar = () => {
             sx={{
                 '& .pro-sidebar-inner': {
                     background: `${colors.primary[400]} !important`,
-                    height: '100vh',
                 },
                 '& .pro-icon-wrapper': {
                     backgroundColor: 'transparent !important',
@@ -79,13 +63,9 @@ const Sidebar = () => {
                 '& .pro-menu-item.active': {
                     color: '#6870fa !important',
                 },
-                '& .MuiBox-root': {
-                    height: '100%',
-                    paddingBottom: '5%',
-                },
             }}
         >
-            <ProSidebar collapsed={isCollapsed} sx={{ height: '100%' }}>
+            <ProSidebar collapsed={isCollapsed}>
                 <Menu iconShape="square">
                     {/* LOGO AND MENU ICON */}
                     <MenuItem
@@ -99,7 +79,7 @@ const Sidebar = () => {
                         {!isCollapsed && (
                             <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
                                 <Typography variant="h3" color={colors.grey[100]}>
-                                    ADMIN SIDE
+                                    STAFF
                                 </Typography>
                                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                                     <MenuOutlinedIcon />
@@ -129,7 +109,7 @@ const Sidebar = () => {
                                     {decode(localStorage.getItem('token')).sub}
                                 </Typography>
                                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                                    {role}
+                                    {decode(localStorage.getItem('token')).roles[0]}
                                 </Typography>
                             </Box>
                         </Box>
@@ -140,71 +120,97 @@ const Sidebar = () => {
                             Data
                         </Typography>
                         <Item
-                            title="Edit Profile"
-                            to="/edit"
+                            title="Staff Team"
+                            to="/staff/team"
                             icon={<PeopleOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
+                        <Item
+                            title="View All New"
+                            to="/viewallnew"
+                            icon={<PersonOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        {/* <Item
+                            title="Contacts Information"
+                            to="/contacts"
+                            icon={<ContactsOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        /> */}
+                        {/* <Item
+                            title="Invoices Balances"
+                            to="/invoices"
+                            icon={<ReceiptOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        /> */}
 
-                        {role === 'ADMIN' && (
-                            <Item
-                                title="Manage User"
-                                to="/team"
-                                icon={<PeopleOutlinedIcon />}
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-                        )}
+                        <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
+                            Pages
+                        </Typography>
+                        <Item
+                            title="Create New Zoo Trainer"
+                            to="/zootrainer/create"
+                            icon={<PersonOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
 
-                        <List
-                            sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
-                            component="nav"
-                            aria-labelledby="nested-list-subheader"
-                        >
-                            <ListItemButton
-                                onClick={handleClick}
-                                sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
-                            >
-                                <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
-                                    <InboxIcon />
-                                </ListItemIcon>
-                                {!isCollapsed && <ListItemText primary="Manage Staff" sx={{ paddingLeft: '4px' }} />}
-                                {open ? <ExpandLess /> : <ExpandMore />}
-                            </ListItemButton>
-                            <Collapse in={open} timeout="auto" unmountOnExit>
-                                <List component="div" disablePadding>
-                                    {role === 'ADMIN' && (
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create New Staff"
-                                                to="/staff/form"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                    )}
-                                    <ListItemButton>
-                                        {role === 'ADMIN' && (
-                                            <Item
-                                                title="Update Staff"
-                                                to="/staff/update"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        )}
-                                    </ListItemButton>
-                                </List>
-                            </Collapse>
-                        </List>
+                        {/* <Item
+                            title="Calendar"
+                            to="/calendar"
+                            icon={<CalendarTodayOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        /> */}
+                        {/* <Item
+                            title="FAQ Page"
+                            to="/faq"
+                            icon={<HelpOutlineOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        /> */}
+
+                        {/* <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
+                            Charts
+                        </Typography> */}
+                        {/* <Item
+                            title="Bar Chart"
+                            to="/bar"
+                            icon={<BarChartOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Pie Chart"
+                            to="/pie"
+                            icon={<PieChartOutlineOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Line Chart"
+                            to="/line"
+                            icon={<TimelineOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Geography Chart"
+                            to="/geography"
+                            icon={<MapOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        /> */}
                         <Button
                             variant="contained"
                             sx={{ width: '70%', marginTop: '2vh', marginBottom: '4vh' }}
                             onClick={handleLogout}
                         >
-                            <LogoutOutlinedIcon /> {!isCollapsed && <div>Logout</div>}
+                            Logout
                         </Button>
                     </Box>
                 </Menu>
