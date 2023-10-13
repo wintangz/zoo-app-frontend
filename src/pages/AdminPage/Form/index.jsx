@@ -74,6 +74,7 @@ function Form() {
         const res = createStaff(values);
         res.then((result) => {
             const status = result.status;
+            console.log(status);
             if (status === 200) {
                 setOpen(true);
             }

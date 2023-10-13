@@ -14,18 +14,20 @@ function Summary() {
         try {
             const result = await confirmTicketPurchase(cart, totalPrice, totalQuantity);
             // alert('Purchase successful');
-            window.open(result.data, '_blank');
+            window.location.href = result.data;
         } catch (error) {
             console.error(error.message);
             // alert('Purchase failed');
         }
     };
+
     const [info, setInfo] = useState(null);
 
     const token = localStorage.getItem('token');
 
     const fetchApi = async () => {
         const result = await getInfo(token);
+        console.log("THIS IS INFO " + result);
         setInfo(result);
     }
 
@@ -55,7 +57,7 @@ function Summary() {
             </div> */}
             <div className={styles.checkout_form}>
                 <div className={styles.container}>
-                    <Information info={info} />
+                    {info && <Information info={info} />}
                 </div>
             </div>
             <div className={styles.checkout_summary}>
@@ -67,8 +69,8 @@ function Summary() {
                         <div className={styles.card_body}>
                             <table className={styles.table}>
                                 <tr className={styles.table_row}>
-                                    <th className={styles.table_data}></th>
-                                    <th className={styles.table_data}>Ticket</th>
+                                    <th className={styles.table_data}>Ticket Image</th>
+                                    <th className={styles.table_data}>Ticket Type</th>
                                     <th className={styles.table_data}>Unit Price</th>
                                     <th className={styles.table_data}>Quantity</th>
                                     <th className={styles.table_data}>Total Price</th>
