@@ -66,16 +66,19 @@ const Sidebar = () => {
     let titleCreate = '';
     let titleUpdate = '';
     let titleNews = '';
+    let primary = '';
 
     if (userRole === 'ADMIN') {
         titleData = 'View All User';
         titleCreate = 'Create New Staff';
         titleUpdate = 'Update Staff';
+        primary = 'Manage Staff';
     } else if (userRole === 'STAFF') {
         titleData = 'View All Zoo Trainer';
         titleCreate = 'Create New Zoo Trainer';
         titleUpdate = 'Update Zoo Trainer';
         titleNews = 'View All News';
+        primary = 'Manage Zoo Trainer';
     }
     return (
         <Box
@@ -175,7 +178,7 @@ const Sidebar = () => {
                         <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
                             Pages
                         </Typography>
-                        <Item
+                        {/* <Item
                             title={titleCreate}
                             to="/staff/form"
                             icon={<PersonOutlinedIcon />}
@@ -188,7 +191,7 @@ const Sidebar = () => {
                             icon={<PersonOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
-                        />
+                        /> */}
 
                         <List
                             sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
@@ -202,32 +205,28 @@ const Sidebar = () => {
                                 <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
                                     <InboxIcon />
                                 </ListItemIcon>
-                                {!isCollapsed && <ListItemText primary="Manage Staff" sx={{ paddingLeft: '4px' }} />}
+                                {!isCollapsed && <ListItemText primary={primary} sx={{ paddingLeft: '4px' }} />}
                                 {open ? <ExpandLess /> : <ExpandMore />}
                             </ListItemButton>
                             <Collapse in={open} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
-                                    {role === 'ADMIN' && (
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create New Staff"
-                                                to="/staff/form"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                    )}
                                     <ListItemButton>
-                                        {role === 'ADMIN' && (
-                                            <Item
-                                                title="Update Staff"
-                                                to="/staff/update"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        )}
+                                        <Item
+                                            title={titleCreate}
+                                            to="/staff/form"
+                                            icon={<PersonOutlinedIcon />}
+                                            selected={selected}
+                                            setSelected={setSelected}
+                                        />
+                                    </ListItemButton>
+                                    <ListItemButton>
+                                        <Item
+                                            title={titleUpdate}
+                                            to="/staff/update"
+                                            icon={<PersonOutlinedIcon />}
+                                            selected={selected}
+                                            setSelected={setSelected}
+                                        />
                                     </ListItemButton>
                                 </List>
                             </Collapse>

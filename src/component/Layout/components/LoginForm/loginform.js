@@ -38,7 +38,7 @@ function LoginForm({ open, setOpenRegisterForm }) {
                 // const {data} = await getInfo(token)
                 console.log(tokendecode)
                 tokendecode.roles.map((role) => {
-                    if (role === 'ADMIN') {
+                    if (role !== 'CUSTOMER') {
                         window.location = '/team';
                     }
                 })
