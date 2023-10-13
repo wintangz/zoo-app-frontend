@@ -1,5 +1,6 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme, Button } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import Modal from '@mui/material/Modal';
 import { tokens } from '~/theme';
 import * as mockData from '~/api/data/mockData';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
@@ -8,8 +9,12 @@ import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { useEffect, useState } from 'react';
+import Actions from './actions.jsx';
 
 function Team() {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const [remove, setRemove] = useState(null);
     const [users, setUsers] = useState(null);
     const fetchapi = async () => {
         const result = await mockData.getUser();
@@ -25,9 +30,8 @@ function Team() {
     };
     useEffect(() => {
         fetchapi();
-    }, []);
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    }, [remove]);
+
     const columns = [
         {
             field: 'id',
@@ -99,6 +103,13 @@ function Team() {
                     </Box>
                 );
             },
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            type: 'actions',
+            width: 150,
+            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
         },
     ];
     return (
