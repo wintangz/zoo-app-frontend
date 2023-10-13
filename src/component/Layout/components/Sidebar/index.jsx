@@ -3,19 +3,26 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { Menu, MenuItem, ProSidebar } from 'react-pro-sidebar';
 
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import Collapse from '@mui/material/Collapse';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Link } from 'react-router-dom';
 import { logout } from '~/api/data/mockData';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
-
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     return (
         <MenuItem
             active={selected === title}
@@ -30,8 +37,17 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
         </MenuItem>
     );
 };
+let role = null;
+if (localStorage.getItem('token')) {
+    role = decode(localStorage.getItem('token')).roles[0];
+}
 
 const Sidebar = () => {
+    const [open, setOpen] = useState(true);
+
+    const handleClick = () => {
+        setOpen(!open);
+    };
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -66,6 +82,7 @@ const Sidebar = () => {
             sx={{
                 '& .pro-sidebar-inner': {
                     background: `${colors.primary[400]} !important`,
+                    height: '100vh',
                 },
                 '& .pro-icon-wrapper': {
                     backgroundColor: 'transparent !important',
@@ -81,10 +98,11 @@ const Sidebar = () => {
                 },
                 '& .MuiBox-root': {
                     height: '100%',
+                    paddingBottom: '5%',
                 },
             }}
         >
-            <ProSidebar collapsed={isCollapsed}>
+            <ProSidebar collapsed={isCollapsed} sx={{ height: '100%' }}>
                 <Menu iconShape="square">
                     {/* LOGO AND MENU ICON */}
                     <MenuItem
@@ -128,7 +146,7 @@ const Sidebar = () => {
                                     {decode(localStorage.getItem('token')).sub}
                                 </Typography>
                                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                                    {decode(localStorage.getItem('token')).roles[0]}
+                                    {role}
                                 </Typography>
                             </Box>
                         </Box>
@@ -154,7 +172,6 @@ const Sidebar = () => {
                                 setSelected={setSelected}
                             />
                         )}
-
                         <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
                             Pages
                         </Typography>
@@ -173,12 +190,54 @@ const Sidebar = () => {
                             setSelected={setSelected}
                         />
 
+                        <List
+                            sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
+                            component="nav"
+                            aria-labelledby="nested-list-subheader"
+                        >
+                            <ListItemButton
+                                onClick={handleClick}
+                                sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
+                            >
+                                <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
+                                    <InboxIcon />
+                                </ListItemIcon>
+                                {!isCollapsed && <ListItemText primary="Manage Staff" sx={{ paddingLeft: '4px' }} />}
+                                {open ? <ExpandLess /> : <ExpandMore />}
+                            </ListItemButton>
+                            <Collapse in={open} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    {role === 'ADMIN' && (
+                                        <ListItemButton>
+                                            <Item
+                                                title="Create New Staff"
+                                                to="/staff/form"
+                                                icon={<PersonOutlinedIcon />}
+                                                selected={selected}
+                                                setSelected={setSelected}
+                                            />
+                                        </ListItemButton>
+                                    )}
+                                    <ListItemButton>
+                                        {role === 'ADMIN' && (
+                                            <Item
+                                                title="Update Staff"
+                                                to="/staff/update"
+                                                icon={<PersonOutlinedIcon />}
+                                                selected={selected}
+                                                setSelected={setSelected}
+                                            />
+                                        )}
+                                    </ListItemButton>
+                                </List>
+                            </Collapse>
+                        </List>
                         <Button
                             variant="contained"
                             sx={{ width: '70%', marginTop: '2vh', marginBottom: '4vh' }}
                             onClick={handleLogout}
                         >
-                            Logout
+                            <LogoutOutlinedIcon /> {!isCollapsed && <div>Logout</div>}
                         </Button>
                     </Box>
                 </Menu>

@@ -48,6 +48,7 @@ function Team() {
     const userRole = decode(localStorage.getItem('token')).roles[0];
     let title = '';
     let subtitle = '';
+
     if (userRole === 'ADMIN') {
         title = 'User Management';
         subtitle = 'Show user info';

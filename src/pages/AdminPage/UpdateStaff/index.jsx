@@ -7,6 +7,7 @@ import { tokens } from '~/theme';
 import * as mockData from '~/api/data/mockData';
 import { useState } from 'react';
 import Form from './update.jsx';
+import { decode } from '~/utils/axiosClient.js';
 function Update() {
     const [open, setOpen] = useState(false);
     const [id, setId] = useState(null);
@@ -42,12 +43,17 @@ function Update() {
         return result;
     };
     const handleFormSubmit = async (values) => {
-        setId(values.id);
-        setShow(true);
-        const res = fetchapi(values.id);
-        res.then((result) => {
-            setUsers(result);
-        });
+        const newObj = decode(localStorage.getItem('token'));
+        if (values.id === newObj.sub) {
+            window.location = '/edit';
+        } else {
+            setId(values.id);
+            setShow(true);
+            const res = fetchapi(values.id);
+            res.then((result) => {
+                setUsers(result);
+            });
+        }
     };
     return (
         <>
