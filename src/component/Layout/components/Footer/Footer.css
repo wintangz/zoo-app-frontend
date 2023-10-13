@@ -4,7 +4,7 @@
 .container-fluid {
     margin: 0 !important;
     padding: 0 !important;
-    background-color: #3b2525;
+    background-color: black;
 }
 .background-img {
     width: 100vw;
@@ -19,7 +19,7 @@
 }
 .text {
     line-height: 30px;
-    border-bottom: solid 1px #513333;
+    border-bottom: solid 1px rgb(30, 28, 28);
     padding-top: 0px;
     margin-top: 0px;
     border-top-width: 0px;
@@ -44,7 +44,7 @@
 }
 .viewmap {
     text-align: center;
-    border-bottom: #513333 solid 0.1px;
+    border-bottom: rgb(30, 28, 28) solid 0.1px;
 }
 .viewmapbutton {
     padding: 13px 30px 13px 30px;
@@ -104,7 +104,7 @@
     padding: 16px 0px;
 }
 .recent-posts1 {
-    border-bottom: solid 1px #513333;
+    border-bottom: solid 1px rgb(30, 28, 28);
 }
 .recent-posts1 > .recent-posts-img {
     background: url('../../../../assets/img/recent-post1.jpg') no-repeat;

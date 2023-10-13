@@ -3,16 +3,9 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { Menu, MenuItem, ProSidebar } from 'react-pro-sidebar';
 
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutlined';
-import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
-import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Link } from 'react-router-dom';
 import { logout } from '~/api/data/mockData';
@@ -42,7 +35,7 @@ const Sidebar = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [selected, setSelected] = useState('Dashboard');
+    const [selected, setSelected] = useState();
     const handleLogout = () => {
         const res = logout(localStorage.getItem('token'));
         res.then((result) => {
@@ -70,9 +63,6 @@ const Sidebar = () => {
                 '& .pro-menu-item.active': {
                     color: '#6870fa !important',
                 },
-                '& .MuiBox-root': {
-                    height: '100%',
-                },
             }}
         >
             <ProSidebar collapsed={isCollapsed}>
@@ -89,7 +79,7 @@ const Sidebar = () => {
                         {!isCollapsed && (
                             <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
                                 <Typography variant="h3" color={colors.grey[100]}>
-                                    ADMINIS
+                                    STAFF
                                 </Typography>
                                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                                     <MenuOutlinedIcon />
@@ -130,31 +120,91 @@ const Sidebar = () => {
                             Data
                         </Typography>
                         <Item
-                            title="Manage User"
-                            to="/team"
+                            title="Staff Team"
+                            to="/staff/team"
                             icon={<PeopleOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
+                        <Item
+                            title="View All New"
+                            to="/viewallnew"
+                            icon={<PersonOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        {/* <Item
+                            title="Contacts Information"
+                            to="/contacts"
+                            icon={<ContactsOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        /> */}
+                        {/* <Item
+                            title="Invoices Balances"
+                            to="/invoices"
+                            icon={<ReceiptOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        /> */}
 
                         <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
                             Pages
                         </Typography>
                         <Item
-                            title="Create New Staff"
-                            to="/staff/form"
-                            icon={<PersonOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Update Staff"
-                            to="/staff/update"
+                            title="Create New Zoo Trainer"
+                            to="/zootrainer/create"
                             icon={<PersonOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
 
+                        {/* <Item
+                            title="Calendar"
+                            to="/calendar"
+                            icon={<CalendarTodayOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        /> */}
+                        {/* <Item
+                            title="FAQ Page"
+                            to="/faq"
+                            icon={<HelpOutlineOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        /> */}
+
+                        {/* <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
+                            Charts
+                        </Typography> */}
+                        {/* <Item
+                            title="Bar Chart"
+                            to="/bar"
+                            icon={<BarChartOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Pie Chart"
+                            to="/pie"
+                            icon={<PieChartOutlineOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Line Chart"
+                            to="/line"
+                            icon={<TimelineOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Geography Chart"
+                            to="/geography"
+                            icon={<MapOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        /> */}
                         <Button
                             variant="contained"
                             sx={{ width: '70%', marginTop: '2vh', marginBottom: '4vh' }}
