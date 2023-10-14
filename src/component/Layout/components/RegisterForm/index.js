@@ -132,6 +132,7 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
             if (response.status === 200) {
                 // const {data} = await getInfo(token)
                 console.log('Token decode:', tokendecode);
+
                 setOpenRegisterForm(false);
                 alert('Registration successful!'); // Display success message
             }

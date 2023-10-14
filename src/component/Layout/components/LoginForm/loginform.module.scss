@@ -12,8 +12,7 @@
     min-height: 80vh;
 
     .modal {
-        font-size: 62.5%;
-
+        font-size: 1.1rem;
         background-color: white;
         max-width: 60vh;
         width: 100%;
@@ -66,7 +65,7 @@
             align-items: center;
             justify-content: center;
             // padding-top: 2.5vh;
-            margin-bottom: 5vh;
+            margin-bottom: 2vh;
 
             .field {
                 display: flex;
@@ -102,18 +101,7 @@
                 }
             }
 
-            .linkBtn {
-                margin-top: 1vh;
-                background: none;
-                color: rgb(214, 190, 8);
-                text-decoration: none;
-                border: none;
-                cursor: pointer;
-                font-size: 1.5rem;
-            }
-
             .submit {
-                margin-top: 3vh;
                 width: 23vw;
                 height: 8vh;
                 background: rgb(248, 191, 2);
@@ -124,6 +112,23 @@
                 font-size: 1.9rem;
                 color: white;
                 font-weight: 700;
+            }
+
+            .linkBtn_warp {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                margin-top: 2vh;
+                column-gap: 3vh;
+
+                .linkBtn {
+                    background: none;
+                    color: rgb(214, 190, 8);
+                    text-decoration: none;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 1.1rem;
+                }
             }
 
             .submit:hover {
