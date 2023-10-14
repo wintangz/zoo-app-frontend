@@ -3,7 +3,6 @@
 import { NormalLayout } from '~/component/Layout';
 import AdminMainPage from '~/component/Layout/AdminMainPage';
 import AnimalLayout from '~/component/Layout/AnimalLayout/animalLayout';
-import StaffMainPage from '~/component/Layout/StaffMainPage';
 // import banner img
 
 import About from '~/pages/About';
@@ -22,19 +21,11 @@ import Calendar from '~/pages/AdminPage/Calendar';
 // import Dashboard from '~/pages/AdminPage/Dashboard';
 // import FAQ from '~/pages/AdminPage/FAQ';
 import Form from '~/pages/AdminPage/Form';
-// import Geography from '~/pages/AdminPage/Geography';
-// import Invoices from '~/pages/AdminPage/Invoices';
-// import Line from '~/pages/AdminPage/Line';
-// import Pie from '~/pages/AdminPage/Pie';
+import ViewNews from '~/pages/AdminPage/New/new';
 import Team from '~/pages/AdminPage/Team';
 import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
 import ThankYouPage from '~/pages/Ticket/Thanks';
-import EditProfile from '~/pages/AdminPage/EditProfile';
-//Staff
-import CreateZooTrainer from '~/pages/StaffPage/Create';
-import ViewNews from '~/pages/StaffPage/New/new';
-import TeamS from '~/pages/StaffPage/Team';
-// import Update from '~/pages/StaffPage/Update';
+
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
@@ -59,12 +50,7 @@ const publicRoutes = [
     { path: 'calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'staff/form', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'staff/update', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
-    { path: 'edit', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
-
-    // Staff routes
-    { path: 'staff/team', component: TeamS, layout: StaffMainPage, name: 'TeamS', Authen: "private" },
-    { path: 'zootrainer/create', component: CreateZooTrainer, layout: StaffMainPage, name: 'CreateZooTrainer', Authen: "private" },
-    { path: 'viewallnew', component: ViewNews, layout: StaffMainPage, name: 'ViewNews', Authen: "private" },
+    { path: 'viewallnew', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
 
 ];
 

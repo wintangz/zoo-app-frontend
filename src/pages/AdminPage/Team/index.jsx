@@ -1,26 +1,21 @@
-import { Box, Typography, useTheme, Button } from '@mui/material';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import Modal from '@mui/material/Modal';
-import { tokens } from '~/theme';
-import * as mockData from '~/api/data/mockData';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
+import { Box, Typography, useTheme } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
-import Actions from './actions.jsx';
-import { decode } from '~/utils/axiosClient.js';
-import { type } from '@testing-library/user-event/dist/type/index.js';
+import * as mockData from '~/api/data/mockData';
 import AdminHeader from '~/component/Layout/components/AdminHeader';
+import { tokens } from '~/theme';
+import { decode } from '~/utils/axiosClient';
+import { getUsersWithRoles } from '~/utils/getUserByRole';
 
 function Team() {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const currId = decode(localStorage.getItem('token')).sub;
-    const [remove, setRemove] = useState(null);
     const [users, setUsers] = useState(null);
     const fetchapi = async () => {
-        let result = await mockData.getUser();
+        const result = await mockData.getUser();
+        console.log(result);
         result.map((element) => {
             element.roles.map((role) => {
                 if (role.name === 'ZOO_TRAINER') {
@@ -28,14 +23,13 @@ function Team() {
                 }
             });
         });
-        result = result.filter((item) => item.id !== Number.parseInt(currId));
-        console.log(result);
         setUsers(result);
     };
 
     const getZooTrainer = async () => {
         const result = await mockData.getZooTrainer();
-        setUsers(result);
+        const mdata = getUsersWithRoles(result, ['ZOO_TRAINER']);
+        setUsers(mdata);
     };
 
     useEffect(() => {
@@ -51,7 +45,19 @@ function Team() {
             }
         });
     }, []);
+    const userRole = decode(localStorage.getItem('token')).roles[0];
+    let title = '';
+    let subtitle = '';
 
+    if (userRole === 'ADMIN') {
+        title = 'User Management';
+        subtitle = 'Show user info';
+    } else if (userRole === 'STAFF') {
+        title = 'Zoo Trainer Management';
+        subtitle = 'Show zoo trainer info';
+    }
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
     const columns = [
         {
             field: 'id',
@@ -105,9 +111,9 @@ function Team() {
                 const roles = row.roles;
                 return (
                     <Box
-                        width="80%"
+                        width="60%"
                         m="0"
-                        p="5px 15px"
+                        p="5px"
                         display="flex"
                         justifyContent="center"
                         backgroundColor={roles[0].name === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
@@ -124,17 +130,10 @@ function Team() {
                 );
             },
         },
-        {
-            field: 'actions',
-            headerName: 'Actions',
-            type: 'actions',
-            width: 80,
-            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
-        },
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="User Management" subtitle="Show user info" />
+            <AdminHeader title={title} subtitle={subtitle} />
             <Box
                 m="40px 0 0 0"
                 height="75vh"

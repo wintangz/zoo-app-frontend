@@ -20,7 +20,11 @@
 
     .info {
         width: calc(100% - 285px);
-        font-size: small;
+
+        h3 {
+            font-size: 1.6rem;
+            // padding: 0 17px;
+        }
 
         .summary {
             line-height: 4vh;
@@ -28,9 +32,7 @@
             display: inline-block;
             width: 100%;
             font-size: 16px;
-            // line-height: 22px;
             color: #747272;
-            padding: 0 17px;
             max-height: 88px;
             overflow: hidden;
             word-wrap: break-word;

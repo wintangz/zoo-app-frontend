@@ -34,8 +34,8 @@ function LoginForm({ open, setOpenRegisterForm }) {
             if (response.status === 200) {
                 // const {data} = await getInfo(token)
                 console.log(tokendecode)
-                decode(token).roles.map((role) => {
-                    if (role === 'ADMIN') {
+                tokendecode.roles.map((role) => {
+                    if (role !== 'CUSTOMER') {
                         window.location = '/team';
                     }
                 })
