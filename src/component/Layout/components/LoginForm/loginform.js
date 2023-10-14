@@ -25,29 +25,31 @@ function LoginForm({ open, setOpenRegisterForm }) {
         try {
             // Send a POST request to the login API
             const response = await axios.post('http://localhost:8080/api/auth/login', values);
-            console.log(response);
 
             // Handle the response as needed
-            localStorage.setItem('token', response.data.data.accessToken);
-            var token = response.data.data.accessToken;
-            if (token) {
-                var tokendecode = decode(token);
-            }
+            localStorage.setItem('token', response.data.accessToken);
+            var token = response.data.accessToken;
+            var tokendecode = decode(token);
             // Close the modal or perform other actions
             if (response.status === 200) {
                 // const {data} = await getInfo(token)
                 console.log(tokendecode)
-                tokendecode.roles.map((role) => {
+                decode(token).roles.map((role) => {
                     if (role === 'ADMIN') {
                         window.location = '/team';
                     }
                 })
-
+                // if (localStorage.getItem('role')) {
+                //     console.log("true")
+                //     window.location = '/mainPage';
+                // } else {
+                //     console.log(false);
+                // }
             }
             open(false);
         } catch (error) {
             // Handle errors
-            console.error(error);
+            console.error('Error during login:', error);
         } finally {
             setSubmitting(false);
         }
@@ -117,14 +119,13 @@ function LoginForm({ open, setOpenRegisterForm }) {
                                 style={{ color: 'red', fontSize: '1.2rem' }}
                             />
                         </div>
-
-                        <div style={{ fontSize: '1rem' }}>
-                            Don't have Account yet, <b onClick={handleRegisterClick} className={styles.linkBtn}>Register now!!!</b>
-                        </div>
-
                         <button className={styles.submit} type="submit" id="login">
                             Login
                         </button>
+                        <div className={styles.linkBtn_warp}>
+                            <a onClick={handleRegisterClick} className={styles.linkBtn}>forgotten password?</a>
+                            <a onClick={handleRegisterClick} className={styles.linkBtn}>Sign up for SaigonZoo</a>
+                        </div>
                     </Form>
                 </Formik>
 
