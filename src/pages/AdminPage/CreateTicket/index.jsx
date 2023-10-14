@@ -1,0 +1,293 @@
+import {
+    Box,
+    Button,
+    FormControl,
+    FormControlLabel,
+    Radio,
+    RadioGroup,
+    TextField,
+    Typography,
+    useTheme,
+    Input,
+} from '@mui/material';
+import Modal from '@mui/material/Modal';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Formik, useFormik } from 'formik';
+import { useState } from 'react';
+import * as yup from 'yup';
+import AdminHeader from '~/component/Layout/components/AdminHeader';
+import { tokens } from '~/theme';
+import { createTicket } from '~/api/ticketService';
+import MenuItem from '@mui/material/MenuItem';
+const { BlobServiceClient, ContainerClient } = require('@azure/storage-blob');
+
+function CreateTicket() {
+    const theme = useTheme({ isDashboard: false });
+    const colors = tokens(theme.palette.mode);
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: colors.grey[500],
+        border: '2px solid #000',
+        color: colors.grey[100],
+        boxShadow: 24,
+        pt: 2,
+        px: 4,
+        pb: 3,
+    };
+    // -------------------------------- Generate unique name for file    ------------------------------------------------//
+
+    function generateUniqueImageName(file) {
+        const timestamp = Date.now(); // Get the current timestamp
+        const randomChars = Math.random().toString(36).substring(2, 8); // Generate random characters
+
+        const fileExtension = file.name.split('.').pop(); // Get the file extension
+
+        const uniqueName = `${timestamp}-${randomChars}.${fileExtension}`; // Combine timestamp, random chars, and file extension
+
+        return uniqueName;
+    }
+
+    // ---------------------------------- Handle submit and Upload img to azure account --------------------------------   /
+    async function uploadFile(values) {
+        let storageAccount = 'zoowebstorage';
+        let sasToken =
+            '?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-10T16:33:21Z&st=2023-10-14T08:33:21Z&spr=https&sig=cRXhTN1EcU6SeXjogZZFeFCPGIddykH%2BGDlvvb2afiU%3D';
+        const blobService = new BlobServiceClient(`https://${storageAccount}.blob.core.windows.net/?${sasToken}`);
+        const containerClient = blobService.getContainerClient('tickets');
+        await containerClient.createIfNotExists({
+            access: 'container',
+        });
+        const uniqueName = generateUniqueImageName(values.imgUrl);
+        const blobClient = containerClient.getBlockBlobClient(uniqueName);
+        const options = { blobHTTPHeaders: { blobContentType: values.imgUrl.type } };
+        await blobClient.uploadBrowserData(values.imgUrl, options);
+        const imgUrl = `https://${storageAccount}.blob.core.windows.net/tickets/${uniqueName}`;
+        return imgUrl;
+    }
+    const handleFormSubmit = async (values, { resetForm }) => {
+        // const imgURL = uploadFile(values);
+        // imgURL.then((result) => {
+        //     values.imgUrl = result;
+        // });
+
+        // const res = await createTicket(values);
+        // res.then((result) => {
+        //     console.log(result);
+        // });
+        try {
+            const imgURL = await uploadFile(values); // Wait for the file upload to complete
+            values.imgUrl = imgURL;
+            console.log(values);
+
+            const res = await createTicket(values);
+            if (res.status === 'Ok') {
+                setOpen(true);
+                resetForm();
+            }
+            // Optionally, you can display a success message or perform other actions here
+        } catch (error) {
+            console.error(error);
+            // Handle errors if needed
+        }
+    };
+
+    const isNonMobile = useMediaQuery('(min-width: 600px)');
+    const initialValues = {
+        name: '',
+        price: '',
+        type: 'Children',
+        description: '',
+        imgUrl: '',
+        status: '',
+    };
+    const FILE_SIZE = 160 * 1024;
+    const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
+    const ticketType = [{ label: 'Children' }, { label: 'Adult' }, { label: 'Elder' }];
+    const userSchema = yup.object().shape({
+        name: yup.string().required('required'),
+        price: yup.string().required('required'),
+        type: yup.string().required('required'),
+        description: yup.string().required('required'),
+        imgUrl: yup
+            .mixed()
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+        status: yup.string().required('required'),
+    });
+
+    return (
+        <>
+            <div>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="parent-modal-title"
+                    aria-describedby="parent-modal-description"
+                >
+                    <Box sx={{ ...style, width: 400 }}>
+                        <h2 id="parent-modal-title">Create new staff successfully!</h2>
+                        <p id="parent-modal-description">New staff have been add to DataBase!</p>
+                        <Button onClick={handleClose}>Close</Button>
+                    </Box>
+                </Modal>
+            </div>
+            <Box m="20px">
+                <AdminHeader title="CREATE TICKET" subtitle="CREATE NEW TICKET" />
+                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
+                        <form onSubmit={handleSubmit}>
+                            <Box
+                                display="grid"
+                                gap="30px"
+                                gridTemplateColumns="repeat(4,minmax(0,1fr))"
+                                sx={{
+                                    '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
+                                }}
+                            >
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
+                                    label="Name"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.name}
+                                    name="name"
+                                    error={!!touched.name && !!errors.name}
+                                    helperText={touched.name && errors.name}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
+                                />
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
+                                    label="Price"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.price}
+                                    name="price"
+                                    error={!!touched.price && !!errors.price}
+                                    helperText={touched.price && errors.price}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
+                                />
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    select
+                                    label="Type"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    name="type"
+                                    defaultValue="Children"
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
+                                >
+                                    {ticketType.map((option) => (
+                                        <MenuItem key={option.label} value={option.label}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
+                                    label="Description"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.description}
+                                    name="description"
+                                    error={!!touched.description && !!errors.description}
+                                    helperText={touched.description && errors.description}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
+                                />
+
+                                <FormControl
+                                    component="fieldset"
+                                    width="75%"
+                                    sx={{
+                                        gridColumn: 'span 1',
+                                    }}
+                                    label="Gender"
+                                >
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
+                                        Status
+                                    </Typography>
+                                    <RadioGroup
+                                        aria-label="Status"
+                                        name="status"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.status}
+                                        sx={{ display: 'inline-block' }}
+                                        label="Status"
+                                    >
+                                        <FormControlLabel
+                                            value="true"
+                                            control={
+                                                <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
+                                            }
+                                            label="true"
+                                        />
+                                        <FormControlLabel
+                                            value="false"
+                                            control={
+                                                <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
+                                            }
+                                            label="false"
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
+
+                                <FormControl component="fieldset">
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
+                                        Image File
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="ImgUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                        }} // Handle file input change
+                                        name="imgUrl"
+                                        error={!!touched.imgUrl && !!errors.imgUrl}
+                                    />
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                </FormControl>
+                            </Box>
+                            <Box display="flex" justifyContent="end" mt="20px">
+                                <Button type="submit" color="secondary" variant="contained">
+                                    CREATE NEW TICKET
+                                </Button>
+                            </Box>
+                        </form>
+                    )}
+                </Formik>
+            </Box>
+        </>
+    );
+}
+
+export default CreateTicket;

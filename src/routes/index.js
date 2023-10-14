@@ -18,22 +18,17 @@ import Summary from '~/pages/Ticket/Summary/index';
 //Admin routes
 // import Bar from '~/pages/AdminPage/Bar/index';
 import Calendar from '~/pages/AdminPage/Calendar';
-// import Contacts from '~/pages/AdminPage/Contacts';
-// import Dashboard from '~/pages/AdminPage/Dashboard';
-// import FAQ from '~/pages/AdminPage/FAQ';
 import Form from '~/pages/AdminPage/Form';
-// import Geography from '~/pages/AdminPage/Geography';
-// import Invoices from '~/pages/AdminPage/Invoices';
-// import Line from '~/pages/AdminPage/Line';
-// import Pie from '~/pages/AdminPage/Pie';
 import Team from '~/pages/AdminPage/Team';
 import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
 import ThankYouPage from '~/pages/Ticket/Thanks';
 import EditProfile from '~/pages/AdminPage/EditProfile';
+import ViewTicket from '~/pages/AdminPage/ViewTicket';
 //Staff
 import CreateZooTrainer from '~/pages/StaffPage/Create';
 import ViewNews from '~/pages/StaffPage/New/new';
 import TeamS from '~/pages/StaffPage/Team';
+import CreateTicket from '~/pages/AdminPage/CreateTicket';
 // import Update from '~/pages/StaffPage/Update';
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
@@ -60,6 +55,8 @@ const publicRoutes = [
     { path: 'staff/form', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'staff/update', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'edit', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
+    { path: 'tickets/view', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
+    { path: 'tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
 
     // Staff routes
     { path: 'staff/team', component: TeamS, layout: StaffMainPage, name: 'TeamS', Authen: "private" },

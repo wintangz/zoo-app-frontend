@@ -42,11 +42,20 @@ if (localStorage.getItem('token')) {
 }
 
 const Sidebar = () => {
-    const [open, setOpen] = useState(true);
+    // Menu CRUD Staff
+    const [openStaff, setOpenStaff] = useState(false);
 
-    const handleClick = () => {
-        setOpen(!open);
+    const handleStaff = () => {
+        setOpenStaff(!openStaff);
     };
+
+    // Menu CRUD Ticket
+    const [openTicket, setOpenTicket] = useState(false);
+
+    const handleTicket = () => {
+        setOpenTicket(!openTicket);
+    };
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -163,16 +172,16 @@ const Sidebar = () => {
                             aria-labelledby="nested-list-subheader"
                         >
                             <ListItemButton
-                                onClick={handleClick}
+                                onClick={handleStaff}
                                 sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
                             >
                                 <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
                                     <InboxIcon />
                                 </ListItemIcon>
                                 {!isCollapsed && <ListItemText primary="Manage Staff" sx={{ paddingLeft: '4px' }} />}
-                                {open ? <ExpandLess /> : <ExpandMore />}
+                                {openStaff ? <ExpandLess /> : <ExpandMore />}
                             </ListItemButton>
-                            <Collapse in={open} timeout="auto" unmountOnExit>
+                            <Collapse in={openStaff} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
                                     {role === 'ADMIN' && (
                                         <ListItemButton>
@@ -196,6 +205,59 @@ const Sidebar = () => {
                                             />
                                         )}
                                     </ListItemButton>
+                                </List>
+                            </Collapse>
+                        </List>
+                        <List
+                            sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
+                            component="nav"
+                            aria-labelledby="ticket"
+                        >
+                            <ListItemButton
+                                onClick={handleTicket}
+                                sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
+                            >
+                                <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
+                                    <InboxIcon />
+                                </ListItemIcon>
+                                {!isCollapsed && <ListItemText primary="Manage Ticket" sx={{ paddingLeft: '4px' }} />}
+                                {openTicket ? <ExpandLess /> : <ExpandMore />}
+                            </ListItemButton>
+                            <Collapse in={openTicket} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    {role === 'ADMIN' && (
+                                        <ListItemButton>
+                                            <Item
+                                                title="View Ticket"
+                                                to="/tickets/view"
+                                                icon={<PersonOutlinedIcon />}
+                                                selected={selected}
+                                                setSelected={setSelected}
+                                            />
+                                        </ListItemButton>
+                                    )}
+                                    {role === 'ADMIN' && (
+                                        <ListItemButton>
+                                            <Item
+                                                title="Create Ticket"
+                                                to="/tickets/create"
+                                                icon={<PersonOutlinedIcon />}
+                                                selected={selected}
+                                                setSelected={setSelected}
+                                            />
+                                        </ListItemButton>
+                                    )}
+                                    {/* <ListItemButton>
+                                        {role === 'ADMIN' && (
+                                            <Item
+                                                title="Update Staff"
+                                                to="/staff/update"
+                                                icon={<PersonOutlinedIcon />}
+                                                selected={selected}
+                                                setSelected={setSelected}
+                                            />
+                                        )}
+                                    </ListItemButton> */}
                                 </List>
                             </Collapse>
                         </List>

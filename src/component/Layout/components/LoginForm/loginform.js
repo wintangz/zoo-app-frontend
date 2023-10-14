@@ -40,6 +40,8 @@ function LoginForm({ open, setOpenRegisterForm }) {
                 tokendecode.roles.map((role) => {
                     if (role === 'ADMIN') {
                         window.location = '/team';
+                    } else if (role === 'STAFF') {
+                        window.location = '/edit'
                     }
                 })
 

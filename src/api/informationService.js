@@ -3,16 +3,10 @@ import { decode } from '~/utils/axiosClient';
 
 export const getInfo = async (token) => {
     try {
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        }
 
         const userId = decode(token).sub;
         // const userId = 1;
-        const result = await axiosClient.get(`users/${userId}`, config)
+        const result = await axiosClient.get(`users/${userId}`)
 
         return result.data;
     } catch (error) {
