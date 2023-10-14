@@ -3,7 +3,6 @@
 import { NormalLayout } from '~/component/Layout';
 import AdminMainPage from '~/component/Layout/AdminMainPage';
 import AnimalLayout from '~/component/Layout/AnimalLayout/animalLayout';
-import StaffMainPage from '~/component/Layout/StaffMainPage';
 // import banner img
 
 import About from '~/pages/About';
@@ -24,12 +23,15 @@ import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
 import ThankYouPage from '~/pages/Ticket/Thanks';
 import EditProfile from '~/pages/AdminPage/EditProfile';
 import ViewTicket from '~/pages/AdminPage/ViewTicket';
-//Staff
-import CreateZooTrainer from '~/pages/StaffPage/Create';
-import ViewNews from '~/pages/StaffPage/New/new';
-import TeamS from '~/pages/StaffPage/Team';
 import CreateTicket from '~/pages/AdminPage/CreateTicket';
-// import Update from '~/pages/StaffPage/Update';
+
+// //Staff
+// import CreateZooTrainer from '~/pages/StaffPage/Create';
+// import TeamS from '~/pages/StaffPage/Team';
+// // import Update from '~/pages/StaffPage/Update';
+// import ViewNews from '~/pages/AdminPage/New/new';
+// import StaffMainPage from '~/component/Layout/StaffMainPage';
+
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
@@ -42,14 +44,7 @@ const publicRoutes = [
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
 
     // Admin routes
-    // { path: 'dashboard', component: Dashboard, layout: AdminMainPage, name: 'Dasboard', Authen: "private" },
-    // { path: 'bar', component: Bar, layout: AdminMainPage, name: 'Bar', Authen: "private" },
-    // { path: 'contacts', component: Contacts, layout: AdminMainPage, name: 'Contacts', Authen: "private" },
-    // { path: 'faq', component: FAQ, layout: AdminMainPage, name: 'FAQ', Authen: "private" },
-    // { path: 'geography', component: Geography, layout: AdminMainPage, name: 'Geography', Authen: "private" },
-    // { path: 'invoices', component: Invoices, layout: AdminMainPage, name: 'Invoices', Authen: "private" },
-    // { path: 'line', component: Line, layout: AdminMainPage, name: 'Line', Authen: "private" },
-    // { path: 'pie', component: Pie, layout: AdminMainPage, name: 'Pie', Authen: "private" },
+
     { path: 'team', component: Team, layout: AdminMainPage, name: 'Team', Authen: "private" },
     { path: 'calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'staff/form', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
@@ -59,9 +54,10 @@ const publicRoutes = [
     { path: 'tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
 
     // Staff routes
-    { path: 'staff/team', component: TeamS, layout: StaffMainPage, name: 'TeamS', Authen: "private" },
-    { path: 'zootrainer/create', component: CreateZooTrainer, layout: StaffMainPage, name: 'CreateZooTrainer', Authen: "private" },
-    { path: 'viewallnew', component: ViewNews, layout: StaffMainPage, name: 'ViewNews', Authen: "private" },
+    // { path: 'staff/team', component: TeamS, layout: StaffMainPage, name: 'TeamS', Authen: "private" },
+    // { path: 'zootrainer/create', component: CreateZooTrainer, layout: StaffMainPage, name: 'CreateZooTrainer', Authen: "private" },
+    // { path: 'viewallnew', component: ViewNews, layout: StaffMainPage, name: 'ViewNews', Authen: "private" },
+    // { path: 'viewallnew', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
 
 ];
 

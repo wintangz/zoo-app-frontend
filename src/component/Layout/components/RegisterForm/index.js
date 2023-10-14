@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import jwt_decode from "jwt-decode";
 import * as Yup from 'yup';
 import axios from 'axios';
+import { decode } from '~/utils/axiosClient';
 
 import styles from './RegisterForm.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 
-const RegisterSchema = Yup.object().shape({
+const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required'),
     confirmPassword: Yup.string()
@@ -25,49 +26,6 @@ const RegisterSchema = Yup.object().shape({
 });
 
 function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
-
-    const initialValues = {
-        username: '',
-        password: '',
-        confirmPassword: '',
-        firstName: '',
-        lastName: '',
-        birthDate: '',
-        citizenID: '',
-        email: '',
-        phoneNumber: '',
-        address: '',
-        country: '',
-    }
-
-    const handleRegister = async (values, { setSubmitting }) => {
-        try {
-            // Send a POST request to the registration API
-            const response = await axios.post('http://localhost:8080/api/auth/register', values);
-
-            // Handle the response as needed
-            localStorage.setItem('token', response.data.accessToken);
-            var token = response.data.accessToken;
-            var decode = jwt_decode(token);
-
-            if (response.status === 200) {
-                // Perform actions based on the registration success
-                decode.roles.map((role) => {
-                    if (role === 'ADMIN') {
-                        window.location = '/mainPage';
-                    }
-                });
-            }
-
-            // Close the modal or perform other actions
-            setOpenRegisterForm(false);
-        } catch (error) {
-            // Handle errors
-            console.error('Error during registration:', error);
-        } finally {
-            setSubmitting(false);
-        }
-    };
 
     const countries = [
         "VietNam",
@@ -99,25 +57,101 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
         setOpenRegisterForm(false); // Close the register form
     };
 
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            const containerElement = document.querySelector(`.${styles.overlay}`);
-            console.log(containerElement); // Add this line for debugging
+    // useEffect(() => {
+    //     const handleOutsideClick = (event) => {
+    //         const containerElement = document.querySelector(`.${styles.overlay}`);
+    //         console.log(containerElement); // Add this line for debugging
 
-            // Check if the click is outside the form
-            if (containerElement && !containerElement.contains(event.target)) {
+    //         // Check if the click is outside the form
+    //         if (containerElement && !containerElement.contains(event.target)) {
+    //             setOpenRegisterForm(false);
+    //         }
+    //     };
+
+    //     // Add the event listener when the component mounts
+    //     document.addEventListener('mousedown', handleOutsideClick);
+
+    //     // Remove the event listener when the component unmounts
+    //     return () => {
+    //         document.removeEventListener('mousedown', handleOutsideClick);
+    //     };
+    // }, [setOpenRegisterForm]);
+
+    // const [data, setData] = useState([]);
+    // const saveRegister = (values) => {
+    //     axios.post('http://localhost:8080/api/users/customers', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //             username: values.username,
+    //             password: values.password,
+    //             lastName: values.lastname,
+    //             firstName: values.firstname,
+    //             // gender: values.sex,
+    //             // birthDate: values.dateOfBirth,
+    //             address: values.address,
+    //             // country: values.nationality,
+    //             phoneNumber: values.phone,
+    //             email: values.email,
+    //         }),
+    //     })
+    //         .then((res) => res.json())
+    //         .then((result) => {
+    //             setData(result)
+    //         })
+    //         .catch((err) => console.log('error'))
+    // }
+
+    const initialValues = {
+        username: '',
+        password: '',
+        confirmPassword: '',
+        firstName: '',
+        lastName: '',
+        birthDate: '',
+        email: '',
+        phoneNumber: '',
+        address: '',
+        country: '',
+    }
+
+    const handleSubmit = async (values, { setSubmitting }) => {
+        console.log('Form values submitted:', values);
+
+        try {
+            // Send a POST request to the registration API
+            const response = await axios.post('http://localhost:8080/api/users/customers', values);
+
+            // Handle the response as needed
+            localStorage.setItem('token', response.data.accessToken);
+            var token = response.data.accessToken;
+            var tokendecode = jwt_decode(token);  // Use jwt_decode instead of decode
+            // Close the modal or perform other actions
+            if (response.status === 200) {
+                // const {data} = await getInfo(token)
+                console.log('Token decode:', tokendecode);
+
                 setOpenRegisterForm(false);
+                alert('Registration successful!'); // Display success message
+            }
+        } catch (error) {
+            // Handle errors
+            console.error('Error during registration:', error);
+
+            // Display error messages
+            if (error.response && error.response.data && error.response.data.errors) {
+                alert(Object.values(error.response.data.errors).join('\n'));
+            } else {
+                alert('An error occurred during registration. Please try again.');
+            }
+        } finally {
+            if (setSubmitting) {
+                setSubmitting(false);
             }
         };
-
-        // Add the event listener when the component mounts
-        document.addEventListener('mousedown', handleOutsideClick);
-
-        // Remove the event listener when the component unmounts
-        return () => {
-            document.removeEventListener('mousedown', handleOutsideClick);
-        };
-    }, [setOpenRegisterForm]);
+    };
 
     return (
         <>
@@ -127,17 +161,23 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
                         <FontAwesomeIcon icon={faClose} />
                     </div>
                     <h1>Register</h1>
+                    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={(values, formikBag) => {
+                        console.log('Form values submitted:', values);
+                        handleSubmit(values, formikBag);
+                    }}>
 
-                    <Formik
-                        initialValues={initialValues}
-                        onSubmit={handleRegister}
-                        validationSchema={RegisterSchema}
-                    >
                         <Form action='#' className={styles.form}>
-                            <div className={styles.inputBox}>
-                                <label>Username</label>
-                                <Field type='text' name='username' placeholder='Username' />
-                                <ErrorMessage name='username' component='div' className={styles.error} />
+                            <div className={styles.column}>
+                                <div className={styles.inputBox}>
+                                    <label>Username</label>
+                                    <Field type='text' name='username' placeholder='Username' />
+                                    <ErrorMessage name='username' component='div' className={styles.error} />
+                                </div>
+                                <div className={styles.inputBox}>
+                                    <label>Email</label>
+                                    <Field type='text' name='email' placeholder="Email" />
+                                    <ErrorMessage name='email' component='div' className={styles.error} />
+                                </div>
                             </div>
                             <div className={styles.column}>
                                 <div className={styles.inputBox}>
@@ -170,9 +210,9 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
                                     <ErrorMessage name='birthDate' component='div' className={styles.error} />
                                 </div>
                                 <div className={styles.inputBox}>
-                                    <label>Citizen ID</label>
-                                    <Field type='text' name='citizenID' placeholder="Citizen ID" />
-                                    <ErrorMessage name='citizenID' component='div' className={styles.error} />
+                                    <label>Phone Number</label>
+                                    <Field type='text' name='phoneNumber' placeholder="Phone Number" />
+                                    <ErrorMessage name='phoneNumber' component='div' className={styles.error} />
                                 </div>
                             </div>
                             <div className={styles.genderCheck}>
@@ -186,18 +226,6 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
                                         <Field type='radio' id='check-female' name='gender' value='female' />
                                         <label htmlFor='check-female'>Female</label>
                                     </div>
-                                </div>
-                            </div>
-                            <div className={styles.column}>
-                                <div className={styles.inputBox}>
-                                    <label>Email</label>
-                                    <Field type='text' name='email' placeholder="Email" />
-                                    <ErrorMessage name='email' component='div' className={styles.error} />
-                                </div>
-                                <div className={styles.inputBox}>
-                                    <label>Phone Number</label>
-                                    <Field type='text' name='phoneNumber' placeholder="Phone Number" />
-                                    <ErrorMessage name='phoneNumber' component='div' className={styles.error} />
                                 </div>
                             </div>
                             <div className={styles.column}>
@@ -219,14 +247,12 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
                                     <ErrorMessage name='country' component='div' className={styles.error} />
                                 </div>
                             </div>
-                            <div className={styles.linkBtn_warp}>
-                                Have an Account, <b onClick={handleLoginClick} className={styles.linkBtn}>Login now!!!</b>
-                            </div>
-
-
                             <button className={styles.submit} type='submit' id='register'>
                                 Register
                             </button>
+                            <div className={styles.linkBtn_warp}>
+                                <a onClick={handleLoginClick} className={styles.linkBtn}>Already have an account?</a>
+                            </div>
                         </Form>
                     </Formik>
                 </div>
