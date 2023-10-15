@@ -8,6 +8,23 @@ import TicketDetail from './TicketDetail';
 
 // import { Link } from 'react-router-dom';
 
+function formatPrice(totalPrice) {
+
+    if (totalPrice == 0)
+        return;
+
+    let totalPriceString = totalPrice.toString();
+
+    // Calculate the position to insert the dot
+    let dotPosition = totalPriceString.length - 3;
+
+    // Insert the dot at the calculated position
+    let formattedPrice = totalPriceString.slice(0, dotPosition) + '.' + totalPriceString.slice(dotPosition);
+
+    // Return the formatted price
+    return formattedPrice;
+}
+
 export const TicketContext = createContext();
 function Ticket() {
     const { setTotalQuantity, setTotalPrice, totalPrice, tickets, auth } = useAppContext();
@@ -44,7 +61,6 @@ function Ticket() {
             <div className={styles.table_container}>
                 <table className={styles.table}>
                     <tr className={styles.table_row}>
-                        <th className={styles.table_header}>Ticket Image</th>
                         <th className={styles.table_header}>Ticket Type</th>
                         <th className={styles.table_header}>Price</th>
                         <th className={styles.table_header}>Quantity</th>
@@ -58,7 +74,7 @@ function Ticket() {
 
                     <tr className={`${styles.table_row} ${styles.total}`}>
                         <td colSpan='4' className={styles.table_data}>
-                            <b>Total Price: {totalPrice} VND</b>
+                            <b>Total Price: {formatPrice(totalPrice)} VND</b>
                         </td>
                     </tr>
                 </table>
@@ -77,5 +93,3 @@ function Ticket() {
 }
 
 export default Ticket
-
-

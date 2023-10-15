@@ -26,7 +26,7 @@ const validationSchema = Yup.object().shape({
 function RegisterForm({ onClose, onLoginClick }) {
 
     const countries = [
-        "VietNam",
+        "Viet Nam",
         "United States",
         "China",
         "India",
