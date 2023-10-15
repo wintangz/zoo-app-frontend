@@ -1,18 +1,21 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppContext } from '~/context';
+import { News } from './news';
 
-function ViewEachNews() {
-    const { newsResult } = useAppContext();
-    const { title } = useParams();
-    const selectedNews = newsResult.find(news => encodeURIComponent(news.title) === title);
+function ViewEachNews(props) {
+    const { id, title } = useParams();
+    // const selectedNews = News.find(news => news.id === parseInt(id, 10) && encodeURIComponent(news.title) === title);
+    console.log(props.title);
+    const [news, setNews] = useState()
+    // if (!selectedNews) {
+    //     return <div>News not found</div>;
+    // }
 
-    const { shortDescription, thumbnailUrl, createdDate } = selectedNews;
-
+    // const { shortDescription, thumbnailUrl, createdDate } = selectedNews;
     return (
-        <div>
-            {/* <h1>{title}</h1> */}
-            <p>{shortDescription}</p>
-        </div>
+        <>
+            <News />
+        </>
     );
 }
 

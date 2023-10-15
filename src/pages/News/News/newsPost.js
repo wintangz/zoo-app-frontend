@@ -3,10 +3,10 @@ import DateTimeFormatComponent from '~/utils/dateTimeFormat';
 import styles from './newsPost.module.scss';
 
 function NewsPost(props) {
-    console.log(props.post.title);
-    const encodedTitle = encodeURIComponent(props.post.title);
+    const { id, title } = props.post;
+    const encodedTitle = encodeURIComponent(title);
     return (
-        <Link to={`/news/${encodedTitle}`} className={styles.title}>
+        <Link to={`/news/${id}/${encodedTitle}`} className={styles.title}>
             <img src={props.post.thumbnailUrl} alt="Thumbnail" />
             <div className={styles.info}>
                 <h3>{props.post.title}</h3>

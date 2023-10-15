@@ -31,7 +31,7 @@ import ThankYouPage from '~/pages/Ticket/Thanks';
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
-    { path: "news/:title", component: ViewEachNews, layout: NormalLayout, name: 'News', Authen: "public" },
+    { path: "news/:id", component: ViewEachNews, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
