@@ -146,7 +146,7 @@ function RegisterForm({ onClose, onLoginClick }) {
         <>
             <div className={styles.overlay}>
                 <div className={styles.container} ref={registerFormRef}>
-                    <div className={styles.close} onClick={onClose}>
+                    <div className={styles.close} >
                         <FontAwesomeIcon icon={faClose} />
                     </div>
                     <h1>Register</h1>
