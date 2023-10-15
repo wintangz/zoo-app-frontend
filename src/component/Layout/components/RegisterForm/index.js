@@ -108,21 +108,9 @@ function RegisterForm({ onClose, onLoginClick }) {
         console.log('Form values submitted:', values);
 
         try {
-            // Transform the form values to match the expected format
-            const userData = {
-                username: values.username,
-                password: values.password,
-                lastName: values.lastName,
-                firstName: values.firstName,
-                birthDate: values.birthDate,
-                email: values.email,
-                phoneNumber: values.phoneNumber,
-                address: values.address,
-                country: values.country,
-            };
 
             // Use the registerUser function from api.js
-            const response = await registerUser(userData);
+            const response = await registerUser(values);
 
             // Handle the response as needed
             if (response.status === 200) {

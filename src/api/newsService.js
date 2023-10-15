@@ -19,3 +19,13 @@ export const getNews = async () => {
         console.log(error);
     }
 }
+
+export const getNewsById = async (id) => {
+    try {
+        const res = await axiosClient.get(`news/${id}`);
+        console.log(res.data);
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
