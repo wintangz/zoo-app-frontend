@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
 import jwt_decode from "jwt-decode";
 import * as Yup from 'yup';
@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
     country: Yup.string().required('Country is required'),
 });
 
-function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
+function RegisterForm({ onClose, onLoginClick }) {
 
     const countries = [
         "VietNam",
@@ -51,31 +51,20 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
         "Turkey",
     ];
 
-
-    const handleLoginClick = () => {
-        setOpenLoginForm(true); // Open the login form
-        setOpenRegisterForm(false); // Close the register form
+    const registerFormRef = useRef(null);
+    const handleClickOutsideForm = (event) => {
+        if (registerFormRef.current && !registerFormRef.current.contains(event.target)) {
+            onClose();
+        }
     };
 
-    // useEffect(() => {
-    //     const handleOutsideClick = (event) => {
-    //         const containerElement = document.querySelector(`.${styles.overlay}`);
-    //         console.log(containerElement); // Add this line for debugging
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutsideForm);
 
-    //         // Check if the click is outside the form
-    //         if (containerElement && !containerElement.contains(event.target)) {
-    //             setOpenRegisterForm(false);
-    //         }
-    //     };
-
-    //     // Add the event listener when the component mounts
-    //     document.addEventListener('mousedown', handleOutsideClick);
-
-    //     // Remove the event listener when the component unmounts
-    //     return () => {
-    //         document.removeEventListener('mousedown', handleOutsideClick);
-    //     };
-    // }, [setOpenRegisterForm]);
+        return () => {
+            document.removeEventListener('click', handleClickOutsideForm);
+        };
+    }, []);
 
     // const [data, setData] = useState([]);
     // const saveRegister = (values) => {
@@ -117,53 +106,53 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
         country: '',
     }
 
-    const handleSubmit = async (values, { setSubmitting }) => {
-        console.log('Form values submitted:', values);
+    // const handleSubmit = async (values, { setSubmitting }) => {
+    //     console.log('Form values submitted:', values);
 
-        try {
-            // Send a POST request to the registration API
-            const response = await axios.post('http://localhost:8080/api/users/customers', values);
+    //     try {
+    //         // Send a POST request to the registration API
+    //         const response = await axios.post('http://localhost:8080/api/users/customers', values);
 
-            // Handle the response as needed
-            localStorage.setItem('token', response.data.accessToken);
-            var token = response.data.accessToken;
-            var tokendecode = jwt_decode(token);  // Use jwt_decode instead of decode
-            // Close the modal or perform other actions
-            if (response.status === 200) {
-                // const {data} = await getInfo(token)
-                console.log('Token decode:', tokendecode);
+    //         // Handle the response as needed
+    //         localStorage.setItem('token', response.data.accessToken);
+    //         var token = response.data.accessToken;
+    //         var tokendecode = jwt_decode(token);  // Use jwt_decode instead of decode
+    //         // Close the modal or perform other actions
+    //         if (response.status === 200) {
+    //             // const {data} = await getInfo(token)
+    //             console.log('Token decode:', tokendecode);
 
-                setOpenRegisterForm(false);
-                alert('Registration successful!'); // Display success message
-            }
-        } catch (error) {
-            // Handle errors
-            console.error('Error during registration:', error);
+    //             setOpenRegisterForm(false);
+    //             alert('Registration successful!'); // Display success message
+    //         }
+    //     } catch (error) {
+    //         // Handle errors
+    //         console.error('Error during registration:', error);
 
-            // Display error messages
-            if (error.response && error.response.data && error.response.data.errors) {
-                alert(Object.values(error.response.data.errors).join('\n'));
-            } else {
-                alert('An error occurred during registration. Please try again.');
-            }
-        } finally {
-            if (setSubmitting) {
-                setSubmitting(false);
-            }
-        };
-    };
+    //         // Display error messages
+    //         if (error.response && error.response.data && error.response.data.errors) {
+    //             alert(Object.values(error.response.data.errors).join('\n'));
+    //         } else {
+    //             alert('An error occurred during registration. Please try again.');
+    //         }
+    //     } finally {
+    //         if (setSubmitting) {
+    //             setSubmitting(false);
+    //         }
+    //     };
+    // };
 
     return (
         <>
             <div className={styles.overlay}>
-                <div className={styles.container}>
-                    <div className={styles.close} onClick={() => setOpenRegisterForm(false)}>
+                <div className={styles.container} ref={registerFormRef}>
+                    <div className={styles.close} onClick={onClose}>
                         <FontAwesomeIcon icon={faClose} />
                     </div>
                     <h1>Register</h1>
                     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={(values, formikBag) => {
                         console.log('Form values submitted:', values);
-                        handleSubmit(values, formikBag);
+                        // handleSubmit(values, formikBag);
                     }}>
 
                         <Form action='#' className={styles.form}>
@@ -251,7 +240,7 @@ function RegisterForm({ setOpenLoginForm, setOpenRegisterForm }) {
                                 Register
                             </button>
                             <div className={styles.linkBtn_warp}>
-                                <a onClick={handleLoginClick} className={styles.linkBtn}>Already have an account?</a>
+                                <a onClick={onLoginClick} className={styles.linkBtn}>Already have an account?</a>
                             </div>
                         </Form>
                     </Formik>

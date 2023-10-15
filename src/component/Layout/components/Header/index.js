@@ -6,10 +6,10 @@ import { NamePageContext } from '~/App';
 import { logo_long } from '~/utils/assets-src';
 import LoginForm from '../LoginForm/loginform';
 import RegisterForm from '../RegisterForm/index';
+import ForgotPasswordForm from '../LoginForm/ForgotPassword/forgotpassword';
 import styles from './Header.module.scss';
 import { components } from './components.js';
 function Header() {
-    const [open, setOpen] = useState(false);
     const NamePage = useContext(NamePageContext);
     const lineRef = useRef(null);
     useEffect(() => {
@@ -79,8 +79,41 @@ function Header() {
         }
     }
 
-    const [openLoginForm, setOpenLoginForm] = useState(false);
-    const [openRegisterForm, setOpenRegisterForm] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
+
+    const handleLoginFormClick = (event) => {
+        event.stopPropagation();
+        setShowLogin(true);
+        setShowRegister(false);
+        setShowForgotPassword(false);
+    };
+
+    const handleRegisterFormClick = (event) => {
+        event.stopPropagation();
+        setShowLogin(false);
+        setShowRegister(true);
+        setShowForgotPassword(false);
+    };
+
+    const handleForgotPasswordFormClick = (event) => {
+        event.stopPropagation();
+        setShowLogin(false);
+        setShowRegister(false);
+        setShowForgotPassword(true);
+    };
+
+    const handleCloseLogin = () => {
+        setShowLogin(false);
+    };
+
+    const handleCloseRegister = () => {
+        setShowRegister(false);
+    };
+    const handleCloseForgotPassword = () => {
+        setShowForgotPassword(false);
+    };
 
     return (
         <>
@@ -133,15 +166,19 @@ function Header() {
                     </div>
                 </div>
                 <div className={styles.login}>
-                    <Link onClick={() => setOpenLoginForm(true)} className={`${styles.loginitem} ${styles.js_open}`}>
+                    <Link onClick={(event) => handleLoginFormClick(event)} className={`${styles.loginitem} ${styles.js_open}`}>
                         Log In
                     </Link>
                 </div>
             </header>
 
-            {open && <LoginForm open={setOpen} />}
-            {openRegisterForm && <RegisterForm setOpenLoginForm={setOpenLoginForm} setOpenRegisterForm={setOpenRegisterForm} />}
-            {openLoginForm && <LoginForm open={setOpenLoginForm} setOpenRegisterForm={setOpenRegisterForm} />}
+            {showLogin && <LoginForm
+                onClose={handleCloseLogin}
+                onRegisterClick={(event) => handleRegisterFormClick(event)}
+                onForgotPasswordClick={(event) => handleForgotPasswordFormClick(event)}
+            />}
+            {showRegister && <RegisterForm onClose={handleCloseRegister} onLoginClick={handleLoginFormClick} />}
+            {showForgotPassword && <ForgotPasswordForm onClose={handleCloseForgotPassword} onLoginClick={handleLoginFormClick} />}
         </>
     );
 }

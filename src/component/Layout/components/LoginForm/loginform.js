@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as Yup from 'yup';
 
 import { faClose } from '@fortawesome/free-solid-svg-icons';
@@ -15,7 +15,7 @@ const validationSchema = Yup.object().shape({
     password: Yup.string().required('Password is required'),
 });
 
-function LoginForm({ open, setOpenRegisterForm }) {
+function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
     const initialValues = {
         username: '',
         password: '',
@@ -27,8 +27,9 @@ function LoginForm({ open, setOpenRegisterForm }) {
             const response = await axios.post('http://localhost:8080/api/auth/login', values);
 
             // Handle the response as needed
-            localStorage.setItem('token', response.data.accessToken);
-            var token = response.data.accessToken;
+            console.log(response);
+            localStorage.setItem('token', response.data.data.accessToken);
+            var token = response.data.data.accessToken;
             var tokendecode = decode(token);
             // Close the modal or perform other actions
             if (response.status === 200) {
@@ -37,6 +38,8 @@ function LoginForm({ open, setOpenRegisterForm }) {
                 tokendecode.roles.map((role) => {
                     if (role !== 'CUSTOMER') {
                         window.location = '/team';
+                    } else if (role === 'STAFF') {
+                        window.location = '/edit'
                     }
                 })
                 // if (localStorage.getItem('role')) {
@@ -46,7 +49,7 @@ function LoginForm({ open, setOpenRegisterForm }) {
                 //     console.log(false);
                 // }
             }
-            open(false);
+            onClose();
         } catch (error) {
             // Handle errors
             console.error('Error during login:', error);
@@ -55,33 +58,27 @@ function LoginForm({ open, setOpenRegisterForm }) {
         }
     };
 
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            // Check if the click is outside the modal
-            if (!document.querySelector(`.${styles.modal}`).contains(event.target)) {
-                // Close the modal
-                open(false);
-            }
-        };
 
-        // Add the event listener when the component mounts
-        document.addEventListener('mousedown', handleOutsideClick);
+    const loginFormRef = useRef(null);
 
-        // Remove the event listener when the component unmounts
-        return () => {
-            document.removeEventListener('mousedown', handleOutsideClick);
-        };
-    }, [open]);
-
-    const handleRegisterClick = () => {
-        setOpenRegisterForm(true); // Open the register form
-        open(false); // Close the login form
+    const handleClickOutsideForm = (event) => {
+        if (loginFormRef.current && !loginFormRef.current.contains(event.target)) {
+            onClose();
+        }
     };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutsideForm);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutsideForm);
+        };
+    }, []);
 
     return (
         <div className={`${styles.overlay}`}>
-            <div className={styles.modal}>
-                <div className={styles.close} onClick={() => open(false)}>
+            <div className={styles.modal} ref={loginFormRef} >
+                <div className={styles.close} onClick={onClose}>
                     <FontAwesomeIcon icon={faClose} />
                 </div>
 
@@ -90,7 +87,7 @@ function LoginForm({ open, setOpenRegisterForm }) {
                     <h1>Login</h1>
                 </div>
 
-                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}  >
                     <Form className={styles.form}>
                         <div className={styles.field}>
                             <label htmlFor="username" className={styles.label}>
@@ -123,8 +120,8 @@ function LoginForm({ open, setOpenRegisterForm }) {
                             Login
                         </button>
                         <div className={styles.linkBtn_warp}>
-                            <a onClick={handleRegisterClick} className={styles.linkBtn}>forgotten password?</a>
-                            <a onClick={handleRegisterClick} className={styles.linkBtn}>Sign up for SaigonZoo</a>
+                            <a onClick={onForgotPasswordClick} className={styles.linkBtn}>forgotten password?</a>
+                            <a onClick={onRegisterClick} className={styles.linkBtn}>Sign up for SaigonZoo</a>
                         </div>
                     </Form>
                 </Formik>
