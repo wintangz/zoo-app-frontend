@@ -4,18 +4,36 @@ const api = axios.create({
     // baseURL: 'http://192.168.2.120:8080/api/'
     baseURL: 'http://localhost:8080/api/'
 })
-export const get = async (path, options = {}) => {
-    const response = await api.get(path, options = {});
+export const get = async (path) => {
+    const token = localStorage.getItem('token');
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    const response = await api.get(path, config);
     return response.data
 }
 
-export const post = async (path, options = {}, values) => {
-    const response = await api.post(path, values, options = {});
+export const post = async (path, values) => {
+    const token = localStorage.getItem('token');
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    const response = await api.post(path, values, config);
     return response
 }
 
-export const put = async (path, options = {}, values) => {
-    const response = await api.put(path, values, options = {});
+export const put = async (path, values) => {
+    const token = localStorage.getItem('token');
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    }
+    const response = await api.put(path, values, config);
     return response;
 }
 

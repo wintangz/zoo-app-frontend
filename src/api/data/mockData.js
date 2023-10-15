@@ -1,55 +1,35 @@
-import api from "~/utils/axiosClient";
+import * as axiosClient from "~/utils/axiosClient";
 import { tokens } from "../../theme";
 export const getUser = async () => {
     try {
-        const token = localStorage.getItem('token');
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-        const res = await api.get('users', config)
-        return res.data.data;
+
+        const res = await axiosClient.get('users')
+        return res.data;
     } catch (error) {
     }
 }
 
 export const getZooTrainer = async () => {
     try {
-        const token = localStorage.getItem('token');
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-        const res = await api.get('users/zoo-trainers', config)
-        return res.data.data;
+
+        const res = await axiosClient.get('users/zoo-trainers')
+        return res.data;
     } catch (error) {
     }
 }
 
 export const createStaff = async (values) => {
     try {
-        const token = localStorage.getItem('token');
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-        const res = await api.post('users/staff', values, config)
+
+        const res = await axiosClient.post('users/staff', values)
         return res;
     } catch (error) {
     }
 }
 export const createZooTrainer = async (values) => {
     try {
-        const token = localStorage.getItem('token');
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-        const res = await api.post('users/zoo-trainers', values, config)
+
+        const res = await axiosClient.post('users/zoo-trainers', values)
         return res;
     } catch (error) {
     }
@@ -57,40 +37,25 @@ export const createZooTrainer = async (values) => {
 
 export const getUserById = async (values) => {
     try {
-        const token = localStorage.getItem('token');
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-        const res = await api.get(`users/${values}`, config)
-        return res.data.data;
+
+        const res = await axiosClient.get(`users/${values}`)
+        return res.data;
     } catch (error) {
     }
 }
 
 export const updateStaff = async (values) => {
     try {
-        const token = localStorage.getItem('token');
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-        const res = await api.put('users/staff', values, config)
+
+        const res = await axiosClient.put('users/staff', values)
         return res;
     } catch (error) {
     }
 }
 export const updateUser = async (id, values) => {
     try {
-        const token = localStorage.getItem('token');
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-        const res = await api.put(`users/${id}`, values, config)
+
+        const res = await axiosClient.put(`users/${id}`, values)
         return res;
     } catch (error) {
     }
@@ -98,13 +63,7 @@ export const updateUser = async (id, values) => {
 
 export const logout = async (values) => {
     try {
-        const token = localStorage.getItem('token');
-        const config = {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }
-        const res = await api.post('auth/logout', values, config)
+        const res = await axiosClient.post('auth/logout', values)
         return res;
     } catch (error) {
     }

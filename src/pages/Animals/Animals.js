@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './Animals.module.scss';
 import 'swiper/css';
 import AnimalBackground from './Components/AnimalBackground/AnimalBackground'
@@ -13,27 +13,37 @@ function Animals() {
 
     const [habitats, setHabitats] = useState(null);
 
-    const fetchApi1 = async () => {
+    const fetchApi1 = useCallback(async () => {
         const result = await animalsService.getAnimals();
         setAnimals(result);
-    }
+    }, []);
 
-    const fetchApi2 = async () => {
+    const fetchApi2 = useCallback(async () => {
         const result = await animalsService.getHabitats();
         setHabitats(result);
-    }
+    }, []);
 
     useEffect(() => {
-        fetchApi1();
-        fetchApi2();
-    }, []);
+        console.log("Effect triggered");
+        console.log("fetchApi1", fetchApi1);
+        console.log("fetchApi2", fetchApi2);
+        const fetchData = async () => {
+            await fetchApi1();
+            await fetchApi2();
+        };
+
+        fetchData();
+    }, [fetchApi1, fetchApi2]);
+
+    const memorizedAnimals = useMemo(() => animals, [animals]);
+    const memorizedHabitats = useMemo(() => habitats, [habitats]);
 
     return (
         <div className={styles.container}>
-            {habitats && <AnimalBackground habitats={habitats} />}
-            {habitats && <Sidebar habitats={habitats} />}
-            {animals && <AnimalProfile animals={animals} habitats={habitats} />}
-            {animals && <AnimalWrapper animals={animals} habitats={habitats} />}
+            {habitats && <AnimalBackground habitats={memorizedHabitats} />}
+            {habitats && <Sidebar habitats={memorizedHabitats} />}
+            {animals && <AnimalProfile animals={memorizedAnimals} habitats={memorizedHabitats} />}
+            {animals && <AnimalWrapper animals={memorizedAnimals} habitats={memorizedHabitats} />}
         </div>
     );
 }
