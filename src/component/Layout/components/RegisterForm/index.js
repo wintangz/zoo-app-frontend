@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
-import jwt_decode from "jwt-decode";
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useEffect, useRef } from 'react';
 import * as Yup from 'yup';
-import axios from 'axios';
-import { decode } from '~/utils/axiosClient';
 
-import styles from './RegisterForm.module.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { registerUser } from '~/api/loginService';
+import styles from './RegisterForm.module.scss';
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
@@ -106,41 +104,46 @@ function RegisterForm({ onClose, onLoginClick }) {
         country: '',
     }
 
-    // const handleSubmit = async (values, { setSubmitting }) => {
-    //     console.log('Form values submitted:', values);
+    const handleSubmit = async (values, { setSubmitting }) => {
+        console.log('Form values submitted:', values);
 
-    //     try {
-    //         // Send a POST request to the registration API
-    //         const response = await axios.post('http://localhost:8080/api/users/customers', values);
+        try {
+            // Transform the form values to match the expected format
+            const userData = {
+                username: values.username,
+                password: values.password,
+                lastName: values.lastName,
+                firstName: values.firstName,
+                birthDate: values.birthDate,
+                email: values.email,
+                phoneNumber: values.phoneNumber,
+                address: values.address,
+                country: values.country,
+            };
 
-    //         // Handle the response as needed
-    //         localStorage.setItem('token', response.data.accessToken);
-    //         var token = response.data.accessToken;
-    //         var tokendecode = jwt_decode(token);  // Use jwt_decode instead of decode
-    //         // Close the modal or perform other actions
-    //         if (response.status === 200) {
-    //             // const {data} = await getInfo(token)
-    //             console.log('Token decode:', tokendecode);
+            // Use the registerUser function from api.js
+            const response = await registerUser(userData);
 
-    //             setOpenRegisterForm(false);
-    //             alert('Registration successful!'); // Display success message
-    //         }
-    //     } catch (error) {
-    //         // Handle errors
-    //         console.error('Error during registration:', error);
+            // Handle the response as needed
+            if (response.status === 200) {
+                alert('Registration successful!'); // Display success message
+            }
+        } catch (error) {
+            // Handle errors
+            console.error('Error during registration:', error);
 
-    //         // Display error messages
-    //         if (error.response && error.response.data && error.response.data.errors) {
-    //             alert(Object.values(error.response.data.errors).join('\n'));
-    //         } else {
-    //             alert('An error occurred during registration. Please try again.');
-    //         }
-    //     } finally {
-    //         if (setSubmitting) {
-    //             setSubmitting(false);
-    //         }
-    //     };
-    // };
+            // Display error messages
+            if (error.response && error.response.data && error.response.data.errors) {
+                alert(Object.values(error.response.data.errors).join('\n'));
+            } else {
+                alert('An error occurred during registration. Please try again.');
+            }
+        } finally {
+            if (setSubmitting) {
+                setSubmitting(false);
+            }
+        }
+    };
 
     return (
         <>
@@ -150,10 +153,12 @@ function RegisterForm({ onClose, onLoginClick }) {
                         <FontAwesomeIcon icon={faClose} />
                     </div>
                     <h1>Register</h1>
-                    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={(values, formikBag) => {
-                        console.log('Form values submitted:', values);
-                        // handleSubmit(values, formikBag);
-                    }}>
+                    <Formik initialValues={initialValues}
+                        validationSchema={validationSchema}
+                        onSubmit={(values, formikBag) => {
+                            console.log('Form values submitted:', values);
+                            handleSubmit(values, formikBag);
+                        }}>
 
                         <Form action='#' className={styles.form}>
                             <div className={styles.column}>
@@ -251,3 +256,212 @@ function RegisterForm({ onClose, onLoginClick }) {
 }
 
 export default RegisterForm;
+
+
+// import { useState } from "react";
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
+// import logo from "../../UI/Logo/logo.png";
+// import React from "react";
+// import RegisterCSS from "../../UI/Layout/Register.module.css"
+// function Register() {
+//   let navigate = useNavigate()
+//   const [user, setUser] = useState({
+//     email: "",
+//     password: "",
+//     firstName: "",
+//     lastName: "",
+//     phone: "",
+//     address: "",
+//     birth: "",
+//     age: "",
+//     sex: "",
+//     role: "member"
+//   })
+//   const { email, password, firstName, lastName, phone, address, birth, age, sex } = user
+
+//   const onInputChange = (event) => {
+//     setUser({ ...user, [event.target.name]: event.target.value })
+//   }
+
+//   const onSubmit = async (event) => {
+//     event.preventDefault();
+//     try {
+//       await axios.post("http://localhost:8080/api/v1/user/save", user);
+//       alert("User registation Successfully");
+//       navigate("/")
+//     } catch (err) {
+//       alert(err);
+//     }
+//   }
+
+
+//   return (
+//     <div className={RegisterCSS['wrapper']} id="wrapper">
+//       <form className={RegisterCSS['form-login']} onSubmit={onSubmit} id="form-login">
+//         <div className={RegisterCSS['image']} >
+//           <img src={logo} alt="" />
+//         </div>
+//         <h1 className={RegisterCSS['form-heading']} >Đăng ký tài khoản</h1>
+//         <div className={RegisterCSS['submit']}>
+//           <div className={RegisterCSS['form-group_1']}>
+//             <input type="text"
+//               name="lastName"
+//               className={RegisterCSS['form-input']} placeholder="Họ"
+//               value={lastName}
+//               onChange={onInputChange}
+//             />
+//           </div>
+//           <div><p>Và</p></div>
+//           <div className={RegisterCSS['form-group_1']}>
+//             <input type="text"
+//               name="firstName"
+//               className={RegisterCSS['form-input']} placeholder="Tên"
+//               value={firstName}
+//               onChange={onInputChange}
+//             />
+//           </div>
+//         </div>
+//         <div className={RegisterCSS['submit_1']} >
+//           <div className={RegisterCSS['form-group']}>
+//             <i className="fa fa-phone"></i>
+//             <input type="text"
+//               name="phone"
+//               className={RegisterCSS['form-input']} placeholder="Số điện thoại"
+//               value={phone}
+//               onChange={onInputChange}
+//             />
+//           </div>
+//         </div>
+//         <div className={RegisterCSS['submit_1']} >
+//           <div className={RegisterCSS['form-group']}>
+//             <i className="fa fa-age"></i>
+//             <input type="number"
+//               name="age"
+//               className={RegisterCSS['form-input']} placeholder="Tuổi"
+//               value={age}
+//               onChange={onInputChange}
+//             />
+//           </div>
+//         </div>
+
+//         <div className={RegisterCSS['submit_1']} >
+//           <div className={RegisterCSS['form-group']}>
+//             <i className="fa fa-envelope"></i>
+//             <input type="email"
+//               name="email"
+//               className={RegisterCSS['form-input']} placeholder="Email"
+//               value={email}
+//               onChange={onInputChange}
+//             />
+//           </div>
+//         </div>
+
+//         <div className={RegisterCSS['submit_1']} >
+//           <div className={RegisterCSS['form-group']}>
+//             <i className="fa fa-key"></i>
+//             <input type="password"
+//               name="password"
+//               className={RegisterCSS['form-input']} placeholder="Mật khẩu"
+//               value={password}
+//               onChange={onInputChange}
+//             />
+//             <div className={RegisterCSS['eye']}>
+//               <i className="fa fa-eye"></i>
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className={RegisterCSS['submit_1']} >
+//           <div className={RegisterCSS['form-group']}>
+//             <i className="fa fa-calendar"></i>
+//             <input type="date"
+//               name="birth"
+//               className={RegisterCSS['form-input']} placeholder="Năm sinh"
+//               value={birth}
+//               onChange={onInputChange}
+//             />
+//           </div>
+//         </div>
+
+//         <div className={RegisterCSS['submit_1']} >
+//           <div className={RegisterCSS['form-group_2']}>
+//             <div className={RegisterCSS['form-group_2_gender']} >
+//               <label for="gender">Giới tính:</label>
+
+//               <div className={RegisterCSS['from-check']}>
+//                 <input type="radio"
+//                   name="sex"
+//                   className="from-check-input"
+//                   value="male"
+//                   checked={sex === "male"} // Kiểm tra nếu sex là male thì checked
+//                   onChange={onInputChange}
+//                 />
+//                 <label for="" className="from-check-label">Nam</label>
+//               </div>
+
+//               <div className="from-check">
+//                 <input type="radio"
+//                   name="sex"
+//                   className="from-check-input"
+//                   value="female"
+//                   checked={sex === "female"} // Kiểm tra nếu sex là female thì checked
+//                   onChange={onInputChange}
+//                 />
+//                 <label for="" className="from-check-label">Nữ</label>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className={RegisterCSS['submit_1']} >
+//           <div className={RegisterCSS['form-group']}>
+//             <i className="fa fa-address-card"></i>
+//             <input type="text"
+//               name="address"
+//               className={RegisterCSS['form-input']} placeholder="Địa chỉ"
+//               value={address}
+//               onChange={onInputChange}
+//             />
+//           </div>
+//         </div>
+//         {/* <div className="submit_1">
+//           <div className="form-group">
+//             <i className="fa fa-user"></i>
+//             <input type="text" name="" className="form-input" placeholder="Tài khoản" />
+//           </div>
+//         </div> */}
+
+//         {/* <div className="submit_1">
+//           <div className="form-group">
+//             <i className="fa fa-key"></i>
+//             <input type="password" className="form-input" placeholder="Xác nhận mật khẩu" />
+//             <div id="eye_1">
+//               <i className="fa fa-eye"></i>
+//             </div>
+//           </div>
+//         </div> */}
+//         <div className={RegisterCSS['submit_check']}>
+//           <input type="checkbox" name="checkbox" id="check1" />
+//           <div>
+//             Bằng việc đăng ký, bạn đồng ý với <span className={RegisterCSS['form_B']}>Điều khoản</span> sử dụng và
+//             <span className={RegisterCSS['text_B']} >Chính sách</span>
+//             bảo mật của <span className={RegisterCSS['text_B']} >Dog & Cat</span>
+//           </div>
+//         </div>
+//         <div className={RegisterCSS['submit_1']} >
+//           <input type="submit" value="Đăng ký" className={RegisterCSS['form-submit']} />
+//         </div>
+//         <div>
+//           <p className={RegisterCSS['text_2']}>Đã có tài khoản?
+//             <span className={RegisterCSS['text_span']} >
+//               <a href="/login">Đăng nhập ngay</a>
+//             </span>
+//           </p>
+//         </div>
+//       </form>
+//     </div>
+//   );
+// }
+
+// export default Register;

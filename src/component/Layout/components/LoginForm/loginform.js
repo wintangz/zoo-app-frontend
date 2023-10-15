@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import * as Yup from 'yup';
 
 import { faClose } from '@fortawesome/free-solid-svg-icons';

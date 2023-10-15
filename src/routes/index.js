@@ -17,24 +17,21 @@ import Summary from '~/pages/Ticket/Summary/index';
 //Admin routes
 // import Bar from '~/pages/AdminPage/Bar/index';
 import Calendar from '~/pages/AdminPage/Calendar';
+import CreateTicket from '~/pages/AdminPage/CreateTicket';
+import EditProfile from '~/pages/AdminPage/EditProfile';
 import Form from '~/pages/AdminPage/Form';
+import ViewNews from '~/pages/AdminPage/New/new';
 import Team from '~/pages/AdminPage/Team';
 import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
-import ThankYouPage from '~/pages/Ticket/Thanks';
-import EditProfile from '~/pages/AdminPage/EditProfile';
 import ViewTicket from '~/pages/AdminPage/ViewTicket';
-import CreateTicket from '~/pages/AdminPage/CreateTicket';
+import ViewEachNews from '~/pages/News/ViewEachNews/viewNews';
+import ThankYouPage from '~/pages/Ticket/Thanks';
 
-// //Staff
-// import CreateZooTrainer from '~/pages/StaffPage/Create';
-// import TeamS from '~/pages/StaffPage/Team';
-// // import Update from '~/pages/StaffPage/Update';
-// import ViewNews from '~/pages/AdminPage/New/new';
-// import StaffMainPage from '~/component/Layout/StaffMainPage';
 
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
+    { path: "news/:title", component: ViewEachNews, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
@@ -52,12 +49,9 @@ const publicRoutes = [
     { path: 'edit', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'tickets/view', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
     { path: 'tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
+    { path: 'viewallnew', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
 
-    // Staff routes
-    // { path: 'staff/team', component: TeamS, layout: StaffMainPage, name: 'TeamS', Authen: "private" },
-    // { path: 'zootrainer/create', component: CreateZooTrainer, layout: StaffMainPage, name: 'CreateZooTrainer', Authen: "private" },
-    // { path: 'viewallnew', component: ViewNews, layout: StaffMainPage, name: 'ViewNews', Authen: "private" },
-    // { path: 'viewallnew', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
+
 
 ];
 
