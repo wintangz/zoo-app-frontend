@@ -22,6 +22,7 @@ import * as mockData from '~/api/data/mockData';
 import { decode } from '~/utils/axiosClient';
 import { useEffect, useState } from 'react';
 import moment from 'moment/moment';
+import { Link } from 'react-router-dom';
 
 function EditProfile() {
     //--------------- Call API GET USER ---------------------------------//
@@ -37,6 +38,12 @@ function EditProfile() {
             setUsers(result);
         });
     }, []);
+
+    const [openSercurity, setOpenSercurity] = useState(false);
+
+    const handleSercurity = () => {
+        setOpenSercurity(!openSercurity);
+    };
 
     //****************---------------------- Config Color Theme ****************************/
     const theme = useTheme({ isDashboard: false });
@@ -344,7 +351,18 @@ function EditProfile() {
                                         }}
                                     />
                                 </Box>
-                                <Box display="flex" justifyContent="end" mt="20px">
+                                <Box display="flex" justifyContent="space-between" mt="20px">
+                                    <Link to="/edit/sercurity">
+                                        <Button
+                                            onClick={handleSercurity}
+                                            type="submit"
+                                            color="secondary"
+                                            variant="contained"
+                                        >
+                                            SERCURITY
+                                        </Button>
+                                    </Link>
+
                                     <Button type="submit" color="secondary" variant="contained">
                                         EDIT ACCOUNT
                                     </Button>

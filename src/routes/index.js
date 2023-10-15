@@ -19,6 +19,7 @@ import Summary from '~/pages/Ticket/Summary/index';
 import Calendar from '~/pages/AdminPage/Calendar';
 import CreateTicket from '~/pages/AdminPage/CreateTicket';
 import EditProfile from '~/pages/AdminPage/EditProfile';
+import Sercurity from '~/pages/AdminPage/EditProfile/Sercurity'
 import Form from '~/pages/AdminPage/Form';
 import ViewNews from '~/pages/AdminPage/New/new';
 import Team from '~/pages/AdminPage/Team';
@@ -47,6 +48,7 @@ const publicRoutes = [
     { path: 'staff/form', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'staff/update', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'edit', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
+    { path: 'edit/sercurity', component: Sercurity, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'tickets/view', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
     { path: 'tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
     { path: 'viewallnew', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
