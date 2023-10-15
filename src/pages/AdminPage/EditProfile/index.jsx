@@ -96,15 +96,15 @@ function EditProfile() {
 
     //********************************** INITIAL VALUE*********************************** */
     const initialValues = {
-        username: users.username,
-        lastname: users.lastname,
-        firstname: users.firstname,
-        sex: users.sex ? 'male' : 'female',
-        dateOfBirth: moment(users.dateOfBirth),
-        address: users.address,
-        nationality: users.nationality,
-        phone: users.phone,
-        email: users.email,
+        username: users?.username || '',
+        lastname: users?.lastname || '',
+        firstname: users?.firstname || '',
+        sex: users?.sex ? 'male' : 'female',
+        dateOfBirth: moment(users?.dateOfBirth),
+        address: users?.address || '',
+        nationality: users?.nationality || '',
+        phone: users?.phone || '',
+        email: users?.email || '',
     };
 
     //****************************** VALIDATION ********************************
