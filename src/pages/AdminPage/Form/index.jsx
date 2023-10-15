@@ -174,7 +174,7 @@ function Form() {
                                     fullWidth
                                     variant="filled"
                                     type="text"
-                                    label="User Name"
+                                    label="Username"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.username}
@@ -362,7 +362,7 @@ function Form() {
                                     fullWidth
                                     variant="filled"
                                     type="text"
-                                    label="Emai"
+                                    label="Email"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.email}
