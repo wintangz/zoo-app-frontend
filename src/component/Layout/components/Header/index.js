@@ -4,14 +4,15 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NamePageContext } from '~/App';
 import { logo_long } from '~/utils/assets-src';
+import ForgotPasswordForm from '../LoginForm/ForgotPassword/forgotpassword';
 import LoginForm from '../LoginForm/loginform';
 import RegisterForm from '../RegisterForm/index';
-import ForgotPasswordForm from '../LoginForm/ForgotPassword/forgotpassword';
 import styles from './Header.module.scss';
 import { components } from './components.js';
 function Header() {
     const NamePage = useContext(NamePageContext);
     const lineRef = useRef(null);
+    const [user, setUser] = useState(null);
     useEffect(() => {
         const headerNavItems = document.querySelectorAll(`.${styles.navitem_container}`);
         const child = document.querySelectorAll(`.${styles.dropdown_item}`);
@@ -114,7 +115,14 @@ function Header() {
     const handleCloseForgotPassword = () => {
         setShowForgotPassword(false);
     };
-
+    const handleLoginSuccess = (userInfo) => {
+        setUser(userInfo);
+        setShowLogin(false);
+    };
+    const handleLogout = () => {
+        setUser(null);
+        // Perform logout logic (clear tokens, etc.)
+    };
     return (
         <>
             <header className={styles.container}>
@@ -166,9 +174,15 @@ function Header() {
                     </div>
                 </div>
                 <div className={styles.login}>
-                    <Link onClick={(event) => handleLoginFormClick(event)} className={`${styles.loginitem} ${styles.js_open}`}>
-                        Log In
-                    </Link>
+                    {user ? (
+                        <span className={`${styles.loginitem} ${styles.js_open}`} onClick={handleLogout}>
+                            Log Out
+                        </span>
+                    ) : (
+                        <Link onClick={(event) => handleLoginFormClick(event)} className={`${styles.loginitem} ${styles.js_open}`}>
+                            Log In
+                        </Link>
+                    )}
                 </div>
             </header>
 

@@ -105,12 +105,11 @@ function RegisterForm({ onClose, onLoginClick }) {
     }
 
     const handleSubmit = async (values, { setSubmitting }) => {
-        console.log('Form values submitted:', values);
-
         try {
 
             // Use the registerUser function from api.js
             const response = await registerUser(values);
+            console.log(values);
 
             // Handle the response as needed
             if (response.status === 200) {
