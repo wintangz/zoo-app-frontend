@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import 'react-quill/dist/quill.snow.css';
 import { useParams } from 'react-router-dom';
 import { getNewsById } from '~/api/newsService';
 import NormalBanner from '~/component/Layout/components/NormalBanner';
@@ -33,7 +34,10 @@ function ViewEachNews() {
                 <h1 className={styles.title}>{selectedNews.title}</h1>
                 <p>{selectedNews.shortDescription}</p>
                 <img src={selectedNews.thumbnailUrl} />
-                <p>{selectedNews.content}</p>
+                <div
+                    className="ql-editor"
+                    dangerouslySetInnerHTML={{ __html: selectedNews.content }}
+                />
                 <p>{selectedNews.createdDate}</p>
             </div>
         </>

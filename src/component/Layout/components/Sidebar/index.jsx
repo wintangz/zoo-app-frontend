@@ -202,21 +202,6 @@ const Sidebar = () => {
                         <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
                             Pages
                         </Typography>
-                        {/* <Item
-                            title={titleCreate}
-                            to="/staff/form"
-                            icon={<PersonOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title={titleUpdate}
-                            to="/staff/update"
-                            icon={<PersonOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        /> */}
-
                         <List
                             sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
                             component="nav"
@@ -312,6 +297,7 @@ const Sidebar = () => {
                                 </Collapse>
                             </List>
                         )}
+<<<<<<< Updated upstream
                         <List
                             sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
                             component="nav"
@@ -320,16 +306,29 @@ const Sidebar = () => {
                             <ListItemButton
                                 onClick={handleAnimal}
                                 sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
+=======
+
+
+
+                        {userRole === 'ADMIN' && (
+                            <List
+                                sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
+                                component="nav"
+                                aria-labelledby="animal"
+>>>>>>> Stashed changes
                             >
-                                <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
-                                    <InboxIcon />
-                                </ListItemIcon>
-                                {!isCollapsed && <ListItemText primary="Manage Animal" sx={{ paddingLeft: '4px' }} />}
-                                {openAnimal ? <ExpandLess /> : <ExpandMore />}
-                            </ListItemButton>
-                            <Collapse in={openAnimal} timeout="auto" unmountOnExit>
-                                <List component="div" disablePadding>
-                                    {role === 'ADMIN' && (
+                                <ListItemButton
+                                    onClick={handleAnimal}
+                                    sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
+                                >
+                                    <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
+                                        <InboxIcon />
+                                    </ListItemIcon>
+                                    {!isCollapsed && <ListItemText primary="Manage Animal" sx={{ paddingLeft: '4px' }} />}
+                                    {openAnimal ? <ExpandLess /> : <ExpandMore />}
+                                </ListItemButton>
+                                <Collapse in={openAnimal} timeout="auto" unmountOnExit>
+                                    <List component="div" disablePadding>
                                         <ListItemButton>
                                             <Item
                                                 title="Create Animal"
@@ -339,8 +338,8 @@ const Sidebar = () => {
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-                                    )}
-                                    {/* {role === 'ADMIN' && (
+
+                                        {/* {role === 'ADMIN' && (
                                         <ListItemButton>
                                             <Item
                                                 title="Create Ticket"
@@ -351,9 +350,10 @@ const Sidebar = () => {
                                             />
                                         </ListItemButton>
                                     )} */}
-                                </List>
-                            </Collapse>
-                        </List>
+                                    </List>
+                                </Collapse>
+                            </List>
+                        )}
                         <Button
                             variant="contained"
                             sx={{ width: '70%', marginTop: '2vh', marginBottom: '4vh' }}
