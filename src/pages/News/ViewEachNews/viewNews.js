@@ -34,6 +34,7 @@ function ViewEachNews() {
                 <p>{selectedNews.shortDescription}</p>
                 <img src={selectedNews.thumbnailUrl} />
                 <p>{selectedNews.content}</p>
+                <img src={selectedNews.imgUrl} />
                 <p>{selectedNews.createdDate}</p>
             </div>
         </>
