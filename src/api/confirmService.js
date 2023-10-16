@@ -21,7 +21,7 @@ export const confirmTicketPurchase = async (cart, totalPrice, totalQuantity) => 
 
         const res = await axiosClient.post('orders', body)
         console.log(res.data);
-        return res.data;
+        return res;
     } catch (error) {
         throw new Error('Error during purchase: ' + error.message);
     }

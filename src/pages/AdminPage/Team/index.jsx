@@ -10,12 +10,12 @@ import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import { getUsersWithRoles } from '~/utils/getUserByRole';
+import Actions from './actions';
 
 function Team() {
     const [users, setUsers] = useState(null);
     const fetchapi = async () => {
         const result = await mockData.getUser();
-        console.log(result);
         result.map((element) => {
             element.roles.map((role) => {
                 if (role.name === 'ZOO_TRAINER') {
@@ -28,22 +28,27 @@ function Team() {
 
     const getZooTrainer = async () => {
         const result = await mockData.getZooTrainer();
+        console.log(result);
         const mdata = getUsersWithRoles(result, ['ZOO_TRAINER']);
         setUsers(mdata);
     };
+    const [remove, setRemove] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        decode(token).roles.map((role) => {
+        const roles = decode(token).roles;
+        for (let i = 0; i < roles.length; i++) {
+            const role = roles[i];
             if (role === 'ADMIN') {
+                console.log('tao la admin');
                 fetchapi();
-                return;
+                break; // Break out of the loop
             }
             if (role === 'STAFF') {
+                console.log('tao la staff');
                 getZooTrainer();
-                return;
             }
-        });
+        }
     }, []);
     const userRole = decode(localStorage.getItem('token')).roles[0];
     let title = '';
@@ -129,6 +134,13 @@ function Team() {
                     </Box>
                 );
             },
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            type: 'actions',
+            width: 80,
+            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
         },
     ];
     return (

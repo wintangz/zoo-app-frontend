@@ -21,8 +21,7 @@ import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { tokens } from '~/theme';
 import { createTicket } from '~/api/ticketService';
 import MenuItem from '@mui/material/MenuItem';
-const { BlobServiceClient, ContainerClient } = require('@azure/storage-blob');
-
+import uploadFile from '~/utils/transferFile';
 function CreateTicket() {
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
@@ -46,46 +45,9 @@ function CreateTicket() {
     };
     // -------------------------------- Generate unique name for file    ------------------------------------------------//
 
-    function generateUniqueImageName(file) {
-        const timestamp = Date.now(); // Get the current timestamp
-        const randomChars = Math.random().toString(36).substring(2, 8); // Generate random characters
-
-        const fileExtension = file.name.split('.').pop(); // Get the file extension
-
-        const uniqueName = `${timestamp}-${randomChars}.${fileExtension}`; // Combine timestamp, random chars, and file extension
-
-        return uniqueName;
-    }
-
-    // ---------------------------------- Handle submit and Upload img to azure account --------------------------------   /
-    async function uploadFile(values) {
-        let storageAccount = 'zoowebstorage';
-        let sasToken =
-            '?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-11-10T16:33:21Z&st=2023-10-14T08:33:21Z&spr=https&sig=cRXhTN1EcU6SeXjogZZFeFCPGIddykH%2BGDlvvb2afiU%3D';
-        const blobService = new BlobServiceClient(`https://${storageAccount}.blob.core.windows.net/?${sasToken}`);
-        const containerClient = blobService.getContainerClient('tickets');
-        await containerClient.createIfNotExists({
-            access: 'container',
-        });
-        const uniqueName = generateUniqueImageName(values.imgUrl);
-        const blobClient = containerClient.getBlockBlobClient(uniqueName);
-        const options = { blobHTTPHeaders: { blobContentType: values.imgUrl.type } };
-        await blobClient.uploadBrowserData(values.imgUrl, options);
-        const imgUrl = `https://${storageAccount}.blob.core.windows.net/tickets/${uniqueName}`;
-        return imgUrl;
-    }
     const handleFormSubmit = async (values, { resetForm }) => {
-        // const imgURL = uploadFile(values);
-        // imgURL.then((result) => {
-        //     values.imgUrl = result;
-        // });
-
-        // const res = await createTicket(values);
-        // res.then((result) => {
-        //     console.log(result);
-        // });
         try {
-            const imgURL = await uploadFile(values); // Wait for the file upload to complete
+            const imgURL = await uploadFile(values, 'tickets'); // Wait for the file upload to complete
             values.imgUrl = imgURL;
             console.log(values);
 

@@ -4,8 +4,11 @@ import Modal from '@mui/material/Modal';
 import { tokens } from '~/theme';
 import axios from 'axios';
 import { useState } from 'react';
+import { Link, Route, useNavigate } from 'react-router-dom';
+import Update from '../UpdateStaff';
 
 const Actions = ({ params, setRemove }) => {
+    let navigate = useNavigate();
     const [message, setMessage] = useState(false);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -53,6 +56,11 @@ const Actions = ({ params, setRemove }) => {
     const handleMessage = (values) => {
         setMessage(false);
         setRemove(values);
+    };
+    const userInfo = {
+        // Add your user information here
+        name: 'John Doe',
+        // Other properties
     };
     return (
         <>
@@ -106,7 +114,23 @@ const Actions = ({ params, setRemove }) => {
                         }}
                     >
                         <Delete />
-                    </IconButton>
+                    </IconButton  >
+                </Tooltip>
+
+
+
+
+                <Tooltip title="Delete">
+                    <Link to={`/staff/update/${params.row.id}`}>
+                        <IconButton
+                            onClick={() => {
+
+                            }}
+                        >
+                            <Edit />
+                        </IconButton  >
+                    </Link>
+
                 </Tooltip>
             </Box>
         </>
