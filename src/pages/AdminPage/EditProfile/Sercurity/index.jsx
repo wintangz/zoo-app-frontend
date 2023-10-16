@@ -1,14 +1,14 @@
 import React from 'react';
-import { Box, Button, TextField, useTheme, Typography } from '@mui/material';
+import { Box, Button, TextField, Link as MuiLink, useTheme, Typography } from '@mui/material';
 import { Formik } from 'formik';
 import Modal from '@mui/material/Modal';
 import * as yup from 'yup';
 import { tokens } from '~/theme';
 import AdminHeader from '~/component/Layout/components/AdminHeader';
-import * as mockData from '~/api/data/mockData'; // Assuming there's a function for updating the password
+// import { updatePassword } from '~/api/data/mockData'; // Assuming there's a function for updating the password
 import { Link } from 'react-router-dom';
 
-function Sercurity() {
+function ChangePassword() {
     //****************---------------------- Config Color Theme ****************************/
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
@@ -83,8 +83,8 @@ function Sercurity() {
                         }}
                         validationSchema={passwordSchema}
                     >
-                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
-                            <form onSubmit={handleSubmit}>
+                        {({ values, errors, touched, handleBlur, handleChange }) => (
+                            <form>
                                 <TextField
                                     fullWidth
                                     variant="filled"
@@ -96,6 +96,7 @@ function Sercurity() {
                                     name="currentPassword"
                                     error={!!touched.currentPassword && !!errors.currentPassword}
                                     helperText={touched.currentPassword && errors.currentPassword}
+                                    style={{ marginBottom: '20px' }}
                                 />
 
                                 <TextField
@@ -109,6 +110,7 @@ function Sercurity() {
                                     name="newPassword"
                                     error={!!touched.newPassword && !!errors.newPassword}
                                     helperText={touched.newPassword && errors.newPassword}
+                                    style={{ marginBottom: '20px' }}
                                 />
 
                                 <TextField
@@ -122,9 +124,16 @@ function Sercurity() {
                                     name="retypeNewPassword"
                                     error={!!touched.retypeNewPassword && !!errors.retypeNewPassword}
                                     helperText={touched.retypeNewPassword && errors.retypeNewPassword}
+                                    style={{ marginBottom: '20px' }}
                                 />
 
-                                <Box display="flex" justifyContent="space-between" mt="20px">
+                                <Typography mb={2}>
+                                    <MuiLink href="/forgot-password" color={colors.blueAccent[100]}>
+                                        Forgot your password?
+                                    </MuiLink>
+                                </Typography>
+
+                                <Box display="flex" justifyContent="space-between" mt={2}>
                                     <Link to="/edit">
                                         <Button type="button" color="secondary" variant="contained">
                                             BACK
@@ -144,4 +153,4 @@ function Sercurity() {
     );
 }
 
-export default Sercurity;
+export default ChangePassword;

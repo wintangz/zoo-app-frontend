@@ -37,7 +37,7 @@ function ForgotPassword({ onClose, onLoginClick }) {
                         </div>
                         <div className={styles.submit}>
                             <button onClick={onLoginClick} className={styles.btnCancel} type="submit" id="login">
-                                Canncel
+                                Cancel
                             </button>
                             <button className={styles.btnSearch} type="submit" id="login">
                                 Search
