@@ -303,9 +303,6 @@ const Sidebar = () => {
                                 </Collapse>
                             </List>
                         )}
-
-
-
                         <List
                             sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
                             component="nav"

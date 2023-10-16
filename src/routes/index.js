@@ -47,7 +47,7 @@ const publicRoutes = [
     { path: 'team', component: Team, layout: AdminMainPage, name: 'Team', Authen: "private" },
     { path: 'calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'staff/form', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
-    { path: 'staff/update', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
+    { path: 'staff/update/:userId', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'edit', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'edit/sercurity', component: Sercurity, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'tickets/view', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
