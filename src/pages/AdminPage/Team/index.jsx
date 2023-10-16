@@ -15,7 +15,6 @@ function Team() {
     const [users, setUsers] = useState(null);
     const fetchapi = async () => {
         const result = await mockData.getUser();
-        console.log(result);
         result.map((element) => {
             element.roles.map((role) => {
                 if (role.name === 'ZOO_TRAINER') {
@@ -34,16 +33,19 @@ function Team() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        decode(token).roles.map((role) => {
+        const roles = decode(token).roles;
+        for (let i = 0; i < roles.length; i++) {
+            const role = roles[i];
             if (role === 'ADMIN') {
+                console.log('tao la admin');
                 fetchapi();
-                return;
+                break; // Break out of the loop
             }
             if (role === 'STAFF') {
+                console.log('tao la staff');
                 getZooTrainer();
-                return;
             }
-        });
+        }
     }, []);
     const userRole = decode(localStorage.getItem('token')).roles[0];
     let title = '';
