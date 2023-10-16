@@ -98,8 +98,8 @@ function CreateAnimal() {
         name: '',
         sex: 'true',
         imgUrl: '',
-        arrivalDate: '',
-        dateOfBirth: '',
+        arrivalDate: null,
+        dateOfBirth: null,
         origin: '',
         species: '',
     };
@@ -137,7 +137,7 @@ function CreateAnimal() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="CREATE USER" subtitle="Create a New User Profile" />
+                <AdminHeader title="CREATE ANIMAL" subtitle="Create a new animal" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>

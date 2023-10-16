@@ -11,7 +11,6 @@ import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import { getUsersWithRoles } from '~/utils/getUserByRole';
 import Actions from './actions';
-import { DataGridPro } from '@mui/x-data-grid-pro';
 
 function Team() {
     const [users, setUsers] = useState(null);
@@ -181,13 +180,12 @@ function Team() {
                 }}
             >
                 {users && (
-                    <DataGridPro
+                    <DataGrid
                         rows={users}
                         columns={columns}
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}
                         checkboxSelection
-                        density="compact"
                     />
                 )}
             </Box>

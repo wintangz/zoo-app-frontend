@@ -245,7 +245,7 @@ const Sidebar = () => {
                                             setSelected={setSelected}
                                         />
                                     </ListItemButton>
-                                    {userRole === 'ADMIN' && (
+                                    {/* {userRole === 'ADMIN' && (
                                         <ListItemButton>
                                             <Item
                                                 title={titleUpdate}
@@ -255,7 +255,7 @@ const Sidebar = () => {
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-                                    )}
+                                    )} */}
                                 </List>
                             </Collapse>
                         </List>
