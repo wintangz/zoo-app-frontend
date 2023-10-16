@@ -10,6 +10,7 @@ import {
     useTheme,
     Input,
 } from '@mui/material';
+
 import MenuItem from '@mui/material/MenuItem';
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -25,6 +26,7 @@ import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
 import { getSpecies } from '~/api/speciesService';
 import { createAnimals } from '~/api/animalsService';
+import { DataGridPro } from '@mui/x-data-grid-pro';
 function CreateAnimal() {
     const FILE_SIZE = 160 * 1024;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
