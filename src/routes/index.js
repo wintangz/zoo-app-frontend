@@ -19,8 +19,9 @@ import Summary from '~/pages/Ticket/Summary/index';
 import Calendar from '~/pages/AdminPage/Calendar';
 import CreateTicket from '~/pages/AdminPage/CreateTicket';
 import EditProfile from '~/pages/AdminPage/EditProfile';
-import Sercurity from '~/pages/AdminPage/EditProfile/Sercurity'
+import Sercurity from '~/pages/AdminPage/EditProfile/Sercurity';
 import Form from '~/pages/AdminPage/Form';
+import NewsPostForm from '~/pages/AdminPage/New/createNews';
 import ViewNews from '~/pages/AdminPage/New/new';
 import Team from '~/pages/AdminPage/Team';
 import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
@@ -53,6 +54,7 @@ const publicRoutes = [
     { path: 'tickets/view', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
     { path: 'tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
     { path: 'viewallnew', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
+    { path: 'create/news', component: NewsPostForm, layout: AdminMainPage, name: 'CreateNews', Authen: "private" },
 
     { path: 'animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
 

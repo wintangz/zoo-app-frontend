@@ -27,7 +27,6 @@ function Summary() {
 
     const fetchApi = async () => {
         const result = await getInfo(token);
-        console.log("THIS IS INFO " + result);
         setInfo(result);
     }
 
