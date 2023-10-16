@@ -120,7 +120,7 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                             Login
                         </button>
                         <div className={styles.linkBtn_warp}>
-                            <a onClick={onForgotPasswordClick} className={styles.linkBtn}>forgotten password?</a>
+                            <a onClick={onForgotPasswordClick} className={styles.linkBtn}>Forgotten password?</a>
                             <a onClick={onRegisterClick} className={styles.linkBtn}>Sign up for SaigonZoo</a>
                         </div>
                     </Form>
