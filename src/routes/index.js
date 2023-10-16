@@ -25,14 +25,14 @@ import ViewNews from '~/pages/AdminPage/New/new';
 import Team from '~/pages/AdminPage/Team';
 import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
 import ViewTicket from '~/pages/AdminPage/ViewTicket';
-import ViewEachNews from '~/pages/News/ViewEachNews/viewNews';
+import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
 
 
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
-    { path: "news/:id", component: ViewEachNews, layout: NormalLayout, name: 'News', Authen: "public" },
+    { path: "news/:id/:title", component: ParentComponent, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },

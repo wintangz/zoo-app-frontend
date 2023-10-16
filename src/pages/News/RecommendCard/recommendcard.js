@@ -1,10 +1,16 @@
 
+import { Link } from 'react-router-dom';
 import DateTimeFormatComponent from '~/utils/dateTimeFormat';
 import styles from './recommendcard.module.scss';
 
 function RecommendCard(props) {
+
+    const formattedTitle = props.post.title
+        .toLowerCase()
+        .replace(/,/g, '-')
+        .replace(/ /g, '-');
     return (
-        <div className={styles.container}>
+        <Link to={`/news/${props.post.id}/${encodeURIComponent(formattedTitle)}`} className={styles.container}>
             <div className={styles.item}>
                 <div className={styles.imgwrap}>
                     <img src={props.post.thumbnailUrl} />
@@ -18,7 +24,7 @@ function RecommendCard(props) {
                     <span className={styles.type}>Event</span>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 

@@ -9,9 +9,8 @@ function ViewNews() {
     const [newsResult, setNewsResult] = useState(null);
     const fetchApi = async () => {
         const resultTitle = await newsService.getNews();
-        const resultWithIds = resultTitle.map((item, index) => ({ ...item, id: index }));
 
-        setNewsResult(resultWithIds);
+        setNewsResult(resultTitle);
     };
 
     useEffect(() => {

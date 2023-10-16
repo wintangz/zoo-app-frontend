@@ -1,20 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { News } from './news';
+import { getNewsById } from '~/api/newsService';
+import NormalBanner from '~/component/Layout/components/NormalBanner';
+import styles from './View.module.scss';
 
-function ViewEachNews(props) {
-    const { id, title } = useParams();
-    // const selectedNews = News.find(news => news.id === parseInt(id, 10) && encodeURIComponent(news.title) === title);
-    console.log(props.title);
-    const [news, setNews] = useState()
-    // if (!selectedNews) {
-    //     return <div>News not found</div>;
-    // }
+function ViewEachNews() {
+    const { id } = useParams();
 
-    // const { shortDescription, thumbnailUrl, createdDate } = selectedNews;
+    const [selectedNews, setSelectedNews] = useState(null);
+    const fetchData = async () => {
+        try {
+            const data = await getNewsById(id);
+            setSelectedNews(data);
+        } catch (error) {
+        }
+    };
+    useEffect(() => {
+        fetchData();
+    }, [id]);
+
+
+    if (!selectedNews) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <>
-            <News />
+            <div className={styles.imgbanner}>
+                <NormalBanner />
+            </div>
+            <div className={styles.container}>
+                <h1 className={styles.title}>{selectedNews.title}</h1>
+                <p>{selectedNews.shortDescription}</p>
+                <img src={selectedNews.thumbnailUrl} />
+                <p>{selectedNews.content}</p>
+                <p>{selectedNews.createdDate}</p>
+            </div>
         </>
     );
 }

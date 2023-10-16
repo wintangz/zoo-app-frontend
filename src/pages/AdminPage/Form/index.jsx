@@ -16,9 +16,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import * as yup from 'yup';
-import { createStaff } from '~/api/data/mockData';
+import { createStaff, createZooTrainer } from '~/api/data/mockData';
 import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { tokens } from '~/theme';
+import { decode } from '~/utils/axiosClient';
 
 function Form() {
     const theme = useTheme({ isDashboard: false });
@@ -39,6 +40,7 @@ function Form() {
         pb: 3,
     };
     const isNonMobile = useMediaQuery('(min-width: 600px)');
+    const userRole = decode(localStorage.getItem('token')).roles[0];
     const handleFormSubmit = async (values, { resetForm }) => {
         console.log(values.dateOfBirth);
         const inputDate = new Date(values.dateOfBirth);
@@ -65,23 +67,50 @@ function Form() {
         } else if (values.sex === 'female') {
             values.sex = false;
         }
-        // values.roles =  [
-        //     {
-        //         "id": "1",
-        //         "name": "ADMIN"
-        //     }
-        // ]
-        const res = createStaff(values);
-        res.then((result) => {
-            const status = result.status;
-            console.log(status);
-            if (status === 200) {
-                setOpen(true);
+        if (userRole === 'ADMIN') {
+            const res = await createStaff(values);
+            if (res) {
+                const status = res.status;
+                console.log(status);
+                if (status === 200) {
+                    setOpen(true);
+                }
             }
-        });
-        console.log(values);
-        resetForm();
+            console.log(values);
+            resetForm();
+        }
+        if (userRole === 'STAFF') {
+            const response = await createZooTrainer(values);
+            if (response) {
+                const status = response.status;
+                console.log(status);
+                if (status === 200) {
+                    setOpen(true);
+                }
+            }
+            console.log(values);
+            resetForm();
+        }
     };
+    let modalTitle = '';
+    let description = '';
+    let button = '';
+    let title = '';
+    let subtitle = '';
+
+    if (userRole === 'ADMIN') {
+        modalTitle = 'Create new staff successfully!';
+        description = 'New staff have been add to DataBase!';
+        button = 'CREATE NEW STAFF';
+        title = 'CREATE USER';
+        subtitle = 'Create a New User Profile';
+    } else if (userRole === 'STAFF') {
+        modalTitle = 'Create new Zoo Trainer successfully!';
+        description = 'New zoo trainer have been add to DataBase!';
+        button = 'CREATE NEW ZOO TRAINER';
+        title = 'CREATE ZOO TRAINER';
+        subtitle = 'Create a New Zoo Trainer Profile';
+    }
     const initialValues = {
         username: '',
         password: '',
@@ -122,14 +151,14 @@ function Form() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Create new staff successfully!</h2>
-                        <p id="parent-modal-description">New staff have been add to DataBase!</p>
+                        <h2 id="parent-modal-title">{modalTitle}</h2>
+                        <p id="parent-modal-description">{description}</p>
                         <Button onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="CREATE USER" subtitle="Create a New User Profile" />
+                <AdminHeader title={title} subtitle={subtitle} />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
                         <form onSubmit={handleSubmit}>
@@ -145,7 +174,7 @@ function Form() {
                                     fullWidth
                                     variant="filled"
                                     type="text"
-                                    label="User Name"
+                                    label="Username"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.username}
@@ -333,7 +362,7 @@ function Form() {
                                     fullWidth
                                     variant="filled"
                                     type="text"
-                                    label="Emai"
+                                    label="Email"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.email}
@@ -347,7 +376,7 @@ function Form() {
                             </Box>
                             <Box display="flex" justifyContent="end" mt="20px">
                                 <Button type="submit" color="secondary" variant="contained">
-                                    CREATE NEW USER
+                                    {button}
                                 </Button>
                             </Box>
                         </form>
