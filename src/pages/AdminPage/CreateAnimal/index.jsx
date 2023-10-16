@@ -8,23 +8,30 @@ import {
     TextField,
     Typography,
     useTheme,
+    Input,
 } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
-import { useState } from 'react';
+import moment from 'moment/moment';
+import { useEffect, useState } from 'react';
 import * as yup from 'yup';
-import { createStaff, createZooTrainer } from '~/api/data/mockData';
 import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
-
-function Form() {
+import uploadFile from '~/utils/transferFile';
+import { getSpecies } from '~/api/speciesService';
+import { createAnimals } from '~/api/animalsService';
+function CreateAnimal() {
+    const FILE_SIZE = 160 * 1024;
+    const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
+    const [species, setSpecies] = useState([]);
     const style = {
         position: 'absolute',
         top: '50%',
@@ -40,9 +47,14 @@ function Form() {
         pb: 3,
     };
     const isNonMobile = useMediaQuery('(min-width: 600px)');
-    const userRole = decode(localStorage.getItem('token')).roles[0];
-    const handleFormSubmit = async (values, { resetForm }) => {
-        const inputDate = new Date(values.dateOfBirth);
+    useEffect(() => {
+        const res = getSpecies();
+        res.then((result) => {
+            setSpecies(result);
+        });
+    }, []);
+    const formattedDateTime = (values) => {
+        const inputDate = new Date(values);
 
         const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
             .toString()
@@ -56,84 +68,53 @@ function Form() {
 
         // Combine the date and time zone offset to get the final formatted string
         const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-
-        values.dateOfBirth = formattedDateTime;
-        if (values.sex === 'male') {
-            values.sex = true;
-        } else if (values.sex === 'female') {
-            values.sex = false;
-        }
-        if (userRole === 'ADMIN') {
-            const res = await createStaff(values);
-            if (res) {
-                const status = res.status;
-                console.log(status);
-                if (status === 200) {
+        return formattedDateTime;
+    };
+    const handleFormSubmit = async (values, { resetForm }) => {
+        values.dateOfBirth = formattedDateTime(values.dateOfBirth);
+        values.arrivalDate = formattedDateTime(values.arrivalDate);
+        try {
+            const imgURL = await uploadFile(values, 'animals-individual'); // Wait for the file upload to complete
+            values.imgUrl = imgURL;
+            const res = createAnimals(values);
+            res.then((result) => {
+                console.log(result);
+                const status = result.status;
+                if (status === 'Ok') {
                     setOpen(true);
+                    resetForm();
                 }
-            }
-            console.log(values);
-            resetForm();
-        }
-        if (userRole === 'STAFF') {
-            const response = await createZooTrainer(values);
-            if (response) {
-                const status = response.status;
-                console.log(status);
-                if (status === 200) {
-                    setOpen(true);
-                }
-            }
-            console.log(values);
-            resetForm();
+            });
+            // Optionally, you can display a success message or perform other actions here
+        } catch (error) {
+            console.error(error);
+            // Handle errors if needed
         }
     };
-    let modalTitle = '';
-    let description = '';
-    let button = '';
-    let title = '';
-    let subtitle = '';
 
-    if (userRole === 'ADMIN') {
-        modalTitle = 'Create new staff successfully!';
-        description = 'New staff have been add to DataBase!';
-        button = 'CREATE NEW STAFF';
-        title = 'CREATE USER';
-        subtitle = 'Create a New User Profile';
-    } else if (userRole === 'STAFF') {
-        modalTitle = 'Create new Zoo Trainer successfully!';
-        description = 'New zoo trainer have been add to DataBase!';
-        button = 'CREATE NEW ZOO TRAINER';
-        title = 'CREATE ZOO TRAINER';
-        subtitle = 'Create a New Zoo Trainer Profile';
-    }
     const initialValues = {
-        username: '',
-        password: '',
-        lastname: '',
-        firstname: '',
-        sex: 'male',
-        dateOfBirth: null,
-        address: '',
-        nationality: '',
-        phone: '',
-        email: '',
+        name: '',
+        sex: 'true',
+        imgUrl: '',
+        arrivalDate: '',
+        dateOfBirth: '',
+        origin: '',
+        species: '',
     };
 
-    const phoneRegExp = /^\+(?:[0-9] ?){6,14}[0-9]$/;
     const userSchema = yup.object().shape({
-        username: yup.string().required('required'),
-        password: yup.string().required('required').min(8, 'Must be min 8 characters').max(30),
-        lastname: yup.string().required('required'),
-        firstname: yup.string().required('required'),
+        name: yup.string().required('required'),
         sex: yup.string().required('required'),
+        imgUrl: yup
+            .mixed()
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+        arrivalDate: yup.date().required('required'),
         dateOfBirth: yup.date().required('required'),
-        address: yup.string().required('required'),
-        nationality: yup.string().required('required'),
-        phone: yup.string().matches(phoneRegExp, 'Phone numbers is not valid').required('required'),
-        email: yup.string().email('Invalid email').required('required'),
+        origin: yup.string().required('required'),
+        species: yup.string().required('required'),
     });
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -147,16 +128,16 @@ function Form() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">{modalTitle}</h2>
-                        <p id="parent-modal-description">{description}</p>
+                        <h2 id="parent-modal-title">Create animal successfully!</h2>
+                        <p id="parent-modal-description">New animal have been add to DataBase!</p>
                         <Button onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title={title} subtitle={subtitle} />
+                <AdminHeader title="CREATE USER" subtitle="Create a New User Profile" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
-                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box
                                 display="grid"
@@ -170,68 +151,22 @@ function Form() {
                                     fullWidth
                                     variant="filled"
                                     type="text"
-                                    label="Username"
+                                    label="Name"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.username}
-                                    name="username"
-                                    error={!!touched.username && !!errors.username}
-                                    helperText={touched.username && errors.username}
+                                    value={values.name}
+                                    name="name"
+                                    error={!!touched.name && !!errors.name}
+                                    helperText={touched.name && errors.name}
                                     sx={{
                                         gridColumn: 'span 2',
                                     }}
                                 />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Password"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.password}
-                                    name="password"
-                                    error={!!touched.password && !!errors.password}
-                                    helperText={touched.password && errors.password}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Last Name"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.lastname}
-                                    name="lastname"
-                                    error={!!touched.lastname && !!errors.lastname}
-                                    helperText={touched.lastname && errors.lastname}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="First Name"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.firstname}
-                                    name="firstname"
-                                    error={!!touched.firstname && !!errors.firstname}
-                                    helperText={touched.firstname && errors.firstname}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                />
-
                                 <FormControl
                                     component="fieldset"
                                     width="75%"
                                     sx={{
-                                        gridColumn: 'span 1',
+                                        gridColumn: 'span 2',
                                     }}
                                     label="Gender"
                                 >
@@ -239,7 +174,7 @@ function Form() {
                                         Gender
                                     </Typography>
                                     <RadioGroup
-                                        aria-label="Gender"
+                                        aria-label="Sex"
                                         name="sex"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
@@ -248,14 +183,14 @@ function Form() {
                                         label="Gender"
                                     >
                                         <FormControlLabel
-                                            value="male"
+                                            value="true"
                                             control={
                                                 <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
                                             }
                                             label="Male"
                                         />
                                         <FormControlLabel
-                                            value="female"
+                                            value="false"
                                             control={
                                                 <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
                                             }
@@ -272,11 +207,11 @@ function Form() {
                                         gridColumn: 'span 1',
                                     }}
                                 >
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <LocalizationProvider dateAdapter={AdapterMoment}>
                                         <DatePicker
-                                            value={values.dateOfBirth}
+                                            value={moment(values.dateOfBirth)}
                                             onChange={(date) => {
-                                                handleChange({ target: { name: 'dateOfBirth', value: date } });
+                                                handleChange({ target: { name: 'dateOfBirth', value: moment(date) } });
                                             }}
                                             textField={(params) => (
                                                 <TextField
@@ -287,7 +222,7 @@ function Form() {
                                                 />
                                             )}
                                             name="dateOfBirth"
-                                            label="What is your date of birth?"
+                                            label="What is the animal's date of birth?"
                                             sx={{
                                                 width: 250,
                                                 '& .MuiOutlinedInput-root': {
@@ -309,70 +244,115 @@ function Form() {
                                     </LocalizationProvider>
                                 </FormControl>
 
-                                <TextField
+                                <FormControl
+                                    padding="0"
+                                    component="fieldset"
                                     fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Address"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.address}
-                                    name="address"
-                                    error={!!touched.address && !!errors.address}
-                                    helperText={touched.address && errors.address}
                                     sx={{
-                                        gridColumn: 'span 4',
+                                        gridColumn: 'span 2',
                                     }}
-                                />
+                                >
+                                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                                        <DatePicker
+                                            value={moment(values.arrivalDate)}
+                                            onChange={(date) => {
+                                                handleChange({ target: { name: 'arrivalDate', value: moment(date) } });
+                                            }}
+                                            textField={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    label="Arrival Date"
+                                                />
+                                            )}
+                                            name="arrivalDate"
+                                            label="What is the animal's arrival date?"
+                                            sx={{
+                                                width: 250,
+                                                '& .MuiOutlinedInput-root': {
+                                                    '& fieldset': {
+                                                        borderColor: colors.grey[100],
+                                                        color: colors.grey[100],
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: colors.grey[100],
+                                                        color: colors.grey[100],
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: colors.grey[100],
+                                                        color: colors.grey[100],
+                                                    },
+                                                },
+                                            }}
+                                        />
+                                    </LocalizationProvider>
+                                </FormControl>
                                 <TextField
                                     fullWidth
                                     variant="filled"
                                     type="text"
-                                    label="National"
+                                    label="Origin"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.nationality}
-                                    name="nationality"
-                                    error={!!touched.nationality && !!errors.nationality}
-                                    helperText={touched.nationality && errors.nationality}
+                                    value={values.origin}
+                                    name="origin"
+                                    error={!!touched.origin && !!errors.origin}
+                                    helperText={touched.origin && errors.origin}
                                     sx={{
                                         gridColumn: 'span 2',
                                     }}
                                 />
+
                                 <TextField
                                     fullWidth
                                     variant="filled"
-                                    type="text"
-                                    label="Contact"
+                                    label="Species"
+                                    select
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.phone}
-                                    name="phone"
-                                    error={!!touched.phone && !!errors.phone}
-                                    helperText={touched.phone && errors.phone}
+                                    value={values.species}
+                                    name="species"
+                                    defaultValue="Tiger"
                                     sx={{
                                         gridColumn: 'span 2',
                                     }}
-                                />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Email"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.email}
-                                    name="email"
-                                    error={!!touched.email && !!errors.email}
-                                    helperText={touched.email && errors.email}
-                                    sx={{
-                                        gridColumn: 'span 4',
+                                    SelectProps={{
+                                        PopperProps: {
+                                            anchorEl: null, // Ensures the menu is always at the bottom
+                                            placement: 'bottom-start', // Adjust the placement as needed
+                                        },
                                     }}
-                                />
+                                >
+                                    {species.map((option) => (
+                                        <MenuItem key={option.id} value={option.name}>
+                                            {option.name}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+
+                                <FormControl component="fieldset">
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
+                                        Image File
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="ImgUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                        }} // Handle file input change
+                                        name="imgUrl"
+                                        error={!!touched.imgUrl && !!errors.imgUrl}
+                                    />
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                </FormControl>
                             </Box>
                             <Box display="flex" justifyContent="end" mt="20px">
                                 <Button type="submit" color="secondary" variant="contained">
-                                    {button}
+                                    CREATE ANIMAL
                                 </Button>
                             </Box>
                         </form>
@@ -383,4 +363,4 @@ function Form() {
     );
 }
 
-export default Form;
+export default CreateAnimal;

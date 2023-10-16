@@ -57,12 +57,19 @@ const Sidebar = () => {
         setOpenTicket(!openTicket);
     };
 
+    // Menu CRUD Animal
+    const [openAnimal, setOpenAnimal] = useState(false);
+    const handleAnimal = () => {
+        setOpenAnimal(!openAnimal);
+    };
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [selected, setSelected] = useState('Dashboard');
     const handleLogout = () => {
         const res = logout(localStorage.getItem('token'));
+        console.log(res);
         res.then((result) => {
             if (result.status === 200) {
                 localStorage.removeItem('token');
@@ -297,35 +304,37 @@ const Sidebar = () => {
                             </List>
                         )}
 
-                        {/* <List
+
+
+                        <List
                             sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
                             component="nav"
-                            aria-labelledby="ticket"
+                            aria-labelledby="animal"
                         >
                             <ListItemButton
-                                onClick={handleTicket}
+                                onClick={handleAnimal}
                                 sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
                             >
                                 <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
                                     <InboxIcon />
                                 </ListItemIcon>
-                                {!isCollapsed && <ListItemText primary="Manage Ticket" sx={{ paddingLeft: '4px' }} />}
-                                {openTicket ? <ExpandLess /> : <ExpandMore />}
+                                {!isCollapsed && <ListItemText primary="Manage Animal" sx={{ paddingLeft: '4px' }} />}
+                                {openAnimal ? <ExpandLess /> : <ExpandMore />}
                             </ListItemButton>
-                            <Collapse in={openTicket} timeout="auto" unmountOnExit>
+                            <Collapse in={openAnimal} timeout="auto" unmountOnExit>
                                 <List component="div" disablePadding>
                                     {role === 'ADMIN' && (
                                         <ListItemButton>
                                             <Item
-                                                title="View Ticket"
-                                                to="/tickets/view"
+                                                title="Create Animal"
+                                                to="/animal/create"
                                                 icon={<PersonOutlinedIcon />}
                                                 selected={selected}
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
                                     )}
-                                    {role === 'ADMIN' && (
+                                    {/* {role === 'ADMIN' && (
                                         <ListItemButton>
                                             <Item
                                                 title="Create Ticket"
@@ -336,20 +345,9 @@ const Sidebar = () => {
                                             />
                                         </ListItemButton>
                                     )} */}
-                        {/* <ListItemButton>
-                                        {role === 'ADMIN' && (
-                                            <Item
-                                                title="Update Staff"
-                                                to="/staff/update"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        )}
-                                    </ListItemButton>
                                 </List>
                             </Collapse>
-                        </List> */}
+                        </List>
                         <Button
                             variant="contained"
                             sx={{ width: '70%', marginTop: '2vh', marginBottom: '4vh' }}

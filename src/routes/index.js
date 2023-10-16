@@ -27,6 +27,7 @@ import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
 import ViewTicket from '~/pages/AdminPage/ViewTicket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
+import CreateAnimal from '~/pages/AdminPage/CreateAnimal';
 
 
 const publicRoutes = [
@@ -53,6 +54,7 @@ const publicRoutes = [
     { path: 'tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
     { path: 'viewallnew', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
 
+    { path: 'animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
 
 
 ];

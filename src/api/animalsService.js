@@ -17,3 +17,12 @@ export const getHabitats = async () => {
         console.log(error);
     }
 }
+
+export const createAnimals = async (values) => {
+    try {
+        const res = await axiosClient.post('animals', values)
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}

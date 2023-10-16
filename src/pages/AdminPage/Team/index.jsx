@@ -10,7 +10,7 @@ import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import { getUsersWithRoles } from '~/utils/getUserByRole';
-
+import Actions from './actions';
 function Team() {
     const [users, setUsers] = useState(null);
     const fetchapi = async () => {
@@ -27,9 +27,11 @@ function Team() {
 
     const getZooTrainer = async () => {
         const result = await mockData.getZooTrainer();
+        console.log(result);
         const mdata = getUsersWithRoles(result, ['ZOO_TRAINER']);
         setUsers(mdata);
     };
+    const [remove, setRemove] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -131,6 +133,13 @@ function Team() {
                     </Box>
                 );
             },
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            type: 'actions',
+            width: 80,
+            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
         },
     ];
     return (
