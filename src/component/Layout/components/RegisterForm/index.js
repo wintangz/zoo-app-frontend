@@ -200,7 +200,7 @@ function RegisterForm({ onClose, onLoginClick }) {
                                 <h5>Gender</h5>
                                 <div className={styles.gender}>
                                     <div className={styles.option}>
-                                        <Field type='radio' id='check-male' name='gender' value='male' />
+                                        <Field type='radio' id='check-male' name='gender' value='male' checked />
                                         <label htmlFor='check-male'>Male</label>
                                     </div>
                                     <div className={styles.option}>
