@@ -1,7 +1,7 @@
-import { Delete, Edit } from '@mui/icons-material';
-import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
-import Modal from '@mui/material/Modal';
-import axios from 'axios';
+import { Edit } from '@mui/icons-material';
+import { Box, IconButton, Tooltip, useTheme } from '@mui/material';
+// import Modal from '@mui/material/Modal';
+// import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { tokens } from '~/theme';
@@ -26,28 +26,28 @@ const Actions = ({ params, setRemove }) => {
         px: 4,
         pb: 3,
     };
-    const handleDelete = (values) => {
-        const token = localStorage.getItem('token');
-        // Define the URL and headers
-        const url = `http://localhost:8080/api/users/${values}`;
-        const headers = {
-            Authorization: `Bearer ${token}`,
-        };
+    // const handleDelete = (values) => {
+    //     const token = localStorage.getItem('token');
+    //     // Define the URL and headers
+    //     const url = `http://localhost:8080/api/users/${values}`;
+    //     const headers = {
+    //         Authorization: `Bearer ${token}`,
+    //     };
 
-        // Send the DELETE request
-        axios
-            .delete(url, { headers })
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log('DELETE request successful:', response);
-                    setOpen(false);
-                    setMessage(true);
-                }
-            })
-            .catch((error) => {
-                console.error('DELETE request failed:', error);
-            });
-    };
+    //     // Send the DELETE request
+    //     axios
+    //         .delete(url, { headers })
+    //         .then((response) => {
+    //             if (response.status === 200) {
+    //                 console.log('DELETE request successful:', response);
+    //                 setOpen(false);
+    //                 setMessage(true);
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error('DELETE request failed:', error);
+    //         });
+    // };
 
     const handleClose = () => {
         setOpen(false);
@@ -56,14 +56,9 @@ const Actions = ({ params, setRemove }) => {
         setMessage(false);
         setRemove(values);
     };
-    const userInfo = {
-        // Add your user information here
-        name: 'John Doe',
-        // Other properties
-    };
     return (
         <>
-            <div>
+            {/* <div>
                 <Modal
                     open={open}
                     onClose={handleClose}
@@ -76,15 +71,15 @@ const Actions = ({ params, setRemove }) => {
                         <Button onClick={handleClose}>Close</Button>
                         <Button
                             onClick={() => {
-                                handleDelete(params.row.id);
+                                // handleDelete(params.row.id);
                             }}
                         >
                             Delete
                         </Button>
                     </Box>
                 </Modal>
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
                 <Modal
                     open={message}
                     onClose={() => handleMessage(params.row.id)}
@@ -103,7 +98,7 @@ const Actions = ({ params, setRemove }) => {
                         </Button>
                     </Box>
                 </Modal>
-            </div>
+            </div> */}
             <Box>
                 <Tooltip title="Delete">
                     <IconButton
@@ -112,7 +107,7 @@ const Actions = ({ params, setRemove }) => {
                             setOpen(true);
                         }}
                     >
-                        <Delete />
+                        {/* <Delete /> */}
                     </IconButton  >
                 </Tooltip>
 

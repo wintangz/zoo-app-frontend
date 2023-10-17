@@ -16,3 +16,11 @@ export const createTicket = async (values) => {
         console.log(error);
     }
 }
+export const checkTicketByQr = async (ticketData) => {
+    try {
+        const res = await axiosClient.post('', ticketData);
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+}

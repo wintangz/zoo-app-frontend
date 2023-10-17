@@ -17,6 +17,10 @@ import Summary from '~/pages/Ticket/Summary/index';
 //Admin routes
 // import Bar from '~/pages/AdminPage/Bar/index';
 import Calendar from '~/pages/AdminPage/Calendar';
+import TicketScanner from '~/pages/AdminPage/CheckTicket/checkTicket';
+import CreateAnimal from '~/pages/AdminPage/CreateAnimal';
+import CreateEnclosure from '~/pages/AdminPage/CreateEnclosure';
+import CreateHabitat from '~/pages/AdminPage/CreateHabitat';
 import CreateTicket from '~/pages/AdminPage/CreateTicket';
 import EditProfile from '~/pages/AdminPage/EditProfile';
 import Sercurity from '~/pages/AdminPage/EditProfile/Sercurity';
@@ -25,14 +29,11 @@ import NewsPostForm from '~/pages/AdminPage/New/createNews';
 import ViewNews from '~/pages/AdminPage/New/new';
 import Team from '~/pages/AdminPage/Team';
 import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
+import ViewAnimals from '~/pages/AdminPage/ViewAnimal';
 import ViewTicket from '~/pages/AdminPage/ViewTicket';
+import AssignAnimal from '~/pages/AssignAnimal';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
-import CreateAnimal from '~/pages/AdminPage/CreateAnimal';
-import CreateEnclosure from '~/pages/AdminPage/CreateEnclosure';
-import CreateHabitat from '~/pages/AdminPage/CreateHabitat';
-import ViewAnimals from '~/pages/AdminPage/ViewAnimal';
-import AssignAnimal from '~/pages/AssignAnimal';
 
 
 const publicRoutes = [
@@ -66,6 +67,7 @@ const publicRoutes = [
     { path: 'enclosure/create', component: CreateEnclosure, layout: AdminMainPage, name: 'CreateEnclosure;', Authen: "private" },
 
     { path: 'habitat/create', component: CreateHabitat, layout: AdminMainPage, name: 'CreateHabitat;', Authen: "private" },
+    { path: 'checkticket', component: TicketScanner, layout: AdminMainPage, name: 'TicketScanner;', Authen: "private" },
 
 
 ];

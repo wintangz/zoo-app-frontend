@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { confirmTicketPurchase } from '~/api/confirmService';
 import { getInfo } from '~/api/informationService';
 import NormalBanner from '~/component/Layout/components/NormalBanner';
@@ -22,6 +23,7 @@ function Summary() {
     };
 
     const [info, setInfo] = useState(null);
+    const { control, checkPayment } = useForm();
 
     const token = localStorage.getItem('token');
 
@@ -92,8 +94,22 @@ function Summary() {
                 </div>
                 <div className={styles.card_body}>
                     <label className={styles.radioContainer}>
-                        <input type="radio" name="paymentMethod" className={styles.paymentRadio} />
-                        <span className={styles.payment}>VNPAY</span>
+                        <Controller
+                            control={control}
+                            name="payment"
+                            render={({ field }) => (
+                                <>
+                                    <input
+                                        type="radio"
+                                        value="VNPAY"
+                                        {...field}
+                                        className={styles.paymentRadio}
+                                        ref={checkPayment}
+                                    />
+                                    <span className={styles.payment}>VNPAY</span>
+                                </>
+                            )}
+                        />
                     </label>
                 </div>
             </div>

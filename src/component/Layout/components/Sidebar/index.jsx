@@ -15,6 +15,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { BsQrCodeScan } from 'react-icons/bs';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Link } from 'react-router-dom';
 import { logout } from '~/api/data/mockData';
@@ -484,6 +485,15 @@ const Sidebar = () => {
                                     </List>
                                 </Collapse>
                             </List>
+                        )}
+                        {userRole === 'STAFF' && (
+                            <Item
+                                title="Check ticket"
+                                to="/checkticket"
+                                icon={<BsQrCodeScan />}
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
                         )}
                         <Button
                             variant="contained"
