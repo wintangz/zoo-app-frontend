@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 
 import { faClose } from '@fortawesome/free-solid-svg-icons';
@@ -20,6 +20,8 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
         username: '',
         password: '',
     };
+
+    const [failMessage, setFailMessage] = useState(null);
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
@@ -53,6 +55,8 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
         } catch (error) {
             // Handle errors
             console.error('Error during login:', error);
+            setFailMessage("Username or Password is incorrect!");
+
         } finally {
             setSubmitting(false);
         }
@@ -78,6 +82,9 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
     return (
         <div className={`${styles.overlay}`}>
             <div className={styles.modal} ref={loginFormRef} >
+                {failMessage && (
+                    <div className={styles.failMessage}>{failMessage}</div>
+                )}
                 <div className={styles.close} onClick={onClose}>
                     <FontAwesomeIcon icon={faClose} />
                 </div>

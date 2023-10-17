@@ -297,16 +297,6 @@ const Sidebar = () => {
                                 </Collapse>
                             </List>
                         )}
-<<<<<<< Updated upstream
-                        <List
-                            sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
-                            component="nav"
-                            aria-labelledby="animal"
-                        >
-                            <ListItemButton
-                                onClick={handleAnimal}
-                                sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
-=======
 
 
 
@@ -315,7 +305,6 @@ const Sidebar = () => {
                                 sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
                                 component="nav"
                                 aria-labelledby="animal"
->>>>>>> Stashed changes
                             >
                                 <ListItemButton
                                     onClick={handleAnimal}

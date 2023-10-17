@@ -26,7 +26,7 @@ import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
 import { getSpecies } from '~/api/speciesService';
 import { createAnimals } from '~/api/animalsService';
-import { DataGridPro } from '@mui/x-data-grid-pro';
+// import { DataGridPro } from '@mui/x-data-grid-pro';
 function CreateAnimal() {
     const FILE_SIZE = 160 * 1024;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
