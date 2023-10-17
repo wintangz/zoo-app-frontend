@@ -113,7 +113,7 @@ const Sidebar = () => {
             sx={{
                 '& .pro-sidebar-inner': {
                     background: `${colors.primary[400]} !important`,
-                    height: '100vh',
+                    height: '100%',
                 },
                 '& .pro-icon-wrapper': {
                     backgroundColor: 'transparent !important',
@@ -338,6 +338,15 @@ const Sidebar = () => {
                                             <Item
                                                 title="Create Animal"
                                                 to="/animal/create"
+                                                icon={<PersonOutlinedIcon />}
+                                                selected={selected}
+                                                setSelected={setSelected}
+                                            />
+                                        </ListItemButton>
+                                        <ListItemButton>
+                                            <Item
+                                                title="View Animal"
+                                                to="/animal/view"
                                                 icon={<PersonOutlinedIcon />}
                                                 selected={selected}
                                                 setSelected={setSelected}

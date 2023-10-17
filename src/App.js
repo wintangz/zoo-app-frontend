@@ -9,7 +9,6 @@ import Animals from './pages/Animals/Animals';
 export const NamePageContext = createContext();
 export const BannerPageContext = createContext();
 function App() {
-    console.log("APP")
     useEffect(() => {
         // Clear localStorage when the application starts
         localStorage.removeItem('ticket_1');

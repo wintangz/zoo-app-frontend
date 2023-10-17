@@ -31,6 +31,8 @@ import ThankYouPage from '~/pages/Ticket/Thanks';
 import CreateAnimal from '~/pages/AdminPage/CreateAnimal';
 import CreateEnclosure from '~/pages/AdminPage/CreateEnclosure';
 import CreateHabitat from '~/pages/AdminPage/CreateHabitat';
+import ViewAnimals from '~/pages/AdminPage/ViewAnimal';
+import AssignAnimal from '~/pages/AssignAnimal';
 
 
 const publicRoutes = [
@@ -57,8 +59,9 @@ const publicRoutes = [
     { path: 'tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
     { path: 'viewallnew', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
     { path: 'create/news', component: NewsPostForm, layout: AdminMainPage, name: 'CreateNews', Authen: "private" },
-
     { path: 'animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
+    { path: 'animal/view', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
+    { path: 'animal/assign/', component: AssignAnimal, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },
 
     { path: 'enclosure/create', component: CreateEnclosure, layout: AdminMainPage, name: 'CreateEnclosure;', Authen: "private" },
 
