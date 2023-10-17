@@ -1,18 +1,18 @@
 //public routes dont need login to redirect
 //Layout
 import { NormalLayout } from '~/component/Layout';
-import AdminMainPage from '~/component/Layout/AdminMainPage';
-import AnimalLayout from '~/component/Layout/AnimalLayout/animalLayout';
+import AdminMainPage from '~/component/Layout/AdminMainPage/AdminMainPage';
+import AnimalLayout from '~/component/Layout/AnimalLayout/AnimalLayout';
 // import banner img
 
-import About from '~/pages/About';
+import About from '~/pages/About/About';
 import Animals from '~/pages/Animals/Animals';
-import Habitats from '~/pages/Habitats';
-import Home from '~/pages/Home';
-import Maps from '~/pages/Maps';
+import Habitats from '~/pages/Habitats/Habitats';
+import Home from '~/pages/Home/Home';
+import Maps from '~/pages/Map/Map';
 import News from '~/pages/News';
-import Ticket from '~/pages/Ticket';
-import Summary from '~/pages/Ticket/Summary/index';
+import Summary from '~/pages/Ticket/Summary/Summary';
+import Ticket from '~/pages/Ticket/Ticket';
 
 //Admin routes
 // import Bar from '~/pages/AdminPage/Bar/index';
@@ -45,7 +45,7 @@ const publicRoutes = [
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
     { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats', Authen: "public" },
-    { path: 'maps', component: Maps, layout: NormalLayout, name: 'Maps' },
+    { path: 'map', component: Maps, layout: NormalLayout, name: 'Map' },
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
 
     // Admin routes

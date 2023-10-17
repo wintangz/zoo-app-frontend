@@ -6,7 +6,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import * as yup from 'yup';
 import { createNews } from '~/api/newsService';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import CustomToolbar from './QuillEditor/CustomToolbar';

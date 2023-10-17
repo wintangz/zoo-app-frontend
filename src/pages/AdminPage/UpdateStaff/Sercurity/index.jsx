@@ -1,10 +1,10 @@
-import React from 'react';
-import { Box, Button, TextField, Link as MuiLink, useTheme, Typography } from '@mui/material';
-import { Formik } from 'formik';
+import { Box, Button, Link as MuiLink, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
+import { Formik } from 'formik';
+import React from 'react';
 import * as yup from 'yup';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
 // import { updatePassword } from '~/api/data/mockData'; // Assuming there's a function for updating the password
 import { Link } from 'react-router-dom';
 

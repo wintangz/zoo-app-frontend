@@ -2,10 +2,10 @@ import {
     Box,
     Button,
     FormControl,
+    Input,
     TextField,
     Typography,
     useTheme,
-    Input,
 } from '@mui/material';
 
 import Modal from '@mui/material/Modal';
@@ -13,17 +13,17 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 // import uploadFile from '~/utils/transferFile';
-import { getSpecies } from '~/api/speciesService';
 import { getHabitats } from '~/api/animalsService';
+import { getSpecies } from '~/api/speciesService';
 // import { createAnimals } from '~/api/animalsService';
 // import { DataGridPro } from '@mui/x-data-grid-pro';
-import moment from 'moment/moment';
 import MenuItem from '@mui/material/MenuItem';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import moment from 'moment/moment';
 
 function CreateEnclosure() {
     const FILE_SIZE = 160 * 1024;

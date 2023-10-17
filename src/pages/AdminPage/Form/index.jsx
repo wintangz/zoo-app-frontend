@@ -16,8 +16,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import * as yup from 'yup';
-import { createStaff, createZooTrainer } from '~/api/data/mockData';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
+import { createStaff, createZooTrainer } from '~/api/userService';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 

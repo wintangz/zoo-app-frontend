@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logo_long_dark } from '~/utils/assets-src';
 import { decode } from '~/utils/axiosClient';
 import '../../../../assets/themify-icons.css';
-import styles from './loginform.module.scss';
+import styles from './Loginform.module.scss';
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),

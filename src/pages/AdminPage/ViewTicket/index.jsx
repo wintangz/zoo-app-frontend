@@ -1,18 +1,10 @@
-import { Box, Typography, useTheme, Button } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import Modal from '@mui/material/Modal';
-import { tokens } from '~/theme';
-import * as mockData from '~/api/data/mockData';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
-import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import { useEffect, useState } from 'react';
+import { tokens } from '~/theme';
 // import Actions from './actions.jsx';
-import { decode } from '~/utils/axiosClient.js';
-import { type } from '@testing-library/user-event/dist/type/index.js';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { getTickets } from '~/api/ticketService.js';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 function ViewTicket() {
     const [ticket, setTicket] = useState(null);
     const theme = useTheme();

@@ -2,7 +2,7 @@ import { Box, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import * as newsService from '~/api/newsService';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 
 function ViewNews() {
@@ -99,7 +99,7 @@ function ViewNews() {
                         columns={columns}
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}
-                        // checkboxSelection
+                    // checkboxSelection
                     />
                 )}
             </Box>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useParams } from 'react-router-dom';
 import { getNewsById } from '~/api/newsService';
-import NormalBanner from '~/component/Layout/components/NormalBanner';
+import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import styles from './View.module.scss';
 
 function ViewEachNews() {

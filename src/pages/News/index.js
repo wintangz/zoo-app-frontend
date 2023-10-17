@@ -1,4 +1,4 @@
-import { useAppContext } from '~/context';
+import { useAppContext } from '~/context/Context';
 import RecommendCard from '~/pages/News/RecommendCard/recommendcard';
 import styles from './News.module.scss';
 import Pagination from './Pagination/Pagination';
