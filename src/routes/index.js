@@ -29,6 +29,8 @@ import ViewTicket from '~/pages/AdminPage/ViewTicket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
 import CreateAnimal from '~/pages/AdminPage/CreateAnimal';
+import CreateEnclosure from '~/pages/AdminPage/CreateEnclosure';
+import CreateHabitat from '~/pages/AdminPage/CreateHabitat';
 
 
 const publicRoutes = [
@@ -57,6 +59,10 @@ const publicRoutes = [
     { path: 'create/news', component: NewsPostForm, layout: AdminMainPage, name: 'CreateNews', Authen: "private" },
 
     { path: 'animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
+
+    { path: 'enclosure/create', component: CreateEnclosure, layout: AdminMainPage, name: 'CreateEnclosure;', Authen: "private" },
+
+    { path: 'habitat/create', component: CreateHabitat, layout: AdminMainPage, name: 'CreateHabitat;', Authen: "private" },
 
 
 ];
