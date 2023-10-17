@@ -1,28 +1,28 @@
 import { useEffect, useState } from 'react';
 import QrReader from 'react-qr-scanner';
+import { checkTicketByQr } from '~/api/ticketService';
 
-// Define your styles using regular CSS or a CSS-in-JS solution
 const styles = {
     container: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-end',
+        alignItems: 'center',
+        justifyContent: 'center',
         height: '100vh',
-        padding: '8px', // Add any padding you need
+        padding: '8px',
     },
     button: {
-        backgroundColor: '#4caf50', // Replace with your preferred color
-        color: '#fff', // Replace with your preferred text color
-        marginBottom: '8px', // Adjust the margin as needed
-        padding: '8px 16px', // Adjust the padding as needed
-        cursor: 'pointer', // Add a cursor on hover
-        border: 'none', // Remove default button border
-        borderRadius: '4px', // Add border-radius if needed
+        backgroundColor: '#4caf50',
+        color: '#fff',
+        // marginBottom: '8px',
+        padding: '8px 16px',
+        cursor: 'pointer',
+        border: 'none',
+        borderRadius: '4px',
     },
     scanner: {
         width: '100%',
-        maxWidth: '45vw',
+        maxWidth: '55vw',
         margin: 'auto',
     },
 };
@@ -31,26 +31,42 @@ function TicketScanner() {
     const [error, setError] = useState(null);
     const [scannedData, setScannedData] = useState(null);
     const [isCameraOpen, setCameraOpen] = useState(false);
-    const [continueScanning, setContinueScanning] = useState(true);
 
     const handleError = (err) => {
         setError('Error scanning QR code. Please make sure it is valid.');
         console.error(err);
     };
 
-    const handleScan = (data) => {
+    const handleScan = async (data) => {
         if (data != null) {
             console.log(data);
-            setContinueScanning(false);
-
+            setCameraOpen(false);
             // setScannedData(data);
+
+            try {
+                const response = await checkTicketByQr(data.text);
+                console.log(response);
+
+                if (response.status) {
+                    // console.log(response.status);
+                    setScannedData('success');
+                } else {
+                    // console.log(response.serverError);
+                    console.log('Invalid status in response');
+                    setScannedData(response.serverError);
+
+                }
+            } catch (error) {
+                console.error('Error checking ticket data:', error);
+            }
         }
     };
 
     const handleOpenCamera = () => {
         setCameraOpen(true);
-        setContinueScanning(true);
+        setScannedData(null);
     };
+
     useEffect(() => {
         const handleKeyPress = (event) => {
             if (event.key === 'Enter' && !isCameraOpen) {
@@ -64,8 +80,16 @@ function TicketScanner() {
             document.removeEventListener('keypress', handleKeyPress);
         };
     }, [isCameraOpen]);
+
     return (
         <div style={styles.container}>
+            {scannedData === 'success' && (
+                <p>Ticket Checked Successfully!</p>
+            )}
+            {scannedData && scannedData !== 'success' && (
+                <p>Error checking ticket. {scannedData && `${scannedData}`}. Please try again. </p>
+
+            )}
             {!isCameraOpen && (
                 <button style={styles.button} onClick={handleOpenCamera}>
                     Let Check
@@ -83,12 +107,8 @@ function TicketScanner() {
                     />
                 </>
             )}
-            {/* {scannedData !== null && (
-                <p>Scanned Data: {scannedData}</p>
-            )} */}
         </div>
     );
 }
 
 export default TicketScanner;
-

@@ -16,11 +16,12 @@ export const createTicket = async (values) => {
         console.log(error);
     }
 }
-export const checkTicketByQr = async (ticketData) => {
+export const checkTicketByQr = async (text) => {
     try {
-        const res = await axiosClient.post('', ticketData);
+        const res = await axiosClient.get(`orders/verification${text}`);
         return res;
     } catch (error) {
-        console.log(error);
+        return error.response.data;
+        // console.log(error);
     }
 }
