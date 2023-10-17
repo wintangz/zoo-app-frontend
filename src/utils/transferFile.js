@@ -1,4 +1,4 @@
-const { BlobServiceClient, ContainerClient } = require('@azure/storage-blob');
+const { BlobServiceClient } = require('@azure/storage-blob');
 
 
 function generateUniqueImageName(file) {

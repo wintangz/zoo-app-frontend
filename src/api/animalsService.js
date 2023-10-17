@@ -26,3 +26,20 @@ export const createAnimals = async (values) => {
         console.log(error);
     }
 }
+
+export const getAllAnimals = async () => {
+    try {
+        const res = await axiosClient.get('animals')
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const assignZooTrainerToAnimal = async (values, path) => {
+    try {
+        const res = await axiosClient.post(path, values)
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}

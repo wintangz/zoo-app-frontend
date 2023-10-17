@@ -13,6 +13,17 @@ import { getUsersWithRoles } from '~/utils/getUserByRole';
 import Actions from './actions';
 
 function Team() {
+    function formatDate(originalDate) {
+        const date = new Date(originalDate);
+        const day = date.getDate();
+        const month = date.getMonth() + 1; // Note that months are zero-based
+        const year = date.getFullYear();
+
+        // Use template literals to format the date
+        const formattedDate = `${day}/${month}/${year}`;
+
+        return formattedDate;
+    }
     const [users, setUsers] = useState(null);
     const fetchapi = async () => {
         const result = await mockData.getUser();
@@ -22,13 +33,15 @@ function Team() {
                     return (role.name = 'TRAINER');
                 }
             });
+            const formattedDate = formatDate(element.dateOfBirth);
+            return element.dateOfBirth = formattedDate;
         });
         setUsers(result);
+        console.log(users);
     };
 
     const getZooTrainer = async () => {
         const result = await mockData.getZooTrainer();
-        console.log(result);
         const mdata = getUsersWithRoles(result, ['ZOO_TRAINER']);
         setUsers(mdata);
     };
@@ -40,12 +53,10 @@ function Team() {
         for (let i = 0; i < roles.length; i++) {
             const role = roles[i];
             if (role === 'ADMIN') {
-                console.log('tao la admin');
                 fetchapi();
                 break; // Break out of the loop
             }
             if (role === 'STAFF') {
-                console.log('tao la staff');
                 getZooTrainer();
             }
         }
@@ -77,14 +88,14 @@ function Team() {
         },
         {
             field: 'dateOfBirth',
-            headerName: 'Age',
+            headerName: 'Date of Birth',
             headerAlign: 'left',
             align: 'left',
             flex: 1,
         },
         {
             field: 'nationality',
-            headerName: 'National',
+            headerName: 'Nationality',
             headerAlign: 'left',
             align: 'left',
         },
