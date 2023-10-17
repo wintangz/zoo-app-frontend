@@ -20,6 +20,26 @@
         border-radius: 10px;
         font-size: 1.1rem;
 
+        .successMessage {
+            margin-top: 1vh;
+            font-size: 1.3rem;
+            color: green;
+            padding: 2vh;
+            background-color: rgb(177, 244, 177);
+            margin: 0 1.5vh;
+            text-align: center;
+        }
+
+        .failMessage {
+            margin-top: 1vh;
+            font-size: 1.3rem;
+            color: red;
+            padding: 2vh;
+            background-color: rgb(249, 201, 201);
+            margin: 0 1.5vh;
+            text-align: center;
+        }
+
         .close {
             position: absolute;
             line-height: 0;
@@ -34,6 +54,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
 
         h1 {
             font-size: 2.4rem;
@@ -134,10 +155,11 @@
 
             .linkBtn {
                 background: none;
-                color: rgb(214, 190, 8);
+                color: #f8bf02;
                 text-decoration: none;
                 border: none;
                 cursor: pointer;
+                font-weight: 600;
             }
         }
 
