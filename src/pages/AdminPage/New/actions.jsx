@@ -1,9 +1,9 @@
-import { Edit } from '@mui/icons-material';
+import { Delete, Edit } from '@mui/icons-material';
 import { Box, IconButton, Tooltip, useTheme } from '@mui/material';
-// import Modal from '@mui/material/Modal';
-// import axios from 'axios';
 import { useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import { deleteNews } from '~/api/newsService';
 import { tokens } from '~/theme';
 
 const Actions = ({ params, setRemove }) => {
@@ -26,28 +26,19 @@ const Actions = ({ params, setRemove }) => {
         px: 4,
         pb: 3,
     };
-    // const handleDelete = (values) => {
-    //     const token = localStorage.getItem('token');
-    //     // Define the URL and headers
-    //     const url = `http://localhost:8080/api/users/${values}`;
-    //     const headers = {
-    //         Authorization: `Bearer ${token}`,
-    //     };
-
-    //     // Send the DELETE request
-    //     axios
-    //         .delete(url, { headers })
-    //         .then((response) => {
-    //             if (response.status === 200) {
-    //                 console.log('DELETE request successful:', response);
-    //                 setOpen(false);
-    //                 setMessage(true);
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error('DELETE request failed:', error);
-    //         });
-    // };
+    const handleDelete = (newsId) => {
+        deleteNews(newsId)
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log('DELETE request successful:', response);
+                    setOpen(false);
+                    setMessage(true);
+                }
+            })
+            .catch((error) => {
+                console.error('DELETE request failed:', error);
+            });
+    };
 
     const handleClose = () => {
         setOpen(false);
@@ -58,7 +49,7 @@ const Actions = ({ params, setRemove }) => {
     };
     return (
         <>
-            {/* <div>
+            <div>
                 <Modal
                     open={open}
                     onClose={handleClose}
@@ -66,20 +57,20 @@ const Actions = ({ params, setRemove }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete user</h2>
-                        <p id="parent-modal-description">Are you sure want to delete this user?</p>
+                        <h2 id="parent-modal-title">Delete news</h2>
+                        <p id="parent-modal-description">Are you sure want to delete this news?</p>
                         <Button onClick={handleClose}>Close</Button>
                         <Button
                             onClick={() => {
-                                // handleDelete(params.row.id);
+                                handleDelete(params.row.id);
                             }}
                         >
                             Delete
                         </Button>
                     </Box>
                 </Modal>
-            </div> */}
-            {/* <div>
+            </div>
+            <div>
                 <Modal
                     open={message}
                     onClose={() => handleMessage(params.row.id)}
@@ -87,8 +78,8 @@ const Actions = ({ params, setRemove }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete User Successfully!</h2>
-                        <p id="parent-modal-description">User have been delete from DataBase!</p>
+                        <h2 id="parent-modal-title">Delete News Successfully!</h2>
+                        <p id="parent-modal-description">News have been delete from DataBase!</p>
                         <Button
                             onClick={() => {
                                 handleMessage(params.row.id);
@@ -98,16 +89,15 @@ const Actions = ({ params, setRemove }) => {
                         </Button>
                     </Box>
                 </Modal>
-            </div> */}
+            </div>
             <Box>
                 <Tooltip title="Delete">
                     <IconButton
                         onClick={() => {
-                            // handleDelete(params.row.id);
                             setOpen(true);
                         }}
                     >
-                        {/* <Delete /> */}
+                        <Delete />
                     </IconButton  >
                 </Tooltip>
 
@@ -115,7 +105,7 @@ const Actions = ({ params, setRemove }) => {
 
 
                 <Tooltip title="Edit">
-                    <Link to={`/staff/update/${params.row.id}`}>
+                    <Link to={`/update/news/${params.row.id}`}>
                         <IconButton
                             onClick={() => {
 

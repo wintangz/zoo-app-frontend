@@ -1,17 +1,34 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, useTheme } from '@mui/material';
+import { Box, Button, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import { createNews } from '~/api/newsService';
+import { getNewsById, updateNews } from '~/api/newsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import CustomToolbar from './QuillEditor/CustomToolbar';
 
-function NewsPostForm() {
+function UpdateNews() {
+    const { newsId } = useParams();
+    const [news, setNews] = useState({});
+    const navigate = useNavigate();
+
+    const fetchapi = async (id) => {
+        const result = await getNewsById(id);
+        return result;
+    };
+    useEffect(() => {
+        const res = fetchapi(newsId);
+        res.then((result) => {
+            setNews(result);
+            setEditorContent(result.content || '');
+
+        });
+    }, []);
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
@@ -36,15 +53,14 @@ function NewsPostForm() {
     };
     const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
-        title: '',
-        shortDescription: '',
+        title: news?.title || '',
+        shortDescription: news?.shortDescription || '',
         content: '',
-        type: '',
-        imgUrl: '',
-        thumbnailUrl: '',
-        status: true,
+        type: news?.type || '',
+        imgUrl: news?.imgUrl || '',
+        thumbnailUrl: news?.thumbnailUrl || '',
+        status: news?.status ? 'True' : 'False',
     };
-
     const typeOptions = ['Event', 'Info'];
     const userSchema = yup.object().shape({
         title: yup.string().required('Title is required'),
@@ -63,12 +79,10 @@ function NewsPostForm() {
     const handleFormSubmit = async (values, { resetForm }) => {
         try {
             const submitValue = { ...values, content: editorContent };
-            const response = await createNews(submitValue);
+            const response = await updateNews(newsId, submitValue);
             console.log(submitValue);
             if (response?.status === 200) {
                 setOpen(true);
-                resetForm();
-                setEditorContent('');
             }
         } catch (error) {
             console.error('Error submitting form:', error.message);
@@ -76,7 +90,7 @@ function NewsPostForm() {
     };
 
     const handleClose = () => {
-        setOpen(false);
+        navigate('/viewallnews');
     };
     const modules = {
         toolbar: {
@@ -123,7 +137,8 @@ function NewsPostForm() {
             </div>
             <Box m="20px">
                 <AdminHeader title="Create News" subtitle="Create news content" />
-                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
+                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}
+                    enableReinitialize={true}>
                     {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
                         <form onSubmit={handleSubmit}>
                             <Box>
@@ -134,6 +149,7 @@ function NewsPostForm() {
                                     label="Title"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
+                                    defaultValue=" "
                                     value={values.title}
                                     name="title"
                                 />
@@ -144,13 +160,14 @@ function NewsPostForm() {
                                     label="ShortDescription"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
+                                    defaultValue=" "
                                     value={values.shortDescription}
                                     name="shortDescription"
                                 />
-                                <Box mt={2} overflow="auto">
-                                    <label htmlFor="content" style={{ marginLeft: '0.8vw' }}>
+                                <Box overflow="auto">
+                                    <Typography variant="h6" color={colors.grey[300]} style={{ margin: '0.8vw' }}>
                                         Content
-                                    </label>
+                                    </Typography>
                                     <Box border="1px solid #ced4da" borderRadius="4px">
                                         <CustomToolbar />
                                         <ReactQuill
@@ -191,6 +208,7 @@ function NewsPostForm() {
                                     label="ImgUrl"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
+                                    defaultValue=" "
                                     value={values.imgUrl}
                                     name="imgUrl"
                                 />
@@ -201,14 +219,56 @@ function NewsPostForm() {
                                     label="ThumbnailUrl"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
+                                    defaultValue=" "
                                     value={values.thumbnailUrl}
                                     name="thumbnailUrl"
                                 />
+                                <FormControl
+                                    component="fieldset"
+                                    width="75%"
+                                    sx={{
+                                        gridColumn: 'span 1',
+                                    }}
+                                    label="Status"
+                                >
+                                    <Typography variant="h6" color={colors.grey[300]} style={{ margin: '0.8vw' }}>
+                                        Status
+                                    </Typography>
+                                    <RadioGroup
+                                        aria-label="Status"
+                                        name="status"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        defaultValue=" "
+                                        value={values.status}
+                                        sx={{ display: 'inline-block' }}
+                                        label="Status"
+                                    >
+                                        <FormControlLabel
+                                            value="True"
+                                            control={
+                                                <Radio
+                                                    sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                />
+                                            }
+                                            label="True"
+                                        />
+                                        <FormControlLabel
+                                            value="False"
+                                            control={
+                                                <Radio
+                                                    sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                />
+                                            }
+                                            label="False"
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
                             </Box>
 
                             <Box display="flex" justifyContent="end" mt="20px">
                                 <Button type="submit" color="secondary" variant="contained">
-                                    CREATE NEWS
+                                    UPDATE NEWS
                                 </Button>
                             </Box>
                         </form>
@@ -219,4 +279,4 @@ function NewsPostForm() {
     );
 }
 
-export default NewsPostForm;
+export default UpdateNews;

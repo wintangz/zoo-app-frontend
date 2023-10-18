@@ -37,7 +37,16 @@ export const put = async (path, values) => {
     return response;
 }
 
-
+export const remove = async (path) => {
+    const token = localStorage.getItem('token');
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    };
+    const response = await api.delete(path, config);
+    return response;
+};
 
 export const decode = (token) => {
     return jwtDecode(token);

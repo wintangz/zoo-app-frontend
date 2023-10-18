@@ -25,6 +25,7 @@ import CreateTicket from '~/pages/AdminPage/CreateTicket';
 import EditProfile from '~/pages/AdminPage/EditProfile';
 import Sercurity from '~/pages/AdminPage/EditProfile/Sercurity';
 import Form from '~/pages/AdminPage/Form';
+import UpdateNews from '~/pages/AdminPage/New/UpdateNews';
 import NewsPostForm from '~/pages/AdminPage/New/createNews';
 import ViewNews from '~/pages/AdminPage/New/new';
 import Team from '~/pages/AdminPage/Team';
@@ -49,7 +50,6 @@ const publicRoutes = [
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
 
     // Admin routes
-
     { path: 'team', component: Team, layout: AdminMainPage, name: 'Team', Authen: "private" },
     { path: 'calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'staff/form', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
@@ -58,8 +58,9 @@ const publicRoutes = [
     { path: 'edit/sercurity', component: Sercurity, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'tickets/view', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
     { path: 'tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
-    { path: 'viewallnew', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
+    { path: 'viewallnews', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
     { path: 'create/news', component: NewsPostForm, layout: AdminMainPage, name: 'CreateNews', Authen: "private" },
+    { path: 'update/news/:newsId', component: UpdateNews, layout: AdminMainPage, name: 'UpdateNews', Authen: "private" },
     { path: 'animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
     { path: 'animal/view', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
     { path: 'animal/assign/', component: AssignAnimal, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },

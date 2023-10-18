@@ -198,7 +198,7 @@ const Sidebar = () => {
                         {userRole === 'STAFF' && (
                             <Item
                                 title={titleNews}
-                                to="/viewallnew"
+                                to="/viewallnews"
                                 icon={<PeopleOutlinedIcon />}
                                 selected={selected}
                                 setSelected={setSelected}

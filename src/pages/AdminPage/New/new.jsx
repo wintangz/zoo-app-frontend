@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import * as newsService from '~/api/newsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
+import Actions from './actions';
 
 function ViewNews() {
+    const [remove, setRemove] = useState(null);
     const [newsResult, setNewsResult] = useState(null);
     const fetchApi = async () => {
         const resultTitle = await newsService.getNews();
-
+        console.log(resultTitle);
         setNewsResult(resultTitle);
     };
 
@@ -23,6 +25,7 @@ function ViewNews() {
         {
             field: 'id',
             headerName: 'ID',
+            flex: 0.2,
         },
         {
             field: 'title',
@@ -43,6 +46,15 @@ function ViewNews() {
             headerName: 'Author',
             headerAlign: 'left',
             align: 'left',
+            flex: 0.5,
+            valueGetter: (params) => `${params.row.authorLastname} ${params.row.authorFirstname}`,
+        },
+        {
+            field: 'type',
+            headerName: 'Type',
+            headerAlign: 'left',
+            align: 'left',
+            flex: 0.3,
         },
         {
             field: 'imgUrl',
@@ -55,6 +67,19 @@ function ViewNews() {
             headerName: 'ThumbnailUrl',
             headerAlign: 'left',
             align: 'left',
+        },
+        {
+            field: 'status',
+            headerName: 'Status',
+            headerAlign: 'left',
+            align: 'left',
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            type: 'actions',
+            width: 80,
+            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
         },
     ];
     return (
