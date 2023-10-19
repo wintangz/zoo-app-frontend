@@ -2,7 +2,7 @@
 //Layout
 import { NormalLayout } from '~/component/Layout';
 import AdminMainPage from '~/component/Layout/AdminMainPage/AdminMainPage';
-import AnimalLayout from '~/component/Layout/AnimalLayout/animalLayout';
+import AnimalLayout from '~/component/Layout/AnimalLayout/AnimalLayout';
 // import banner img
 
 import Profile from '~/pages/Profile/index'

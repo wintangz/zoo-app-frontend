@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import LoginForm from '~/component/Layout/components/LoginForm/loginform';
+import LoginForm from '~/component/Layout/components/LoginForm/LoginForm';
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import { useAppContext } from '~/context/Context';
 import styles from './Ticket.module.scss';
