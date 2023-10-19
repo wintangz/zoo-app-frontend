@@ -101,13 +101,13 @@ function ViewEnclosure() {
             width: 80,
         },
 
-        {
-            field: 'actions',
-            headerName: 'Actions',
-            type: 'actions',
-            width: 80,
-            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
-        },
+        // {
+        //     field: 'actions',
+        //     headerName: 'Actions',
+        //     type: 'actions',
+        //     width: 80,
+        //     renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
+        // },
     ];
     return (
         <Box m="20px">

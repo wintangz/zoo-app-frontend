@@ -473,7 +473,7 @@ const Sidebar = () => {
                                         <ListItemButton>
                                             <Item
                                                 title="View Habitat"
-                                                to="/habitat/view"
+                                                // to="/habitat/view"
                                                 icon={<PersonOutlinedIcon />}
                                                 selected={selected}
                                                 setSelected={setSelected}
@@ -488,18 +488,6 @@ const Sidebar = () => {
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-
-                                        {/* {role === 'ADMIN' && (
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create Ticket"
-                                                to="/tickets/create"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                    )} */}
                                     </List>
                                 </Collapse>
                             </List>
