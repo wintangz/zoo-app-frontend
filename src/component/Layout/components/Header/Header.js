@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { NamePageContext } from '~/App';
 import { logo_long } from '~/utils/assets-src';
 import ForgotPasswordForm from '~/component/Layout/components/LoginForm/ForgotPassword/ForgotPassword';
-import LoginForm from '~/component/Layout/components/LoginForm/LoginForm.js';
+import LoginForm from '~/component/Layout/components/LoginForm/Loginform.js';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import styles from './Header.module.scss';
 import { components } from './components.js';
