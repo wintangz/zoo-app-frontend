@@ -412,7 +412,7 @@ const Sidebar = () => {
                                 </Collapse>
                             </List>
                         )}
-                        {userRole === 'ZOO_TRAINER' && (
+                        {userRole === 'STAFF' && (
                             <List
                                 sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
                                 component="nav"
@@ -432,6 +432,15 @@ const Sidebar = () => {
                                     <List component="div" disablePadding>
                                         <ListItemButton>
                                             <Item
+                                                title="View Enclosure"
+                                                to="/enclosure/view"
+                                                icon={<PersonOutlinedIcon />}
+                                                selected={selected}
+                                                setSelected={setSelected}
+                                            />
+                                        </ListItemButton>
+                                        <ListItemButton>
+                                            <Item
                                                 title="Create Enclosure"
                                                 to="/enclosure/create"
                                                 icon={<PersonOutlinedIcon />}
@@ -443,7 +452,7 @@ const Sidebar = () => {
                                 </Collapse>
                             </List>
                         )}
-                        {userRole === 'ZOO_TRAINER' && (
+                        {userRole === 'STAFF' && (
                             <List
                                 sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
                                 component="nav"
@@ -461,6 +470,15 @@ const Sidebar = () => {
                                 </ListItemButton>
                                 <Collapse in={openHabitat} timeout="auto" unmountOnExit>
                                     <List component="div" disablePadding>
+                                        <ListItemButton>
+                                            <Item
+                                                title="View Habitat"
+                                                to="/habitat/view"
+                                                icon={<PersonOutlinedIcon />}
+                                                selected={selected}
+                                                setSelected={setSelected}
+                                            />
+                                        </ListItemButton>
                                         <ListItemButton>
                                             <Item
                                                 title="Create Habitat"

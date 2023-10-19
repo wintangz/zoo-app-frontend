@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logo_long_dark } from '~/utils/assets-src';
 import { decode } from '~/utils/axiosClient';
 import '../../../../assets/themify-icons.css';
-import styles from './Loginform.module.scss';
+import styles from './loginform.module.scss';
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
@@ -51,6 +51,7 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                 // } else {
                 //     console.log(false);
                 // }
+
             }
             onClose();
         } catch (error) {
@@ -83,9 +84,6 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
     return (
         <div className={`${styles.overlay}`}>
             <div className={styles.modal} ref={loginFormRef} >
-                {failMessage && (
-                    <div className={styles.failMessage}>{failMessage}</div>
-                )}
                 <div className={styles.close} onClick={onClose}>
                     <FontAwesomeIcon icon={faClose} />
                 </div>
@@ -97,6 +95,9 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
 
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}  >
                     <Form className={styles.form}>
+                        {failMessage && (
+                            <div className={styles.failMessage}>{failMessage}</div>
+                        )}
                         <div className={styles.field}>
                             <label htmlFor="username" className={styles.label}>
                                 <i className="ti-user"></i>
@@ -133,9 +134,9 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                         </div>
                     </Form>
                 </Formik>
-
                 {/* <div className={styles.footer}></div> */}
             </div>
+
         </div>
     );
 }

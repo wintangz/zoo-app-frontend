@@ -8,6 +8,14 @@ export const getAnimals = async () => {
         console.log(error);
     }
 }
+export const getEnclosures = async () => {
+    try {
+        const res = await axiosClient.get('enclosures')
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export const getHabitats = async () => {
     try {

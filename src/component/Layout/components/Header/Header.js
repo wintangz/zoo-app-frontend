@@ -4,15 +4,26 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NamePageContext } from '~/App';
 import { logo_long } from '~/utils/assets-src';
-import ForgotPasswordForm from '../LoginForm/ForgotPassword/Forgotpassword';
-import LoginForm from '../LoginForm/Loginform';
+import ForgotPasswordForm from '~/component/Layout/components/LoginForm/ForgotPassword/forgotpassword';
+import LoginForm from '~/component/Layout/components/LoginForm/loginform';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import styles from './Header.module.scss';
 import { components } from './components.js';
+import { BiSolidUser } from 'react-icons/bi';
+
+import { decode } from '~/utils/axiosClient';
 function Header() {
     const NamePage = useContext(NamePageContext);
     const lineRef = useRef(null);
     const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setUser(decode(token).roles[0]);
+        }
+    }, []);
+
     useEffect(() => {
         const headerNavItems = document.querySelectorAll(`.${styles.navitem_container}`);
         const child = document.querySelectorAll(`.${styles.dropdown_item}`);
@@ -65,18 +76,23 @@ function Header() {
             case "About": { lineRef.current.style.left = '77.6%'; lineRef.current.style.width = '5.8%'; break; }
         }
     };
-    const handleUnHover = (element) => {
-        document.querySelector(`.${styles.active}`).classList.contains("Home");
-        if (document.querySelector(`.${styles.active}`).classList.contains("Home")) {
-            lineRef.current.style.left = '45.5%'; lineRef.current.style.width = '5.8%';
-        } else if (document.querySelector(`.${styles.active}`).classList.contains("News")) {
-            lineRef.current.style.left = '53.5%'; lineRef.current.style.width = '5.8%';
-        } else if (document.querySelector(`.${styles.active}`).classList.contains("Explore")) {
-            lineRef.current.style.left = '61%'; lineRef.current.style.width = '6.3%';
-        } else if (document.querySelector(`.${styles.active}`).classList.contains("Ticket")) {
-            lineRef.current.style.left = '69.6%'; lineRef.current.style.width = '5.8%';
-        } else if (document.querySelector(`.${styles.active}`).classList.contains("About")) {
-            lineRef.current.style.left = '77.6%'; lineRef.current.style.width = '5.8%';
+    const handleUnHover = () => {
+        const activeElement = document.querySelector(`.${styles.active}`);
+        if (activeElement && activeElement.classList.contains("Home")) {
+            lineRef.current.style.left = '45.5%';
+            lineRef.current.style.width = '5.8%';
+        } else if (activeElement && activeElement.classList.contains("News")) {
+            lineRef.current.style.left = '53.5%';
+            lineRef.current.style.width = '5.8%';
+        } else if (activeElement && activeElement.classList.contains("Explore")) {
+            lineRef.current.style.left = '61%';
+            lineRef.current.style.width = '6.3%';
+        } else if (activeElement && activeElement.classList.contains("Ticket")) {
+            lineRef.current.style.left = '69.6%';
+            lineRef.current.style.width = '5.8%';
+        } else if (activeElement && activeElement.classList.contains("About")) {
+            lineRef.current.style.left = '77.6%';
+            lineRef.current.style.width = '5.8%';
         }
     }
 
@@ -115,13 +131,10 @@ function Header() {
     const handleCloseForgotPassword = () => {
         setShowForgotPassword(false);
     };
+
     const handleLoginSuccess = (userInfo) => {
         setUser(userInfo);
         setShowLogin(false);
-    };
-    const handleLogout = () => {
-        setUser(null);
-        // Perform logout logic (clear tokens, etc.)
     };
     return (
         <>
@@ -174,10 +187,13 @@ function Header() {
                     </div>
                 </div>
                 <div className={styles.login}>
-                    {user ? (
-                        <span className={`${styles.loginitem} ${styles.js_open}`} onClick={handleLogout}>
-                            Log Out
-                        </span>
+                    {user === 'CUSTOMER' ? (
+                        // <span className={`${styles.loginitem} ${styles.js_open}`} onClick={handleLogout}>
+                        //     Log Out
+                        // </span>
+                        <a href="/profile" className={styles.profileItem}>
+                            <BiSolidUser />
+                        </a>
                     ) : (
                         <Link onClick={(event) => handleLoginFormClick(event)} className={`${styles.loginitem} ${styles.js_open}`}>
                             Log In

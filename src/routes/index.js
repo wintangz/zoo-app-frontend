@@ -2,9 +2,10 @@
 //Layout
 import { NormalLayout } from '~/component/Layout';
 import AdminMainPage from '~/component/Layout/AdminMainPage/AdminMainPage';
-import AnimalLayout from '~/component/Layout/AnimalLayout/AnimalLayout';
+import AnimalLayout from '~/component/Layout/AnimalLayout/animalLayout';
 // import banner img
 
+import Profile from '~/pages/Profile/index'
 import About from '~/pages/About/About';
 import Animals from '~/pages/Animals/Animals';
 import Habitats from '~/pages/Habitats/Habitats';
@@ -35,6 +36,8 @@ import ViewTicket from '~/pages/AdminPage/ViewTicket';
 import AssignAnimal from '~/pages/AssignAnimal';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
+import ViewEnclosure from '~/pages/AdminPage/ViewEnclosure';
+import ViewHatbitat from '~/pages/AdminPage/ViewHabitat';
 
 
 const publicRoutes = [
@@ -42,12 +45,14 @@ const publicRoutes = [
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: "news/:id/:title", component: ParentComponent, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
+    { path: 'profile', component: Profile, layout: AnimalLayout, name: 'Profile', Authen: "public" },
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
     { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats', Authen: "public" },
     { path: 'map', component: Maps, layout: NormalLayout, name: 'Map' },
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
+
 
     // Admin routes
     { path: 'team', component: Team, layout: AdminMainPage, name: 'Team', Authen: "private" },
@@ -64,12 +69,14 @@ const publicRoutes = [
     { path: 'animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
     { path: 'animal/view', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
     { path: 'animal/assign/', component: AssignAnimal, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },
-
     { path: 'enclosure/create', component: CreateEnclosure, layout: AdminMainPage, name: 'CreateEnclosure;', Authen: "private" },
-
+    { path: 'enclosure/view', component: ViewEnclosure, layout: AdminMainPage, name: 'ViewEnclosure;', Authen: "private" },
     { path: 'habitat/create', component: CreateHabitat, layout: AdminMainPage, name: 'CreateHabitat;', Authen: "private" },
+    { path: 'habitat/view', component: ViewHatbitat, layout: AdminMainPage, name: 'ViewHatbitat;', Authen: "private" },
     { path: 'checkticket', component: TicketScanner, layout: AdminMainPage, name: 'TicketScanner;', Authen: "private" },
 
+    //Customer Routes
+    { path: 'profile', component: Profile, layout: AdminMainPage, name: 'Profile', Authen: "private" },
 
 ];
 

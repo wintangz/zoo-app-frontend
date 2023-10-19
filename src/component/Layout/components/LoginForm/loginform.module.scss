@@ -10,6 +10,7 @@
     align-items: center;
     justify-content: center;
     min-height: 80vh;
+    flex-direction: column;
 
     .modal {
         font-size: 1.1rem;
@@ -19,16 +20,6 @@
         position: relative;
         padding: 15px;
         border-radius: 10px;
-
-        .failMessage {
-            margin-top: 1vh;
-            font-size: 1.2rem;
-            color: red;
-            padding: 2vh;
-            background-color: rgb(249, 201, 201);
-            margin: 0 3.5vh;
-            text-align: center;
-        }
 
         .close {
             position: absolute;
@@ -150,6 +141,14 @@
 
             }
         }
+    }
+
+    .failMessage {
+        font-size: 1.3rem;
+        color: red;
+        margin-bottom: 3vh;
+        text-align: center;
+        font-weight: 500;
     }
 }
 
