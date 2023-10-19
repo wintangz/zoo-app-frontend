@@ -61,11 +61,6 @@ const Actions = ({ params, setRemove }) => {
         setMessage(false);
         setRemove(values);
     };
-    const userInfo = {
-        // Add your user information here
-        name: 'John Doe',
-        // Other properties
-    };
     return (
         <>
             <div>

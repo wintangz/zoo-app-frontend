@@ -1,7 +1,7 @@
 import { Box, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
-import { getAllAnimals } from '~/api/animalsService';
+import { getHabitats } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './actions';
@@ -18,47 +18,28 @@ function ViewHabitat() {
 
         return formattedDate;
     }
-    const [animals, setAnimals] = useState(null);
+
+    const [habitats, setHabitats] = useState(null);
     const [remove, setRemove] = useState(null);
+
     useEffect(() => {
         try {
-            const res = getAllAnimals();
-            res.then((animals) => {
-                setAnimals(animals);
+            const res = getHabitats();
+            res.then((habitats) => {
+                setHabitats(habitats);
             })
         } catch (error) {
             console.error(error);
         }
     }, [remove])
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
         {
             field: 'id',
             headerName: 'ID',
-        },
-        {
-            field: 'imgUrl',
-            headerName: 'Image',
-            headerAlign: 'center',
-            align: 'left',
-            flex: 1,
-            renderCell: (params) => (
-                <img src={params.row.imgUrl} alt={params.row.name} style={{ width: '75%', height: 'auto' }} />
-            ),
-        },
-        {
-            field: 'arrivalDate',
-            headerName: 'arrivalDate    ',
-            headerAlign: 'left',
-            align: 'left',
-        },
-        {
-            field: 'dateOfBirth', // Keep the field as 'firstname'
-            headerName: 'dateOfBirth',
-            headerAlign: 'left',
-            align: 'left',
-            flex: 1,
+            width: 60,
         },
 
         {
@@ -66,32 +47,44 @@ function ViewHabitat() {
             headerName: 'name',
             headerAlign: 'left',
             align: 'left',
+            width: 170,
         },
 
         {
-            field: 'origin',
-            headerName: 'origin',
+            field: 'info',
+            headerName: 'Infomation',
             headerAlign: 'left',
             align: 'left',
+            width: 100,
         },
 
         {
-            field: 'sex',
-            headerName: 'sex',
+            field: 'createdDate',
+            headerName: 'createdDate',
             headerAlign: 'left',
-            width: 80,
+            align: 'left',
+            width: 170,
+        },
+
+        {
+            field: 'imgUrl',
+            headerName: 'Image',
+            headerAlign: 'left',
+            align: 'left',
+            flex: 1,
+            renderCell: (params) => (
+                <img src={params.row.imgUrl} alt={params.row.name} style={{ width: '90%', height: 'auto' }} />
+            ),
         },
         {
-            field: 'size',
-            headerName: 'size',
+            field: 'bannerUrl',
+            headerName: 'Banner Image',
             headerAlign: 'left',
-            width: 80,
-        },
-        {
-            field: 'species',
-            headerName: 'species',
-            headerAlign: 'left',
-            width: 80,
+            align: 'left',
+            flex: 1,
+            renderCell: (params) => (
+                <img src={params.row.bannerUrl} alt={params.row.name} style={{ width: '80%', height: 'auto' }} />
+            ),
         },
         {
             field: 'status',
@@ -99,23 +92,18 @@ function ViewHabitat() {
             headerAlign: 'left',
             width: 80,
         },
-        {
-            field: 'weight',
-            headerName: 'weight',
-            headerAlign: 'left',
-            width: 80,
-        },
-        {
-            field: 'actions',
-            headerName: 'Actions',
-            type: 'actions',
-            width: 80,
-            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
-        },
+
+        // {
+        //     field: 'actions',
+        //     headerName: 'Actions',
+        //     type: 'actions',
+        //     width: 80,
+        //     renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
+        // },
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View all Habitats" subtitle="Table of Enclosures" />
+            <AdminHeader title="View all Enclosures" subtitle="Table of Enclosures" />
             <Box
                 m="40px 0 0 0"
                 height="75vh"
@@ -149,9 +137,9 @@ function ViewHabitat() {
                     },
                 }}
             >
-                {animals && (
+                {habitats && (
                     <DataGrid
-                        rows={animals}
+                        rows={habitats}
                         columns={columns}
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}

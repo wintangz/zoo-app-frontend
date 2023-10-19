@@ -473,7 +473,7 @@ const Sidebar = () => {
                                         <ListItemButton>
                                             <Item
                                                 title="View Habitat"
-                                                // to="/habitat/view"
+                                                to="/habitat/view"
                                                 icon={<PersonOutlinedIcon />}
                                                 selected={selected}
                                                 setSelected={setSelected}
