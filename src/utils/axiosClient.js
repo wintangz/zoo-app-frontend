@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 const api = axios.create({
-    // baseURL: 'http://192.168.1.229:8080/api/'
+    // baseURL: 'https://zoo-app-backend.test.azuremicroservices.io/spring-app-zoo/default/api/'
     baseURL: 'http://localhost:8080/api/'
 })
 export const get = async (path) => {

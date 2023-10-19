@@ -45,7 +45,7 @@ function TicketScanner() {
 
             try {
                 const response = await checkTicketByQr(data.text);
-                console.log(response);
+                // console.log(response);
 
                 if (response.status) {
                     // console.log(response.status);
@@ -84,10 +84,13 @@ function TicketScanner() {
     return (
         <div style={styles.container}>
             {scannedData === 'success' && (
-                <p>Ticket Checked Successfully!</p>
+                <>
+                    <p style={{ color: 'green' }}>Ticket Checked Successfully!</p>
+                    <br />{scannedData.data}
+                </>
             )}
             {scannedData && scannedData !== 'success' && (
-                <p>Error checking ticket. {scannedData && `${scannedData}`}. Please try again. </p>
+                <p style={{ color: 'red' }}>Error checking ticket. {scannedData && `${scannedData}`}. Please try again. </p>
 
             )}
             {!isCameraOpen && (

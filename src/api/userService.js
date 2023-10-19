@@ -6,6 +6,7 @@ export const getUser = async () => {
         const res = await axiosClient.get('users')
         return res.data;
     } catch (error) {
+        return error.response;
     }
 }
 
@@ -15,6 +16,7 @@ export const getZooTrainer = async () => {
         const res = await axiosClient.get('users/zoo-trainers')
         return res.data;
     } catch (error) {
+        return error.response;
     }
 }
 
@@ -24,6 +26,7 @@ export const createStaff = async (values) => {
         const res = await axiosClient.post('users/staff', values)
         return res;
     } catch (error) {
+        return error.response;
     }
 }
 export const createZooTrainer = async (values) => {
@@ -32,6 +35,7 @@ export const createZooTrainer = async (values) => {
         const res = await axiosClient.post('users/zoo-trainers', values)
         return res;
     } catch (error) {
+        return error.response;
     }
 }
 
@@ -41,6 +45,7 @@ export const getUserById = async (values) => {
         const res = await axiosClient.get(`users/${values}`)
         return res.data;
     } catch (error) {
+        return error.response;
     }
 }
 
@@ -50,6 +55,7 @@ export const updateStaff = async (values) => {
         const res = await axiosClient.put('users/staff', values)
         return res;
     } catch (error) {
+        return error.response;
     }
 }
 export const updateUser = async (id, values) => {
@@ -58,6 +64,7 @@ export const updateUser = async (id, values) => {
         const res = await axiosClient.put(`users/${id}`, values)
         return res;
     } catch (error) {
+        return error.response;
     }
 }
 
@@ -66,6 +73,7 @@ export const logout = async (values) => {
         const res = await axiosClient.post('auth/logout', values)
         return res;
     } catch (error) {
+        return error.response;
     }
 }
 

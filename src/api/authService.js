@@ -7,6 +7,6 @@ export const registerUser = async (userData) => {
         return res.data;
 
     } catch (error) {
-        throw error;
+        return error.response;
     }
 }

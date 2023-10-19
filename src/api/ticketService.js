@@ -4,7 +4,7 @@ export const getTickets = async () => {
         const res = await axiosClient.get('tickets')
         return res.data;
     } catch (error) {
-        console.log(error);
+        return error.response;
     }
 }
 
@@ -13,7 +13,7 @@ export const createTicket = async (values) => {
         const res = await axiosClient.post('tickets', values);
         return res.data;
     } catch (error) {
-        console.log(error);
+        return error.response;
     }
 }
 export const checkTicketByQr = async (text) => {

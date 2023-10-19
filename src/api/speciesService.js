@@ -4,6 +4,6 @@ export const getSpecies = async () => {
         const res = await axiosClient.get('species')
         return res.data;
     } catch (error) {
-        console.log(error);
+        return error.response;
     }
 }

@@ -27,7 +27,6 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
         try {
             // Send a POST request to the login API
             const response = await axios.post('http://localhost:8080/api/auth/login', values);
-            // const response = await axios.post('http://192.168.1.229:8080/api/auth/login', values);
 
             // Handle the response as needed
             console.log(response);

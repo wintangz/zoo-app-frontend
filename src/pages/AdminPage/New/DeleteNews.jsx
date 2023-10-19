@@ -1,7 +1,6 @@
 import { Delete, Edit } from '@mui/icons-material';
-import { Box, IconButton, Tooltip, useTheme } from '@mui/material';
+import { Box, Button, IconButton, Modal, Tooltip, useTheme } from '@mui/material';
 import { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { deleteNews } from '~/api/newsService';
 import { tokens } from '~/theme';
@@ -26,12 +25,13 @@ const Actions = ({ params, setRemove }) => {
         px: 4,
         pb: 3,
     };
+    console.log(open)
     const handleDelete = (newsId) => {
+        setOpen(false);
         deleteNews(newsId)
             .then((response) => {
-                if (response.status === 200) {
+                if (response.status === "Ok") {
                     console.log('DELETE request successful:', response);
-                    setOpen(false);
                     setMessage(true);
                 }
             })
@@ -100,8 +100,6 @@ const Actions = ({ params, setRemove }) => {
                         <Delete />
                     </IconButton  >
                 </Tooltip>
-
-
 
 
                 <Tooltip title="Edit">

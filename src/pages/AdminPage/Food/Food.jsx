@@ -1,23 +1,25 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
-import * as newsService from '~/api/newsService';
+import { useNavigate } from 'react-router-dom';
+import * as foodService from '~/api/foodService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import Actions from './actions';
+import Actions from './DeleteFoods';
 
-function ViewNews() {
+function ViewFood() {
+    const navigate = useNavigate();
     const [remove, setRemove] = useState(null);
-    const [newsResult, setNewsResult] = useState(null);
+    const [foodResult, setFoodResult] = useState(null);
     const fetchApi = async () => {
-        const resultTitle = await newsService.getNews();
-        console.log(resultTitle);
-        setNewsResult(resultTitle);
+        const result = await foodService.getFood();
+        console.log(result);
+        setFoodResult(result);
     };
 
     useEffect(() => {
         fetchApi();
-    }, []);
+    }, [remove]);
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -28,51 +30,33 @@ function ViewNews() {
             flex: 0.2,
         },
         {
-            field: 'title',
-            headerName: 'Title',
+            field: 'name',
+            headerName: 'Name',
             headerAlign: 'left',
             align: 'left',
             flex: 1,
-        },
-        {
-            field: 'content',
-            headerName: 'Content',
-            headerAlign: 'left',
-            align: 'left',
-            flex: 1,
-        },
-        {
-            field: 'author',
-            headerName: 'Author',
-            headerAlign: 'left',
-            align: 'left',
-            flex: 0.5,
-            valueGetter: (params) => `${params.row.authorLastname} ${params.row.authorFirstname}`,
         },
         {
             field: 'type',
             headerName: 'Type',
             headerAlign: 'left',
             align: 'left',
-            flex: 0.3,
+            flex: 1,
         },
         {
-            field: 'imgUrl',
-            headerName: 'ImgUrl',
+            field: 'createdDate',
+            headerName: 'Created Date',
             headerAlign: 'left',
             align: 'left',
+            flex: 1,
         },
         {
-            field: 'thumbnailUrl',
-            headerName: 'ThumbnailUrl',
+            field: 'creator',
+            headerName: 'Creator',
             headerAlign: 'left',
             align: 'left',
-        },
-        {
-            field: 'status',
-            headerName: 'Status',
-            headerAlign: 'left',
-            align: 'left',
+            flex: 0.5,
+            valueGetter: (params) => `${params.row.creator.username}`,
         },
         {
             field: 'actions',
@@ -84,9 +68,19 @@ function ViewNews() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View New" subtitle="" />
+            <AdminHeader title="View Food" subtitle="Show All Food" />
+            <Box display="flex" justifyContent="left">
+                <Button
+                    type="button"
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => navigate('/create/foods')}
+                >
+                    CREATE FOOD
+                </Button>
+            </Box>
             <Box
-                m="40px 0 0 0"
+                m="20px 0 0 0"
                 height="75vh"
                 sx={{
                     '& .MuiDataGrid-root': {
@@ -118,9 +112,9 @@ function ViewNews() {
                     },
                 }}
             >
-                {newsResult && (
+                {foodResult && (
                     <DataGrid
-                        rows={newsResult}
+                        rows={foodResult}
                         columns={columns}
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}
@@ -132,4 +126,4 @@ function ViewNews() {
     );
 }
 
-export default ViewNews;
+export default ViewFood;

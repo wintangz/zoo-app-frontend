@@ -60,7 +60,7 @@ function Team() {
                 getZooTrainer();
             }
         }
-    }, []);
+    }, [remove]);
     const userRole = decode(localStorage.getItem('token')).roles[0];
     let title = '';
     let subtitle = '';

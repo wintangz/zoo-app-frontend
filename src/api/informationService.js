@@ -10,6 +10,6 @@ export const getInfo = async (token) => {
 
         return result.data;
     } catch (error) {
-        console.log(error);
+        return error.response;
     }
 }

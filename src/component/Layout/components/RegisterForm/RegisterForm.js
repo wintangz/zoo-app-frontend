@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { registerUser } from '~/api/loginService';
+import { registerUser } from '~/api/authService';
 import styles from './RegisterForm.module.scss';
 
 const validationSchema = Yup.object().shape({

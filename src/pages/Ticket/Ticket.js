@@ -1,7 +1,9 @@
 import { createContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import ForgotPasswordForm from '~/component/Layout/components/LoginForm/ForgotPassword/Forgotpassword';
 import LoginForm from '~/component/Layout/components/LoginForm/Loginform';
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
+import RegisterForm from '~/component/Layout/components/RegisterForm/RegisterForm';
 import { useAppContext } from '~/context/Context';
 import styles from './Ticket.module.scss';
 import TicketDetail from './TicketDetail';
@@ -28,7 +30,37 @@ function formatPrice(totalPrice) {
 export const TicketContext = createContext();
 function Ticket() {
     const { setTotalQuantity, setTotalPrice, totalPrice, tickets, auth } = useAppContext();
-    const [open, setOpen] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const handleLoginFormClick = (event) => {
+        event.stopPropagation();
+        setShowLogin(true);
+        setShowRegister(false);
+        setShowForgotPassword(false);
+    };
+    const handleRegisterFormClick = (event) => {
+        event.stopPropagation();
+        setShowLogin(false);
+        setShowRegister(true);
+        setShowForgotPassword(false);
+    };
+    const handleForgotPasswordFormClick = (event) => {
+        event.stopPropagation();
+        setShowLogin(false);
+        setShowRegister(false);
+        setShowForgotPassword(true);
+    };
+    const handleCloseLogin = () => {
+        setShowLogin(false);
+    };
+
+    const handleCloseRegister = () => {
+        setShowRegister(false);
+    };
+    const handleCloseForgotPassword = () => {
+        setShowForgotPassword(false);
+    };
     const handleIncreaseQuantity = (price) => {
         // console.log(price)
         setTotalQuantity(prev => prev + 1)
@@ -83,10 +115,16 @@ function Ticket() {
                 {/* {auth ? <Link to="/summary" className={styles.btn}>Checkout</Link>
                     : <Link onClick={() => setOpen(true)} className={styles.btn}>Checkout</Link>
                 } */}
-                <Link to={localStorage.getItem("token") ? "/summary" : undefined} onClick={localStorage.getItem("token") ? undefined : () => setOpen(true)} className={styles.btn}>
+                <Link to={localStorage.getItem("token") ? "/summary" : undefined} onClick={localStorage.getItem("token") ? undefined : (event) => handleLoginFormClick(event)} className={styles.btn}>
                     Check Out
                 </Link>
-                {open && <LoginForm open={setOpen} />}
+                {showLogin && <LoginForm
+                    onClose={handleCloseLogin}
+                    onRegisterClick={(event) => handleRegisterFormClick(event)}
+                    onForgotPasswordClick={(event) => handleForgotPasswordFormClick(event)}
+                />}
+                {showRegister && <RegisterForm onClose={handleCloseRegister} onLoginClick={handleLoginFormClick} />}
+                {showForgotPassword && <ForgotPasswordForm onClose={handleCloseForgotPassword} onLoginClick={handleLoginFormClick} />}
             </div>
         </>
     )

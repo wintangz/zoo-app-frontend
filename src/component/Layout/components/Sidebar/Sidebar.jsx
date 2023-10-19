@@ -16,6 +16,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { BsQrCodeScan } from 'react-icons/bs';
+import { TbMeat } from 'react-icons/tb';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Link } from 'react-router-dom';
 import { logout } from '~/api/userService';
@@ -206,9 +207,9 @@ const Sidebar = () => {
                         )}
                         {userRole === 'STAFF' && (
                             <Item
-                                title="Create News"
-                                to="/create/news"
-                                icon={<PersonOutlinedIcon />}
+                                title="View All Foods"
+                                to="/viewfoods"
+                                icon={<TbMeat />}
                                 selected={selected}
                                 setSelected={setSelected}
                             />

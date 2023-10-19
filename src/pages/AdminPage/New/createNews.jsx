@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createNews } from '~/api/newsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
@@ -12,6 +13,7 @@ import { decode } from '~/utils/axiosClient';
 import CustomToolbar from './QuillEditor/CustomToolbar';
 
 function NewsPostForm() {
+    const navigate = useNavigate();
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
@@ -206,7 +208,15 @@ function NewsPostForm() {
                                 />
                             </Box>
 
-                            <Box display="flex" justifyContent="end" mt="20px">
+                            <Box display="flex" justifyContent="space-between" mt="20px">
+                                <Button
+                                    type="button"
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={() => navigate('/viewfoods')}
+                                >
+                                    VIEW All NEWS
+                                </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE NEWS
                                 </Button>
