@@ -3,29 +3,28 @@ import {
     Button,
     FormControl,
     FormControlLabel,
+    Input,
     Radio,
     RadioGroup,
     TextField,
     Typography,
     useTheme,
-    Input,
 } from '@mui/material';
 
 import MenuItem from '@mui/material/MenuItem';
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
+import { createAnimals } from '~/api/animalsService';
+import { getSpecies } from '~/api/speciesService';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
-import { getSpecies } from '~/api/speciesService';
-import { createAnimals } from '~/api/animalsService';
 // import { DataGridPro } from '@mui/x-data-grid-pro';
 function CreateAnimal() {
     const FILE_SIZE = 160 * 1024;

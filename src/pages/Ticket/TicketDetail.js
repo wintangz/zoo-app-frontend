@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-import { useAppContext } from '~/context';
+import { useAppContext } from '~/context/Context';
 import styles from './Ticket.module.scss';
 
 function formatPrice(totalPrice) {

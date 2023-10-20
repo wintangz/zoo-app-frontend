@@ -137,33 +137,18 @@
 
         .card_body {
             .radioContainer {
-                display: flex;
-                align-items: center;
-
-                .paymentRadio {
-                    display: none;
-
-                }
-
-                .payment {
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 50%;
-                    border: 2px solid var(--primary);
-                    margin-right: 10px;
-                    cursor: pointer;
-                    transition: background-color 0.3s ease-in-out;
-                    padding-left: 2vw;
-                }
-
-                .payment:hover {
-                    background-color: #f0f0f0;
-                }
-
-                .paymentRadio:checked+.payment {
-                    background-color: var(--primary);
-                }
+                position: relative;
             }
+
+            .hiddenRadio {
+                position: absolute;
+                opacity: 0;
+            }
+
+            input:checked:after {
+                display: block;
+            }
+
 
         }
     }
@@ -185,7 +170,7 @@
     }
 
     .btn:hover {
-        background-color: white;
+        background-color: rgb(29, 28, 28);
         color: rgb(248, 191, 2);
         transition: all .2s ease-in-out;
     }

@@ -1,17 +1,10 @@
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
-import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
-import * as mockData from '~/api/data/mockData';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
-import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
-import { getUsersWithRoles } from '~/utils/getUserByRole';
-import Actions from './actions';
 import { getAllAnimals } from '~/api/animalsService';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
+import { tokens } from '~/theme';
+import Actions from './actions';
 
 function ViewAnimals() {
     function formatDate(originalDate) {
@@ -39,6 +32,7 @@ function ViewAnimals() {
     }, [remove])
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    console.log(animals)
     const columns = [
         {
             field: 'id',

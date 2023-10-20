@@ -7,6 +7,8 @@ function NewsPost(props) {
         .toLowerCase()
         .replace(/,/g, '-')
         .replace(/ /g, '-');
+
+    console.log(props.post.type);
     return (
         <Link to={`/news/${props.post.id}/${encodeURIComponent(formattedTitle)}`} className={styles.title}>
             <img src={props.post.thumbnailUrl} alt="Thumbnail" />
@@ -18,7 +20,7 @@ function NewsPost(props) {
                 <span className={styles.date}>
                     <DateTimeFormatComponent apiDateTime={props.post.createdDate} />
                 </span>
-                <span className={styles.type}>Event</span>
+                <span className={`${styles.type} ${props.post.type}`}>{props.post.type}</span>
             </div>
         </Link>
     );

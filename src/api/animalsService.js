@@ -5,6 +5,14 @@ export const getAnimals = async () => {
         const res = await axiosClient.get('species')
         return res.data;
     } catch (error) {
+        return error.response;
+    }
+}
+export const getEnclosures = async () => {
+    try {
+        const res = await axiosClient.get('enclosures')
+        return res.data;
+    } catch (error) {
         console.log(error);
     }
 }
@@ -14,7 +22,7 @@ export const getHabitats = async () => {
         const res = await axiosClient.get('habitats')
         return res.data;
     } catch (error) {
-        console.log(error);
+        return error.response;
     }
 }
 
@@ -23,7 +31,7 @@ export const createAnimals = async (values) => {
         const res = await axiosClient.post('animals', values)
         return res.data;
     } catch (error) {
-        console.log(error);
+        return error.response;
     }
 }
 
@@ -32,7 +40,7 @@ export const getAllAnimals = async () => {
         const res = await axiosClient.get('animals')
         return res.data;
     } catch (error) {
-        console.log(error);
+        return error.response;
     }
 }
 export const assignZooTrainerToAnimal = async (values, path) => {
@@ -40,7 +48,7 @@ export const assignZooTrainerToAnimal = async (values, path) => {
         const res = await axiosClient.post(path, values)
         return res.data;
     } catch (error) {
-        console.log(error);
+        return error.response;
     }
 }
 

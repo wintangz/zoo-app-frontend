@@ -1,30 +1,31 @@
 import {
     Box,
     Button,
-    TextField,
     FormControl,
-    RadioGroup,
     FormControlLabel,
     Radio,
-    useTheme,
+    RadioGroup,
+    TextField,
     Typography,
+    useTheme,
 } from '@mui/material';
-import { Formik } from 'formik';
 import Modal from '@mui/material/Modal';
-import * as yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { tokens } from '~/theme';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { createStaff, updateUser } from '~/api/data/mockData';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
-import * as mockData from '~/api/data/mockData';
-import { decode } from '~/utils/axiosClient';
-import { useEffect, useState } from 'react';
+import { Formik } from 'formik';
 import moment from 'moment/moment';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import * as yup from 'yup';
+import * as mockData from '~/api/userService';
+import { updateUser } from '~/api/userService';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
+import { tokens } from '~/theme';
+import { decode } from '~/utils/axiosClient';
 
 function EditProfile() {
+    const navigate = useNavigate();
     //--------------- Call API GET USER ---------------------------------//'
     const { userId } = useParams();
     const [users, setUsers] = useState({});
@@ -126,6 +127,15 @@ function EditProfile() {
         phone: yup.string().matches(phoneRegExp, 'Phone numbers is not valid').required('required'),
         email: yup.string().email('Invalid email').required('required'),
     });
+
+    //------------------ROLE------------------------------
+    const userRole = decode(localStorage.getItem('token')).roles[0];
+    let button = '';
+    if (userRole === 'ADMIN') {
+        button = 'VIEW ALL STAFF';
+    } else if (userRole === 'STAFF') {
+        button = 'VIEW ALL ZOO TRAINER';
+    }
     return (
         <>
             <div>
@@ -148,6 +158,16 @@ function EditProfile() {
 
             <>
                 <Box m="20px">
+                    <Box mb="20px" display="flex" justifyContent="left">
+                        <Button
+                            type="button"
+                            color="secondary"
+                            variant="contained"
+                            onClick={() => navigate('/team')}
+                        >
+                            {button}
+                        </Button>
+                    </Box>
                     <Formik
                         onSubmit={handleFormSubmit}
                         initialValues={initialValues}

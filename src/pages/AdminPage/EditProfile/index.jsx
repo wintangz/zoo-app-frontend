@@ -1,28 +1,28 @@
 import {
     Box,
     Button,
-    TextField,
     FormControl,
-    RadioGroup,
     FormControlLabel,
     Radio,
-    useTheme,
+    RadioGroup,
+    TextField,
     Typography,
+    useTheme,
 } from '@mui/material';
-import { Formik } from 'formik';
 import Modal from '@mui/material/Modal';
-import * as yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { tokens } from '~/theme';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { createStaff, updateUser } from '~/api/data/mockData';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
-import * as mockData from '~/api/data/mockData';
-import { decode } from '~/utils/axiosClient';
-import { useEffect, useState } from 'react';
+import { Formik } from 'formik';
 import moment from 'moment/moment';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import * as yup from 'yup';
+import * as mockData from '~/api/userService';
+import { updateUser } from '~/api/userService';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
+import { tokens } from '~/theme';
+import { decode } from '~/utils/axiosClient';
 
 function EditProfile() {
     //--------------- Call API GET USER ---------------------------------//

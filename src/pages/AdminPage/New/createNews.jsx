@@ -1,17 +1,19 @@
-import { Box, Button, TextField, useTheme } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createNews } from '~/api/newsService';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import CustomToolbar from './QuillEditor/CustomToolbar';
 
 function NewsPostForm() {
+    const navigate = useNavigate();
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
@@ -42,8 +44,10 @@ function NewsPostForm() {
         type: '',
         imgUrl: '',
         thumbnailUrl: '',
+        status: true,
     };
 
+    const typeOptions = ['Event', 'Info'];
     const userSchema = yup.object().shape({
         title: yup.string().required('Title is required'),
         shortDescription: yup.string().required('Short Description is required'),
@@ -164,16 +168,24 @@ function NewsPostForm() {
                                         <div style={{ color: 'red', marginTop: '0.5rem' }}>{errors.content}</div>
                                     )}
                                 </Box>
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Type"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.type}
-                                    name="type"
-                                />
+                                <FormControl fullWidth variant="filled">
+                                    <InputLabel id="type-label">Type</InputLabel>
+                                    <Select
+                                        labelId="type-label"
+                                        id="type"
+                                        value={values.type}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        label="Type"
+                                        name="type"
+                                    >
+                                        {typeOptions.map((type) => (
+                                            <MenuItem key={type} value={type}>
+                                                {type}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                                 <TextField
                                     fullWidth
                                     variant="filled"
@@ -196,7 +208,15 @@ function NewsPostForm() {
                                 />
                             </Box>
 
-                            <Box display="flex" justifyContent="end" mt="20px">
+                            <Box display="flex" justifyContent="space-between" mt="20px">
+                                <Button
+                                    type="button"
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={() => navigate('/viewfoods')}
+                                >
+                                    VIEW All NEWS
+                                </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE NEWS
                                 </Button>

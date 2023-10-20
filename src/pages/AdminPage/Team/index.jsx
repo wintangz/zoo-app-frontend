@@ -2,17 +2,19 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import PetsOutlinedIcon from '@mui/icons-material/PetsOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
-import * as mockData from '~/api/data/mockData';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
+import { useNavigate } from 'react-router-dom';
+import * as mockData from '~/api/userService';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import { getUsersWithRoles } from '~/utils/getUserByRole';
 import Actions from './actions';
 
 function Team() {
+    const navigate = useNavigate();
     function formatDate(originalDate) {
         const date = new Date(originalDate);
         const day = date.getDate();
@@ -60,17 +62,20 @@ function Team() {
                 getZooTrainer();
             }
         }
-    }, []);
+    }, [remove]);
     const userRole = decode(localStorage.getItem('token')).roles[0];
     let title = '';
     let subtitle = '';
+    let button = '';
 
     if (userRole === 'ADMIN') {
         title = 'User Management';
         subtitle = 'Show user info';
+        button = 'Create New Staff';
     } else if (userRole === 'STAFF') {
         title = 'Zoo Trainer Management';
         subtitle = 'Show zoo trainer info';
+        button = 'Create New Zoo Trainer';
     }
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -157,6 +162,16 @@ function Team() {
     return (
         <Box m="20px">
             <AdminHeader title={title} subtitle={subtitle} />
+            <Box display="flex" justifyContent="left">
+                <Button
+                    type="button"
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => navigate('/staff/form')}
+                >
+                    {button}
+                </Button>
+            </Box>
             <Box
                 m="40px 0 0 0"
                 height="75vh"

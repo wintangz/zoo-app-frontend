@@ -1,5 +1,5 @@
-import Header from '~/component/Layout/components/Header';
-import Footer from '~/component/Layout/components/Footer';
+import Footer from '~/component/Layout/components/Footer/Footer';
+import Header from '~/component/Layout/components/Header/Header';
 
 function AnimalLayout({ children }) {
     return (

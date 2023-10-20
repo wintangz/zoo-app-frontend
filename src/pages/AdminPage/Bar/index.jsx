@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import BarChart from './barChart';
 
 const Bar = () => {

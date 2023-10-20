@@ -3,22 +3,22 @@ import {
     Button,
     FormControl,
     FormControlLabel,
+    Input,
     Radio,
     RadioGroup,
     TextField,
     Typography,
     useTheme,
-    Input,
 } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import * as yup from 'yup';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
-import { tokens } from '~/theme';
 import { createTicket } from '~/api/ticketService';
-import MenuItem from '@mui/material/MenuItem';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
+import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
 function CreateTicket() {
     const theme = useTheme({ isDashboard: false });

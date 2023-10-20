@@ -1,12 +1,12 @@
 import { Autocomplete, Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
-import { tokens } from '~/theme';
-import { useLocation } from "react-router-dom";
-import AdminHeader from "~/component/Layout/components/AdminHeader";
 import { useEffect, useState } from "react";
-import { getZooTrainer } from "~/api/data/mockData";
-import { decode } from "~/utils/axiosClient";
+import { useLocation } from "react-router-dom";
 import { assignZooTrainerToAnimal } from "~/api/animalsService";
+import { getZooTrainer } from "~/api/userService";
+import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
+import { tokens } from '~/theme';
+import { decode } from "~/utils/axiosClient";
 function AssignAnimal(props) {
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
