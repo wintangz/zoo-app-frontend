@@ -3,20 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NamePageContext } from '~/App';
-import { logo_long } from '~/utils/assets-src';
-<<<<<<< Updated upstream
-import ForgotPasswordForm from '~/component/Layout/components/LoginForm/ForgotPassword/ForgotPassword';
-import LoginForm from '~/component/Layout/components/LoginForm/Loginform.js';
-=======
 import ForgotPasswordForm from '~/component/Layout/components/ForgotPassword/ForgotPassword';
-import LoginForm from '~/component/Layout/components/LoginForm/LoginForm.js';
->>>>>>> Stashed changes
-import RegisterForm from '../RegisterForm/RegisterForm';
+import LoginForm from '~/component/Layout/components/LoginForm/Loginform.js';
+import { logo_long } from '~/utils/assets-src';
 import { HandleOpenClose } from '../HandleOpenClose';
+import RegisterForm from '../RegisterForm/RegisterForm';
 
+import { BiSolidUser } from 'react-icons/bi';
 import styles from './Header.module.scss';
 import { components } from './components.js';
-import { BiSolidUser } from 'react-icons/bi';
 
 import { decode } from '~/utils/axiosClient';
 function Header() {

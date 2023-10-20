@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ViewEachNews from './viewNews';
 
 const ParentComponent = () => {
-    const [news, setNews] = useState();
+    const [news] = useState();
 
     // const updateNews = (id, updatedData) => {
     //     setNews((prevNews) => {

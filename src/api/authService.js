@@ -10,3 +10,13 @@ export const registerUser = async (userData) => {
         return error.response;
     }
 }
+
+export const sentEmail = async (values) => {
+    try {
+
+        const res = await axiosClient.post('users/password-reset/email', values)
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}

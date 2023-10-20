@@ -10,7 +10,7 @@ import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 
-function CreateFood() {
+function CreateDiet() {
     const navigate = useNavigate();
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
@@ -144,4 +144,4 @@ function CreateFood() {
     );
 }
 
-export default CreateFood;
+export default CreateDiet;

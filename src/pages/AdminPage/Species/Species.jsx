@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getSpecies } from '~/api/speciesService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
+import Actions from './DeleteSpecies';
 // import Actions from './DeleteFoods';
 
 function ViewSpecies() {
@@ -113,21 +114,13 @@ function ViewSpecies() {
             align: 'left',
             flex: 1,
         },
-        // {
-        //     field: 'creator',
-        //     headerName: 'Creator',
-        //     headerAlign: 'left',
-        //     align: 'left',
-        //     flex: 0.5,
-        //     valueGetter: (params) => `${params.row.creator.username}`,
-        // },
-        // {
-        //     field: 'actions',
-        //     headerName: 'Actions',
-        //     type: 'actions',
-        //     width: 80,
-        //     renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
-        // },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            type: 'actions',
+            width: 80,
+            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
+        },
     ];
     return (
         <Box m="20px">

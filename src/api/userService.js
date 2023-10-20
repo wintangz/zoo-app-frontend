@@ -10,16 +10,6 @@ export const getUser = async () => {
     }
 }
 
-export const sentEmail = async (values) => {
-    try {
-
-        const res = await axiosClient.post('users/password-reset/email', values)
-        return res.data;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 export const getZooTrainer = async () => {
     try {
 
@@ -54,16 +44,6 @@ export const getUserById = async (values) => {
 
         const res = await axiosClient.get(`users/${values}`)
         return res.data;
-    } catch (error) {
-        return error.response;
-    }
-}
-
-export const updateStaff = async (values) => {
-    try {
-
-        const res = await axiosClient.put('users/staff', values)
-        return res;
     } catch (error) {
         return error.response;
     }

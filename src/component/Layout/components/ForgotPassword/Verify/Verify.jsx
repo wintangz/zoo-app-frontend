@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { TextField, Box, Link } from '@mui/material';
+import { Box, TextField } from '@mui/material';
+import { useRef, useState } from 'react';
 
-import styles from './Vertify.module.scss';
+import styles from './Verify.module.scss';
 
 function Vertify() {
     const [otp, setOTP] = useState(['', '', '', '', '', '']);

@@ -1,14 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { sentEmail } from '~/api/userService'
+import { useEffect, useRef } from 'react';
+import { sentEmail } from '~/api/authService';
 
-import styles from './ForgotPassword.module.scss';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useState } from 'react';
+import styles from './ForgotPassword.module.scss';
 
 function ForgotPassword({ onClose, onLoginClick }) {
 
     const forgotpasswordFormRef = useRef(null);
+
+    const [error, setError] = useState(null);
 
     const handleClickOutsideForm = (event) => {
         if (forgotpasswordFormRef.current && !forgotpasswordFormRef.current.contains(event.target)) {
@@ -27,11 +30,11 @@ function ForgotPassword({ onClose, onLoginClick }) {
     const handleSearchClick = async (values) => {
         try {
             const response = await sentEmail(values);
-            console.log(response);
-
+            setError(response.data.serverError)
         } catch (error) {
-            console.log(error)
+
         }
+
     };
 
     const initialValues = {
@@ -50,24 +53,27 @@ function ForgotPassword({ onClose, onLoginClick }) {
                         {({ values, errors, }) => (
                             <Form className={styles.form}>
                                 <div className={styles.inputBox}>
-                                    <p>Please enter your email address to search for your account.</p>
+                                    <p>Please enter your email address to get verication code.</p>
                                     <Field
                                         type='text'
                                         name='email'
-                                        values='values.email'
+                                        values={values.email}
                                         placeholder='Email'
                                     />
-                                    <ErrorMessage name='email' component='div' className={styles.error} />
+                                    <ErrorMessage name="email" component="div" className={styles.error} />
+
+                                    {error && <div className={styles.error}>{error}</div>}
+
                                 </div>
                                 <div className={styles.submit}>
                                     <button onClick={onLoginClick} className={styles.btnCancel}>
                                         Cancel
                                     </button>
                                     <button onClick={handleSearchClick}
-                                        type='submit' // Use type='submit' for the Search button
+                                        type='submit'
                                         className={styles.btnSearch}
                                     >
-                                        Search
+                                        Send
                                     </button>
                                 </div>
                             </Form>

@@ -5,7 +5,7 @@ import styles from './Ticket.module.scss';
 
 function formatPrice(totalPrice) {
 
-    if (totalPrice == 0)
+    if (totalPrice === 0)
         return;
 
     let totalPriceString = totalPrice.toString();

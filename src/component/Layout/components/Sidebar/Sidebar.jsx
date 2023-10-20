@@ -15,9 +15,9 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { BsQrCodeScan } from 'react-icons/bs';
+import { BsFillTicketPerforatedFill, BsNewspaper, BsQrCodeScan } from 'react-icons/bs';
 import { FaBalanceScale } from 'react-icons/fa';
-import { GiCage } from 'react-icons/gi';
+import { GiCage, GiElephant } from 'react-icons/gi';
 import { TbMeat } from 'react-icons/tb';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Link } from 'react-router-dom';
@@ -203,7 +203,7 @@ const Sidebar = () => {
                                 <Item
                                     title={titleNews}
                                     to="/viewallnews"
-                                    icon={<PeopleOutlinedIcon />}
+                                    icon={<BsNewspaper />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
@@ -233,50 +233,6 @@ const Sidebar = () => {
                         <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
                             Pages
                         </Typography>
-                        {/* {userRole !== "ZOO_TRAINER" && (
-                            <List
-                                sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
-                                component="nav"
-                                aria-labelledby="nested-list-subheader"
-                            >
-                                <ListItemButton
-                                    onClick={handleStaff}
-                                    sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
-                                >
-                                    <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
-                                        <InboxIcon />
-                                    </ListItemIcon>
-                                    {!isCollapsed && <ListItemText primary={primary} sx={{ paddingLeft: '4px' }} />}
-                                    {openStaff ? <ExpandLess /> : <ExpandMore />}
-                                    {!isCollapsed && <ListItemText primary={primary} sx={{ paddingLeft: '4px' }} />}
-                                {open ? <ExpandLess /> : <ExpandMore />}
-                                </ListItemButton>
-                                <Collapse in={openStaff} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
-                                        <ListItemButton>
-                                            <Item
-                                                title={titleCreate}
-                                                to="/staff/form"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                        {userRole === 'ADMIN' && (
-                                        <ListItemButton>
-                                            <Item
-                                                title={titleUpdate}
-                                                to="/staff/update"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                    )}
-                                    </List>
-                                </Collapse>
-                            </List>
-                        )} */}
 
                         {userRole === 'ADMIN' && (
                             <List
@@ -302,7 +258,7 @@ const Sidebar = () => {
                                             <Item
                                                 title="View Ticket"
                                                 to="/tickets/view"
-                                                icon={<PersonOutlinedIcon />}
+                                                icon={<BsFillTicketPerforatedFill />}
                                                 selected={selected}
                                                 setSelected={setSelected}
                                             />
@@ -311,7 +267,7 @@ const Sidebar = () => {
                                             <Item
                                                 title="Create Ticket"
                                                 to="/tickets/create"
-                                                icon={<PersonOutlinedIcon />}
+                                                icon={<BsFillTicketPerforatedFill />}
                                                 selected={selected}
                                                 setSelected={setSelected}
                                             />
@@ -356,7 +312,7 @@ const Sidebar = () => {
                                             <Item
                                                 title="Create Animal"
                                                 to="/animal/create"
-                                                icon={<PersonOutlinedIcon />}
+                                                icon={<GiElephant />}
                                                 selected={selected}
                                                 setSelected={setSelected}
                                             />
@@ -365,7 +321,7 @@ const Sidebar = () => {
                                             <Item
                                                 title="View Animal"
                                                 to="/animal/view"
-                                                icon={<PersonOutlinedIcon />}
+                                                icon={<GiElephant />}
                                                 selected={selected}
                                                 setSelected={setSelected}
                                             />

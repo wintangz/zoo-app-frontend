@@ -1,17 +1,31 @@
-import { Box, Button, TextField, useTheme } from '@mui/material';
+import { Box, Button, FormControl, FormControlLabel, Radio, RadioGroup, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import { createSpecies } from '~/api/speciesService';
+import { getSpeciesById, updateSpecies } from '~/api/speciesService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 
-function CreateSpecies() {
+function UpdateSpecies() {
+    const { speciesId } = useParams();
+    const [species, setSpecies] = useState({});
     const navigate = useNavigate();
+
+    const fetchapi = async (id) => {
+        const result = await getSpeciesById(id);
+        return result;
+    };
+    useEffect(() => {
+        const res = fetchapi(speciesId);
+        res.then((result) => {
+            setSpecies(result);
+
+        });
+    }, []);
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
@@ -29,21 +43,27 @@ function CreateSpecies() {
         px: 4,
         pb: 3,
     };
+    const [editorContent, setEditorContent] = useState('');
+
+    const handleEditorChange = (content) => {
+        setEditorContent(content);
+    };
     const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
-        name: '',
-        species: '',
-        genus: '',
-        family: '',
-        habitatId: '',
-        diet: '',
-        conversationStatus: '',
-        description: '',
-        imgUrl: '',
-        avatarUrl: '',
-        status: true,
-
+        name: species?.name || '',
+        species: species?.species || '',
+        genus: species?.genus || '',
+        family: species?.family || '',
+        habitatId: species?.habitatId || '',
+        diet: species?.diet || '',
+        conversationStatus: species?.conversationStatus || '',
+        description: species?.description || '',
+        imgUrl: species?.imgUrl || '',
+        avatarUrl: species?.avatarUrl || '',
+        status: species?.status ? 'True' : 'False',
     };
+
+    const typeOptions = ['Event', 'Info'];
     const userSchema = yup.object().shape({
         name: yup.string().required('Name is required'),
         species: yup.string().required('Species is required'),
@@ -60,12 +80,11 @@ function CreateSpecies() {
 
     const handleFormSubmit = async (values, { resetForm }) => {
         try {
-            const submitValue = { ...values };
-            const response = await createSpecies(submitValue);
+            const submitValue = { ...values, content: editorContent };
+            const response = await updateSpecies(speciesId, submitValue);
             console.log(submitValue);
             if (response?.status === 200) {
                 setOpen(true);
-                resetForm();
             }
         } catch (error) {
             console.error('Error submitting form:', error.message);
@@ -73,7 +92,7 @@ function CreateSpecies() {
     };
 
     const handleClose = () => {
-        setOpen(false);
+        navigate('/viewallspecies');
     };
     return (
         <>
@@ -85,15 +104,16 @@ function CreateSpecies() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">"Create Species Successfully!"</h2>
-                        <p id="parent-modal-description">New species have been add to DataBase!</p>
+                        <h2 id="parent-modal-title">"Update Species Successfully!"</h2>
+                        <p id="parent-modal-description">New species have been update to DataBase!</p>
                         <Button onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Create Species" subtitle="Create new species" />
-                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
+                <AdminHeader title="Update Species" subtitle="Update Species" />
+                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}
+                    enableReinitialize={true}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
                         <form onSubmit={handleSubmit}>
                             <Box>
@@ -182,8 +202,8 @@ function CreateSpecies() {
                                     label="Conservation Status"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.conservationStatus}
-                                    name="conservationStatus"
+                                    value={values.conversationStatus}
+                                    name="conversationStatus"
                                     error={!!touched.conservationStatus && !!errors.conservationStatus}
                                     helperText={touched.conservationStatus && errors.conservationStatus}
                                 />
@@ -226,6 +246,47 @@ function CreateSpecies() {
                                     error={!!touched.avatarUrl && !!errors.avatarUrl}
                                     helperText={touched.avatarUrl && errors.avatarUrl}
                                 />
+
+                                <FormControl
+                                    component="fieldset"
+                                    width="75%"
+                                    sx={{
+                                        gridColumn: 'span 1',
+                                    }}
+                                    label="Status"
+                                >
+                                    <Typography variant="h6" color={colors.grey[300]} style={{ margin: '0.8vw' }}>
+                                        Status
+                                    </Typography>
+                                    <RadioGroup
+                                        aria-label="Status"
+                                        name="status"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.status}
+                                        sx={{ display: 'inline-block' }}
+                                        label="Status"
+                                    >
+                                        <FormControlLabel
+                                            value="True"
+                                            control={
+                                                <Radio
+                                                    sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                />
+                                            }
+                                            label="True"
+                                        />
+                                        <FormControlLabel
+                                            value="False"
+                                            control={
+                                                <Radio
+                                                    sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                />
+                                            }
+                                            label="False"
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
                             </Box>
 
                             <Box display="flex" justifyContent="space-between" mt="20px">
@@ -238,7 +299,7 @@ function CreateSpecies() {
                                     VIEW All SPECIES
                                 </Button>
                                 <Button type="submit" color="secondary" variant="contained">
-                                    CREATE SPECIES
+                                    UPDATE SPECIES
                                 </Button>
                             </Box>
                         </form>
@@ -249,4 +310,4 @@ function CreateSpecies() {
     );
 }
 
-export default CreateSpecies;
+export default UpdateSpecies;

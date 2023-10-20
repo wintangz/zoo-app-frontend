@@ -16,7 +16,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/userService';
 import { updateUser } from '~/api/userService';
@@ -66,8 +66,9 @@ function EditProfile() {
         pb: 3,
     };
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
     const handleClose = () => {
-        setOpen(false);
+        navigate('/team');
     };
 
     //---------------------------------------- Handle Submit----------------------------------/
