@@ -2,7 +2,7 @@
 //Layout
 import { NormalLayout } from '~/component/Layout';
 import AdminMainPage from '~/component/Layout/AdminMainPage/AdminMainPage';
-import AnimalLayout from '~/component/Layout/AnimalLayout/animalLayout';
+import AnimalLayout from '~/component/Layout/AnimalLayout/AnimalLayout';
 // import banner img
 
 import About from '~/pages/About/About';
@@ -31,7 +31,7 @@ import CreateFood from '~/pages/AdminPage/Food/CreateFood';
 import ViewFood from '~/pages/AdminPage/Food/Food';
 import UpdateFood from '~/pages/AdminPage/Food/UpdateFood';
 import Form from '~/pages/AdminPage/Form';
-import NewsPostForm from '~/pages/AdminPage/New/createNews';
+import NewsPostForm from '~/pages/AdminPage/New/CreateNews';
 import ViewNews from '~/pages/AdminPage/New/News';
 import UpdateNews from '~/pages/AdminPage/New/UpdateNews';
 import ViewSpecies from '~/pages/AdminPage/Species/Species';
