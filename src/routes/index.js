@@ -5,24 +5,26 @@ import AdminMainPage from '~/component/Layout/AdminMainPage/AdminMainPage';
 import AnimalLayout from '~/component/Layout/AnimalLayout/AnimalLayout';
 // import banner img
 
-import Profile from '~/pages/Profile/index'
 import About from '~/pages/About/About';
 import Animals from '~/pages/Animals/Animals';
 import Habitats from '~/pages/Habitats/Habitats';
 import Home from '~/pages/Home/Home';
 import Maps from '~/pages/Map/Map';
 import News from '~/pages/News';
+import Profile from '~/pages/Profile/index';
 import Summary from '~/pages/Ticket/Summary/Summary';
 import Ticket from '~/pages/Ticket/Ticket';
 
 //Admin routes
 // import Bar from '~/pages/AdminPage/Bar/index';
+import { createDiet } from '~/api/dietService';
 import Calendar from '~/pages/AdminPage/Calendar';
 import TicketScanner from '~/pages/AdminPage/CheckTicket/checkTicket';
 import CreateAnimal from '~/pages/AdminPage/CreateAnimal';
 import CreateEnclosure from '~/pages/AdminPage/CreateEnclosure';
 import CreateHabitat from '~/pages/AdminPage/CreateHabitat';
 import CreateTicket from '~/pages/AdminPage/CreateTicket';
+import ViewDiet from '~/pages/AdminPage/Diet/Diet';
 import EditProfile from '~/pages/AdminPage/EditProfile';
 import Sercurity from '~/pages/AdminPage/EditProfile/Sercurity';
 import CreateFood from '~/pages/AdminPage/Food/CreateFood';
@@ -32,15 +34,16 @@ import Form from '~/pages/AdminPage/Form';
 import NewsPostForm from '~/pages/AdminPage/New/CreateNews';
 import ViewNews from '~/pages/AdminPage/New/News';
 import UpdateNews from '~/pages/AdminPage/New/UpdateNews';
+import ViewSpecies from '~/pages/AdminPage/Species/Species';
 import Team from '~/pages/AdminPage/Team';
 import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
 import ViewAnimals from '~/pages/AdminPage/ViewAnimal';
+import ViewEnclosure from '~/pages/AdminPage/ViewEnclosure';
+import ViewHatbitat from '~/pages/AdminPage/ViewHabitat';
 import ViewTicket from '~/pages/AdminPage/ViewTicket';
 import AssignAnimal from '~/pages/AssignAnimal';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
-import ViewEnclosure from '~/pages/AdminPage/ViewEnclosure';
-import ViewHatbitat from '~/pages/AdminPage/ViewHabitat';
 
 
 const publicRoutes = [
@@ -75,13 +78,21 @@ const publicRoutes = [
     { path: 'create/foods', component: CreateFood, layout: AdminMainPage, name: 'CreateFood', Authen: "private" },
     { path: 'update/foods/:foodId', component: UpdateFood, layout: AdminMainPage, name: 'UpdateFood', Authen: "private" },
 
+    { path: 'viewdiets', component: ViewDiet, layout: AdminMainPage, name: 'ViewDiet', Authen: "private" },
+    { path: 'create/diet', component: createDiet, layout: AdminMainPage, name: 'createDiet', Authen: "private" },
+
+    { path: 'viewspecies', component: ViewSpecies, layout: AdminMainPage, name: 'ViewSpecies', Authen: "private" },
+
     { path: 'animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
     { path: 'animal/view', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
     { path: 'animal/assign/', component: AssignAnimal, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },
+
     { path: 'enclosure/create', component: CreateEnclosure, layout: AdminMainPage, name: 'CreateEnclosure;', Authen: "private" },
     { path: 'enclosure/view', component: ViewEnclosure, layout: AdminMainPage, name: 'ViewEnclosure;', Authen: "private" },
+
     { path: 'habitat/create', component: CreateHabitat, layout: AdminMainPage, name: 'CreateHabitat;', Authen: "private" },
     { path: 'habitat/view', component: ViewHatbitat, layout: AdminMainPage, name: 'ViewHatbitat;', Authen: "private" },
+
     { path: 'checkticket', component: TicketScanner, layout: AdminMainPage, name: 'TicketScanner;', Authen: "private" },
 
     //Customer Routes

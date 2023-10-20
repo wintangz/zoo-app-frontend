@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import ForgotPasswordForm from '~/component/Layout/components/LoginForm/ForgotPassword/Forgotpassword';
+import ForgotPasswordForm from '~/component/Layout/components/LoginForm/ForgotPassword/ForgotPassword';
 import LoginForm from '~/component/Layout/components/LoginForm/Loginform';
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import RegisterForm from '~/component/Layout/components/RegisterForm/RegisterForm';

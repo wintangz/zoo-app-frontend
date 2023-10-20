@@ -16,6 +16,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { BsQrCodeScan } from 'react-icons/bs';
+import { FaBalanceScale } from 'react-icons/fa';
+import { GiCage } from 'react-icons/gi';
 import { TbMeat } from 'react-icons/tb';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Link } from 'react-router-dom';
@@ -197,22 +199,36 @@ const Sidebar = () => {
                             setSelected={setSelected}
                         />
                         {userRole === 'STAFF' && (
-                            <Item
-                                title={titleNews}
-                                to="/viewallnews"
-                                icon={<PeopleOutlinedIcon />}
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-                        )}
-                        {userRole === 'STAFF' && (
-                            <Item
-                                title="View All Foods"
-                                to="/viewfoods"
-                                icon={<TbMeat />}
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
+                            <>
+                                <Item
+                                    title={titleNews}
+                                    to="/viewallnews"
+                                    icon={<PeopleOutlinedIcon />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="View All Foods"
+                                    to="/viewfoods"
+                                    icon={<TbMeat />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="View All Diets"
+                                    to="/viewdiets"
+                                    icon={<FaBalanceScale />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="View All Species"
+                                    to="/viewspecies"
+                                    icon={<GiCage />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                            </>
                         )}
                         <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
                             Pages

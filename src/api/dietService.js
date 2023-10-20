@@ -1,42 +1,42 @@
 import * as axiosClient from '~/utils/axiosClient';
 
-export const getSpecies = async () => {
+export const getDiet = async () => {
     try {
-        const res = await axiosClient.get('species')
+        const res = await axiosClient.get('diets')
         return res.data;
     } catch (error) {
         return error.response;
     }
 }
-export const getSpeciesById = async (id) => {
+export const getDietById = async (id) => {
     try {
-        const res = await axiosClient.get(`species/${id}`);
+        const res = await axiosClient.get(`diets/${id}`);
         return res.data;
     } catch (error) {
         return error.response;
     }
 }
-export const createSpecies = async (values) => {
+export const createDiet = async (values) => {
     try {
 
-        const res = await axiosClient.post('species', values);
+        const res = await axiosClient.post('diets', values);
         return res;
     } catch (error) {
         return error.response;
     }
 }
-export const updateSpecies = async (id, values) => {
+export const updateDiets = async (id, values) => {
     try {
 
-        const res = await axiosClient.put(`species/${id}`, values);
+        const res = await axiosClient.put(`diets/${id}`, values);
         return res;
     } catch (error) {
         return error.response;
     }
 }
-export const deleteSpecies = async (id) => {
+export const deleteDiets = async (id) => {
     try {
-        const res = await axiosClient.remove(`species/${id}`);
+        const res = await axiosClient.remove(`diets/${id}`);
         return res.data
     } catch (error) {
         console.log(error.response);
