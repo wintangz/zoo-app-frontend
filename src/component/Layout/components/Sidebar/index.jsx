@@ -100,7 +100,7 @@ const Sidebar = () => {
             sx={{
                 '& .pro-sidebar-inner': {
                     background: `${colors.primary[400]} !important`,
-                    height: '100%',
+                    height: '100vh',
                 },
                 '& .pro-icon-wrapper': {
                     backgroundColor: 'transparent !important',
@@ -120,7 +120,7 @@ const Sidebar = () => {
                 },
             }}
         >
-            <ProSidebar collapsed={isCollapsed} sx={{ height: '100%' }}>
+            <ProSidebar collapsed={isCollapsed} sx={{ height: '100vh' }}>
                 <Menu iconShape="square">
                     {/* LOGO AND MENU ICON */}
                     <MenuItem
@@ -337,17 +337,33 @@ const Sidebar = () => {
                                             />
                                         </ListItemButton>
 
-                                        {/* {role === 'ADMIN' && (
                                         <ListItemButton>
                                             <Item
-                                                title="Create Ticket"
-                                                to="/tickets/create"
+                                                title="Feed Schedule"
+                                                to="/animal/feed"
                                                 icon={<PersonOutlinedIcon />}
                                                 selected={selected}
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-                                    )} */}
+                                        <ListItemButton>
+                                            <Item
+                                                title="View Feed Schedule"
+                                                to="/animal/schedule/view"
+                                                icon={<PersonOutlinedIcon />}
+                                                selected={selected}
+                                                setSelected={setSelected}
+                                            />
+                                        </ListItemButton>
+                                        <ListItemButton>
+                                            <Item
+                                                title="Feed Cofirm"
+                                                to="/animal/confirm"
+                                                icon={<PersonOutlinedIcon />}
+                                                selected={selected}
+                                                setSelected={setSelected}
+                                            />
+                                        </ListItemButton>
                                     </List>
                                 </Collapse>
                             </List>

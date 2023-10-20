@@ -43,3 +43,39 @@ export const assignZooTrainerToAnimal = async (values, path) => {
         console.log(error);
     }
 }
+
+export const getAllDiet = async () => {
+    try {
+        const res = await axiosClient.get('diets')
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export const createFeedingSchedule = async (values) => {
+    try {
+        const res = await axiosClient.post('feeding_schedules', values)
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export const getAllSchedule = async (values) => {
+    try {
+        const res = await axiosClient.get('feeding_schedules')
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export const conFirm = async (path, values) => {
+    try {
+        const res = await axiosClient.put(`feeding_schedules/${path}/confirmation`, values)
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}

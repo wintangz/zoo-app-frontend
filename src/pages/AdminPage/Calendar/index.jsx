@@ -17,7 +17,8 @@ function Calendar() {
         const title = prompt('Please enter a new title for your event');
         const calendarApi = selected.view.calendar;
         calendarApi.unselect();
-
+        console.log(calendarApi);
+        console.log(selected);
         if (title) {
             calendarApi.addEvent({
                 id: `${selected.dateStr} - ${title}`,
@@ -36,11 +37,15 @@ function Calendar() {
     return (
         <Box m="20px">
             <AdminHeader title="CALENDAR" subtitle="Full Calendar Interative Page" />
-            <Box display="flex" justifyContent="space-between">
+            <Box display="flex" justifyContent="space-between" sx={{
+                maxHeight: "100%",
+                height: '75vh',
+                overflow: 'hidden'
+            }}>
                 {/* CALENDAR SIDEBAR */}
                 <Box flex="1 1 20%" backgroundColor={colors.primary[400]} p="15px" borderRadius="4px">
                     <Typography variant="h5">Events</Typography>
-                    <List>
+                    <List sx={{ maxHeight: '100%', overflow: 'auto' }}>
                         {currentEvents.map((event) => (
                             <ListItem
                                 key={event.id}
@@ -69,7 +74,7 @@ function Calendar() {
                         headerToolbar={{
                             left: 'prev, next, today',
                             center: 'title',
-                            right: 'dayGridMonth, timeGridWeek, timeGridDay, listMonth',
+                            right: 'dayGridMonth, timeGridWeek, listMonth',
                         }}
                         initialView="dayGridMonth"
                         editable={true}
@@ -82,8 +87,15 @@ function Calendar() {
                             setCurrentEvents(event);
                         }}
                         initialEvents={[
-                            { id: '1234', title: 'All-day-events', date: '2023-10-8' },
-                            { id: '4321', title: 'Time-events', date: '2023-10-10' },
+                            { id: '1', title: 'All-day-events', date: '2023-10-12' },
+                            { id: '2', title: 'Time-events', date: '2023-10-10' },
+                            { id: '3', title: 'All-day-events', date: '2023-10-12' },
+                            { id: '4', title: 'Time-events', date: '2023-10-10' },
+                            { id: '5', title: 'All-day-events', date: '2023-10-12' },
+                            { id: '6', title: 'Time-events', date: '2023-10-10' },
+                            { id: '7', title: 'All-day-events', date: '2023-10-12' },
+                            { id: '8', title: 'Time-events', date: '2023-10-10' },
+                            { id: '10', title: 'Time-events', date: '2023-10-10' },
                         ]}
                     />
                 </Box>

@@ -30,7 +30,11 @@ import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
 import CreateAnimal from '~/pages/AdminPage/CreateAnimal';
 import ViewAnimals from '~/pages/AdminPage/ViewAnimal';
-import AssignAnimal from '~/pages/AssignAnimal';
+import AssignAnimal from '~/pages/AdminPage/AssignAnimal';
+import FeedSchedule from '~/pages/AdminPage/FeedSchedule';
+import Confirm from '~/pages/AdminPage/Confirm/confirm';
+import ViewSchedule from '~/pages/AdminPage/ViewSchedule/ViewSchedule';
+import UpdateSchedule from '~/pages/AdminPage/UpdateSchedule/UpdateSchedule';
 
 
 const publicRoutes = [
@@ -60,8 +64,10 @@ const publicRoutes = [
     { path: 'animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
     { path: 'animal/view', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
     { path: 'animal/assign/', component: AssignAnimal, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },
-
-
+    { path: 'animal/feed/', component: FeedSchedule, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },
+    { path: 'animal/confirm/', component: Confirm, layout: AdminMainPage, name: 'confirm;', Authen: "private" },
+    { path: 'animal/schedule/view', component: ViewSchedule, layout: AdminMainPage, name: 'viewSchedule;', Authen: "private" },
+    { path: 'animal/schedule/update', component: UpdateSchedule, layout: AdminMainPage, name: 'updateSchedule;', Authen: "private" },
 ];
 
 // private routes dont login will redirect to login pages

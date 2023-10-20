@@ -28,7 +28,11 @@ function AssignAnimal(props) {
         const path = `animals/${location.state.id}/zoo-trainers/${currentTrainer.id}`;
         console.log(path);
         const res = assignZooTrainerToAnimal(values, path);
-        console.log(res);
+        res.then((result) => {
+            if (result.status === "Ok") {
+
+            }
+        })
     }
     return (
         <>
