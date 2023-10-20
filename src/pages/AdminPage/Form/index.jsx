@@ -15,6 +15,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Formik } from 'formik';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createStaff, createZooTrainer } from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
@@ -22,6 +23,7 @@ import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 
 function Form() {
+    const navigate = useNavigate();
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
@@ -91,6 +93,7 @@ function Form() {
     let modalTitle = '';
     let description = '';
     let button = '';
+    let button1 = '';
     let title = '';
     let subtitle = '';
 
@@ -98,12 +101,14 @@ function Form() {
         modalTitle = 'Create new staff successfully!';
         description = 'New staff have been add to DataBase!';
         button = 'CREATE NEW STAFF';
+        button1 = 'VIEW ALL STAFF';
         title = 'CREATE USER';
         subtitle = 'Create a New User Profile';
     } else if (userRole === 'STAFF') {
         modalTitle = 'Create new Zoo Trainer successfully!';
         description = 'New zoo trainer have been add to DataBase!';
         button = 'CREATE NEW ZOO TRAINER';
+        button1 = 'VIEW ALL ZOO TRAINER';
         title = 'CREATE ZOO TRAINER';
         subtitle = 'Create a New Zoo Trainer Profile';
     }
@@ -370,7 +375,15 @@ function Form() {
                                     }}
                                 />
                             </Box>
-                            <Box display="flex" justifyContent="end" mt="20px">
+                            <Box display="flex" justifyContent="space-between" mt="20px">
+                                <Button
+                                    type="button"
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={() => navigate('/team')}
+                                >
+                                    {button1}
+                                </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     {button}
                                 </Button>

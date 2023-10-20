@@ -233,7 +233,7 @@ const Sidebar = () => {
                         <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
                             Pages
                         </Typography>
-                        {userRole !== "ZOO_TRAINER" && (
+                        {/* {userRole !== "ZOO_TRAINER" && (
                             <List
                                 sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
                                 component="nav"
@@ -248,8 +248,8 @@ const Sidebar = () => {
                                     </ListItemIcon>
                                     {!isCollapsed && <ListItemText primary={primary} sx={{ paddingLeft: '4px' }} />}
                                     {openStaff ? <ExpandLess /> : <ExpandMore />}
-                                    {/* {!isCollapsed && <ListItemText primary={primary} sx={{ paddingLeft: '4px' }} />}
-                                {open ? <ExpandLess /> : <ExpandMore />} */}
+                                    {!isCollapsed && <ListItemText primary={primary} sx={{ paddingLeft: '4px' }} />}
+                                {open ? <ExpandLess /> : <ExpandMore />}
                                 </ListItemButton>
                                 <Collapse in={openStaff} timeout="auto" unmountOnExit>
                                     <List component="div" disablePadding>
@@ -262,7 +262,7 @@ const Sidebar = () => {
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-                                        {/* {userRole === 'ADMIN' && (
+                                        {userRole === 'ADMIN' && (
                                         <ListItemButton>
                                             <Item
                                                 title={titleUpdate}
@@ -272,11 +272,11 @@ const Sidebar = () => {
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-                                    )} */}
+                                    )}
                                     </List>
                                 </Collapse>
                             </List>
-                        )}
+                        )} */}
 
                         {userRole === 'ADMIN' && (
                             <List
