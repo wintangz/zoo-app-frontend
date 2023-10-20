@@ -2,7 +2,7 @@
 //Layout
 import { NormalLayout } from '~/component/Layout';
 import AdminMainPage from '~/component/Layout/AdminMainPage/AdminMainPage';
-import AnimalLayout from '~/component/Layout/AnimalLayout/AnimalLayout';
+import AnimalLayout from '~/component/Layout/AnimalLayout/animalLayout';
 // import banner img
 
 import About from '~/pages/About/About';
@@ -31,7 +31,7 @@ import CreateFood from '~/pages/AdminPage/Food/CreateFood';
 import ViewFood from '~/pages/AdminPage/Food/Food';
 import UpdateFood from '~/pages/AdminPage/Food/UpdateFood';
 import Form from '~/pages/AdminPage/Form';
-import NewsPostForm from '~/pages/AdminPage/New/CreateNews';
+import NewsPostForm from '~/pages/AdminPage/New/createNews';
 import ViewNews from '~/pages/AdminPage/New/News';
 import UpdateNews from '~/pages/AdminPage/New/UpdateNews';
 import ViewSpecies from '~/pages/AdminPage/Species/Species';
@@ -41,12 +41,9 @@ import ViewAnimals from '~/pages/AdminPage/ViewAnimal';
 import ViewEnclosure from '~/pages/AdminPage/ViewEnclosure';
 import ViewHatbitat from '~/pages/AdminPage/ViewHabitat';
 import ViewTicket from '~/pages/AdminPage/ViewTicket';
-import AssignAnimal from '~/pages/AssignAnimal';
+import AssignAnimal from '~/pages/AdminPage/AssignAnimal';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
-import CreateAnimal from '~/pages/AdminPage/CreateAnimal';
-import ViewAnimals from '~/pages/AdminPage/ViewAnimal';
-import AssignAnimal from '~/pages/AdminPage/AssignAnimal';
 import FeedSchedule from '~/pages/AdminPage/FeedSchedule';
 import Confirm from '~/pages/AdminPage/Confirm/confirm';
 import ViewSchedule from '~/pages/AdminPage/ViewSchedule/ViewSchedule';
@@ -93,6 +90,10 @@ const publicRoutes = [
     { path: 'animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
     { path: 'animal/view', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
     { path: 'animal/assign/', component: AssignAnimal, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },
+    { path: 'animal/feed', component: FeedSchedule, layout: AdminMainPage, name: 'feed;', Authen: "private" },
+    { path: 'animal/schedule/view', component: ViewSchedule, layout: AdminMainPage, name: 'viewSchedule;', Authen: "private" },
+    { path: 'animal/confirm', component: Confirm, layout: AdminMainPage, name: 'confirm;', Authen: "private" },
+    { path: 'animal/schedule/update', component: UpdateSchedule, layout: AdminMainPage, name: 'updateSchedule;', Authen: "private" },
 
 
 ];

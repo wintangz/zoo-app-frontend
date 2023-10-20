@@ -11,7 +11,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import * as yup from 'yup';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import WebcamCapture from './WebcamCapture';
 import uploadFile from '~/utils/transferFile';

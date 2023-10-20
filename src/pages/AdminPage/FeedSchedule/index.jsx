@@ -1,7 +1,7 @@
 import { Autocomplete, Box, Button, FormControl, InputLabel, TextField, Typography, useTheme } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import { tokens } from '~/theme';
-import AdminHeader from "~/component/Layout/components/AdminHeader";
+import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 import { useEffect, useState } from "react";
 import { decode } from "~/utils/axiosClient";
 import { createFeedingSchedule, getAllAnimals, getAllDiet } from "~/api/animalsService";

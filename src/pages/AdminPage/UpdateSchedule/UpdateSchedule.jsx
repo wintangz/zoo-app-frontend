@@ -5,10 +5,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getAllAnimals, getAllDiet } from "~/api/animalsService";
-import AdminHeader from "~/component/Layout/components/AdminHeader";
 import DatePicker, { DateObject } from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 
 function UpdateSchedule() {
     const location = useLocation()

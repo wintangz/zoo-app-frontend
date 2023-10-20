@@ -2,7 +2,7 @@ import { Fragment, createContext, useEffect } from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { DefaultLayout } from '~/component/Layout';
 import { publicRoutes } from '~/routes';
-import AnimalLayout from './component/Layout/AnimalLayout/AnimalLayout';
+import AnimalLayout from './component/Layout/AnimalLayout/animalLayout';
 import ScrollToTop from './component/ScrollToTop';
 import Animals from './pages/Animals/Animals';
 

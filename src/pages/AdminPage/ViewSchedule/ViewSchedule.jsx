@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { getAllSchedule } from "~/api/animalsService";
 import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import AdminHeader from '~/component/Layout/components/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import Actions from "./actions";
+import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 
 function ViewSchedule() {
     const [schedule, setSchedule] = useState({})
