@@ -1,12 +1,11 @@
 import { Box, IconButton, Tooltip, Typography, useTheme, Button } from '@mui/material';
-import { Delete, Edit, Preview } from '@mui/icons-material';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import { Delete, Edit } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
 import Modal from '@mui/material/Modal';
 import { tokens } from '~/theme';
 import axios from 'axios';
 import { useState } from 'react';
 import { Link, Route, useNavigate } from 'react-router-dom';
-import Update from '../UpdateStaff';
 
 const Actions = ({ params, setRemove }) => {
     let navigate = useNavigate();
@@ -71,8 +70,8 @@ const Actions = ({ params, setRemove }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete user</h2>
-                        <p id="parent-modal-description">Are you sure want to delete this animal?</p>
+                        <h2 id="parent-modal-title">Delete Enclosure</h2>
+                        <p id="parent-modal-description">Are you sure want to delete this enclosure?</p>
                         <Button onClick={handleClose}>Close</Button>
                         <Button
                             onClick={() => {
@@ -92,8 +91,8 @@ const Actions = ({ params, setRemove }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete User Successfully!</h2>
-                        <p id="parent-modal-description">User have been delete from DataBase!</p>
+                        <h2 id="parent-modal-title">Delete Enclosure Successfully!</h2>
+                        <p id="parent-modal-description">Enclosure have been delete from DataBase!</p>
                         <Button
                             onClick={() => {
                                 handleMessage(params.row.id);
@@ -116,17 +115,27 @@ const Actions = ({ params, setRemove }) => {
                     </IconButton  >
                 </Tooltip>
 
-
-
-
-                <Tooltip title="Assign trainer">
-                    <Link to="/animal/assign" state={params.row}>
+                <Tooltip title="Edit">
+                    <Link to={`/habitat/update/${params.row.id}`}>
                         <IconButton
-                        // onClick={handleEdit(params.row)}
+                            onClick={() => {
+
+                            }}
                         >
-                            <AssignmentIcon />
+                            <Edit />
                         </IconButton  >
                     </Link>
+                </Tooltip>
+
+
+                <Tooltip title="Add to Habitat">
+                    {/* <Link to="/enclosure/addtohabitat" state={params.row}> */}
+                    <IconButton
+                    // onClick={handleEdit(params.row)}
+                    >
+                        <AddIcon />
+                    </IconButton  >
+                    {/* </Link> */}
                 </Tooltip>
 
             </Box>

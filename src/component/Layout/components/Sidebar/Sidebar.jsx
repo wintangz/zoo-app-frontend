@@ -445,7 +445,7 @@ const Sidebar = () => {
                                 </Collapse>
                             </List>
                         )}
-                        {userRole === 'STAFF' && (
+                        {userRole === 'ADMIN' && (
                             <List
                                 sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
                                 component="nav"
@@ -485,7 +485,7 @@ const Sidebar = () => {
                                 </Collapse>
                             </List>
                         )}
-                        {userRole === 'STAFF' && (
+                        {userRole === 'ADMIN' && (
                             <List
                                 sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
                                 component="nav"

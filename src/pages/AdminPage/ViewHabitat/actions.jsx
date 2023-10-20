@@ -31,7 +31,7 @@ const Actions = ({ params, setRemove }) => {
     const handleDelete = (values) => {
         const token = localStorage.getItem('token');
         // Define the URL and headers
-        const url = `http://localhost:8080/api/animals/${values}`;
+        const url = `http://localhost:8080/api/habitats/${values}`;
         const headers = {
             Authorization: `Bearer ${token}`,
         };
@@ -50,9 +50,6 @@ const Actions = ({ params, setRemove }) => {
                 console.error('DELETE request failed:', error);
             });
     };
-    const handleEdit = () => {
-        navigate('')
-    }
 
     const handleClose = () => {
         setOpen(false);
@@ -71,8 +68,8 @@ const Actions = ({ params, setRemove }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete user</h2>
-                        <p id="parent-modal-description">Are you sure want to delete this animal?</p>
+                        <h2 id="parent-modal-title">Delete Habitat</h2>
+                        <p id="parent-modal-description">Are you sure want to delete this Habitat?</p>
                         <Button onClick={handleClose}>Close</Button>
                         <Button
                             onClick={() => {
@@ -116,15 +113,14 @@ const Actions = ({ params, setRemove }) => {
                     </IconButton  >
                 </Tooltip>
 
-
-
-
-                <Tooltip title="Assign trainer">
-                    <Link to="/animal/assign" state={params.row}>
+                <Tooltip title="Edit">
+                    <Link to={`/habitat/update/${params.row.id}`}>
                         <IconButton
-                        // onClick={handleEdit(params.row)}
+                            onClick={() => {
+
+                            }}
                         >
-                            <AssignmentIcon />
+                            <Edit />
                         </IconButton  >
                     </Link>
                 </Tooltip>

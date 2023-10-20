@@ -14,6 +14,8 @@ import News from '~/pages/News';
 import Profile from '~/pages/Profile/index';
 import Summary from '~/pages/Ticket/Summary/Summary';
 import Ticket from '~/pages/Ticket/Ticket';
+import Vertify from '~/component/Layout/components/ForgotPassword/Vertify'
+import InputNewPassword from '~/component/Layout/components/ForgotPassword/InputNewPassword'
 
 //Admin routes
 // import Bar from '~/pages/AdminPage/Bar/index';
@@ -40,6 +42,7 @@ import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
 import ViewAnimals from '~/pages/AdminPage/ViewAnimal';
 import ViewEnclosure from '~/pages/AdminPage/ViewEnclosure';
 import ViewHatbitat from '~/pages/AdminPage/ViewHabitat';
+<<<<<<< Updated upstream
 import ViewTicket from '~/pages/AdminPage/ViewTicket';
 import AssignAnimal from '~/pages/AdminPage/AssignAnimal';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
@@ -48,6 +51,10 @@ import FeedSchedule from '~/pages/AdminPage/FeedSchedule';
 import Confirm from '~/pages/AdminPage/Confirm/confirm';
 import ViewSchedule from '~/pages/AdminPage/ViewSchedule/ViewSchedule';
 import UpdateSchedule from '~/pages/AdminPage/UpdateSchedule/UpdateSchedule';
+=======
+import UpdateEnlosure from '~/pages/AdminPage/UpdateEnclosure'
+import UpdateHabitat from '~/pages/AdminPage/UpdateHabitat';
+>>>>>>> Stashed changes
 
 
 const publicRoutes = [
@@ -62,6 +69,8 @@ const publicRoutes = [
     { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats', Authen: "public" },
     { path: 'map', component: Maps, layout: NormalLayout, name: 'Map' },
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
+    { path: 'vertify', component: Vertify, layout: AnimalLayout, name: 'Vertify', Authen: "public" },
+    { path: 'inputnewpassword', component: InputNewPassword, layout: AnimalLayout, name: 'InputNewPassword', Authen: "public" },
 
 
     // Admin routes
@@ -90,10 +99,20 @@ const publicRoutes = [
     { path: 'animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
     { path: 'animal/view', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
     { path: 'animal/assign/', component: AssignAnimal, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },
+<<<<<<< Updated upstream
     { path: 'animal/feed', component: FeedSchedule, layout: AdminMainPage, name: 'feed;', Authen: "private" },
     { path: 'animal/schedule/view', component: ViewSchedule, layout: AdminMainPage, name: 'viewSchedule;', Authen: "private" },
     { path: 'animal/confirm', component: Confirm, layout: AdminMainPage, name: 'confirm;', Authen: "private" },
     { path: 'animal/schedule/update', component: UpdateSchedule, layout: AdminMainPage, name: 'updateSchedule;', Authen: "private" },
+=======
+    { path: 'enclosure/create', component: CreateEnclosure, layout: AdminMainPage, name: 'CreateEnclosure;', Authen: "private" },
+    { path: 'enclosure/view', component: ViewEnclosure, layout: AdminMainPage, name: 'ViewEnclosure;', Authen: "private" },
+    { path: 'enclosure/update/:enclosureId', component: UpdateEnlosure, layout: AdminMainPage, name: 'UpdateEnlosure', Authen: "private" },
+    { path: 'habitat/create', component: CreateHabitat, layout: AdminMainPage, name: 'CreateHabitat;', Authen: "private" },
+    { path: 'habitat/view', component: ViewHatbitat, layout: AdminMainPage, name: 'ViewHatbitat;', Authen: "private" },
+    { path: 'habitat/update/:habitatId', component: UpdateHabitat, layout: AdminMainPage, name: 'UpdateHabitat', Authen: "private" },
+    { path: 'checkticket', component: TicketScanner, layout: AdminMainPage, name: 'TicketScanner;', Authen: "private" },
+>>>>>>> Stashed changes
 
 
 ];

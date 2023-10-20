@@ -10,6 +10,16 @@ export const getUser = async () => {
     }
 }
 
+export const sentEmail = async (values) => {
+    try {
+
+        const res = await axiosClient.post('users/password-reset/email', values)
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const getZooTrainer = async () => {
     try {
 
