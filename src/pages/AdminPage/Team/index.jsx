@@ -11,6 +11,7 @@ import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import Actions from './actions';
+import { getUsersWithRoles } from '~/utils/getUserByRole';
 
 function Team() {
     const navigate = useNavigate();
@@ -43,15 +44,9 @@ function Team() {
 
     const getZooTrainer = async () => {
         const result = await mockData.getZooTrainer();
-<<<<<<< Updated upstream
         console.log(result);
         const mdata = getUsersWithRoles(result, ['ZOO_TRAINER']);
         setUsers(mdata);
-=======
-        // const mdata = getUsersWithRoles(result, ['ZOO_TRAINER']);
-        console.log(result);
-        setUsers(result);
->>>>>>> Stashed changes
     };
     const [remove, setRemove] = useState(null);
 

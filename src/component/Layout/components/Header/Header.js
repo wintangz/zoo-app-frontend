@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { NamePageContext } from '~/App';
 import { logo_long } from '~/utils/assets-src';
 import ForgotPasswordForm from '~/component/Layout/components/ForgotPassword/ForgotPassword';
-import LoginForm from '~/component/Layout/components/LoginForm/LoginForm';
 import { HandleOpenClose } from '../HandleOpenClose';
 import RegisterForm from '../RegisterForm/RegisterForm';
 
@@ -15,6 +14,7 @@ import { components } from './components.js';
 import { useAppContext } from '~/context/Context';
 import { decode } from '~/utils/axiosClient';
 import { logout } from '~/api/userService';
+import LoginForm from '~/component/Layout/components/LoginForm/Loginform';
 function Header() {
     const [sub, setSub] = useState()
     const NamePage = useContext(NamePageContext);
