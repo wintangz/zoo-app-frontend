@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NamePageContext } from '~/App';
-import ForgotPasswordForm from '~/component/Layout/components/ForgotPassword/ForgotPassword';
-import LoginForm from '~/component/Layout/components/LoginForm/Loginform.js';
 import { logo_long } from '~/utils/assets-src';
+import ForgotPasswordForm from '~/component/Layout/components/ForgotPassword/ForgotPassword';
+import LoginForm from '~/component/Layout/components/LoginForm/LoginForm';
 import { HandleOpenClose } from '../HandleOpenClose';
 import RegisterForm from '../RegisterForm/RegisterForm';
 

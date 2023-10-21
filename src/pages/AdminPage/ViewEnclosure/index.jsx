@@ -5,6 +5,7 @@ import { getEnclosures } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './actions';
+import { decode } from '~/utils/axiosClient';
 
 function ViewEnclosure() {
     function formatDate(originalDate) {
@@ -18,6 +19,8 @@ function ViewEnclosure() {
 
         return formattedDate;
     }
+
+    const userRole = decode(localStorage.getItem('token')).roles[0];
 
     const [enclosures, setEnclosures] = useState(null);
     const [remove, setRemove] = useState(null);
@@ -70,6 +73,7 @@ function ViewEnclosure() {
             headerAlign: 'left',
             align: 'left',
             width: 140,
+            valueFormatter: (params) => formatDate(params.value),
         },
         {
             field: 'habitat',
@@ -99,13 +103,12 @@ function ViewEnclosure() {
             headerAlign: 'left',
             width: 80,
         },
-
-        {
+        userRole === 'STAFF' && {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',
             width: 140,
-            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
+            renderCell: (params) => <Actions params={params} setRemove={setRemove} />,
         },
     ];
     return (

@@ -1,35 +1,9 @@
 import * as axiosClient from '~/utils/axiosClient';
 
+//Animal
 export const getAnimals = async () => {
     try {
         const res = await axiosClient.get('species')
-        return res.data;
-    } catch (error) {
-        return error.response;
-    }
-}
-export const getEnclosures = async () => {
-    try {
-        const res = await axiosClient.get('enclosures')
-        return res.data;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-export const getEnclosuresById = async (values) => {
-    try {
-
-        const res = await axiosClient.get(`habitats/${values}`)
-        return res.data;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-export const getHabitats = async () => {
-    try {
-        const res = await axiosClient.get('habitats')
         return res.data;
     } catch (error) {
         return error.response;
@@ -53,6 +27,85 @@ export const getAllAnimals = async () => {
         return error.response;
     }
 }
+
+//Enclosure
+export const getEnclosures = async () => {
+    try {
+        const res = await axiosClient.get('enclosures')
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const createEnclousures = async (values) => {
+    try {
+        const res = await axiosClient.post('enclosures', values);
+        console.log(res);
+        return res;
+    } catch (error) {
+        console.log(error);
+        return error.response;
+    }
+}
+
+export const getEnclosuresById = async (values) => {
+    try {
+
+        const res = await axiosClient.get(`enclosures/${values}`)
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateEnclosures = async (id, values) => {
+    try {
+        const res = await axiosClient.put(`enclosures/${id}`, values);
+        return res;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+//Habitat
+export const getHabitats = async () => {
+    try {
+        const res = await axiosClient.get('habitats')
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export const getHabitatById = async (id) => {
+    try {
+        const res = await axiosClient.get(`habitats/${id}`);
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export const createHabitats = async (values) => {
+    try {
+        const res = await axiosClient.post('habitats', values);
+        // console.log(res);
+        return res;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export const updateHabitats = async (id, values) => {
+    try {
+        const res = await axiosClient.put(`habitats/${id}`, values);
+        return res;
+    } catch (error) {
+        return error.response;
+    }
+}
+
 export const assignZooTrainerToAnimal = async (values, path) => {
     try {
         const res = await axiosClient.post(path, values)

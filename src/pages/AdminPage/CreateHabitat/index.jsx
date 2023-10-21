@@ -11,15 +11,15 @@ import {
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
 import { useState } from 'react';
 import * as yup from 'yup';
+import { createHabitats } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-// import uploadFile from '~/utils/transferFile';
 // import { DataGridPro } from '@mui/x-data-grid-pro';
 function CreateHabitat() {
     const FILE_SIZE = 160 * 1024;
@@ -45,47 +45,45 @@ function CreateHabitat() {
     };
     const isNonMobile = useMediaQuery('(min-width: 600px)');
 
-    // const formattedDateTime = (values) => {
-    //     const inputDate = new Date(values);
+    const formattedDateTime = (values) => {
+        const inputDate = new Date(values);
 
-    //     const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-    //         .toString()
-    //         .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-    //     // Get the time zone offset and convert it to the "hh:mm" format
-    //     const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-    //     const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-    //     const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-    //         .toString()
-    //         .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
+        const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
+        // Get the time zone offset and convert it to the "hh:mm" format
+        const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
+        const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
+        const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
+            .toString()
+            .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
 
-    //     // Combine the date and time zone offset to get the final formatted string
-    //     const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-    //     return formattedDateTime;
-    // };
-    // const handleFormSubmit = async (values, { resetForm }) => {
-    //     values.dateOfBirth = formattedDateTime(values.dateOfBirth);
-    //     values.arrivalDate = formattedDateTime(values.arrivalDate);
-    //     try {
-    //         const imgURL = await uploadFile(values, 'animals-individual'); // Wait for the file upload to complete
-    //         values.imgUrl = imgURL;
-    //         const res = createAnimals(values);
-    //         res.then((result) => {
-    //             console.log(result);
-    //             const status = result.status;
-    //             if (status === 'Ok') {
-    //                 setOpen(true);
-    //                 resetForm();
-    //             }
-    //         });
-    //         // Optionally, you can display a success message or perform other actions here
-    //     } catch (error) {
-    //         console.error(error);
-    //         // Handle errors if needed
-    //     }
-    // };
+        // Combine the date and time zone offset to get the final formatted string
+        const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
+        return formattedDateTime;
+    };
+    const handleFormSubmit = async (values, { resetForm }) => {
+        values.createdDate = formattedDateTime(values.createdDate);
+        console.log(values);
+        try {
+            const response = await createHabitats(values);
+            // response.data.data.status = true;
+            // response.data.data.createdDate = formattedDateTime(values.createdDate);
+            console.log(values);
+            if (response.status === 200) {
+                console.log(values);
+                setOpen(true);
+                resetForm();
+            }
+        } catch (error) {
+            console.error(error);
+
+        }
+    };
 
     const initialValues = {
         name: '',
+        createdDate: null,
         info: '',
         imgUrl: '',
         bannerUrl: '',
@@ -93,17 +91,15 @@ function CreateHabitat() {
 
     const userSchema = yup.object().shape({
         name: yup.string().required('Name is required!'),
-        info: yup.string().required('Infomation is required!'),
-        imgUrl: yup
-            .mixed()
-            .required('Image url is required')
-            .test('fileSize', 'Image url too large', (value) => value && value.size <= FILE_SIZE)
-            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
-        bannerUrl: yup
-            .mixed()
-            .required('Banner url is required')
-            .test('fileSize', 'Banner url too large', (value) => value && value.size <= FILE_SIZE)
-            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+        info: yup.string().required('Information is required!'),
+        imgUrl: yup.string().required('Image URL is required!'),
+        bannerUrl: yup.string().required('Banner URL is required!'),
+        createdDate: yup
+            .date()
+            .required('Created Date is required')
+            .nonNullable(), // Allow null values for createdDate
+        status: yup.boolean().required('Status is required').default(true),
+
     });
     const handleClose = () => {
         setOpen(false);
@@ -126,7 +122,7 @@ function CreateHabitat() {
             </div>
             <Box m="20px">
                 <AdminHeader title="CREATE HABITAT" subtitle="Create a new habitat" />
-                <Formik /*onSubmit={handleFormSubmit}*/ initialValues={initialValues} validationSchema={userSchema}>
+                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box
@@ -218,53 +214,37 @@ function CreateHabitat() {
                                 />
 
                                 {/* Image Url and Banner Url */}
-                                <FormControl
-                                    component="fieldset"
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
+                                    label="Image URL"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.imgUrl}
+                                    name="imgUrl"
+                                    error={!!touched.imgUrl && !!errors.imgUrl}
+                                    helperText={touched.imgUrl && errors.imgUrl}
                                     sx={{
                                         gridColumn: 'span 2',
                                     }}
-                                >
-                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
-                                        Image File
-                                    </Typography>
-                                    <Input
-                                        type="file"
-                                        label="ImgUrl"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                        }}
-                                        name="imgUrl"
-                                        error={!!touched.imgUrl && !!errors.imgUrl}
-                                    />
-                                    {touched.imgUrl && errors.imgUrl && (
-                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
-                                    )}
-                                </FormControl>
+                                />
 
-                                <FormControl
-                                    component="fieldset"
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text"
+                                    label="Banner URL"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.bannerUrl}
+                                    name="bannerUrl"
+                                    error={!!touched.bannerUrl && !!errors.bannerUrl}
+                                    helperText={touched.bannerUrl && errors.bannerUrl}
                                     sx={{
                                         gridColumn: 'span 2',
                                     }}
-                                >
-                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
-                                        Banner File
-                                    </Typography>
-                                    <Input
-                                        type="file"
-                                        label="BannerUrl"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            setFieldValue('bannerUrl', e.currentTarget.files[0]);
-                                        }}
-                                        name="bannerUrl"
-                                        error={!!touched.bannerUrl && !!errors.bannerUrl}
-                                    />
-                                    {touched.bannerUrl && errors.bannerUrl && (
-                                        <div style={{ color: 'red' }}>{errors.bannerUrl}</div>
-                                    )}
-                                </FormControl>
+                                />
                             </Box>
                             <Box display="flex" justifyContent="end" mt="20px">
                                 <Button type="submit" color="secondary" variant="contained">

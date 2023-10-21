@@ -10,11 +10,13 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import BalconyIcon from '@mui/icons-material/Balcony';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import ForestIcon from '@mui/icons-material/Forest';
 import { BsFillTicketPerforatedFill, BsNewspaper, BsQrCodeScan } from 'react-icons/bs';
 import { FaBalanceScale } from 'react-icons/fa';
 import { GiCage, GiElephant } from 'react-icons/gi';
@@ -98,7 +100,8 @@ const Sidebar = () => {
     let titleCreate = '';
     let titleUpdate = '';
     let titleNews = '';
-    let title
+    let titleEnclosure = '';
+    let titleHabitat = '';
     let primary = '';
 
     if (userRole === 'ADMIN') {
@@ -110,7 +113,14 @@ const Sidebar = () => {
         titleData = 'View All Zoo Trainer';
         titleCreate = 'Create New Zoo Trainer';
         titleNews = 'View All News';
+        titleEnclosure = 'View Enclosure';
+        titleHabitat = 'View Habitat';
         primary = 'Manage Zoo Trainer';
+    }
+    else if (userRole === 'ZOO_TRAINER') {
+        titleEnclosure = 'View Enclosure';
+        titleHabitat = 'View Habitat';
+        primary = 'Manage Animal';
     }
     return (
         <Box
@@ -401,85 +411,24 @@ const Sidebar = () => {
                                 </Collapse>
                             </List>
                         )}
-                        {userRole === 'ADMIN' && (
-                            <List
-                                sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
-                                component="nav"
-                                aria-labelledby="enclosure"
-                            >
-                                <ListItemButton
-                                    onClick={handleEnclosure}
-                                    sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
-                                >
-                                    <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
-                                        <InboxIcon />
-                                    </ListItemIcon>
-                                    {!isCollapsed && <ListItemText primary="Manage Enclosure" sx={{ paddingLeft: '4px' }} />}
-                                    {openEnclosure ? <ExpandLess /> : <ExpandMore />}
-                                </ListItemButton>
-                                <Collapse in={openEnclosure} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
-                                        <ListItemButton>
-                                            <Item
-                                                title="View Enclosure"
-                                                to="/enclosure/view"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create Enclosure"
-                                                to="/enclosure/create"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                    </List>
-                                </Collapse>
-                            </List>
+                        {userRole !== 'ADMIN' && (
+                            <Item
+                                title={titleEnclosure}
+                                to="/enclosure/view"
+                                icon={<BalconyIcon />}
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
                         )}
-                        {userRole === 'ADMIN' && (
-                            <List
-                                sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
-                                component="nav"
-                                aria-labelledby="habitat"
-                            >
-                                <ListItemButton
-                                    onClick={handleHabitat}
-                                    sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
-                                >
-                                    <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
-                                        <InboxIcon />
-                                    </ListItemIcon>
-                                    {!isCollapsed && <ListItemText primary="Manage Habitat" sx={{ paddingLeft: '4px' }} />}
-                                    {openHabitat ? <ExpandLess /> : <ExpandMore />}
-                                </ListItemButton>
-                                <Collapse in={openHabitat} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
-                                        <ListItemButton>
-                                            <Item
-                                                title="View Habitat"
-                                                to="/habitat/view"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create Habitat"
-                                                to="/habitat/create"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                    </List>
-                                </Collapse>
-                            </List>
+                        {userRole !== 'ADMIN' && (
+
+                            <Item
+                                title={titleHabitat}
+                                to="/habitat/view"
+                                icon={<ForestIcon />}
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
                         )}
                         {userRole === 'STAFF' && (
                             <Item

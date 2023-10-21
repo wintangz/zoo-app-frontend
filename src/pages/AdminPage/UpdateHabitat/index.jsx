@@ -16,33 +16,29 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import * as mockData from '~/api/userService';
-import { updateUser } from '~/api/userService';
+import * as mockData from '~/api/animalsService';
+import { updateHabitats } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 
 function UpdateHabitat() {
     //--------------- Call API GET USER ---------------------------------//'
-    const { userId } = useParams();
-    const [users, setUsers] = useState({});
+    const { habitatId } = useParams();
+    const [habitat, setHabitat] = useState({});
+    const navigate = useNavigate();
+
     const fetchapi = async (id) => {
-        const result = await mockData.getUserById(id);
+        const result = await mockData.getHabitatById(id);
         return result;
     };
     useEffect(() => {
-        const res = fetchapi(userId);
+        const res = fetchapi(habitatId);
         res.then((result) => {
-            setUsers(result);
+            setHabitat(result);
         });
     }, []);
-
-    const [openSercurity, setOpenSercurity] = useState(false);
-
-    const handleSercurity = () => {
-        setOpenSercurity(!openSercurity);
-    };
 
     //****************---------------------- Config Color Theme ****************************/
     const theme = useTheme({ isDashboard: false });
@@ -66,13 +62,14 @@ function UpdateHabitat() {
     };
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        setOpen(false);
+        navigate('/habitat/view');
     };
 
     //---------------------------------------- Handle Submit----------------------------------/
 
     const handleFormSubmit = async (values, { resetForm }) => {
-        const inputDate = new Date(values.dateOfBirth);
+        // console.log("Before formatting:", values.createdDate);
+        const inputDate = new Date(values.createdDate);
         const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
             .toString()
             .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
@@ -85,13 +82,9 @@ function UpdateHabitat() {
 
         // Combine the date and time zone offset to get the final formatted string
         const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-        values.dateOfBirth = formattedDateTime;
-        if (values.sex === 'male') {
-            values.sex = true;
-        } else if (values.sex === 'female') {
-            values.sex = false;
-        }
-        const res = updateUser(userId, values);
+        values.createdDate = formattedDateTime;
+        const res = updateHabitats(habitatId, values);
+        // console.log("After formatting:", values.createdDate)
         res.then((result) => {
             const status = result.status;
             if (status === 200) {
@@ -102,29 +95,25 @@ function UpdateHabitat() {
 
     //********************************** INITIAL VALUE*********************************** */
     const initialValues = {
-        username: users?.username || '',
-        lastname: users?.lastname || '',
-        firstname: users?.firstname || '',
-        sex: users?.sex ? 'male' : 'female',
-        dateOfBirth: moment(users?.dateOfBirth),
-        address: users?.address || '',
-        nationality: users?.nationality || '',
-        phone: users?.phone || '',
-        email: users?.email || '',
+        name: habitat?.name || '',
+        createdDate: moment(habitat?.createdDate),
+        info: habitat?.info || '',
+        imgUrl: habitat?.imgUrl || '',
+        bannerUrl: habitat?.bannerUrl || '',
     };
 
     //****************************** VALIDATION ********************************
-    const phoneRegExp = /^\s*(?:\+?(\d{1,3}))?[- (]*(\d{3})[- )]*(\d{3})[- ]*(\d{4})(?: *[x/#]{1}(\d+))?\s*$/;
+
     const userSchema = yup.object().shape({
-        lastname: yup.string().required('required'),
-        firstname: yup.string().required('required'),
-        sex: yup.string().required('required'),
-        dateOfBirth: yup.date().required('required'),
-        address: yup.string().required('required'),
-        nationality: yup.string().required('required'),
-        phone: yup.string().matches(phoneRegExp, 'Phone numbers is not valid').required('required'),
-        email: yup.string().email('Invalid email').required('required'),
+        name: yup.string().required('Name is required!'),
+        info: yup.string().required('Information is required!'),
+        imgUrl: yup.string().required('Image URL is required!'),
+        bannerUrl: yup.string().required('Banner URL is required!'),
+        createdDate: yup
+            .date()
+            .required('Created Date is required'),
     });
+
     return (
         <>
             <div>
@@ -142,11 +131,21 @@ function UpdateHabitat() {
                 </Modal>
             </div>
             <Box>
-                <AdminHeader title="Edit Profile" subtitle="Edit you profile" />
+                <AdminHeader title="Update Habitat" subtitle="Update your Habitat" />
             </Box>
 
             <>
                 <Box m="20px">
+                    <Box mb="20px" display="flex" justifyContent="left">
+                        <Button
+                            type="button"
+                            color="secondary"
+                            variant="contained"
+                            onClick={() => navigate('/habitat/view')}
+                        >
+                            VIEW ALL HABITAT
+                        </Button>
+                    </Box>
                     <Formik
                         onSubmit={handleFormSubmit}
                         initialValues={initialValues}
@@ -167,103 +166,41 @@ function UpdateHabitat() {
                                         fullWidth
                                         variant="filled"
                                         type="text"
-                                        label="Last Name"
+                                        label="Name"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.lastname}
-                                        name="lastname"
-                                        error={!!touched.lastname && !!errors.lastname}
-                                        helperText={touched.lastname && errors.lastname}
+                                        value={values.name}
+                                        name="name"
+                                        error={!!touched.name && !!errors.name}
+                                        helperText={touched.name && errors.name}
                                         sx={{
                                             gridColumn: 'span 2',
                                         }}
                                     />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="First Name"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.firstname}
-                                        name="firstname"
-                                        error={!!touched.firstname && !!errors.firstname}
-                                        helperText={touched.firstname && errors.firstname}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
-                                    />
-
-                                    <FormControl
-                                        component="fieldset"
-                                        width="75%"
-                                        sx={{
-                                            gridColumn: 'span 1',
-                                        }}
-                                        label="Gender"
-                                    >
-                                        <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
-                                            Gender
-                                        </Typography>
-                                        <RadioGroup
-                                            aria-label="Gender"
-                                            name="sex"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            defaultValue=" "
-                                            value={values.sex}
-                                            sx={{ display: 'inline-block' }}
-                                            label="Gender"
-                                        >
-                                            <FormControlLabel
-                                                value="male"
-                                                control={
-                                                    <Radio
-                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                    />
-                                                }
-                                                label="Male"
-                                            />
-                                            <FormControlLabel
-                                                value="female"
-                                                control={
-                                                    <Radio
-                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                    />
-                                                }
-                                                label="Female"
-                                            />
-                                        </RadioGroup>
-                                    </FormControl>
-
                                     <FormControl
                                         padding="0"
                                         component="fieldset"
                                         fullWidth
                                         sx={{
-                                            gridColumn: 'span 1',
+                                            gridColumn: 'span 2',
                                         }}
                                     >
                                         <LocalizationProvider dateAdapter={AdapterMoment}>
                                             <DatePicker
-                                                value={moment(values.dateOfBirth)}
+                                                value={moment(values.createdDate)}
                                                 onChange={(date) => {
-                                                    handleChange({
-                                                        target: { name: 'dateOfBirth', value: moment(date) },
-                                                    });
+                                                    handleChange({ target: { name: 'createdDate', value: moment(date) } });
                                                 }}
                                                 textField={(params) => (
                                                     <TextField
                                                         {...params}
                                                         fullWidth
                                                         variant="outlined"
-                                                        label="Date of Birth"
+                                                        label="Created Date"
                                                     />
                                                 )}
-                                                name="dateOfBirth"
-                                                label="What is your date of birth?"
+                                                name="createdDate"
+                                                label="What is the habitat's created date?"
                                                 sx={{
                                                     width: 250,
                                                     '& .MuiOutlinedInput-root': {
@@ -285,85 +222,72 @@ function UpdateHabitat() {
                                         </LocalizationProvider>
                                     </FormControl>
 
+                                    {/* Info */}
                                     <TextField
                                         fullWidth
                                         variant="filled"
                                         type="text"
-                                        label="Address"
+                                        multiline
+                                        rows={3}
+                                        label="Infomation"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.address}
-                                        name="address"
-                                        error={!!touched.address && !!errors.address}
-                                        helperText={touched.address && errors.address}
+                                        value={values.info}
+                                        name="info"
+                                        error={!!touched.info && !!errors.info}
+                                        helperText={touched.info && errors.info}
                                         sx={{
                                             gridColumn: 'span 4',
                                         }}
                                     />
+
+                                    {/* Image Url and Banner Url */}
                                     <TextField
                                         fullWidth
                                         variant="filled"
                                         type="text"
-                                        label="National"
+                                        label="Image URL"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.nationality}
-                                        name="nationality"
-                                        error={!!touched.nationality && !!errors.nationality}
-                                        helperText={touched.nationality && errors.nationality}
+                                        value={values.imgUrl}
+                                        name="imgUrl"
+                                        error={!!touched.imgUrl && !!errors.imgUrl}
+                                        helperText={touched.imgUrl && errors.imgUrl}
                                         sx={{
                                             gridColumn: 'span 2',
                                         }}
                                     />
+
                                     <TextField
                                         fullWidth
                                         variant="filled"
                                         type="text"
-                                        label="Contact"
+                                        label="Banner URL"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.phone}
-                                        name="phone"
-                                        error={!!touched.phone && !!errors.phone}
-                                        helperText={touched.phone && errors.phone}
+                                        value={values.bannerUrl}
+                                        name="bannerUrl"
+                                        error={!!touched.bannerUrl && !!errors.bannerUrl}
+                                        helperText={touched.bannerUrl && errors.bannerUrl}
                                         sx={{
                                             gridColumn: 'span 2',
-                                        }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="Emai"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.email}
-                                        name="email"
-                                        error={!!touched.email && !!errors.email}
-                                        helperText={touched.email && errors.email}
-                                        sx={{
-                                            gridColumn: 'span 4',
                                         }}
                                     />
                                 </Box>
-                                <Box display="flex" justifyContent="space-between" mt="20px">
-                                    <Link to="/edit/sercurity">
+                                <Box display="flex" justifyContent="end" mt="20px">
+                                    {/* <Link to="/edit/sercurity">
                                         <Button
-                                            onClick={handleSercurity}
+                                            // onClick={handleSercurity}
                                             type="submit"
                                             color="secondary"
                                             variant="contained"
                                         >
                                             SERCURITY
                                         </Button>
-                                    </Link>
+                                    </Link> */}
 
                                     <Button type="submit" color="secondary" variant="contained">
-                                        EDIT ACCOUNT
+                                        Update Habitat
                                     </Button>
                                 </Box>
                             </form>

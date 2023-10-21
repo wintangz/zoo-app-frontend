@@ -86,9 +86,15 @@ function RegisterForm({ onClose, onLoginClick }) {
         phone: '',
         address: '',
         nationality: '',
+        // sex: users?.sex ? 'male' : 'female',
     }
 
     const handleSubmit = async (values, { setSubmitting } = {}) => {
+        // if (values.sex === 'male') {
+        //     values.sex = true;
+        // } else if (values.sex === 'female') {
+        //     values.sex = false;
+        // }
         try {
             if (values.dateOfBirth && values.dateOfBirth.includes('T')) {
                 values.dateOfBirth = values.dateOfBirth;
