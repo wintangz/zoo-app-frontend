@@ -1,12 +1,10 @@
-import { Box, IconButton, Tooltip, Typography, useTheme, Button } from '@mui/material';
-import { Delete, Edit, Preview } from '@mui/icons-material';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import { Box, IconButton, Tooltip, useTheme, Button } from '@mui/material';
+import { Delete, Edit } from '@mui/icons-material';
 import Modal from '@mui/material/Modal';
 import { tokens } from '~/theme';
 import axios from 'axios';
 import { useState } from 'react';
-import { Link, Route, useNavigate } from 'react-router-dom';
-import Update from '../UpdateStaff';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Actions = ({ params, setRemove }) => {
     let navigate = useNavigate();
@@ -89,8 +87,8 @@ const Actions = ({ params, setRemove }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete User Successfully!</h2>
-                        <p id="parent-modal-description">User have been delete from DataBase!</p>
+                        <h2 id="parent-modal-title">Delete Habitat Successfully!</h2>
+                        <p id="parent-modal-description">Habitat have been delete from DataBase!</p>
                         <Button
                             onClick={() => {
                                 handleMessage(params.row.id);
@@ -105,7 +103,6 @@ const Actions = ({ params, setRemove }) => {
                 <Tooltip title="Delete">
                     <IconButton
                         onClick={() => {
-                            // handleDelete(params.row.id);
                             setOpen(true);
                         }}
                     >

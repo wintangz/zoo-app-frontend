@@ -20,7 +20,9 @@ export const createFood = async (values) => {
     try {
 
         const res = await axiosClient.post('foods', values);
+        console.log(res);
         return res;
+
     } catch (error) {
         return error.response;
     }

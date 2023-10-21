@@ -3,15 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NamePageContext } from '~/App';
-import ForgotPasswordForm from '~/component/Layout/components/ForgotPassword/ForgotPassword';
-import LoginForm from '~/component/Layout/components/LoginForm/Loginform.js';
 import { logo_long } from '~/utils/assets-src';
+import ForgotPasswordForm from '~/component/Layout/components/ForgotPassword/ForgotPassword';
+import LoginForm from '~/component/Layout/components/LoginForm/LoginForm';
 import { HandleOpenClose } from '../HandleOpenClose';
 import RegisterForm from '../RegisterForm/RegisterForm';
 
 import styles from './Header.module.scss';
 import { components } from './components.js';
 
+import { useAppContext } from '~/context/Context';
 import { decode } from '~/utils/axiosClient';
 import { logout } from '~/api/userService';
 function Header() {
@@ -19,8 +20,10 @@ function Header() {
     const NamePage = useContext(NamePageContext);
     const lineRef = useRef(null);
     const [user, setUser] = useState(null);
+    const { auth } = useAppContext();
 
     useEffect(() => {
+        console.log(auth);
         const token = localStorage.getItem('token');
         if (token) {
             setUser(decode(token).roles[0]);

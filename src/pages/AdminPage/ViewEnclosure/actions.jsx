@@ -5,10 +5,13 @@ import Modal from '@mui/material/Modal';
 import { tokens } from '~/theme';
 import axios from 'axios';
 import { useState } from 'react';
-import { Link, Route, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { decode } from '~/utils/axiosClient';
 
 const Actions = ({ params, setRemove }) => {
     let navigate = useNavigate();
+
+    const userRole = decode(localStorage.getItem('token')).roles[0];
     const [message, setMessage] = useState(false);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -49,9 +52,6 @@ const Actions = ({ params, setRemove }) => {
                 console.error('DELETE request failed:', error);
             });
     };
-    const handleEdit = () => {
-        navigate('')
-    }
 
     const handleClose = () => {
         setOpen(false);
@@ -116,7 +116,7 @@ const Actions = ({ params, setRemove }) => {
                 </Tooltip>
 
                 <Tooltip title="Edit">
-                    <Link to={`/habitat/update/${params.row.id}`}>
+                    <Link to={`/enclosure/update/${params.row.id}`}>
                         <IconButton
                             onClick={() => {
 

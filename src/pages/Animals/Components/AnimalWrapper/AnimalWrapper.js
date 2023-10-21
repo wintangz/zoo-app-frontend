@@ -21,10 +21,10 @@ function AnimalWrapper(props) {
             navigation
             direction='horizontal'>
             {props.animals.map((animal) => {
-                if (animal.habitat === habitat) {
+                if (animal.habitat.name === habitat) {
                     return (
                         <SwiperSlide key={animal.id} className={`${styles.card}`}>
-                            <Link to={`/animals/${animal.habitat}/${animal.id}`} className={`${styles.animal}`}
+                            <Link to={`/animals/${animal.habitat.name}/${animal.id}`} className={`${styles.animal}`}
                                 replace='true'>
                                 <img src={animal.avatarUrl} alt='' />
                             </Link>

@@ -29,6 +29,7 @@ import CreateHabitat from '~/pages/AdminPage/CreateHabitat';
 import CreateTicket from '~/pages/AdminPage/CreateTicket';
 import CreateDiet from '~/pages/AdminPage/Diet/CreateDiet';
 import ViewDiet from '~/pages/AdminPage/Diet/Diet';
+import UpdateDiets from '~/pages/AdminPage/Diet/UpdateDiet';
 import EditProfile from '~/pages/AdminPage/EditProfile';
 import Sercurity from '~/pages/AdminPage/EditProfile/Sercurity';
 import FeedSchedule from '~/pages/AdminPage/FeedSchedule';
@@ -93,6 +94,7 @@ const publicRoutes = [
 
     { path: 'viewdiets', component: ViewDiet, layout: AdminMainPage, name: 'ViewDiet', Authen: "private" },
     { path: 'create/diet', component: CreateDiet, layout: AdminMainPage, name: 'CreateDiet', Authen: "private" },
+    { path: 'update/diets/:dietsId', component: UpdateDiets, layout: AdminMainPage, name: 'UpdateDiets', Authen: "private" },
 
     { path: 'viewspecies', component: ViewSpecies, layout: AdminMainPage, name: 'ViewSpecies', Authen: "private" },
     { path: 'create/species', component: CreateSpecies, layout: AdminMainPage, name: 'CreateSpecies', Authen: "private" },
@@ -109,9 +111,11 @@ const publicRoutes = [
     { path: 'enclosure/create', component: CreateEnclosure, layout: AdminMainPage, name: 'CreateEnclosure;', Authen: "private" },
     { path: 'enclosure/view', component: ViewEnclosure, layout: AdminMainPage, name: 'ViewEnclosure;', Authen: "private" },
     { path: 'enclosure/update/:enclosureId', component: UpdateEnclosure, layout: AdminMainPage, name: 'UpdateEnlosure', Authen: "private" },
+
     { path: 'habitat/create', component: CreateHabitat, layout: AdminMainPage, name: 'CreateHabitat;', Authen: "private" },
     { path: 'habitat/view', component: ViewHabitat, layout: AdminMainPage, name: 'ViewHatbitat;', Authen: "private" },
     { path: 'habitat/update/:habitatId', component: UpdateHabitat, layout: AdminMainPage, name: 'UpdateHabitat', Authen: "private" },
+
     { path: 'checkticket', component: TicketScanner, layout: AdminMainPage, name: 'TicketScanner;', Authen: "private" },
     { path: '/enclosure/in', component: MoveInEnclosure, layout: AdminMainPage, name: 'moveInEnclosure;', Authen: "private" },
 

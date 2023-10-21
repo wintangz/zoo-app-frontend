@@ -2,12 +2,9 @@ import {
     Box,
     Button,
     FormControl,
-    FormControlLabel,
-    Radio,
-    RadioGroup,
     TextField,
-    Typography,
     useTheme,
+    MenuItem
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -16,33 +13,33 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import * as mockData from '~/api/userService';
-import { updateUser } from '~/api/userService';
+import * as mockData from '~/api/animalsService';
+import { updateEnclosures } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
+import { getHabitats } from '~/api/animalsService';
+import { getSpecies } from '~/api/speciesService';
 
 function UpdateEnclosure() {
     //--------------- Call API GET USER ---------------------------------//'
-    const { userId } = useParams();
-    const [users, setUsers] = useState({});
+    const { enclosureId } = useParams();
+    const [enclosure, setEnclosure] = useState({});
+    const navigate = useNavigate();
+    const [species, setSpecies] = useState([]);
+    const [habitats, setHabitats] = useState([]);
+
     const fetchapi = async (id) => {
-        const result = await mockData.getUserById(id);
+        const result = await mockData.getEnclosuresById(id);
         return result;
     };
     useEffect(() => {
-        const res = fetchapi(userId);
+        const res = fetchapi(enclosureId);
         res.then((result) => {
-            setUsers(result);
+            setEnclosure(result);
         });
     }, []);
-
-    const [openSercurity, setOpenSercurity] = useState(false);
-
-    const handleSercurity = () => {
-        setOpenSercurity(!openSercurity);
-    };
 
     //****************---------------------- Config Color Theme ****************************/
     const theme = useTheme({ isDashboard: false });
@@ -66,7 +63,7 @@ function UpdateEnclosure() {
     };
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        setOpen(false);
+        navigate('/enclosure/update');
     };
 
     //---------------------------------------- Handle Submit----------------------------------/
@@ -86,12 +83,7 @@ function UpdateEnclosure() {
         // Combine the date and time zone offset to get the final formatted string
         const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
         values.dateOfBirth = formattedDateTime;
-        if (values.sex === 'male') {
-            values.sex = true;
-        } else if (values.sex === 'female') {
-            values.sex = false;
-        }
-        const res = updateUser(userId, values);
+        const res = updateEnclosures(enclosureId, values);
         res.then((result) => {
             const status = result.status;
             if (status === 200) {
@@ -102,29 +94,45 @@ function UpdateEnclosure() {
 
     //********************************** INITIAL VALUE*********************************** */
     const initialValues = {
-        username: users?.username || '',
-        lastname: users?.lastname || '',
-        firstname: users?.firstname || '',
-        sex: users?.sex ? 'male' : 'female',
-        dateOfBirth: moment(users?.dateOfBirth),
-        address: users?.address || '',
-        nationality: users?.nationality || '',
-        phone: users?.phone || '',
-        email: users?.email || '',
+        name: enclosure?.name || '',
+        createdDate: moment(enclosure?.createdDate),
+        maxCapacity: enclosure?.maxCapacity || '',
+        info: enclosure?.info || '',
+        imgUrl: enclosure?.imgUrl || '',
+
     };
 
     //****************************** VALIDATION ********************************
-    const phoneRegExp = /^\s*(?:\+?(\d{1,3}))?[- (]*(\d{3})[- )]*(\d{3})[- ]*(\d{4})(?: *[x/#]{1}(\d+))?\s*$/;
+
     const userSchema = yup.object().shape({
-        lastname: yup.string().required('required'),
-        firstname: yup.string().required('required'),
-        sex: yup.string().required('required'),
-        dateOfBirth: yup.date().required('required'),
-        address: yup.string().required('required'),
-        nationality: yup.string().required('required'),
-        phone: yup.string().matches(phoneRegExp, 'Phone numbers is not valid').required('required'),
-        email: yup.string().email('Invalid email').required('required'),
+        name: yup.string().required('Name cannot be empty'),
+        maxCapacity: yup
+            .number()
+            .typeError('Max Capacity must be a number')
+            .min(1, 'Max Capacity must be greater than 0')
+            .required('Max Capacity cannot be empty'),
+        info: yup.string().required('Information cannot be empty'),
+        createdDate: yup
+            .date()
+            .required('Created Date is required')
+            .nonNullable(), // Allow null values for createdDate
+        imgUrl: yup.string().required('Infomation cannot be empty'),
     });
+
+    useEffect(() => {
+        const res = getSpecies();
+        res.then((result) => {
+            setSpecies(result);
+        });
+    }, []);
+
+    useEffect(() => {
+        const res = getHabitats();
+        res.then((result) => {
+            setHabitats(result);
+        });
+    }, []);
+
     return (
         <>
             <div>
@@ -135,18 +143,28 @@ function UpdateEnclosure() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Update User Successfully!</h2>
-                        <p id="parent-modal-description">User have been update to DataBase!</p>
+                        <h2 id="parent-modal-title">Update Enclosure Successfully!</h2>
+                        <p id="parent-modal-description">Enclosure have been update to DataBase!</p>
                         <Button onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>
             <Box>
-                <AdminHeader title="Edit Profile" subtitle="Edit you profile" />
+                <AdminHeader title="Update Enclosure" subtitle="Update your Enclosure" />
             </Box>
 
             <>
                 <Box m="20px">
+                    <Box mb="20px" display="flex" justifyContent="left">
+                        <Button
+                            type="button"
+                            color="secondary"
+                            variant="contained"
+                            onClick={() => navigate('/enclosure/view')}
+                        >
+                            VIEW ALL ENCLOSURE
+                        </Button>
+                    </Box>
                     <Formik
                         onSubmit={handleFormSubmit}
                         initialValues={initialValues}
@@ -167,103 +185,149 @@ function UpdateEnclosure() {
                                         fullWidth
                                         variant="filled"
                                         type="text"
-                                        label="Last Name"
+                                        label="Name"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.lastname}
-                                        name="lastname"
-                                        error={!!touched.lastname && !!errors.lastname}
-                                        helperText={touched.lastname && errors.lastname}
+                                        value={values.name}
+                                        name="name"
+                                        error={!!touched.name && !!errors.name}
+                                        helperText={touched.name && errors.name}
                                         sx={{
                                             gridColumn: 'span 2',
+                                            gridRow: '1',
                                         }}
                                     />
                                     <TextField
                                         fullWidth
                                         variant="filled"
                                         type="text"
-                                        label="First Name"
+                                        label="Max Capacity"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.firstname}
-                                        name="firstname"
-                                        error={!!touched.firstname && !!errors.firstname}
-                                        helperText={touched.firstname && errors.firstname}
+                                        value={values.maxCapacity}
+                                        name="maxCapacity"
+                                        error={!!touched.maxCapacity && !!errors.maxCapacity}
+                                        helperText={touched.maxCapacity && errors.maxCapacity}
+                                        sx={{
+                                            gridColumn: 'span 2',
+                                            gridRow: '1',
+                                        }}
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        variant="filled"
+                                        label="Species"
+                                        select
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.species}
+                                        name="species"
+                                        defaultValue="Tiger"
                                         sx={{
                                             gridColumn: 'span 2',
                                         }}
-                                    />
-
-                                    <FormControl
-                                        component="fieldset"
-                                        width="75%"
-                                        sx={{
-                                            gridColumn: 'span 1',
+                                        SelectProps={{
+                                            PopperProps: {
+                                                anchorEl: null, // Ensures the menu is always at the bottom
+                                                placement: 'bottom-start', // Adjust the placement as needed
+                                            },
                                         }}
-                                        label="Gender"
                                     >
-                                        <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
-                                            Gender
-                                        </Typography>
-                                        <RadioGroup
-                                            aria-label="Gender"
-                                            name="sex"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            defaultValue=" "
-                                            value={values.sex}
-                                            sx={{ display: 'inline-block' }}
-                                            label="Gender"
-                                        >
-                                            <FormControlLabel
-                                                value="male"
-                                                control={
-                                                    <Radio
-                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                    />
-                                                }
-                                                label="Male"
-                                            />
-                                            <FormControlLabel
-                                                value="female"
-                                                control={
-                                                    <Radio
-                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                    />
-                                                }
-                                                label="Female"
-                                            />
-                                        </RadioGroup>
-                                    </FormControl>
+                                        {species.map((option) => (
+                                            <MenuItem key={option.id} value={option.name}>
+                                                {option.name}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+
+                                    <TextField
+                                        fullWidth
+                                        variant="filled"
+                                        label="Habitat"
+                                        select
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.habitats}
+                                        name="habitat"
+                                        defaultValue="African Savannah"
+                                        sx={{
+                                            gridColumn: 'span 2',
+                                            gridRow: '2',
+                                        }}
+                                        SelectProps={{
+                                            PopperProps: {
+                                                anchorEl: null, // Ensures the menu is always at the bottom
+                                                placement: 'bottom-start', // Adjust the placement as needed
+                                            },
+                                        }}
+                                    >
+                                        {habitats.map((option) => (
+                                            <MenuItem key={option.id} value={option.name}>
+                                                {option.name}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+
+                                    {/* Information */}
+                                    <TextField
+                                        fullWidth
+                                        variant="filled"
+                                        type="text"
+                                        multiline
+                                        rows={3}
+                                        label="Information"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.info}
+                                        name="info"
+                                        error={!!touched.info && !!errors.info}
+                                        helperText={touched.info && errors.info}
+                                        sx={{
+                                            gridColumn: 'span 4',  // Span the entire width
+                                            gridRow: '3',        // Below the first row
+                                        }}
+                                    />
+                                    <TextField
+                                        fullWidth
+                                        variant="filled"
+                                        type="text" // Change the type to "text"
+                                        label="ImgUrl"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.imgUrl}
+                                        name="imgUrl"
+                                        error={!!touched.imgUrl && !!errors.imgUrl}
+                                        helperText={touched.imgUrl && errors.imgUrl}
+                                        sx={{
+                                            gridColumn: 'span 2',  // Span the entire width
+                                            gridRow: '4',        // Below the first row
+                                        }}
+                                    />
 
                                     <FormControl
                                         padding="0"
                                         component="fieldset"
                                         fullWidth
                                         sx={{
-                                            gridColumn: 'span 1',
+                                            gridColumn: 'span 2',
                                         }}
                                     >
                                         <LocalizationProvider dateAdapter={AdapterMoment}>
                                             <DatePicker
-                                                value={moment(values.dateOfBirth)}
+                                                value={moment(values.createdDate)}
                                                 onChange={(date) => {
-                                                    handleChange({
-                                                        target: { name: 'dateOfBirth', value: moment(date) },
-                                                    });
+                                                    handleChange({ target: { name: 'createdDate', value: moment(date) } });
                                                 }}
                                                 textField={(params) => (
                                                     <TextField
                                                         {...params}
                                                         fullWidth
                                                         variant="outlined"
-                                                        label="Date of Birth"
+                                                        label="Create Date"
                                                     />
                                                 )}
-                                                name="dateOfBirth"
-                                                label="What is your date of birth?"
+                                                name="createdDate"
+                                                label="What is the enclosure's create date?"
                                                 sx={{
                                                     width: 250,
                                                     '& .MuiOutlinedInput-root': {
@@ -284,86 +348,21 @@ function UpdateEnclosure() {
                                             />
                                         </LocalizationProvider>
                                     </FormControl>
-
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="Address"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.address}
-                                        name="address"
-                                        error={!!touched.address && !!errors.address}
-                                        helperText={touched.address && errors.address}
-                                        sx={{
-                                            gridColumn: 'span 4',
-                                        }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="National"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.nationality}
-                                        name="nationality"
-                                        error={!!touched.nationality && !!errors.nationality}
-                                        helperText={touched.nationality && errors.nationality}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="Contact"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.phone}
-                                        name="phone"
-                                        error={!!touched.phone && !!errors.phone}
-                                        helperText={touched.phone && errors.phone}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="Emai"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.email}
-                                        name="email"
-                                        error={!!touched.email && !!errors.email}
-                                        helperText={touched.email && errors.email}
-                                        sx={{
-                                            gridColumn: 'span 4',
-                                        }}
-                                    />
                                 </Box>
-                                <Box display="flex" justifyContent="space-between" mt="20px">
-                                    <Link to="/edit/sercurity">
+                                <Box display="flex" justifyContent="end" mt="20px">
+                                    {/* <Link to="/edit/sercurity">
                                         <Button
                                             onClick={handleSercurity}
                                             type="submit"
                                             color="secondary"
                                             variant="contained"
                                         >
-                                            SERCURITY
+                                            VIEW ENCLOSURE
                                         </Button>
-                                    </Link>
+                                    </Link> */}
 
                                     <Button type="submit" color="secondary" variant="contained">
-                                        EDIT ACCOUNT
+                                        UPDATE ENCLOSURE
                                     </Button>
                                 </Box>
                             </form>

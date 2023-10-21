@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAppContext } from '~/context/Context';
 import { logo_long_dark } from '~/utils/assets-src';
 import { decode } from '~/utils/axiosClient';
 import '../../../../assets/themify-icons.css';
@@ -21,7 +22,7 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
         username: '',
         password: '',
     };
-
+    const { setAuth } = useAppContext()
     const [failMessage, setFailMessage] = useState(null);
 
     const handleSubmit = async (values, { setSubmitting }) => {
@@ -38,6 +39,7 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
             if (response.status === 200) {
                 // const {data} = await getInfo(token)
                 console.log(tokendecode)
+                setAuth(true)
                 tokendecode.roles.map((role) => {
                     if (role !== 'CUSTOMER') {
                         window.location = '/team';

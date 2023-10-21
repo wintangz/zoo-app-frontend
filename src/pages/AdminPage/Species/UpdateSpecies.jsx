@@ -43,11 +43,6 @@ function UpdateSpecies() {
         px: 4,
         pb: 3,
     };
-    const [editorContent, setEditorContent] = useState('');
-
-    const handleEditorChange = (content) => {
-        setEditorContent(content);
-    };
     const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
         name: species?.name || '',
@@ -80,9 +75,8 @@ function UpdateSpecies() {
 
     const handleFormSubmit = async (values, { resetForm }) => {
         try {
-            const submitValue = { ...values, content: editorContent };
+            const submitValue = { ...values };
             const response = await updateSpecies(speciesId, submitValue);
-            console.log(submitValue);
             if (response?.status === 200) {
                 setOpen(true);
             }
@@ -92,7 +86,7 @@ function UpdateSpecies() {
     };
 
     const handleClose = () => {
-        navigate('/viewallspecies');
+        navigate('/viewspecies');
     };
     return (
         <>

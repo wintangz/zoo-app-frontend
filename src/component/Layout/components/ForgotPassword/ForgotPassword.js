@@ -31,6 +31,7 @@ function ForgotPassword({ onClose, onLoginClick }) {
         try {
             const response = await sentEmail(values);
             setError(response.data.serverError)
+            console.log(response.data)
         } catch (error) {
 
         }

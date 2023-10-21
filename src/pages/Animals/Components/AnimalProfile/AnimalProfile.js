@@ -24,8 +24,8 @@ function AnimalProfile(props) {
     return (
         props.animals.map((animal, index) => {
             if (parseInt({ animalId }.animalId) === animal.id) {
-                if (animal.habitat !== habitat) {
-                    console.log(animal.habitat)
+                if (animal.habitat.name !== habitat) {
+                    console.log(animal.habitat.name)
                     return (
                         <div key={index} className={styles.animal_profile}>
                             <div className={styles.animal_info}>

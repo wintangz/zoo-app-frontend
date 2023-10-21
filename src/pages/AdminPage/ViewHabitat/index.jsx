@@ -6,9 +6,11 @@ import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './actions';
 import { useNavigate } from 'react-router-dom';
+import { decode } from '~/utils/axiosClient';
 
 function ViewHabitat() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const userRole = decode(localStorage.getItem('token')).roles[0];
     function formatDate(originalDate) {
         const date = new Date(originalDate);
         const day = date.getDate();
@@ -56,7 +58,7 @@ function ViewHabitat() {
             headerName: 'Infomation',
             headerAlign: 'left',
             align: 'left',
-            width: 100,
+            width: 130,
         },
 
         {
@@ -64,7 +66,8 @@ function ViewHabitat() {
             headerName: 'createdDate',
             headerAlign: 'left',
             align: 'left',
-            width: 170,
+            width: 130,
+            valueFormatter: (params) => formatDate(params.value),
         },
 
         {
@@ -93,26 +96,28 @@ function ViewHabitat() {
             headerAlign: 'left',
             width: 80,
         },
-        {
+        userRole === 'STAFF' && {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',
-            width: 80,
-            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
+            width: 140,
+            renderCell: (params) => <Actions params={params} setRemove={setRemove} />,
         },
     ];
     console.log(habitats);
     return (
         <Box m="20px">
-            <AdminHeader title="View all Enclosures" subtitle="Table of Enclosures" />
-            <Button
-                type="button"
-                color="secondary"
-                variant="contained"
-                onClick={() => navigate('/habitat/create')}
-            >
-                Create Habitat
-            </Button>
+            <AdminHeader title="View all Habitats" subtitle="Table of Habitats" />
+            <Box display="flex" justifyContent="left">
+                <Button
+                    type="button"
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => navigate('/habitat/create')}
+                >
+                    CREATE HABITAT
+                </Button>
+            </Box>
             <Box
                 m="40px 0 0 0"
                 height="75vh"

@@ -18,8 +18,8 @@ import { tokens } from '~/theme';
 // import uploadFile from '~/utils/transferFile';
 import { getHabitats } from '~/api/animalsService';
 import { getSpecies } from '~/api/speciesService';
-// import { createAnimals } from '~/api/animalsService';
-// import { DataGridPro } from '@mui/x-data-grid-pro';
+import { createEnclousures } from '~/api/animalsService';
+import { DataGridPro } from '@mui/x-data-grid-pro';
 import MenuItem from '@mui/material/MenuItem';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
@@ -34,23 +34,23 @@ function CreateEnclosure() {
     const [species, setSpecies] = useState([]);
     const [habitats, setHabitats] = useState([]);
 
-    // const formattedDateTime = (values) => {
-    //     const inputDate = new Date(values);
+    const formattedDateTime = (values) => {
+        const inputDate = new Date(values);
 
-    //     const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-    //         .toString()
-    //         .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-    //     // Get the time zone offset and convert it to the "hh:mm" format
-    //     const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-    //     const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-    //     const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-    //         .toString()
-    //         .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
+        const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
+        // Get the time zone offset and convert it to the "hh:mm" format
+        const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
+        const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
+        const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
+            .toString()
+            .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
 
-    //     // Combine the date and time zone offset to get the final formatted string
-    //     const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-    //     return formattedDateTime;
-    // };
+        // Combine the date and time zone offset to get the final formatted string
+        const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
+        return formattedDateTime;
+    };
 
     const style = {
         position: 'absolute',
@@ -85,29 +85,27 @@ function CreateEnclosure() {
 
 
 
-    // const handleFormSubmit = async (values, { resetForm }) => {
-
-    //     try {
-    //         const imgURL = await uploadFile(values, 'animals-individual'); // Wait for the file upload to complete
-    //         values.imgUrl = imgURL;
-    //         const res = createAnimals(values);
-    //         res.then((result) => {
-    //             console.log(result);
-    //             const status = result.status;
-    //             if (status === 'Ok') {
-    //                 setOpen(true);
-    //                 resetForm();
-    //             }
-    //         });
-    //         // Optionally, you can display a success message or perform other actions here
-    //     } catch (error) {
-    //         console.error(error);
-    //         // Handle errors if needed
-    //     }
-    // };
+    const handleFormSubmit = async (values, { resetForm }) => {
+        values.createdDate = formattedDateTime(values.createdDate);
+        console.log(values);
+        try {
+            const response = await createEnclousures(values);
+            // response.data.data.status = true;
+            // response.data.data.createdDate = formattedDateTime(values.createdDate);
+            console.log(values);
+            if (response.status === "200") {
+                console.log(values);
+                setOpen(true);
+                resetForm();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const initialValues = {
         name: '',
+        createdDate: null,
         maxCapacity: '',
         info: '',
         imgUrl: '',
@@ -120,12 +118,12 @@ function CreateEnclosure() {
             .typeError('Max Capacity must be a number')
             .min(1, 'Max Capacity must be greater than 0')
             .required('Max Capacity cannot be empty'),
-        info: yup.string().required('Infomation cannot be empty'),
-        imgUrl: yup
-            .mixed()
-            .required('A file is required')
-            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
-            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+        info: yup.string().required('Information cannot be empty'),
+        createdDate: yup
+            .date()
+            .required('Created Date is required')
+            .nonNullable(), // Allow null values for createdDate
+        imgUrl: yup.string().required('imgUrl cannot be empty'),
     });
     const handleClose = () => {
         setOpen(false);
@@ -148,7 +146,7 @@ function CreateEnclosure() {
             </div>
             <Box m="20px">
                 <AdminHeader title="CREATE ENCLOSURE" subtitle="Create a new Enclosure" />
-                <Formik /*onSubmit={handleFormSubmit}*/ initialValues={initialValues} validationSchema={userSchema}>
+                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box
@@ -257,7 +255,7 @@ function CreateEnclosure() {
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.info}
-                                    name="information"
+                                    name="info"
                                     error={!!touched.info && !!errors.info}
                                     helperText={touched.info && errors.info}
                                     sx={{
@@ -265,29 +263,22 @@ function CreateEnclosure() {
                                         gridRow: '3',        // Below the first row
                                     }}
                                 />
-                                <FormControl
-                                    component="fieldset"
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="text" // Change the type to "text"
+                                    label="ImgUrl"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.imgUrl}
+                                    name="imgUrl"
+                                    error={!!touched.imgUrl && !!errors.imgUrl}
+                                    helperText={touched.imgUrl && errors.imgUrl}
                                     sx={{
-                                        // gridColumn: 'span 2',  // Span the entire width
+                                        gridColumn: 'span 2',  // Span the entire width
                                         gridRow: '4',        // Below the first row
-                                    }}>
-                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
-                                        Image File
-                                    </Typography>
-                                    <Input
-                                        type="file"
-                                        label="ImgUrl"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                        }} // Handle file input change
-                                        name="imgUrl"
-                                        error={!!touched.imgUrl && !!errors.imgUrl}
-                                    />
-                                    {touched.imgUrl && errors.imgUrl && (
-                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
-                                    )}
-                                </FormControl>
+                                    }}
+                                />
 
                                 <FormControl
                                     padding="0"
