@@ -44,6 +44,7 @@ function Team() {
 
     const getZooTrainer = async () => {
         const result = await mockData.getZooTrainer();
+        console.log(result);
         const mdata = getUsersWithRoles(result, ['ZOO_TRAINER']);
         setUsers(mdata);
     };

@@ -94,6 +94,11 @@ const publicRoutes = [
     { path: 'animal/schedule/view', component: ViewSchedule, layout: AdminMainPage, name: 'viewSchedule;', Authen: "private" },
     { path: 'animal/confirm', component: Confirm, layout: AdminMainPage, name: 'confirm;', Authen: "private" },
     { path: 'animal/schedule/update', component: UpdateSchedule, layout: AdminMainPage, name: 'updateSchedule;', Authen: "private" },
+    { path: 'enclosure/view', component: ViewEnclosure, layout: AdminMainPage, name: 'viewEnclosure;', Authen: "private" },
+    { path: 'enclosure/create', component: CreateEnclosure, layout: AdminMainPage, name: 'createEnclosure;', Authen: "private" },
+    { path: 'checkticket', component: TicketScanner, layout: AdminMainPage, name: 'ticketScanner;', Authen: "private" },
+    { path: '/habitat/view', component: ViewHatbitat, layout: AdminMainPage, name: 'viewHabitat;', Authen: "private" },
+    { path: '/habitat/create', component: CreateHabitat, layout: AdminMainPage, name: 'createHabitat;', Authen: "private" },
 
 
 ];

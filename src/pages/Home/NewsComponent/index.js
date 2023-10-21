@@ -1,14 +1,46 @@
 import classNames from 'classnames/bind';
 import styles from './styles.module.scss';
 import ImageSlider from './imageSlider.js';
-import images from './postComponent.js';
 import news from './newsList';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { useEffect } from 'react';
+import { getNews } from '~/api/newsService';
+import { useState } from 'react';
 const cx = classNames.bind(styles);
-
 function News() {
+    const [post, setPost] = useState()
+    useEffect(() => {
+        const res = getNews();
+        res.then(result => {
+            setPost(result);
+        })
+
+    }, [])
+    const images = [];
+    const posts = [];
+    {
+        post && post.map(post => {
+            if (images.length <= 4) {
+                images.push({
+                    id: post.id,
+                    src: post.thumbnailUrl,
+                    alt: post.title,
+                })
+            }
+            if (posts.length <= 4) {
+                posts.push({
+                    id: post.id,
+                    name: post.title,
+                    date: post.createdDate,
+                    path: post.id,
+                })
+            }
+        })
+    }
+
+    console.log(post)
     return (
         <div className={cx('news')}>
             <div className={cx('news-container')}>
@@ -33,7 +65,7 @@ function News() {
                             </div>
                             <div className={cx('news--list')}>
                                 <ul className={cx('news--ul')}>
-                                    {news.map((post) => {
+                                    {posts.map((post) => {
                                         return (
                                             <>
                                                 <li key={post.id} className={cx('news-obj')}>

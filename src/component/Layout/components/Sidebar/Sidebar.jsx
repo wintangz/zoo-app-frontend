@@ -389,15 +389,7 @@ const Sidebar = () => {
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-                                        <ListItemButton>
-                                            <Item
-                                                title="Feed Cofirm"
-                                                to="/animal/confirm"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
+
                                     </List>
                                 </Collapse>
                             </List>
