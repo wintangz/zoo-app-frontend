@@ -3,9 +3,9 @@ import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import { createDiet } from '~/api/dietService';
+import { getDietById, updateDiets } from '~/api/dietService';
 import { getFood } from '~/api/foodService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
@@ -22,8 +22,10 @@ const MenuProps = {
     },
 };
 
-function CreateDiet() {
+function UpdateDiets() {
     const navigate = useNavigate();
+    const { dietsId } = useParams();
+    const [diets, setDiets] = useState({});
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
@@ -46,8 +48,8 @@ function CreateDiet() {
     };
     const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
-        type: '',
-        foodListIds: '',
+        type: diets?.type || '',
+        foodListIds: diets?.foodListIds || '',
     };
 
     const userSchema = yup.object().shape({
@@ -62,11 +64,10 @@ function CreateDiet() {
                 type: values.type,
                 foodListIds: foodListId,
             };
-            const response = await createDiet(submitValue);
+            const response = await updateDiets(dietsId, submitValue);
             console.log(submitValue);
             if (response?.status === 200) {
                 setOpen(true);
-                resetForm();
             }
         } catch (error) {
             console.error('Error submitting form:', error.message);
@@ -82,9 +83,17 @@ function CreateDiet() {
         const result = await getFood();
         setFoods(result);
     };
-
+    const fetchapi = async (id) => {
+        const result = await getDietById(id);
+        return result;
+    };
     useEffect(() => {
-        fetchApi();
+        fetchApi()
+        const res = fetchapi(dietsId);
+        res.then((result) => {
+            setDiets(result);
+
+        });
     }, []);
 
     return (
@@ -97,15 +106,15 @@ function CreateDiet() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">"Create Diet Successfully!"</h2>
+                        <h2 id="parent-modal-title">"Update Diet Successfully!"</h2>
                         <p id="parent-modal-description">New diet have been add to DataBase!</p>
                         <Button onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Create Diet" subtitle="Create new diet" />
-                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
+                <AdminHeader title="Update Diet" subtitle="Update new diet" />
+                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema} enableReinitialize={true}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
                         <form onSubmit={handleSubmit}>
                             <Box>
@@ -121,18 +130,6 @@ function CreateDiet() {
                                     error={!!touched.type && !!errors.type}
                                     helperText={touched.type && errors.type}
                                 />
-                                {/* <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="FoodListIds"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.foodListIds}
-                                    name="foodListIds"
-                                    error={!!touched.foodListIds && !!errors.foodListIds}
-                                    helperText={touched.foodListIds && errors.foodListIds}
-                                /> */}
                                 <Select
                                     labelId="demo-multiple-chip-label"
                                     id="demo-multiple-chip"
@@ -179,7 +176,7 @@ function CreateDiet() {
                                     VIEW DIETS
                                 </Button>
                                 <Button type="submit" color="secondary" variant="contained">
-                                    CREATE DIET
+                                    UPDATE DIET
                                 </Button>
                             </Box>
                         </form>
@@ -190,4 +187,4 @@ function CreateDiet() {
     );
 }
 
-export default CreateDiet;
+export default UpdateDiets;

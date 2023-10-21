@@ -13,13 +13,16 @@ import { BiSolidUser } from 'react-icons/bi';
 import styles from './Header.module.scss';
 import { components } from './components.js';
 
+import { useAppContext } from '~/context/Context';
 import { decode } from '~/utils/axiosClient';
 function Header() {
     const NamePage = useContext(NamePageContext);
     const lineRef = useRef(null);
     const [user, setUser] = useState(null);
+    const { auth } = useAppContext();
 
     useEffect(() => {
+        console.log(auth);
         const token = localStorage.getItem('token');
         if (token) {
             setUser(decode(token).roles[0]);
@@ -169,13 +172,13 @@ function Header() {
                     </div>
                 </div>
                 <div className={styles.login}>
-                    {user === 'CUSTOMER' ? (
+                    {auth ? (
                         // <span className={`${styles.loginitem} ${styles.js_open}`} onClick={handleLogout}>
                         //     Log Out
                         // </span>
-                        <a href="/profile" className={styles.profileItem}>
+                        <Link to="/profile" className={styles.profileItem}>
                             <BiSolidUser />
-                        </a>
+                        </Link>
                     ) : (
                         <Link onClick={(event) => handleLoginFormClick(event)} className={`${styles.loginitem} ${styles.js_open}`}>
                             Log In

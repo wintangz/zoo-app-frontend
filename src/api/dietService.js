@@ -27,11 +27,13 @@ export const createDiet = async (values) => {
 }
 export const updateDiets = async (id, values) => {
     try {
+        console.log(id)
+        console.log(values)
 
         const res = await axiosClient.put(`diets/${id}`, values);
-        return res;
+        return res.data;
     } catch (error) {
-        return error.response;
+        console.log(error)
     }
 }
 export const deleteDiets = async (id) => {

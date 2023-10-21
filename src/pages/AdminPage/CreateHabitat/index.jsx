@@ -68,7 +68,7 @@ function CreateHabitat() {
     //     try {
     //         const imgURL = await uploadFile(values, 'animals-individual'); // Wait for the file upload to complete
     //         values.imgUrl = imgURL;
-    //         const res = createAnimals(values);
+    // const res = createAnimals(values);
     //         res.then((result) => {
     //             console.log(result);
     //             const status = result.status;
