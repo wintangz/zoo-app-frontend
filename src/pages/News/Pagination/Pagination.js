@@ -83,7 +83,7 @@ const Pagination = ({ newsResult }) => {
                     {renderPageNumbers()}
 
                     <div className={styles.btn} onClick={() => handlePageChange(currentPage + 1)}>
-                        {currentPage == totalPages || <BiRightArrow />}
+                        {currentPage === totalPages || <BiRightArrow />}
                     </div>
                 </div>
             </div>

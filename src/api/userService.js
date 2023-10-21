@@ -48,16 +48,6 @@ export const getUserById = async (values) => {
         return error.response;
     }
 }
-
-export const updateStaff = async (values) => {
-    try {
-
-        const res = await axiosClient.put('users/staff', values)
-        return res;
-    } catch (error) {
-        return error.response;
-    }
-}
 export const updateUser = async (id, values) => {
     try {
 

@@ -10,6 +10,7 @@ import { decode } from '~/utils/axiosClient';
 import '../../../../assets/themify-icons.css';
 import styles from './Loginform.module.scss';
 
+
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required'),
@@ -133,7 +134,6 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                         </div>
                     </Form>
                 </Formik>
-                {/* <div className={styles.footer}></div> */}
             </div>
 
         </div>

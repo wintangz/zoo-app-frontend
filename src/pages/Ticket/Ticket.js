@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import ForgotPasswordForm from '~/component/Layout/components/LoginForm/ForgotPassword/ForgotPassword';
+import ForgotPasswordForm from '~/component/Layout/components/ForgotPassword/ForgotPassword';
 import LoginForm from '~/component/Layout/components/LoginForm/Loginform';
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import RegisterForm from '~/component/Layout/components/RegisterForm/RegisterForm';
@@ -12,7 +12,7 @@ import TicketDetail from './TicketDetail';
 
 function formatPrice(totalPrice) {
 
-    if (totalPrice == 0)
+    if (totalPrice === 0)
         return;
 
     let totalPriceString = totalPrice.toString();
@@ -29,7 +29,7 @@ function formatPrice(totalPrice) {
 
 export const TicketContext = createContext();
 function Ticket() {
-    const { setTotalQuantity, setTotalPrice, totalPrice, tickets, auth } = useAppContext();
+    const { setTotalQuantity, setTotalPrice, totalPrice, tickets } = useAppContext();
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);

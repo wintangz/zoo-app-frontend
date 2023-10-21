@@ -17,6 +17,16 @@ export const getEnclosures = async () => {
     }
 }
 
+export const getEnclosuresById = async (values) => {
+    try {
+
+        const res = await axiosClient.get(`habitats/${values}`)
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const getHabitats = async () => {
     try {
         const res = await axiosClient.get('habitats')

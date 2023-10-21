@@ -43,7 +43,7 @@ function Form() {
     };
     const isNonMobile = useMediaQuery('(min-width: 600px)');
     const userRole = decode(localStorage.getItem('token')).roles[0];
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values, { resetForm, setFailMessage }) => {
         const inputDate = new Date(values.dateOfBirth);
 
         const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
@@ -66,15 +66,14 @@ function Form() {
             values.sex = false;
         }
         if (userRole === 'ADMIN') {
-            const res = await createStaff(values);
-            if (res) {
-                const status = res.status;
+            const response = await createStaff(values);
+            if (response) {
+                const status = response.status;
                 console.log(status);
                 if (status === 200) {
                     setOpen(true);
                 }
             }
-            console.log(values);
             resetForm();
         }
         if (userRole === 'STAFF') {
@@ -86,10 +85,12 @@ function Form() {
                     setOpen(true);
                 }
             }
-            console.log(values);
             resetForm();
         }
+
+
     };
+
     let modalTitle = '';
     let description = '';
     let button = '';
@@ -101,7 +102,7 @@ function Form() {
         modalTitle = 'Create new staff successfully!';
         description = 'New staff have been add to DataBase!';
         button = 'CREATE NEW STAFF';
-        button1 = 'VIEW ALL STAFF';
+        button1 = 'VIEW ALL USER';
         title = 'CREATE USER';
         subtitle = 'Create a New User Profile';
     } else if (userRole === 'STAFF') {
@@ -125,18 +126,26 @@ function Form() {
         email: '',
     };
 
-    const phoneRegExp = /^\+(?:[0-9] ?){6,14}[0-9]$/;
     const userSchema = yup.object().shape({
-        username: yup.string().required('required'),
-        password: yup.string().required('required').min(8, 'Must be min 8 characters').max(30),
-        lastname: yup.string().required('required'),
-        firstname: yup.string().required('required'),
+        username: yup.string()
+            .required('Username is required')
+            .min(3, 'Username must be at least 3 characters')
+            .max(20, 'Username must be at most 20 characters'),
+        password: yup.string()
+            .required('Password is required')
+            .min(8, 'Password must be at least 8 characters'),
+        lastname: yup.string().required('Last Name is required'),
+        firstname: yup.string().required('First Name is required'),
         sex: yup.string().required('required'),
-        dateOfBirth: yup.date().required('required'),
-        address: yup.string().required('required'),
-        nationality: yup.string().required('required'),
-        phone: yup.string().matches(phoneRegExp, 'Phone numbers is not valid').required('required'),
-        email: yup.string().email('Invalid email').required('required'),
+        dateOfBirth: yup.date()
+            .required('Birth Date is required'),
+        // .max(new Date(), 'Date of Birth cannot be in the future'),
+        address: yup.string().required('Address is required'),
+        nationality: yup.string().required('Country is required'),
+        phone: yup.string()
+            .required('Phone Number is required')
+            .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/, 'Invalid phone number format'),
+        email: yup.string().email('Invalid email address').required('Email is required'),
     });
 
     const handleClose = () => {

@@ -16,24 +16,23 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/userService';
 import { updateUser } from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
-function EditProfile() {
-    //--------------- Call API GET USER ---------------------------------//
+function UpdateHabitat() {
+    //--------------- Call API GET USER ---------------------------------//'
+    const { userId } = useParams();
     const [users, setUsers] = useState({});
     const fetchapi = async (id) => {
         const result = await mockData.getUserById(id);
         return result;
     };
-    const newObj = decode(localStorage.getItem('token'));
     useEffect(() => {
-        const res = fetchapi(newObj.sub);
+        const res = fetchapi(userId);
         res.then((result) => {
             setUsers(result);
         });
@@ -66,9 +65,8 @@ function EditProfile() {
         pb: 3,
     };
     const [open, setOpen] = useState(false);
-    const navigate = useNavigate();
     const handleClose = () => {
-        navigate('/team');
+        setOpen(false);
     };
 
     //---------------------------------------- Handle Submit----------------------------------/
@@ -93,7 +91,7 @@ function EditProfile() {
         } else if (values.sex === 'female') {
             values.sex = false;
         }
-        const res = updateUser(newObj.sub, values);
+        const res = updateUser(userId, values);
         res.then((result) => {
             const status = result.status;
             if (status === 200) {
@@ -377,4 +375,4 @@ function EditProfile() {
     );
 }
 
-export default EditProfile;
+export default UpdateHabitat;

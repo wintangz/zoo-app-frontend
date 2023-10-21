@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { tokens } from '~/theme';
+import { decode } from '~/utils/axiosClient';
 
 const Actions = ({ params, setRemove }) => {
     let navigate = useNavigate();
@@ -56,11 +57,8 @@ const Actions = ({ params, setRemove }) => {
         setMessage(false);
         setRemove(values);
     };
-    const userInfo = {
-        // Add your user information here
-        name: 'John Doe',
-        // Other properties
-    };
+    const userRole = decode(localStorage.getItem('token')).roles[0];
+
     return (
         <>
             <div>
@@ -115,22 +113,20 @@ const Actions = ({ params, setRemove }) => {
                         <Delete />
                     </IconButton  >
                 </Tooltip>
+                {userRole === 'ADMIN' && (
+                    <Tooltip title="Edit">
+                        <Link to={`/staff/update/${params.row.id}`}>
+                            <IconButton
+                                onClick={() => {
 
+                                }}
+                            >
+                                <Edit />
+                            </IconButton  >
+                        </Link>
 
-
-
-                <Tooltip title="Edit">
-                    <Link to={`/staff/update/${params.row.id}`}>
-                        <IconButton
-                            onClick={() => {
-
-                            }}
-                        >
-                            <Edit />
-                        </IconButton  >
-                    </Link>
-
-                </Tooltip>
+                    </Tooltip>
+                )}
             </Box>
         </>
     );

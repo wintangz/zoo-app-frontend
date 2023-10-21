@@ -1,12 +1,9 @@
-import { Box, IconButton, Tooltip, Typography, useTheme, Button } from '@mui/material';
-import { Delete, Edit, Preview } from '@mui/icons-material';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import Modal from '@mui/material/Modal';
-import { tokens } from '~/theme';
-import axios from 'axios';
+import { Delete, Edit } from '@mui/icons-material';
+import { Box, Button, IconButton, Modal, Tooltip, useTheme } from '@mui/material';
 import { useState } from 'react';
-import { Link, Route, useNavigate } from 'react-router-dom';
-import Update from '../UpdateStaff';
+import { Link, useNavigate } from 'react-router-dom';
+import { deleteSpecies } from '~/api/speciesService';
+import { tokens } from '~/theme';
 
 const Actions = ({ params, setRemove }) => {
     let navigate = useNavigate();
@@ -28,21 +25,13 @@ const Actions = ({ params, setRemove }) => {
         px: 4,
         pb: 3,
     };
-    const handleDelete = (values) => {
-        const token = localStorage.getItem('token');
-        // Define the URL and headers
-        const url = `http://localhost:8080/api/habitats/${values}`;
-        const headers = {
-            Authorization: `Bearer ${token}`,
-        };
-
-        // Send the DELETE request
-        axios
-            .delete(url, { headers })
+    console.log(open)
+    const handleDelete = (speciesId) => {
+        setOpen(false);
+        deleteSpecies(speciesId)
             .then((response) => {
-                if (response.status === 200) {
+                if (response.status === "Ok") {
                     console.log('DELETE request successful:', response);
-                    setOpen(false);
                     setMessage(true);
                 }
             })
@@ -68,8 +57,8 @@ const Actions = ({ params, setRemove }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete Habitat</h2>
-                        <p id="parent-modal-description">Are you sure want to delete this Habitat?</p>
+                        <h2 id="parent-modal-title">Delete species</h2>
+                        <p id="parent-modal-description">Are you sure want to delete this species?</p>
                         <Button onClick={handleClose}>Close</Button>
                         <Button
                             onClick={() => {
@@ -89,8 +78,8 @@ const Actions = ({ params, setRemove }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete User Successfully!</h2>
-                        <p id="parent-modal-description">User have been delete from DataBase!</p>
+                        <h2 id="parent-modal-title">Delete Species Successfully!</h2>
+                        <p id="parent-modal-description">Species have been delete from DataBase!</p>
                         <Button
                             onClick={() => {
                                 handleMessage(params.row.id);
@@ -105,7 +94,6 @@ const Actions = ({ params, setRemove }) => {
                 <Tooltip title="Delete">
                     <IconButton
                         onClick={() => {
-                            // handleDelete(params.row.id);
                             setOpen(true);
                         }}
                     >
@@ -113,8 +101,9 @@ const Actions = ({ params, setRemove }) => {
                     </IconButton  >
                 </Tooltip>
 
+
                 <Tooltip title="Edit">
-                    <Link to={`/habitat/update/${params.row.id}`}>
+                    <Link to={`/update/species/${params.row.id}`}>
                         <IconButton
                             onClick={() => {
 
@@ -123,8 +112,8 @@ const Actions = ({ params, setRemove }) => {
                             <Edit />
                         </IconButton  >
                     </Link>
-                </Tooltip>
 
+                </Tooltip>
             </Box>
         </>
     );

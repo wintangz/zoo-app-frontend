@@ -68,7 +68,7 @@ function EditProfile() {
     };
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        setOpen(false);
+        navigate('/team');
     };
 
     //---------------------------------------- Handle Submit----------------------------------/
@@ -132,7 +132,7 @@ function EditProfile() {
     const userRole = decode(localStorage.getItem('token')).roles[0];
     let button = '';
     if (userRole === 'ADMIN') {
-        button = 'VIEW ALL STAFF';
+        button = 'VIEW ALL USER';
     } else if (userRole === 'STAFF') {
         button = 'VIEW ALL ZOO TRAINER';
     }
@@ -165,7 +165,7 @@ function EditProfile() {
                             variant="contained"
                             onClick={() => navigate('/team')}
                         >
-                            {button}
+                            VIEW ALL USER
                         </Button>
                     </Box>
                     <Formik

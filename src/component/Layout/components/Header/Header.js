@@ -3,13 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { NamePageContext } from '~/App';
-import { logo_long } from '~/utils/assets-src';
-import ForgotPasswordForm from '~/component/Layout/components/LoginForm/ForgotPassword/ForgotPassword';
+import ForgotPasswordForm from '~/component/Layout/components/ForgotPassword/ForgotPassword';
 import LoginForm from '~/component/Layout/components/LoginForm/Loginform.js';
+import { logo_long } from '~/utils/assets-src';
+import { HandleOpenClose } from '../HandleOpenClose';
 import RegisterForm from '../RegisterForm/RegisterForm';
+
+import { BiSolidUser } from 'react-icons/bi';
 import styles from './Header.module.scss';
 import { components } from './components.js';
-import { BiSolidUser } from 'react-icons/bi';
 
 import { decode } from '~/utils/axiosClient';
 function Header() {
@@ -96,46 +98,26 @@ function Header() {
         }
     }
 
-    const [showLogin, setShowLogin] = useState(false);
-    const [showRegister, setShowRegister] = useState(false);
-    const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const {
+        showLogin,
+        showRegister,
+        showForgotPassword,
 
-    const handleLoginFormClick = (event) => {
-        event.stopPropagation();
-        setShowLogin(true);
-        setShowRegister(false);
-        setShowForgotPassword(false);
-    };
+        handleLoginFormClick,
+        handleRegisterFormClick,
+        handleForgotPasswordFormClick,
 
-    const handleRegisterFormClick = (event) => {
-        event.stopPropagation();
-        setShowLogin(false);
-        setShowRegister(true);
-        setShowForgotPassword(false);
-    };
+        handleCloseLogin,
+        handleCloseRegister,
+        handleCloseForgotPassword,
+    } = HandleOpenClose();
 
-    const handleForgotPasswordFormClick = (event) => {
-        event.stopPropagation();
-        setShowLogin(false);
-        setShowRegister(false);
-        setShowForgotPassword(true);
-    };
 
-    const handleCloseLogin = () => {
-        setShowLogin(false);
-    };
+    // const handleLoginSuccess = (userInfo) => {
+    //     setUser(userInfo);
+    //     setShowLogin(false);
+    // };
 
-    const handleCloseRegister = () => {
-        setShowRegister(false);
-    };
-    const handleCloseForgotPassword = () => {
-        setShowForgotPassword(false);
-    };
-
-    const handleLoginSuccess = (userInfo) => {
-        setUser(userInfo);
-        setShowLogin(false);
-    };
     return (
         <>
             <header className={styles.container}>
@@ -205,10 +187,16 @@ function Header() {
             {showLogin && <LoginForm
                 onClose={handleCloseLogin}
                 onRegisterClick={(event) => handleRegisterFormClick(event)}
-                onForgotPasswordClick={(event) => handleForgotPasswordFormClick(event)}
-            />}
-            {showRegister && <RegisterForm onClose={handleCloseRegister} onLoginClick={handleLoginFormClick} />}
-            {showForgotPassword && <ForgotPasswordForm onClose={handleCloseForgotPassword} onLoginClick={handleLoginFormClick} />}
+                onForgotPasswordClick={(event) => handleForgotPasswordFormClick(event)} />
+            }
+            {showRegister && <RegisterForm
+                onClose={handleCloseRegister}
+                onLoginClick={(event) => handleLoginFormClick(event)} />
+            }
+            {showForgotPassword && <ForgotPasswordForm
+                onClose={handleCloseForgotPassword}
+                onLoginClick={(event) => handleLoginFormClick(event)} />
+            }
         </>
     );
 }

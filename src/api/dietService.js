@@ -20,7 +20,7 @@ export const createDiet = async (values) => {
     try {
 
         const res = await axiosClient.post('diets', values);
-        return res;
+        return res.data;
     } catch (error) {
         return error.response;
     }

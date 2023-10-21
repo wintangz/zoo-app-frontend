@@ -21,7 +21,6 @@ function ViewHabitat() {
 
     const [habitats, setHabitats] = useState(null);
     const [remove, setRemove] = useState(null);
-
     useEffect(() => {
         try {
             const res = getHabitats();
@@ -92,15 +91,15 @@ function ViewHabitat() {
             headerAlign: 'left',
             width: 80,
         },
-
-        // {
-        //     field: 'actions',
-        //     headerName: 'Actions',
-        //     type: 'actions',
-        //     width: 80,
-        //     renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
-        // },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            type: 'actions',
+            width: 80,
+            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
+        },
     ];
+    console.log(habitats);
     return (
         <Box m="20px">
             <AdminHeader title="View all Enclosures" subtitle="Table of Enclosures" />
