@@ -97,3 +97,13 @@ export const conFirm = async (path, values) => {
         return error.response;
     }
 }
+
+
+export const moveInEnclosure = async (path, path2) => {
+    try {
+        const res = await axiosClient.post(`animals/${path}/enclosures/${path2}`)
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}

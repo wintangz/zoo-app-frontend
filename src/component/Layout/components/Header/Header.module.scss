@@ -142,28 +142,88 @@
 }
 
 .login {
-    display: flex;
     width: 15%;
-    align-items: center;
-    justify-content: center;
     background-color: orange;
     font-weight: bold;
     letter-spacing: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .loginUser {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        letter-spacing: 2px;
+
+        ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            padding: 0;
+            width: 100%;
+            transition: all 0.2s;
+            display: none;
+            opacity: 0;
+            height: 100%;
+
+            li {
+                list-style: none;
+                padding: 16px 0px;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(0, 0, 0, 0.73);
+                color: white;
+                cursor: pointer;
+
+                a {
+                    text-decoration: none;
+                    color: white;
+
+                }
+            }
+
+            li:hover {
+                background-color: rgba(0, 0, 0, 0.95);
+            }
+        }
+    }
+
+    .loginUser:hover ul {
+        display: block;
+        opacity: 1;
+    }
 
     .loginitem {
         color: white;
         text-decoration: none;
-        padding: 10%;
-        padding-right: 30%;
-        padding-left: 30%;
+
     }
 
     .profileItem {
         color: white;
         font-size: 1.5rem;
-        padding: 10%;
-        padding-right: 40%;
-        padding-left: 40%;
+        position: absolute;
+        width: 100%;
+        height: 60px;
+
+        li {
+            width: 100%;
+            height: 60px;
+            position: absolute;
+            top: 150%;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.73) !important;
+            list-style: none;
+            top: 105%;
+            left: 0;
+        }
     }
 }
 

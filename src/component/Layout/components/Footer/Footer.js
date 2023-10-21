@@ -7,8 +7,19 @@ import { } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { logo } from '~/utils/assets-src';
+import { useEffect } from 'react';
+import { getNews } from '~/api/newsService';
+import { useState } from 'react';
 function Footer() {
+    const [posts, setPosts] = useState()
     const cx = classNames.bind(styles);
+    useEffect(() => {
+        const res = getNews();
+        res.then(result => {
+            setPosts(result);
+        })
+
+    }, [])
     return (
         <footer className="footer text-white">
             {/* <div className="background-img">
@@ -41,28 +52,23 @@ function Footer() {
                             <p className="column-title">Explore</p>
                             <div className="footer-list">
                                 <li className="footer-list-text">
-                                    <a href="google.coms">About Us</a>
+                                    <Link to="/animals/Asian%20Rainforest/0">Animals</Link>
                                 </li>
                                 <div className="line" />
                             </div>
                             <div className="footer-list">
                                 <li className="footer-list-text">
-                                    <a href="google.coms">About Us</a>
+                                    <Link to="/habitats">Habitats</Link>
                                 </li>
                                 <div className="line" />
                             </div>
                             <div className="footer-list">
                                 <li className="footer-list-text">
-                                    <a href="google.coms">About Us</a>
+                                    <Link to="/map">ZooMap</Link>
                                 </li>
                                 <div className="line" />
                             </div>
-                            <div className="footer-list">
-                                <li className="footer-list-text">
-                                    <a href="google.coms">About Us</a>
-                                </li>
-                                <div className="line" />
-                            </div>
+
                         </ul>
                     </div>
                     <div className="col-md-2 column">
@@ -70,60 +76,47 @@ function Footer() {
                             <p className="column-title">Useful Links</p>
                             <div className="footer-list">
                                 <li className="footer-list-text">
-                                    <a href="google.com">Useful Links</a>
+                                    <Link to="/news">News</Link>
                                 </li>
                                 <div className="line" />
                             </div>
                             <div className="footer-list">
                                 <li className="footer-list-text">
-                                    <a href="google.com">Useful Links</a>
+                                    <Link to="/ticket">Ticket</Link>
                                 </li>
                                 <div className="line" />
                             </div>
                             <div className="footer-list">
                                 <li className="footer-list-text">
-                                    <a href="google.com">Useful Links</a>
+                                    <Link to="/about">About us</Link>
                                 </li>
                                 <div className="line" />
                             </div>
-                            <div className="footer-list">
-                                <li className="footer-list-text">
-                                    <a href="google.com">Useful Links</a>
-                                </li>
-                                <div className="line" />
-                            </div>
+
                         </ul>
                     </div>
+
                     <div className="col-md-4 column">
-                        <h2 className="column-title ">Recent Posts</h2>
-                        <div className={cx('recent-posts1') + ' ' + cx('recent-posts')}>
-                            <div className={cx('recent-posts-img')}></div>
-                            <div className={cx('recent-content')}>
-                                <a className="recent-title" href="google.com">
-                                    10 Amazing Wildlife Travel Adventures To Try!
-                                </a>
-                                <p className="recent-date">
-                                    <span>
-                                        <FontAwesomeIcon icon={faCalendar} />
-                                    </span>
-                                    August 10, 2021
-                                </p>
+                        <h2 className="column-title">Recent Posts</h2>
+                        {posts && posts.slice(-2).map((post, index) => (
+                            <div key={post.id} className={cx({
+                                [`${cx('recent-posts1')}`]: index === 0,
+                                [`${cx('recent-posts')}`]: true,
+                            })}>
+                                <div className={cx('recent-posts-img')} style={{ background: `url(${post.thumbnailUrl}) no-repeat`, backgroundSize: 'cover' }}></div>
+                                <div className={cx('recent-content')}>
+                                    <a className="recent-title" href="google.com">
+                                        {post.title}
+                                    </a>
+                                    <p className="recent-date">
+                                        <span>
+                                            <FontAwesomeIcon icon={faCalendar} />
+                                        </span>
+                                        {post.createdDate}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div className={cx('recent-posts2') + ' ' + cx('recent-posts')}>
-                            <div className={cx('recent-posts-img')}></div>
-                            <div className={cx('recent-content')}>
-                                <a className="recent-title" href="google.com">
-                                    Everything Need To Know About Tigers Census
-                                </a>
-                                <p className="recent-date">
-                                    <span>
-                                        <FontAwesomeIcon icon={faCalendar} />
-                                    </span>
-                                    August 10, 2021
-                                </p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
                 <div className="viewmap">

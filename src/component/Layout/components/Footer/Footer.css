@@ -106,14 +106,6 @@
 .recent-posts1 {
     border-bottom: solid 1px rgb(30, 28, 28);
 }
-.recent-posts1 > .recent-posts-img {
-    background: url('../../../../assets/img/recent-post1.jpg') no-repeat;
-    background-size: cover;
-}
-.recent-posts2 > .recent-posts-img {
-    background: url('../../../../assets/img/recent-post2.jpg') no-repeat;
-    background-size: cover;
-}
 
 .recent-posts-img {
     width: 100px;

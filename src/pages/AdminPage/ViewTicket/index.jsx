@@ -1,15 +1,16 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { tokens } from '~/theme';
 // import Actions from './actions.jsx';
 import { getTickets } from '~/api/ticketService.js';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
+import { useNavigate } from 'react-router-dom';
 function ViewTicket() {
     const [ticket, setTicket] = useState(null);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
+    const navigate = useNavigate()
     useEffect(() => {
         const getTicketInfo = async () => {
             const res = getTickets();
@@ -19,7 +20,7 @@ function ViewTicket() {
         };
         getTicketInfo();
     }, []);
-
+    let button = 'Create Ticket';
     const columns = [
         {
             field: 'id',
@@ -73,7 +74,18 @@ function ViewTicket() {
     ];
     return (
         <Box m="20px">
+
             <AdminHeader title="User Management" subtitle="Show user info" />
+            <Box display="flex" justifyContent="left">
+                <Button
+                    type="button"
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => navigate('/tickets/create')}
+                >
+                    {button}
+                </Button>
+            </Box>
             <Box
                 m="40px 0 0 0"
                 height="75vh"

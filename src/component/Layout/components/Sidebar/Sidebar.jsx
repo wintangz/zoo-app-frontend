@@ -263,26 +263,6 @@ const Sidebar = () => {
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create Ticket"
-                                                to="/tickets/create"
-                                                icon={<BsFillTicketPerforatedFill />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                        {/* <ListItemButton>
-                                        {role === 'ADMIN' && (
-                                            <Item
-                                                title="Update Staff"
-                                                to="/staff/update"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        )}
-                                    </ListItemButton> */}
                                     </List>
                                 </Collapse>
                             </List>
@@ -308,15 +288,7 @@ const Sidebar = () => {
                                 </ListItemButton>
                                 <Collapse in={openAnimal} timeout="auto" unmountOnExit>
                                     <List component="div" disablePadding>
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create Animal"
-                                                to="/animal/create"
-                                                icon={<GiElephant />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
+
                                         <ListItemButton>
                                             <Item
                                                 title="View Animal"
@@ -327,15 +299,7 @@ const Sidebar = () => {
                                             />
                                         </ListItemButton>
 
-                                        <ListItemButton>
-                                            <Item
-                                                title="Feed Schedule"
-                                                to="/animal/feed"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
+
                                         <ListItemButton>
                                             <Item
                                                 title="View Feed Schedule"
@@ -378,17 +342,7 @@ const Sidebar = () => {
                                             />
                                         </ListItemButton>
 
-                                        {/* {role === 'ADMIN' && (
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create Ticket"
-                                                to="/tickets/create"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                    )} */}
+
                                     </List>
                                 </Collapse>
                             </List>
@@ -420,15 +374,7 @@ const Sidebar = () => {
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create Enclosure"
-                                                to="/enclosure/create"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
+
                                     </List>
                                 </Collapse>
                             </List>
@@ -460,15 +406,7 @@ const Sidebar = () => {
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create Habitat"
-                                                to="/habitat/create"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
+
                                     </List>
                                 </Collapse>
                             </List>

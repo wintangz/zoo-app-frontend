@@ -1,12 +1,14 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { getHabitats } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './actions';
+import { useNavigate } from 'react-router-dom';
 
 function ViewHabitat() {
+    const navigate = useNavigate()
     function formatDate(originalDate) {
         const date = new Date(originalDate);
         const day = date.getDate();
@@ -103,6 +105,14 @@ function ViewHabitat() {
     return (
         <Box m="20px">
             <AdminHeader title="View all Enclosures" subtitle="Table of Enclosures" />
+            <Button
+                type="button"
+                color="secondary"
+                variant="contained"
+                onClick={() => navigate('/habitat/create')}
+            >
+                Create Habitat
+            </Button>
             <Box
                 m="40px 0 0 0"
                 height="75vh"

@@ -9,12 +9,13 @@ import { logo_long } from '~/utils/assets-src';
 import { HandleOpenClose } from '../HandleOpenClose';
 import RegisterForm from '../RegisterForm/RegisterForm';
 
-import { BiSolidUser } from 'react-icons/bi';
 import styles from './Header.module.scss';
 import { components } from './components.js';
 
 import { decode } from '~/utils/axiosClient';
+import { logout } from '~/api/userService';
 function Header() {
+    const [sub, setSub] = useState()
     const NamePage = useContext(NamePageContext);
     const lineRef = useRef(null);
     const [user, setUser] = useState(null);
@@ -23,6 +24,7 @@ function Header() {
         const token = localStorage.getItem('token');
         if (token) {
             setUser(decode(token).roles[0]);
+            setSub(decode(token).sub)
         }
     }, []);
 
@@ -113,10 +115,15 @@ function Header() {
     } = HandleOpenClose();
 
 
-    // const handleLoginSuccess = (userInfo) => {
-    //     setUser(userInfo);
-    //     setShowLogin(false);
-    // };
+    const handleLogout = () => {
+        const accessToken = localStorage.getItem('token');
+        if (accessToken) {
+            const res = logout(accessToken);
+            console.log(res);
+            localStorage.removeItem('token');
+            window.location = '/'
+        }
+    }
 
     return (
         <>
@@ -170,32 +177,35 @@ function Header() {
                 </div>
                 <div className={styles.login}>
                     {user === 'CUSTOMER' ? (
-                        // <span className={`${styles.loginitem} ${styles.js_open}`} onClick={handleLogout}>
-                        //     Log Out
-                        // </span>
-                        <a href="/profile" className={styles.profileItem}>
-                            <BiSolidUser />
-                        </a>
+                        <div className={styles.loginUser}>
+                            <p>Hello {sub}</p>
+                            <ul>
+                                <li><Link to="/profile">Profile</Link></li>
+                                <li onClick={handleLogout}>Logout</li>
+                            </ul>
+                        </div>
                     ) : (
                         <Link onClick={(event) => handleLoginFormClick(event)} className={`${styles.loginitem} ${styles.js_open}`}>
                             Log In
                         </Link>
                     )}
                 </div>
-            </header>
+            </header >
 
             {showLogin && <LoginForm
                 onClose={handleCloseLogin}
                 onRegisterClick={(event) => handleRegisterFormClick(event)}
                 onForgotPasswordClick={(event) => handleForgotPasswordFormClick(event)} />
             }
-            {showRegister && <RegisterForm
-                onClose={handleCloseRegister}
-                onLoginClick={(event) => handleLoginFormClick(event)} />
+            {
+                showRegister && <RegisterForm
+                    onClose={handleCloseRegister}
+                    onLoginClick={(event) => handleLoginFormClick(event)} />
             }
-            {showForgotPassword && <ForgotPasswordForm
-                onClose={handleCloseForgotPassword}
-                onLoginClick={(event) => handleLoginFormClick(event)} />
+            {
+                showForgotPassword && <ForgotPasswordForm
+                    onClose={handleCloseForgotPassword}
+                    onLoginClick={(event) => handleLoginFormClick(event)} />
             }
         </>
     );

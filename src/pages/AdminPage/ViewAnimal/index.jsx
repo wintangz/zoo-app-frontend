@@ -1,12 +1,14 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { getAllAnimals } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './actions';
+import { useNavigate } from 'react-router-dom';
 
 function ViewAnimals() {
+    const navigate = useNavigate()
     function formatDate(originalDate) {
         const date = new Date(originalDate);
         const day = date.getDate();
@@ -82,12 +84,7 @@ function ViewAnimals() {
             headerAlign: 'left',
             width: 80,
         },
-        {
-            field: 'size',
-            headerName: 'size',
-            headerAlign: 'left',
-            width: 80,
-        },
+
         {
             field: 'species',
             headerName: 'species',
@@ -100,23 +97,27 @@ function ViewAnimals() {
             headerAlign: 'left',
             width: 80,
         },
-        {
-            field: 'weight',
-            headerName: 'weight',
-            headerAlign: 'left',
-            width: 80,
-        },
+
         {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',
             width: 80,
             renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
+            flex: 1,
         },
     ];
     return (
         <Box m="20px">
             <AdminHeader title="View all animals" subtitle="Table of Animals" />
+            <Button
+                type="button"
+                color="secondary"
+                variant="contained"
+                onClick={() => navigate('/animal/create')}
+            >
+                Create Animal
+            </Button>
             <Box
                 m="40px 0 0 0"
                 height="75vh"

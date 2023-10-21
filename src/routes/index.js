@@ -54,6 +54,7 @@ import ViewSchedule from '~/pages/AdminPage/ViewSchedule/ViewSchedule';
 import ViewTicket from '~/pages/AdminPage/ViewTicket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
+import MoveInEnclosure from '~/pages/AdminPage/MoveInEnclosure/moveInEnclosure';
 
 
 const publicRoutes = [
@@ -61,7 +62,6 @@ const publicRoutes = [
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: "news/:id/:title", component: ParentComponent, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
-    { path: 'profile', component: Profile, layout: NormalLayout, name: 'Profile', Authen: "public" },
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
@@ -70,6 +70,7 @@ const publicRoutes = [
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
     { path: 'verify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: "public" },
     { path: 'inputnewpassword', component: InputNewPassword, layout: NormalLayout, name: 'InputNewPassword', Authen: "public" },
+    { path: 'profile', component: Profile, layout: NormalLayout, name: 'Profile', Authen: "private" },
 
 
     // Admin routes
@@ -112,6 +113,7 @@ const publicRoutes = [
     { path: 'habitat/view', component: ViewHabitat, layout: AdminMainPage, name: 'ViewHatbitat;', Authen: "private" },
     { path: 'habitat/update/:habitatId', component: UpdateHabitat, layout: AdminMainPage, name: 'UpdateHabitat', Authen: "private" },
     { path: 'checkticket', component: TicketScanner, layout: AdminMainPage, name: 'TicketScanner;', Authen: "private" },
+    { path: '/enclosure/in', component: MoveInEnclosure, layout: AdminMainPage, name: 'moveInEnclosure;', Authen: "private" },
 
 
 ];
