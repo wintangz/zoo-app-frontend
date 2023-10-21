@@ -1,20 +1,13 @@
 import classNames from 'classnames/bind';
 import styles from './styles.module.scss';
 import { zones } from './zoneComponents.js';
+import { useEffect } from 'react';
 const cx = classNames.bind(styles);
 function Zone() {
+
     return (
         <div className={cx('zone')}>
-            {/* <div className={cx('zone--welcome')}>
-                <div className={cx('welcome')}>
-                    <p>Safari Tour!</p>
-                </div>
-                <div className={cx('information--title')}>
-                    <h1>
-                        Discover Animal <span>Way!</span>
-                    </h1>
-                </div>
-            </div> */}
+
             {zones.map((component) => {
                 return (
                     <div className={cx('zone--container')}>

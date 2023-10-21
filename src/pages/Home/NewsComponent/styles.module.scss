@@ -127,6 +127,8 @@
                                     overflow: hidden;
                                     text-overflow: ellipsis;
                                     white-space: nowrap;
+                                    min-width: 385px;
+                                    max-width: 385px;
                                 }
 
                                 .news-date {

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import * as dietService from '~/api/dietService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
+import Actions from './DeleteDiet';
 // import Actions from './DeleteFoods';
 
 function ViewDiet() {
@@ -51,13 +52,13 @@ function ViewDiet() {
             flex: 0.5,
             valueGetter: (params) => `${params.row.creator.username}`,
         },
-        // {
-        //     field: 'actions',
-        //     headerName: 'Actions',
-        //     type: 'actions',
-        //     width: 80,
-        //     renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
-        // },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            type: 'actions',
+            width: 80,
+            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
+        },
     ];
     return (
         <Box m="20px">

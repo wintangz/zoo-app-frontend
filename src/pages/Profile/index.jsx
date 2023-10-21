@@ -1,20 +1,30 @@
-import React from "react";
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import Button from '@mui/material/Button';
-import styles from './Profile.module.scss'
+import { useEffect } from "react";
+import styles from './Profile.module.scss';
 
+import { useNavigate } from 'react-router-dom';
 import { logout } from '~/api/userService';
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
+import { useAppContext } from "~/context/Context";
 
 function Profile() {
-
+    const { auth, setAuth } = useAppContext()
+    const nav = useNavigate()
+    useEffect(() => {
+        console.log(auth);
+        if (!auth) {
+            nav('/')
+        }
+    }, [auth, nav])
 
     const handleLogout = () => {
         const res = logout(localStorage.getItem('token'));
         res.then((result) => {
             if (result.status === 200) {
+                setAuth(false)
                 localStorage.removeItem('token');
-                window.location = '/';
+                nav('/')
             }
         });
     };
