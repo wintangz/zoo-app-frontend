@@ -12,7 +12,7 @@ function HabitatZone({ animals, habitats }) {
     const [item, setItem] = useState(animals || []);
     const habitatZone = [...new Set((habitats || []).map((val) => val.name))];
     const filterHabitat = (temp) => {
-        const newHabitat = animals.filter((newval) => newval.habitat === temp);
+        const newHabitat = animals.filter((newval) => newval.habitat.name === temp);
         setItem(newHabitat);
     }
 
@@ -60,7 +60,7 @@ function HabitatZone({ animals, habitats }) {
                     {/* Add Gallery component for each zone */}
                     {selectedZone === zone && (
                         <div key={`gallery-${zone}`} className={styles.galleryWrapper}>
-                            <Gallery item={animals.filter((item) => item.habitat === zone)} />
+                            <Gallery item={animals.filter((item) => item.habitat.name === zone)} />
                         </div>
                     )}
                 </div>
