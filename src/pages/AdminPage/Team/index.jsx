@@ -10,8 +10,8 @@ import * as mockData from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
-import Actions from './actions';
 import { getUsersWithRoles } from '~/utils/getUserByRole';
+import Actions from './actions';
 
 function Team() {
     const navigate = useNavigate();

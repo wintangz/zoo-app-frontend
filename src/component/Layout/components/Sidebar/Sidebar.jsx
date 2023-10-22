@@ -10,13 +10,11 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import BalconyIcon from '@mui/icons-material/Balcony';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ForestIcon from '@mui/icons-material/Forest';
 import { BsFillTicketPerforatedFill, BsNewspaper, BsQrCodeScan } from 'react-icons/bs';
 import { FaBalanceScale } from 'react-icons/fa';
 import { GiCage, GiElephant } from 'react-icons/gi';
@@ -234,6 +232,20 @@ const Sidebar = () => {
                                 <Item
                                     title="View All Species"
                                     to="/viewspecies"
+                                    icon={<GiCage />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="View Orders"
+                                    to="/vieworders"
+                                    icon={<GiCage />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="View Purchased Tickets"
+                                    to="/vieworderstickets"
                                     icon={<GiCage />}
                                     selected={selected}
                                     setSelected={setSelected}
