@@ -75,7 +75,7 @@ function CreateAnimal() {
         values.dateOfBirth = formattedDateTime(values.dateOfBirth);
         values.arrivalDate = formattedDateTime(values.arrivalDate);
         try {
-            const imgURL = await uploadFile(values, 'animals-individual'); // Wait for the file upload to complete
+            const imgURL = await uploadFile(values.imgUrl, 'animals-individual'); // Wait for the file upload to complete
             values.imgUrl = imgURL;
             const res = createAnimals(values);
             res.then((result) => {

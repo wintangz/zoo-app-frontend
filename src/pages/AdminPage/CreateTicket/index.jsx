@@ -45,7 +45,7 @@ function CreateTicket() {
 
     const handleFormSubmit = async (values, { resetForm }) => {
         try {
-            const imgURL = await uploadFile(values, 'tickets'); // Wait for the file upload to complete
+            const imgURL = await uploadFile(values.imgUrl, 'tickets'); // Wait for the file upload to complete
             values.imgUrl = imgURL;
             console.log(values);
 
