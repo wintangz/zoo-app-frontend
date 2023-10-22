@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { loginUser } from '~/api/authService';
 import { useAppContext } from '~/context/Context';
 import { logo_long_dark } from '~/utils/assets-src';
 import { decode } from '~/utils/axiosClient';
@@ -27,26 +27,19 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
-            // Send a POST request to the login API
-            const response = await axios.post('http://localhost:8080/api/auth/login', values);
-
-            // Handle the response as needed
-            console.log(response);
+            const response = await loginUser(values);
             localStorage.setItem('token', response.data.data.accessToken);
             var token = response.data.data.accessToken;
             var tokendecode = decode(token);
             // Close the modal or perform other actions
             if (response.status === 200) {
                 // const {data} = await getInfo(token)
-                console.log(tokendecode)
                 setAuth(true)
                 tokendecode.roles.map((role) => {
                     if (role !== 'CUSTOMER') {
                         window.location = '/team';
                     } else if (role === 'STAFF') {
                         window.location = '/edit'
-                    } else if (role === 'CUSTOMER') {
-                        window.location = '/'
                     }
                 })
                 // if (localStorage.getItem('role')) {

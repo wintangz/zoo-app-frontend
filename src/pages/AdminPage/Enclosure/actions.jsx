@@ -1,11 +1,10 @@
-import { Box, IconButton, Tooltip, Typography, useTheme, Button } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
-import AddIcon from '@mui/icons-material/Add';
+import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import { tokens } from '~/theme';
 import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 
 const Actions = ({ params, setRemove }) => {
@@ -33,7 +32,7 @@ const Actions = ({ params, setRemove }) => {
     const handleDelete = (values) => {
         const token = localStorage.getItem('token');
         // Define the URL and headers
-        const url = `http://localhost:8080/api/enclosures/${values}`;
+        const url = `https://zoo-by-valt.azurewebsites.net/api/enclosures/${values}`;
         const headers = {
             Authorization: `Bearer ${token}`,
         };
@@ -128,15 +127,15 @@ const Actions = ({ params, setRemove }) => {
                 </Tooltip>
 
 
-                <Tooltip title="Add to Habitat">
-                    {/* <Link to="/enclosure/addtohabitat" state={params.row}> */}
+                {/* <Tooltip title="Add to Habitat">
+                    <Link to="/enclosure/addtohabitat" state={params.row}>
                     <IconButton
-                    // onClick={handleEdit(params.row)}
+                    onClick={handleEdit(params.row)}
                     >
                         <AddIcon />
                     </IconButton  >
-                    {/* </Link> */}
-                </Tooltip>
+                    </Link>
+                </Tooltip> */}
 
             </Box>
         </>

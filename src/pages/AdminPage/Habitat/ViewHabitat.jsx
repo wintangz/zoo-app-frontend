@@ -1,12 +1,12 @@
 import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getHabitats } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import Actions from './actions';
-import { useNavigate } from 'react-router-dom';
 import { decode } from '~/utils/axiosClient';
+import Actions from './actions';
 
 function ViewHabitat() {
     const navigate = useNavigate();
@@ -104,7 +104,6 @@ function ViewHabitat() {
             renderCell: (params) => <Actions params={params} setRemove={setRemove} />,
         },
     ];
-    console.log(habitats);
     return (
         <Box m="20px">
             <AdminHeader title="View all Habitats" subtitle="Table of Habitats" />

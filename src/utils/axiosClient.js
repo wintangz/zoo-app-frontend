@@ -1,8 +1,8 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 const api = axios.create({
-    // baseURL: 'https://zoo-app-backend.test.azuremicroservices.io/spring-app-zoo/default/api/'
-    baseURL: 'http://localhost:8080/api/'
+    baseURL: 'https://zoo-by-valt.azurewebsites.net/api/'
+    // baseURL: 'http://localhost:8080/api/'
 })
 export const get = async (path) => {
     const token = localStorage.getItem('token');

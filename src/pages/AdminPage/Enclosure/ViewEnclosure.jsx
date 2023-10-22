@@ -1,12 +1,12 @@
 import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getEnclosures } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import Actions from './actions';
-import { useNavigate } from 'react-router-dom';
 import { decode } from '~/utils/axiosClient';
+import Actions from './actions';
 
 function ViewEnclosure() {
     const navigate = useNavigate()
@@ -105,7 +105,8 @@ function ViewEnclosure() {
             headerAlign: 'left',
             width: 80,
         },
-        userRole === 'STAFF' && {
+        // userRole === 'STAFF' && 
+        {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',

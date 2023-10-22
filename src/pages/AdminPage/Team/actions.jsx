@@ -30,7 +30,8 @@ const Actions = ({ params, setRemove }) => {
     const handleDelete = (values) => {
         const token = localStorage.getItem('token');
         // Define the URL and headers
-        const url = `http://localhost:8080/api/users/${values}`;
+        // const url = `http://localhost:8080/api/users/${values}`;
+        const url = `https://zoo-by-valt.azurewebsites.net/api/users/${values}`;
         const headers = {
             Authorization: `Bearer ${token}`,
         };

@@ -1,4 +1,3 @@
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import {
     Box,
     Button,
@@ -12,21 +11,16 @@ import {
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import styles from './Profile.module.scss';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import moment from 'moment/moment';
-import * as yup from 'yup';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
+import moment from 'moment/moment';
+import * as yup from 'yup';
 
-import { getUserById } from '~/api/userService';
-import { updateUser } from '~/api/userService';
-import { logout } from '~/api/userService';
-import SidebarUser from './SidebarUser/SidebarUser'
-import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
+import { getUserById, updateUser } from '~/api/userService';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import { useAppContext } from "~/context/Context";

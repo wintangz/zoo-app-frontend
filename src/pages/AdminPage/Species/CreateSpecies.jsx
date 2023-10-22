@@ -42,6 +42,8 @@ function CreateSpecies() {
         status: true,
 
     };
+    const FILE_SIZE = 1920 * 1080;
+    const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const userSchema = yup.object().shape({
         name: yup.string().required('Name is required'),
         species: yup.string().required('Species is required'),
@@ -51,8 +53,14 @@ function CreateSpecies() {
         diet: yup.string().required('Diet is required'),
         conservationStatus: yup.string().required('Conservation Status is required'),
         description: yup.string().required('Description is required'),
-        imgUrl: yup.string().url('Invalid URL format').required('Image URL is required'),
-        avatarUrl: yup.string().url('Invalid URL format').required('Avatar URL is required'),
+        imgUrl: yup.mixed()
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+        avatarUrl: yup.mixed()
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
         status: yup.boolean().required('Status is required'),
     });
 

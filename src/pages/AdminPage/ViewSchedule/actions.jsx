@@ -1,13 +1,11 @@
-import { Box, IconButton, Tooltip, Typography, useTheme, Button } from '@mui/material';
-import { Delete, Edit, Preview } from '@mui/icons-material';
-import Modal from '@mui/material/Modal';
-import { tokens } from '~/theme';
-import axios from 'axios';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import { useState } from 'react';
-import { Link, Route, useNavigate } from 'react-router-dom';
-import Update from '../UpdateStaff';
+import { Delete, Edit } from '@mui/icons-material';
 import CheckIcon from '@mui/icons-material/Check';
+import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import axios from 'axios';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { tokens } from '~/theme';
 const Actions = ({ params, setRemove }) => {
     let navigate = useNavigate();
     const [message, setMessage] = useState(false);
@@ -31,7 +29,7 @@ const Actions = ({ params, setRemove }) => {
     const handleDelete = (values) => {
         const token = localStorage.getItem('token');
         // Define the URL and headers
-        const url = `http://localhost:8080/api/feeding_schedules/${values}`;
+        const url = `https://zoo-by-valt.azurewebsites.net/api/feeding_schedules/${values}`;
         const headers = {
             Authorization: `Bearer ${token}`,
         };

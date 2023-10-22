@@ -168,7 +168,7 @@ function UpdateSpecies() {
                                     label="HabitatId"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.habitat}
+                                    value={values.habitat.id}
                                     name="habitatId"
                                     error={!!touched.habitat && !!errors.habitat}
                                     helperText={touched.habitat && errors.habitat}

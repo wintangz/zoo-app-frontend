@@ -1,9 +1,8 @@
 import {
     Box,
     Button,
-    FormControl,
     TextField,
-    useTheme,
+    useTheme
 } from '@mui/material';
 
 import Modal from '@mui/material/Modal';
@@ -14,38 +13,17 @@ import * as yup from 'yup';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 // import uploadFile from '~/utils/transferFile';
-import { getHabitats } from '~/api/animalsService';
-import { getSpecies } from '~/api/speciesService';
-import { createEnclousures } from '~/api/animalsService';
 import MenuItem from '@mui/material/MenuItem';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import moment from 'moment/moment';
+import { useNavigate } from 'react-router-dom';
+import { createEnclousures, getHabitats } from '~/api/animalsService';
+
 
 function CreateEnclosure() {
+    const navigate = useNavigate();
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
-    const [species, setSpecies] = useState([]);
     const [habitats, setHabitats] = useState([]);
-
-    const formattedDateTime = (values) => {
-        const inputDate = new Date(values);
-
-        const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-        // Get the time zone offset and convert it to the "hh:mm" format
-        const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-        const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-        const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-            .toString()
-            .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
-
-        // Combine the date and time zone offset to get the final formatted string
-        const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-        return formattedDateTime;
-    };
 
     const style = {
         position: 'absolute',
@@ -65,30 +43,29 @@ function CreateEnclosure() {
     const isNonMobile = useMediaQuery('(min-width: 600px)');
 
     useEffect(() => {
-        const res = getSpecies();
-        res.then((result) => {
-            setSpecies(result);
-        });
-    }, []);
-
-    useEffect(() => {
         const res = getHabitats();
         res.then((result) => {
             setHabitats(result);
         });
     }, []);
 
+    const [habitattId, setHabitatId] = useState([])
 
+    const handleChangeHabitatId = (event) => {
+        setHabitatId(event.target.value)
+    }
 
     const handleFormSubmit = async (values, { resetForm }) => {
-        values.createdDate = formattedDateTime(values.createdDate);
-        console.log(values);
+        // values.createdDate = formattedDateTime(values.createdDate);
         try {
-            const response = await createEnclousures(values);
-            // response.data.data.status = true;
-            // response.data.data.createdDate = formattedDateTime(values.createdDate);
-            console.log(values);
-            if (response.status === "200") {
+            const submitValue = {
+                ...values,
+                habitatId: habitattId,
+            };
+            const response = await createEnclousures(submitValue);
+            console.log(submitValue);
+            console.log(response);
+            if (response.data.status === "Ok") {
                 console.log(values);
                 setOpen(true);
                 resetForm();
@@ -100,10 +77,11 @@ function CreateEnclosure() {
 
     const initialValues = {
         name: '',
-        createdDate: null,
         maxCapacity: '',
         info: '',
         imgUrl: '',
+        habitatId: '',
+        status: true,
     };
 
     const userSchema = yup.object().shape({
@@ -114,11 +92,8 @@ function CreateEnclosure() {
             .min(1, 'Max Capacity must be greater than 0')
             .required('Max Capacity cannot be empty'),
         info: yup.string().required('Information cannot be empty'),
-        createdDate: yup
-            .date()
-            .required('Created Date is required')
-            .nonNullable(), // Allow null values for createdDate
         imgUrl: yup.string().required('imgUrl cannot be empty'),
+        habitatId: yup.number(yup.string())
     });
     const handleClose = () => {
         setOpen(false);
@@ -187,56 +162,31 @@ function CreateEnclosure() {
                                 <TextField
                                     fullWidth
                                     variant="filled"
-                                    label="Species"
-                                    select
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.species}
-                                    name="species"
-                                    defaultValue="Tiger"
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                    SelectProps={{
-                                        PopperProps: {
-                                            anchorEl: null, // Ensures the menu is always at the bottom
-                                            placement: 'bottom-start', // Adjust the placement as needed
-                                        },
-                                    }}
-                                >
-                                    {species.map((option) => (
-                                        <MenuItem key={option.id} value={option.name}>
-                                            {option.name}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
-
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
                                     label="Habitat"
                                     select
                                     onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.habitats}
+                                    onChange={handleChangeHabitatId}
+                                    value={habitattId}
                                     name="habitat"
                                     defaultValue="African Savannah"
                                     sx={{
-                                        gridColumn: 'span 2',
+                                        gridColumn: 'span 4',
                                         gridRow: '2',
                                     }}
                                     SelectProps={{
                                         PopperProps: {
-                                            anchorEl: null, // Ensures the menu is always at the bottom
-                                            placement: 'bottom-start', // Adjust the placement as needed
+                                            anchorEl: null,
+                                            placement: 'bottom-start',
                                         },
                                     }}
                                 >
-                                    {habitats.map((option) => (
-                                        <MenuItem key={option.id} value={option.name}>
-                                            {option.name}
-                                        </MenuItem>
-                                    ))}
+                                    {habitats.map((option) => {
+                                        return (
+                                            <MenuItem key={option.id} value={option.id}>
+                                                {option.name}
+                                            </MenuItem>
+                                        )
+                                    })}
                                 </TextField>
 
                                 {/* Information */}
@@ -270,58 +220,20 @@ function CreateEnclosure() {
                                     error={!!touched.imgUrl && !!errors.imgUrl}
                                     helperText={touched.imgUrl && errors.imgUrl}
                                     sx={{
-                                        gridColumn: 'span 2',  // Span the entire width
-                                        gridRow: '4',        // Below the first row
+                                        gridColumn: 'span 2',
+                                        gridRow: '4',
                                     }}
                                 />
-
-                                <FormControl
-                                    padding="0"
-                                    component="fieldset"
-                                    fullWidth
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                >
-                                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                                        <DatePicker
-                                            value={moment(values.createdDate)}
-                                            onChange={(date) => {
-                                                handleChange({ target: { name: 'createdDate', value: moment(date) } });
-                                            }}
-                                            textField={(params) => (
-                                                <TextField
-                                                    {...params}
-                                                    fullWidth
-                                                    variant="outlined"
-                                                    label="Create Date"
-                                                />
-                                            )}
-                                            name="createdDate"
-                                            label="What is the enclosure's create date?"
-                                            sx={{
-                                                width: 250,
-                                                '& .MuiOutlinedInput-root': {
-                                                    '& fieldset': {
-                                                        borderColor: colors.grey[100],
-                                                        color: colors.grey[100],
-                                                    },
-                                                    '&:hover fieldset': {
-                                                        borderColor: colors.grey[100],
-                                                        color: colors.grey[100],
-                                                    },
-                                                    '&.Mui-focused fieldset': {
-                                                        borderColor: colors.grey[100],
-                                                        color: colors.grey[100],
-                                                    },
-                                                },
-                                            }}
-                                        />
-                                    </LocalizationProvider>
-                                </FormControl>
-
                             </Box>
-                            <Box display="flex" justifyContent="end" mt="20px">
+                            <Box display="flex" justifyContent="space-between" mt="20px">
+                                <Button
+                                    type="button"
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={() => navigate('/enclosure/view')}
+                                >
+                                    VIEW All ENCLOSURE
+                                </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE ENCLOSURE
                                 </Button>

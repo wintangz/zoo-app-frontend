@@ -1,26 +1,22 @@
 import {
     Box,
     Button,
-    FormControl,
+    MenuItem,
     TextField,
-    useTheme,
-    MenuItem
+    useTheme
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/animalsService';
-import { updateEnclosures } from '~/api/animalsService';
+import { getHabitats, updateEnclosures } from '~/api/animalsService';
+import { getSpecies } from '~/api/speciesService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { getHabitats } from '~/api/animalsService';
-import { getSpecies } from '~/api/speciesService';
 
 function UpdateEnclosure() {
     //--------------- Call API GET USER ---------------------------------//'
@@ -256,8 +252,8 @@ function UpdateEnclosure() {
                                         }}
                                         SelectProps={{
                                             PopperProps: {
-                                                anchorEl: null, // Ensures the menu is always at the bottom
-                                                placement: 'bottom-start', // Adjust the placement as needed
+                                                anchorEl: null,
+                                                placement: 'bottom-start',
                                             },
                                         }}
                                     >
@@ -304,7 +300,7 @@ function UpdateEnclosure() {
                                         }}
                                     />
 
-                                    <FormControl
+                                    {/* <FormControl
                                         padding="0"
                                         component="fieldset"
                                         fullWidth
@@ -347,7 +343,7 @@ function UpdateEnclosure() {
                                                 }}
                                             />
                                         </LocalizationProvider>
-                                    </FormControl>
+                                    </FormControl> */}
                                 </Box>
                                 <Box display="flex" justifyContent="end" mt="20px">
                                     {/* <Link to="/edit/sercurity">

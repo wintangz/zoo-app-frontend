@@ -1,20 +1,13 @@
 import {
     Box,
     Button,
-    FormControl,
-    Input,
     TextField,
-    Typography,
-    useTheme,
+    useTheme
 } from '@mui/material';
 
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
-import moment from 'moment/moment';
 import { useState } from 'react';
 import * as yup from 'yup';
 import { createHabitats } from '~/api/animalsService';
@@ -45,33 +38,33 @@ function CreateHabitat() {
     };
     const isNonMobile = useMediaQuery('(min-width: 600px)');
 
-    const formattedDateTime = (values) => {
-        const inputDate = new Date(values);
+    // const formattedDateTime = (values) => {
+    //     const inputDate = new Date(values);
 
-        const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-        // Get the time zone offset and convert it to the "hh:mm" format
-        const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-        const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-        const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-            .toString()
-            .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
+    //     const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
+    //         .toString()
+    //         .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
+    //     // Get the time zone offset and convert it to the "hh:mm" format
+    //     const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
+    //     const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
+    //     const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
+    //         .toString()
+    //         .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
 
-        // Combine the date and time zone offset to get the final formatted string
-        const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-        return formattedDateTime;
-    };
+    //     // Combine the date and time zone offset to get the final formatted string
+    //     const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
+    //     return formattedDateTime;
+    // };
     const handleFormSubmit = async (values, { resetForm }) => {
-        values.createdDate = formattedDateTime(values.createdDate);
+        // values.createdDate = formattedDateTime(values.createdDate);
         console.log(values);
         try {
             const response = await createHabitats(values);
             // response.data.data.status = true;
             // response.data.data.createdDate = formattedDateTime(values.createdDate);
             console.log(values);
+            console.log(response);
             if (response.status === 200) {
-                console.log(values);
                 setOpen(true);
                 resetForm();
             }
@@ -87,6 +80,7 @@ function CreateHabitat() {
         info: '',
         imgUrl: '',
         bannerUrl: '',
+        status: true,
     };
 
     const userSchema = yup.object().shape({
@@ -94,11 +88,6 @@ function CreateHabitat() {
         info: yup.string().required('Information is required!'),
         imgUrl: yup.string().required('Image URL is required!'),
         bannerUrl: yup.string().required('Banner URL is required!'),
-        createdDate: yup
-            .date()
-            .required('Created Date is required')
-            .nonNullable(), // Allow null values for createdDate
-        status: yup.boolean().required('Status is required').default(true),
 
     });
     const handleClose = () => {
@@ -149,7 +138,7 @@ function CreateHabitat() {
                                         gridColumn: 'span 2',
                                     }}
                                 />
-                                <FormControl
+                                {/* <FormControl
                                     padding="0"
                                     component="fieldset"
                                     fullWidth
@@ -192,7 +181,7 @@ function CreateHabitat() {
                                             }}
                                         />
                                     </LocalizationProvider>
-                                </FormControl>
+                                </FormControl> */}
 
                                 {/* Info */}
                                 <TextField
