@@ -2,9 +2,7 @@ import {
     Box,
     Button,
     FormControl,
-    Input,
     TextField,
-    Typography,
     useTheme,
 } from '@mui/material';
 
@@ -19,15 +17,12 @@ import { tokens } from '~/theme';
 import { getHabitats } from '~/api/animalsService';
 import { getSpecies } from '~/api/speciesService';
 import { createEnclousures } from '~/api/animalsService';
-import { DataGridPro } from '@mui/x-data-grid-pro';
 import MenuItem from '@mui/material/MenuItem';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from 'moment/moment';
 
 function CreateEnclosure() {
-    const FILE_SIZE = 160 * 1024;
-    const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);

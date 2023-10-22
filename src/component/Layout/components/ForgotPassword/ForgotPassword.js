@@ -3,7 +3,7 @@ import { sentEmail } from '~/api/authService';
 
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { useState } from 'react';
 import styles from './ForgotPassword.module.scss';
 
@@ -12,6 +12,7 @@ function ForgotPassword({ onClose, onLoginClick }) {
     const forgotpasswordFormRef = useRef(null);
 
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false); // Add loading state
 
     const handleClickOutsideForm = (event) => {
         if (forgotpasswordFormRef.current && !forgotpasswordFormRef.current.contains(event.target)) {
@@ -29,11 +30,19 @@ function ForgotPassword({ onClose, onLoginClick }) {
 
     const handleSearchClick = async (values) => {
         try {
+            setIsLoading(true); // Set loading to true
+            setError(null);
             const response = await sentEmail(values);
             setError(response.data.serverError)
             console.log(response.data)
+            if (response.status === 'Ok') {
+                window.location = '/vertify';
+            }
         } catch (error) {
-
+            console.log(error)
+            return error;
+        } finally {
+            setIsLoading(false); // Set loading back to false
         }
 
     };
@@ -61,8 +70,7 @@ function ForgotPassword({ onClose, onLoginClick }) {
                                         values={values.email}
                                         placeholder='Email'
                                     />
-                                    <ErrorMessage name="email" component="div" className={styles.error} />
-
+                                    {isLoading && <div className={styles.loadingMessage}>Server is identifying the email...</div>}
                                     {error && <div className={styles.error}>{error}</div>}
 
                                 </div>

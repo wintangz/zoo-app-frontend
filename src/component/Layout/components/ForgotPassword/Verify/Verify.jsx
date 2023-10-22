@@ -1,9 +1,11 @@
-import { Box, TextField } from '@mui/material';
+import { Box, TextField, Link } from '@mui/material';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './Verify.module.scss';
 
 function Vertify() {
+    const navigate = useNavigate();
     const [otp, setOTP] = useState(['', '', '', '', '', '']);
     const inputRefs = [useRef(), useRef(), useRef(), useRef(), useRef(), useRef()];
 
@@ -39,22 +41,24 @@ function Vertify() {
                                     <TextField
                                         key={index}
                                         inputRef={inputRefs[index]}
-                                        variant="outlined"
+                                        variant="standard"
                                         fullWidth
                                         type="text"
                                         value={digit}
                                         onChange={(e) => handleOTPChange(e, index)}
                                         inputProps={{ maxLength: 1 }}
-                                        style={{ flex: 1, maxWidth: 50, margin: '0 5px', background: 'white' }}
+                                        className={styles.text}
+                                        color="warning"
                                     />
                                 )
                             ))}
                         </Box>
                         <div className={styles.submit}>
-                            <button className={styles.btnCancel} type="submit">
+                            <button className={styles.btnCancel} type="submit" onClick={() => navigate('/')}>
                                 Canncel
                             </button>
-                            <button className={styles.btnSearch} type="submit" id="login">
+
+                            <button className={styles.btnSearch} type="submit">
                                 Confirm
                             </button>
                         </div>
