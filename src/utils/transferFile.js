@@ -22,10 +22,10 @@ export default async function uploadFile(values, container) {
     await containerClient.createIfNotExists({
         access: 'container',
     });
-    const uniqueName = generateUniqueImageName(values.imgUrl);
+    const uniqueName = generateUniqueImageName(values);
     const blobClient = containerClient.getBlockBlobClient(uniqueName);
-    const options = { blobHTTPHeaders: { blobContentType: values.imgUrl.type } };
-    await blobClient.uploadBrowserData(values.imgUrl, options);
+    const options = { blobHTTPHeaders: { blobContentType: values.type } };
+    await blobClient.uploadBrowserData(values, options);
     const imgUrl = `https://${storageAccount}.blob.core.windows.net/${container}/${uniqueName}`;
     return imgUrl;
 }

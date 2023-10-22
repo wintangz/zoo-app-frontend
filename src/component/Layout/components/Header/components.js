@@ -20,7 +20,7 @@ export const components = [
             },
             {
                 name: 'ZooMap',
-                path: '/maps',
+                path: '/map',
             },
 
         ]

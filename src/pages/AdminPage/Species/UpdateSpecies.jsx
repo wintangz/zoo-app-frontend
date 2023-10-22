@@ -8,7 +8,6 @@ import * as yup from 'yup';
 import { getSpeciesById, updateSpecies } from '~/api/speciesService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
 function UpdateSpecies() {
     const { speciesId } = useParams();
@@ -43,7 +42,6 @@ function UpdateSpecies() {
         px: 4,
         pb: 3,
     };
-    const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
         name: species?.name || '',
         species: species?.species || '',

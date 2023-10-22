@@ -8,7 +8,6 @@ import styles from './NormalBanner.module.scss';
 function NormalBanner() {
     const NamePage = useContext(NamePageContext);
     const BannerPage = useContext(BannerPageContext);
-    console.log(NamePage);
     const cx = classNames.bind(styles);
     return (
         <div className={cx('container')}>

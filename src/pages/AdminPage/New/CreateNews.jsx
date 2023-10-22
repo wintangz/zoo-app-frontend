@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, useTheme } from '@mui/material';
+import { Box, Button, FormControl, Input, InputLabel, MenuItem, Select, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useState } from 'react';
@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import { createNews } from '~/api/newsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
+import uploadFile from '~/utils/transferFile';
 import CustomToolbar from './QuillEditor/CustomToolbar';
 
 function NewsPostForm() {
@@ -36,7 +36,6 @@ function NewsPostForm() {
     const handleEditorChange = (content) => {
         setEditorContent(content);
     };
-    const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
         title: '',
         shortDescription: '',
@@ -46,7 +45,8 @@ function NewsPostForm() {
         thumbnailUrl: '',
         status: true,
     };
-
+    const FILE_SIZE = 1920 * 1080;
+    const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const typeOptions = ['Event', 'Info'];
     const userSchema = yup.object().shape({
         title: yup.string().required('Title is required'),
@@ -58,13 +58,26 @@ function NewsPostForm() {
         //     return wordCount <= 10;
         // }),
         type: yup.string().required('Type is required'),
-        imgUrl: yup.string().required('Image URL is required'),
-        thumbnailUrl: yup.string().required('Thumbnail URL is required'),
+        imgUrl: yup
+            .mixed()
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+        thumbnailUrl: yup
+            .mixed()
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type))
     });
 
     const handleFormSubmit = async (values, { resetForm }) => {
         try {
             const submitValue = { ...values, content: editorContent };
+            const imgURL = await uploadFile(submitValue.imgUrl, 'create-news');
+            const thumbnailUrl = await uploadFile(submitValue.thumbnailUrl, 'create-news');
+            submitValue.imgUrl = imgURL;
+            submitValue.thumbnailUrl = thumbnailUrl;
+            console.log(submitValue);
             const response = await createNews(submitValue);
             console.log(submitValue);
             if (response?.status === 200) {
@@ -72,6 +85,7 @@ function NewsPostForm() {
                 resetForm();
                 setEditorContent('');
             }
+
         } catch (error) {
             console.error('Error submitting form:', error.message);
         }
@@ -126,7 +140,7 @@ function NewsPostForm() {
             <Box m="20px">
                 <AdminHeader title="Create News" subtitle="Create news content" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
-                    {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
+                    {({ values, errors, handleBlur, handleChange, handleSubmit, setFieldValue, touched }) => (
                         <form onSubmit={handleSubmit}>
                             <Box>
                                 <TextField
@@ -186,26 +200,43 @@ function NewsPostForm() {
                                         ))}
                                     </Select>
                                 </FormControl>
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="ImgUrl"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.imgUrl}
-                                    name="imgUrl"
-                                />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="ThumbnailUrl"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.thumbnailUrl}
-                                    name="thumbnailUrl"
-                                />
+                                <FormControl component="fieldset" >
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                        imgUrl
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="imgUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                        }} // Handle file input change
+                                        name="imgUrl"
+                                        error={!!touched.imgUrl && !!errors.imgUrl}
+                                    />
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                </FormControl>
+
+                                <FormControl component="fieldset">
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                        thumbnailUrls
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="thumbnailUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('thumbnailUrl', e.currentTarget.files[0]);
+                                        }} // Handle file input change
+                                        name="thumbnailUrl"
+                                        error={!!touched.thumbnailUrl && !!errors.thumbnailUrl}
+                                    />
+                                    {touched.thumbnailUrl && errors.thumbnailUrl && (
+                                        <div style={{ color: 'red' }}>{errors.thumbnailUrl}</div>
+                                    )}
+                                </FormControl>
                             </Box>
 
                             <Box display="flex" justifyContent="space-between" mt="20px">

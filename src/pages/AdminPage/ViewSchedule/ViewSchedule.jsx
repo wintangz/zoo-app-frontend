@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { getAllSchedule } from "~/api/animalsService";
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import Actions from "./actions";
 import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
+import { useNavigate } from "react-router-dom";
 
 function ViewSchedule() {
+    const navigate = useNavigate();
     const [schedule, setSchedule] = useState({})
     useEffect(() => {
         const res = getAllSchedule();
@@ -95,6 +97,14 @@ function ViewSchedule() {
     return (
         <Box m="20px">
             <AdminHeader title="View all animals" subtitle="Table of Animals" />
+            <Button
+                type="button"
+                color="secondary"
+                variant="contained"
+                onClick={() => navigate('/tickets/create')}
+            >
+                Create Schedule
+            </Button>
             <Box
                 m="40px 0 0 0"
                 height="75vh"

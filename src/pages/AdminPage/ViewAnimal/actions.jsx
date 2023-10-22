@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link, Route, useNavigate } from 'react-router-dom';
 import Update from '../UpdateStaff';
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
 const Actions = ({ params, setRemove }) => {
     let navigate = useNavigate();
@@ -130,6 +131,16 @@ const Actions = ({ params, setRemove }) => {
                         // onClick={handleEdit(params.row)}
                         >
                             <AssignmentIcon />
+                        </IconButton  >
+                    </Link>
+                </Tooltip>
+
+                <Tooltip title="Move in Enclosure">
+                    <Link to="/enclosure/in" state={params.row}>
+                        <IconButton
+                        // onClick={handleEdit(params.row)}
+                        >
+                            <AddHomeIcon />
                         </IconButton  >
                     </Link>
                 </Tooltip>

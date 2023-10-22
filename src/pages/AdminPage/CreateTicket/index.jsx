@@ -16,7 +16,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import * as yup from 'yup';
-import { createTicket } from '~/api/ticketService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
@@ -45,15 +44,15 @@ function CreateTicket() {
 
     const handleFormSubmit = async (values, { resetForm }) => {
         try {
-            const imgURL = await uploadFile(values, 'tickets'); // Wait for the file upload to complete
+            const imgURL = await uploadFile(values.imgUrl, 'tickets'); // Wait for the file upload to complete
             values.imgUrl = imgURL;
             console.log(values);
 
-            const res = await createTicket(values);
-            if (res.status === 'Ok') {
-                setOpen(true);
-                resetForm();
-            }
+            // const res = await createTicket(values);
+            // if (res.status === 'Ok') {
+            //     setOpen(true);
+            //     resetForm();
+            // }
             // Optionally, you can display a success message or perform other actions here
         } catch (error) {
             console.error(error);

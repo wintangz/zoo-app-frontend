@@ -1,44 +1,78 @@
 import { Autocomplete, Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import Modal from '@mui/material/Modal';
 import MenuItem from '@mui/material/MenuItem';
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { assignZooTrainerToAnimal } from "~/api/animalsService";
-import { getZooTrainer } from "~/api/userService";
-import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 import { tokens } from '~/theme';
-import { decode } from "~/utils/axiosClient";
-function AssignAnimal(props) {
+import { useState } from "react";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { getEnclosures, moveInEnclosure } from "~/api/animalsService";
+import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
+import { withSuccess } from "antd/es/modal/confirm";
+
+function MoveInEnclosure() {
+
+    const [open, setOpen] = useState(false);
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
-    const location = useLocation()
-    const [trainers, setTrainers] = useState(null);
-    const [currentTrainer, setCurrentTrainer] = useState(null);
+    const location = useLocation();
+    const [enclosures, setEnclosures] = useState()
+    const [currentEnclosure, setCurrentEnclosure] = useState()
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: colors.grey[500],
+        border: '2px solid #000',
+        color: colors.grey[100],
+        boxShadow: 24,
+        pt: 2,
+        px: 4,
+        pb: 3,
+    };
     useEffect(() => {
-        const res = getZooTrainer();
-        res.then((result) => {
-            setTrainers(result);
+        const res = getEnclosures();
+        res.then(result => {
+            setEnclosures(result);
+
         })
     }, [])
+    const handleClose = () => {
+        setOpen(false);
+    }
     const handleSubmit = () => {
-        const values = {
-            animal_id: location.state.id,
-            assigned_by: parseInt(decode(localStorage.getItem('token')).sub),
-            trainer_id: currentTrainer.id,
-        }
-        const path = `animals/${location.state.id}/zoo-trainers/${currentTrainer.id}`;
-        console.log(path);
-        const res = assignZooTrainerToAnimal(values, path);
-        res.then((result) => {
+        const animalId = location.state.id;
+        const enclosureId = currentEnclosure.id;
+        const res = moveInEnclosure(animalId, enclosureId);
+        res.then(result => {
+            console.log(result);
             if (result.status === "Ok") {
-
+                setOpen(true);
+            }
+            else {
+                document.getElementById("showError").innerHTML = result.data.serverError;
             }
         })
     }
-    console.log(trainers)
     return (
         <>
+            <div>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="parent-modal-title"
+                    aria-describedby="parent-modal-description"
+                >
+                    <Box sx={{ ...style, width: 400 }}>
+                        <h2 id="parent-modal-title">Move In animal successfully!</h2>
+                        <p id="parent-modal-description">New animal have been add to Enclosure!</p>
+                        <Button onClick={handleClose}>Close</Button>
+                    </Box>
+                </Modal>
+            </div>
             <Box>
-                <AdminHeader title="ASSIGN ANIMAL" subtitle="Assign animal to zoo trainer" />
+                <AdminHeader title="Move In Enclosure" subtitle="Move In Animal to Enclosure" />
             </Box>
             <Box display="flex" sx={{ justifyContent: 'space-around' }} >
                 <Box sx={{ width: "45%" }}>
@@ -131,9 +165,6 @@ function AssignAnimal(props) {
                 </Box>
 
 
-
-
-
                 <Box sx={{ width: "45%" }}>
                     <Box
                         display="flex"
@@ -142,34 +173,34 @@ function AssignAnimal(props) {
                             flexDirection: 'column',
                         }}>
                         <Typography variant="h4" color={colors.grey[200]} sx={{ width: '100%' }}>
-                            Zoo Trainer Infomation
+                            Enclosure Infomation
                         </Typography>
 
                         <TextField
                             fullWidth
                             variant="filled"
                             select
-                            label="Zoo Trainer Name"
+                            label="Enclosure Name"
                             name="name"
                             sx={{
                                 gridColumn: 'span 2',
                                 width: '100%'
                             }}
                         >
-                            {trainers && (trainers.map((trainer) => (
-                                <MenuItem key={trainer.id} value={`${trainer.lastname} ${trainer.firstname}`} onClick={() => {
-                                    setCurrentTrainer(trainer);
+                            {enclosures && (enclosures.map((enclosure) => (
+                                <MenuItem key={enclosure.id} value={enclosure.id} onClick={() => {
+                                    setCurrentEnclosure(enclosure);
                                 }} >
-                                    {`${trainer.lastname} ${trainer.firstname}`}
+                                    {`${enclosure.info} - ${enclosure.name}`}
                                 </MenuItem>
                             )))}
                         </TextField>
                         <TextField
                             variant="filled"
                             type="text"
-                            label="Trainer ID"
-                            value={currentTrainer && currentTrainer.id}
-                            name="trainer_id"
+                            label="Habitat"
+                            value={currentEnclosure && `${currentEnclosure.habitat.name} - ${currentEnclosure.habitat.info}`}
+                            name="habitat"
                             defaultValue=" "
                             sx={{
                                 gridColumn: 'span 2',
@@ -179,60 +210,27 @@ function AssignAnimal(props) {
                         <TextField
                             variant="filled"
                             type="text"
-                            label="Date of Birth"
-                            value={currentTrainer && currentTrainer.dateOfBirth}
-                            name="dateOfBirth"
+                            label="Capacity"
+                            value={currentEnclosure && currentEnclosure.maxCapacity}
+                            name="capacity"
                             defaultValue=" "
                             sx={{
                                 gridColumn: 'span 2',
                                 width: '100%'
                             }}
                         />
-                        <TextField
-                            variant="filled"
-                            type="text"
-                            label="Email"
-                            value={currentTrainer && currentTrainer.email}
-                            name="email"
-                            defaultValue=" "
-                            sx={{
-                                gridColumn: 'span 2',
-                                width: '100%'
-                            }}
-                        />
-                        <TextField
-                            variant="filled"
-                            type="text"
-                            label="Phone"
-                            value={currentTrainer && currentTrainer.phone}
-                            name="phone"
-                            defaultValue=" "
-                            sx={{
-                                gridColumn: 'span 2',
-                                width: '100%',
-                            }}
-                        />
-                        <TextField
-                            variant="filled"
-                            type="text"
-                            label="Gender"
-                            value={currentTrainer && currentTrainer.sex ? 'male' : 'female'}
-                            name="gender"
-                            defaultValue=" "
-                            sx={{
-                                gridColumn: 'span 2',
-                                width: '100%',
-                            }}
-                        />
-                    </Box>
 
+                    </Box>
+                    <div >
+                        <h6 id="showError" style={{ float: "right", marginTop: "20px", color: "red" }}></h6>
+                    </div>
                 </Box>
             </Box>
             <Button type="submit" color="secondary" variant="contained" sx={{ float: "right", margin: "20px 30px 0 20px" }} onClick={handleSubmit}>
-                EDIT ACCOUNT
+                Move in Enclosure
             </Button>
         </>
     );
 }
 
-export default AssignAnimal;
+export default MoveInEnclosure;

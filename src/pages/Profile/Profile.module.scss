@@ -1,4 +1,14 @@
-.container {
-    display: flex;
-    position: relative;
+.welcome {
+    border-left: 4px solid rgb(248, 191, 2);
+    margin-bottom: 8px;
+    margin: 2vh 2vw;
+
+    p {
+        font-weight: 600;
+        text-transform: capitalize;
+        font-size: 17px;
+        line-height: 25px;
+        color: #171717;
+        padding-left: 12px;
+    }
 }

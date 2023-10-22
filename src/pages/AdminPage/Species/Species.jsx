@@ -64,6 +64,7 @@ function ViewSpecies() {
             headerAlign: 'left',
             align: 'left',
             flex: 1,
+            valueGetter: (params) => `${params.row.habitat.name}`,
         },
         {
             field: 'diet',

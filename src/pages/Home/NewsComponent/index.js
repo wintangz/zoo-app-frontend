@@ -1,13 +1,11 @@
-import classNames from 'classnames/bind';
-import styles from './styles.module.scss';
-import ImageSlider from './imageSlider.js';
-import news from './newsList';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames/bind';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { getNews } from '~/api/newsService';
-import { useState } from 'react';
+import ImageSlider from './imageSlider.js';
+import styles from './styles.module.scss';
 const cx = classNames.bind(styles);
 function News() {
     const [post, setPost] = useState()

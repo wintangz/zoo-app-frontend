@@ -10,13 +10,11 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import BalconyIcon from '@mui/icons-material/Balcony';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ForestIcon from '@mui/icons-material/Forest';
 import { BsFillTicketPerforatedFill, BsNewspaper, BsQrCodeScan } from 'react-icons/bs';
 import { FaBalanceScale } from 'react-icons/fa';
 import { GiCage, GiElephant } from 'react-icons/gi';
@@ -238,6 +236,20 @@ const Sidebar = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
+                                <Item
+                                    title="View Orders"
+                                    to="/vieworders"
+                                    icon={<GiCage />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="View Purchased Tickets"
+                                    to="/vieworderstickets"
+                                    icon={<GiCage />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
                             </>
                         )}
                         <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
@@ -273,26 +285,6 @@ const Sidebar = () => {
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create Ticket"
-                                                to="/tickets/create"
-                                                icon={<BsFillTicketPerforatedFill />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
-                                        {/* <ListItemButton>
-                                        {role === 'ADMIN' && (
-                                            <Item
-                                                title="Update Staff"
-                                                to="/staff/update"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        )}
-                                    </ListItemButton> */}
                                     </List>
                                 </Collapse>
                             </List>
@@ -318,15 +310,7 @@ const Sidebar = () => {
                                 </ListItemButton>
                                 <Collapse in={openAnimal} timeout="auto" unmountOnExit>
                                     <List component="div" disablePadding>
-                                        <ListItemButton>
-                                            <Item
-                                                title="Create Animal"
-                                                to="/animal/create"
-                                                icon={<GiElephant />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
+
                                         <ListItemButton>
                                             <Item
                                                 title="View Animal"
@@ -337,15 +321,7 @@ const Sidebar = () => {
                                             />
                                         </ListItemButton>
 
-                                        <ListItemButton>
-                                            <Item
-                                                title="Feed Schedule"
-                                                to="/animal/feed"
-                                                icon={<PersonOutlinedIcon />}
-                                                selected={selected}
-                                                setSelected={setSelected}
-                                            />
-                                        </ListItemButton>
+
                                         <ListItemButton>
                                             <Item
                                                 title="View Feed Schedule"
@@ -388,39 +364,74 @@ const Sidebar = () => {
                                             />
                                         </ListItemButton>
 
-                                        {/* {role === 'ADMIN' && (
+
+                                    </List>
+                                </Collapse>
+                            </List>
+                        )}
+                        {userRole === 'ADMIN' && (
+                            <List
+                                sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
+                                component="nav"
+                                aria-labelledby="enclosure"
+                            >
+                                <ListItemButton
+                                    onClick={handleEnclosure}
+                                    sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
+                                >
+                                    <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
+                                        <InboxIcon />
+                                    </ListItemIcon>
+                                    {!isCollapsed && <ListItemText primary="Manage Enclosure" sx={{ paddingLeft: '4px' }} />}
+                                    {openEnclosure ? <ExpandLess /> : <ExpandMore />}
+                                </ListItemButton>
+                                <Collapse in={openEnclosure} timeout="auto" unmountOnExit>
+                                    <List component="div" disablePadding>
                                         <ListItemButton>
                                             <Item
-                                                title="Create Ticket"
-                                                to="/tickets/create"
+                                                title="View Enclosure"
+                                                to="/enclosure/view"
                                                 icon={<PersonOutlinedIcon />}
                                                 selected={selected}
                                                 setSelected={setSelected}
                                             />
                                         </ListItemButton>
-                                    )} */}
+
                                     </List>
                                 </Collapse>
                             </List>
                         )}
-                        {userRole !== 'ADMIN' && (
-                            <Item
-                                title={titleEnclosure}
-                                to="/enclosure/view"
-                                icon={<BalconyIcon />}
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
-                        )}
-                        {userRole !== 'ADMIN' && (
+                        {userRole === 'ADMIN' && (
+                            <List
+                                sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
+                                component="nav"
+                                aria-labelledby="habitat"
+                            >
+                                <ListItemButton
+                                    onClick={handleHabitat}
+                                    sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
+                                >
+                                    <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
+                                        <InboxIcon />
+                                    </ListItemIcon>
+                                    {!isCollapsed && <ListItemText primary="Manage Habitat" sx={{ paddingLeft: '4px' }} />}
+                                    {openHabitat ? <ExpandLess /> : <ExpandMore />}
+                                </ListItemButton>
+                                <Collapse in={openHabitat} timeout="auto" unmountOnExit>
+                                    <List component="div" disablePadding>
+                                        <ListItemButton>
+                                            <Item
+                                                title="View Habitat"
+                                                to="/habitat/view"
+                                                icon={<PersonOutlinedIcon />}
+                                                selected={selected}
+                                                setSelected={setSelected}
+                                            />
+                                        </ListItemButton>
 
-                            <Item
-                                title={titleHabitat}
-                                to="/habitat/view"
-                                icon={<ForestIcon />}
-                                selected={selected}
-                                setSelected={setSelected}
-                            />
+                                    </List>
+                                </Collapse>
+                            </List>
                         )}
                         {userRole === 'STAFF' && (
                             <Item

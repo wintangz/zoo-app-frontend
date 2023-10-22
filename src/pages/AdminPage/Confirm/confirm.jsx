@@ -73,7 +73,7 @@ function Confirm() {
         if (typeof (webcam.imgUrl) == "undefined") {
             res = uploadFile(values, "confirm");
         } else {
-            res = uploadFile(webcam, "confirm");
+            res = uploadFile(webcam.imgUrl, "confirm");
         }
         if (res) {
             res.then((result) => {

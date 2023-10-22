@@ -1,4 +1,4 @@
-import { Box, Button, TextField, useTheme } from '@mui/material';
+import { Box, Button, FormControl, Input, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useState } from 'react';
@@ -8,7 +8,6 @@ import * as yup from 'yup';
 import { createSpecies } from '~/api/speciesService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
 function CreateSpecies() {
     const navigate = useNavigate();
@@ -29,7 +28,6 @@ function CreateSpecies() {
         px: 4,
         pb: 3,
     };
-    const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
         name: '',
         species: '',
@@ -94,7 +92,7 @@ function CreateSpecies() {
             <Box m="20px">
                 <AdminHeader title="Create Species" subtitle="Create new species" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
-                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box>
                                 <TextField
@@ -200,32 +198,43 @@ function CreateSpecies() {
                                     error={!!touched.description && !!errors.description}
                                     helperText={touched.description && errors.description}
                                 />
+                                <FormControl component="fieldset">
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                        Img File
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="Image URL"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                        }} // Handle file input change
+                                        name="imgUrl"
+                                        error={!!touched.avatarUrl && !!errors.avatarUrl}
+                                    />
+                                    {touched.avatarUrl && errors.avatarUrl && (
+                                        <div style={{ color: 'red' }}>{errors.avatarUrl}</div>
+                                    )}
+                                </FormControl>
 
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Image URL"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.imgUrl}
-                                    name="imgUrl"
-                                    error={!!touched.imgUrl && !!errors.imgUrl}
-                                    helperText={touched.imgUrl && errors.imgUrl}
-                                />
-
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Avatar URL"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.avatarUrl}
-                                    name="avatarUrl"
-                                    error={!!touched.avatarUrl && !!errors.avatarUrl}
-                                    helperText={touched.avatarUrl && errors.avatarUrl}
-                                />
+                                <FormControl component="fieldset">
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                        Avatar File
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="Avatar URL"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('avatarUrl', e.currentTarget.files[0]);
+                                        }} // Handle file input change
+                                        name="avatarUrl"
+                                        error={!!touched.avatarUrl && !!errors.avatarUrl}
+                                    />
+                                    {touched.avatarUrl && errors.avatarUrl && (
+                                        <div style={{ color: 'red' }}>{errors.avatarUrl}</div>
+                                    )}
+                                </FormControl>
                             </Box>
 
                             <Box display="flex" justifyContent="space-between" mt="20px">

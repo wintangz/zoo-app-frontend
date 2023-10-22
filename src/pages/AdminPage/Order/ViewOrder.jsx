@@ -1,93 +1,65 @@
-import { Box, Button, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
-import { tokens } from '~/theme';
-// import Actions from './actions.jsx';
-import { getTickets } from '~/api/ticketService.js';
+import { getOrders } from '~/api/orderService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
-import { useNavigate } from 'react-router-dom';
-function ViewTicket() {
-    const [ticket, setTicket] = useState(null);
+import { tokens } from '~/theme';
+
+function ViewOrders() {
+    const [ordersResult, setOrdersResult] = useState(null);
+    const fetchApi = async () => {
+        const resultTitle = await getOrders();
+        console.log(resultTitle);
+        setOrdersResult(resultTitle);
+    };
+
+    useEffect(() => {
+        fetchApi();
+    }, []);
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const navigate = useNavigate()
-    useEffect(() => {
-        const getTicketInfo = async () => {
-            const res = getTickets();
-            res.then((result) => {
-                setTicket(result);
-            });
-        };
-        getTicketInfo();
-    }, []);
-    let button = 'Create Ticket';
     const columns = [
         {
             field: 'id',
             headerName: 'ID',
+            flex: 0.2,
         },
         {
-            field: 'imgUrl',
-            headerName: 'Image',
-            headerAlign: 'center',
-            align: 'left',
-            flex: 1,
-            renderCell: (params) => (
-                <img src={params.row.imgUrl} alt={params.row.name} style={{ width: '75%', height: 'auto' }} />
-            ),
-        },
-        {
-            field: 'name',
-            headerName: 'Name',
-            headerAlign: 'left',
-            align: 'left',
-        },
-        {
-            field: 'description', // Keep the field as 'firstname'
-            headerName: 'Description',
+            field: 'createdDate',
+            headerName: 'Created Date',
             headerAlign: 'left',
             align: 'left',
             flex: 1,
         },
-
         {
-            field: 'price',
-            headerName: 'Price',
+            field: 'paymentMethod',
+            headerName: 'Payment Method',
             headerAlign: 'left',
             align: 'left',
+            flex: 1,
         },
-
         {
-            field: 'type',
-            headerName: 'Type',
+            field: 'customer',
+            headerName: 'Customer',
             headerAlign: 'left',
             align: 'left',
+            flex: 1,
+            valueGetter: (params) => `${params.row.customer.username}`,
         },
-
-        // {
-        //     field: 'actions',
-        //     headerName: 'Actions',
-        //     type: 'actions',
-        //     width: 80,
-        //     renderCell: (params) => <Actions {...{ params }} />,
-        // },
+        {
+            field: 'status',
+            headerName: 'Status',
+            headerAlign: 'left',
+            align: 'left',
+            flex: 0.5,
+        },
     ];
     return (
         <Box m="20px">
-
-            <AdminHeader title="User Management" subtitle="Show user info" />
-            <Box display="flex" justifyContent="left">
-                <Button
-                    type="button"
-                    color="secondary"
-                    variant="contained"
-                    onClick={() => navigate('/tickets/create')}
-                >
-                    {button}
-                </Button>
-            </Box>
+            <AdminHeader title="View Orders" subtitle="Show All Orders" />
             <Box
-                m="40px 0 0 0"
+                m="20px 0 0 0"
                 height="75vh"
                 sx={{
                     '& .MuiDataGrid-root': {
@@ -119,13 +91,13 @@ function ViewTicket() {
                     },
                 }}
             >
-                {ticket && (
+                {ordersResult && (
                     <DataGrid
-                        rows={ticket}
+                        rows={ordersResult}
                         columns={columns}
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}
-                        checkboxSelection
+                    // checkboxSelection
                     />
                 )}
             </Box>
@@ -133,4 +105,4 @@ function ViewTicket() {
     );
 }
 
-export default ViewTicket;
+export default ViewOrders;

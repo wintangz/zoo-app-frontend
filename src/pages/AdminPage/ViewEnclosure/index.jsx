@@ -1,4 +1,4 @@
-import { Box, useTheme, Button } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { getEnclosures } from '~/api/animalsService';
@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { decode } from '~/utils/axiosClient';
 
 function ViewEnclosure() {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     function formatDate(originalDate) {
         const date = new Date(originalDate);
         const day = date.getDate();
@@ -116,18 +116,14 @@ function ViewEnclosure() {
     return (
         <Box m="20px">
             <AdminHeader title="View all Enclosures" subtitle="Table of Enclosures" />
-            {userRole === 'STAFF' && (
-                <Box display="flex" justifyContent="left">
-                    <Button
-                        type="button"
-                        color="secondary"
-                        variant="contained"
-                        onClick={() => navigate('/enclosure/create')}
-                    >
-                        CREATE ENCLOSURE
-                    </Button>
-                </Box>
-            )}
+            <Button
+                type="button"
+                color="secondary"
+                variant="contained"
+                onClick={() => navigate('/enclosure/create')}
+            >
+                Create Enclosure
+            </Button>
             <Box
                 m="40px 0 0 0"
                 height="75vh"

@@ -45,6 +45,8 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                         window.location = '/team';
                     } else if (role === 'STAFF') {
                         window.location = '/edit'
+                    } else if (role === 'CUSTOMER') {
+                        window.location = '/'
                     }
                 })
                 // if (localStorage.getItem('role')) {

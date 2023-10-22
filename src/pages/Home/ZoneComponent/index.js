@@ -1,7 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './styles.module.scss';
 import { zones } from './zoneComponents.js';
-import { useEffect } from 'react';
 const cx = classNames.bind(styles);
 function Zone() {
 
