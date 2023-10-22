@@ -9,7 +9,6 @@ import { createDiet } from '~/api/dietService';
 import { getFood } from '~/api/foodService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -44,7 +43,6 @@ function CreateDiet() {
         px: 4,
         pb: 3,
     };
-    const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
         type: '',
         foodListIds: '',
@@ -64,7 +62,7 @@ function CreateDiet() {
             };
             const response = await createDiet(submitValue);
             console.log(submitValue);
-            if (response?.status === 200) {
+            if (response?.status === "Ok") {
                 setOpen(true);
                 resetForm();
             }
@@ -121,18 +119,6 @@ function CreateDiet() {
                                     error={!!touched.type && !!errors.type}
                                     helperText={touched.type && errors.type}
                                 />
-                                {/* <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="FoodListIds"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.foodListIds}
-                                    name="foodListIds"
-                                    error={!!touched.foodListIds && !!errors.foodListIds}
-                                    helperText={touched.foodListIds && errors.foodListIds}
-                                /> */}
                                 <Select
                                     labelId="demo-multiple-chip-label"
                                     id="demo-multiple-chip"

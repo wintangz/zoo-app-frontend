@@ -37,9 +37,12 @@ import CreateFood from '~/pages/AdminPage/Food/CreateFood';
 import ViewFood from '~/pages/AdminPage/Food/Food';
 import UpdateFood from '~/pages/AdminPage/Food/UpdateFood';
 import Form from '~/pages/AdminPage/Form';
+import MoveInEnclosure from '~/pages/AdminPage/MoveInEnclosure/moveInEnclosure';
 import NewsPostForm from '~/pages/AdminPage/New/CreateNews';
 import ViewNews from '~/pages/AdminPage/New/News';
 import UpdateNews from '~/pages/AdminPage/New/UpdateNews';
+import ViewOrdersTickets from '~/pages/AdminPage/Order/ViewAllPurchasedTickets';
+import ViewOrders from '~/pages/AdminPage/Order/ViewOrder';
 import CreateSpecies from '~/pages/AdminPage/Species/CreateSpecies';
 import ViewSpecies from '~/pages/AdminPage/Species/Species';
 import UpdateSpecies from '~/pages/AdminPage/Species/UpdateSpecies';
@@ -55,7 +58,6 @@ import ViewSchedule from '~/pages/AdminPage/ViewSchedule/ViewSchedule';
 import ViewTicket from '~/pages/AdminPage/ViewTicket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
-import MoveInEnclosure from '~/pages/AdminPage/MoveInEnclosure/moveInEnclosure';
 
 
 const publicRoutes = [
@@ -99,6 +101,9 @@ const publicRoutes = [
     { path: 'viewspecies', component: ViewSpecies, layout: AdminMainPage, name: 'ViewSpecies', Authen: "private" },
     { path: 'create/species', component: CreateSpecies, layout: AdminMainPage, name: 'CreateSpecies', Authen: "private" },
     { path: 'update/species/:speciesId', component: UpdateSpecies, layout: AdminMainPage, name: 'UpdateSpecies', Authen: "private" },
+
+    { path: 'vieworders', component: ViewOrders, layout: AdminMainPage, name: 'ViewOrders', Authen: "private" },
+    { path: 'vieworderstickets', component: ViewOrdersTickets, layout: AdminMainPage, name: 'ViewOrdersTickets', Authen: "private" },
 
     { path: 'animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
     { path: 'animal/view', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
