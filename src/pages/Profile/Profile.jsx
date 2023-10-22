@@ -29,7 +29,7 @@ import SidebarUser from './SidebarUser/SidebarUser'
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
-
+import { useAppContext } from "~/context/Context";
 
 function Profile() {
 
@@ -407,8 +407,6 @@ function Profile() {
                     )}
                 </Formik>
             </Box>
-            {/* </>
-            </div> */}
         </>
     );
 }

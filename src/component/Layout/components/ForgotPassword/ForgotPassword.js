@@ -5,12 +5,13 @@ import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Field, Form, Formik } from 'formik';
 import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styles from './ForgotPassword.module.scss';
 
 function ForgotPassword({ onClose, onLoginClick }) {
 
     const forgotpasswordFormRef = useRef(null);
-
+    const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false); // Add loading state
 
@@ -36,7 +37,7 @@ function ForgotPassword({ onClose, onLoginClick }) {
             setError(response.data.serverError)
             console.log(response.data)
             if (response.status === 'Ok') {
-                window.location = '/vertify';
+                navigate(`/verify?email=${values.email}`);
             }
         } catch (error) {
             console.log(error)
@@ -87,7 +88,6 @@ function ForgotPassword({ onClose, onLoginClick }) {
                                 </div>
                             </Form>
                         )}
-
                     </Formik>
                 </div>
             </div>

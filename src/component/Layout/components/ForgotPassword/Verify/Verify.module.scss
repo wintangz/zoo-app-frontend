@@ -12,7 +12,7 @@
 
     .container {
         background-color: rgb(255, 255, 255);
-        max-width: 70vh;
+        max-width: 60vh;
         width: 100%;
         position: relative;
         padding: 2vh 5vh;
@@ -46,6 +46,11 @@
 
         .form {
             margin-top: 1vh;
+
+            .otpContainer {
+                display: flex;
+                justify-content: center;
+            }
 
             .text {
                 flex: 1;

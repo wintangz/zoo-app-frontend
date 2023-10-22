@@ -22,3 +22,27 @@ export const sentEmail = async (values) => {
         return error.response;
     }
 }
+
+export const verificationCode = async (values) => {
+    try {
+
+        const res = await axiosClient.post('users/password-reset/verification-code', values)
+        console.log(res);
+        return res.data;
+    } catch (error) {
+        console.log(error)
+        return error.response;
+    }
+}
+
+export const resetPassword = async (values) => {
+    try {
+
+        const res = await axiosClient.post('users/password-reset', values)
+        console.log(res);
+        return res.data;
+    } catch (error) {
+        console.log(error)
+        return error.response;
+    }
+}

@@ -21,6 +21,7 @@ function ProfileUserLayout({ children }) {
 
     const sidebarStyles = {
         marginTop: '68px', // Đặt marginTop là 100px cho SidebarUser
+        zIndex: -10000,
     };
 
     return (

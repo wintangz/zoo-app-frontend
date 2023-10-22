@@ -75,7 +75,7 @@ const publicRoutes = [
     { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats', Authen: "public" },
     { path: 'map', component: Maps, layout: NormalLayout, name: 'Map' },
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
-    { path: 'vertify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: "public" },
+    { path: 'verify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: 'public' },
     { path: 'inputnewpassword', component: InputNewPassword, layout: NormalLayout, name: 'InputNewPassword', Authen: "public" },
     { path: 'profile', component: Profile, layout: NormalLayout, name: 'Profile', Authen: "private" },
 
