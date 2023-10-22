@@ -28,8 +28,8 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
             const response = await loginUser(values);
-            localStorage.setItem('token', response.data.data.accessToken);
-            var token = response.data.data.accessToken;
+            localStorage.setItem('token', response.data.accessToken);
+            var token = response.data.accessToken;
             var tokendecode = decode(token);
             // Close the modal or perform other actions
             if (response.status === 200) {

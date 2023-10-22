@@ -15,7 +15,8 @@ function Summary() {
         try {
             const result = await confirmTicketPurchase(cart, totalPrice, totalQuantity);
             // alert('Purchase successful');
-            window.location.href = result.data;
+            console.log(result.data);
+            // window.location.href = result.data;
         } catch (error) {
             console.error(error.message);
             // alert('Purchase failed');

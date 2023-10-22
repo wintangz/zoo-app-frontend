@@ -76,7 +76,6 @@ function CreateHabitat() {
 
     const initialValues = {
         name: '',
-        createdDate: null,
         info: '',
         imgUrl: '',
         bannerUrl: '',

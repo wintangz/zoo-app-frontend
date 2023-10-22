@@ -2,8 +2,8 @@ import * as axiosClient from '~/utils/axiosClient';
 
 export const loginUser = async (loginData) => {
     try {
-        const response = await axiosClient.post('login', loginData);
-        return response;
+        const response = await axiosClient.post('auth/login', loginData);
+        return response.data;
     } catch (error) {
         return error.response;
     }

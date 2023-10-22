@@ -3,12 +3,11 @@ import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 
 const Actions = ({ params, setRemove }) => {
-    let navigate = useNavigate();
     const [message, setMessage] = useState(false);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -30,8 +29,8 @@ const Actions = ({ params, setRemove }) => {
     const handleDelete = (values) => {
         const token = localStorage.getItem('token');
         // Define the URL and headers
-        // const url = `http://localhost:8080/api/users/${values}`;
-        const url = `https://zoo-by-valt.azurewebsites.net/api/users/${values}`;
+        const url = `http://localhost:8080/api/users/${values}`;
+        // const url = `https://zoo-by-valt.azurewebsites.net/api/users/${values}`;
         const headers = {
             Authorization: `Bearer ${token}`,
         };
