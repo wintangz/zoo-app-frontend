@@ -5,7 +5,7 @@ import { publicRoutes } from '~/routes';
 import AnimalLayout from './component/Layout/AnimalLayout/AnimalLayout';
 import ScrollToTop from './component/ScrollToTop';
 import Animals from './pages/Animals/Animals';
-
+import { decode } from './utils/axiosClient';
 export const NamePageContext = createContext();
 export const BannerPageContext = createContext();
 function App() {
@@ -36,13 +36,14 @@ function App() {
                                     path={route.path}
                                     element={
                                         localStorage.getItem('token') ?
-                                            <NamePageContext.Provider value={route.name}>
+                                            (<NamePageContext.Provider value={route.name}>
                                                 <BannerPageContext.Provider value={route.bannerImage}>
                                                     <Layout>
                                                         <Page />
                                                     </Layout>
                                                 </BannerPageContext.Provider>
-                                            </NamePageContext.Provider>
+                                            </NamePageContext.Provider>)
+
                                             : <Navigate to="/" />
                                     }
                                 />

@@ -1,12 +1,10 @@
 import Button from '@mui/material/Button';
 import { useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
-import { getUser, getUserById, logout, updateUser } from '~/api/userService';
+import { getUserById, updateUser } from '~/api/userService';
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import { decode } from '~/utils/axiosClient';
 import { useState } from 'react';
 import { Box, FormControl, FormControlLabel, Modal, Radio, RadioGroup, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
-import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { Formik } from 'formik';
 import * as yup from 'yup'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
@@ -17,7 +15,6 @@ import styles from './Profile.module.scss'
 import classNames from 'classnames/bind';
 function Profile() {
     const cx = classNames.bind(styles);
-    const navigate = useNavigate()
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [user, setUser] = useState()
