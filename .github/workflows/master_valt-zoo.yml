@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: Set NODE_OPTIONS
+        run: echo "::set-env name=NODE_OPTIONS::--max_old_space_size=16384"
+
       - name: npm install, build, and test
         run: |
           npm install
