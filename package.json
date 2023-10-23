@@ -72,8 +72,8 @@
         "sass": "^1.67.0"
     },
     "scripts": {
-        "start": "react-app-rewired start --host  https://192.168.1.229",
-        "build": "react-app-rewired build",
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired --max_old_space_size=4096 build",
         "test": "react-app-rewired test",
         "eject": "react-scripts eject"
     },
