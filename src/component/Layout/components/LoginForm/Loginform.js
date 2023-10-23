@@ -32,12 +32,13 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
             var token = response.data.accessToken;
             var tokendecode = decode(token);
             // Close the modal or perform other actions
-            if (response.status === 200) {
+            console.log(response)
+            if (response.status === "Ok") {
                 // const {data} = await getInfo(token)
                 setAuth(true)
                 tokendecode.roles.map((role) => {
                     if (role !== 'CUSTOMER') {
-                        window.location = '/team';
+                        window.open('/team', '_blank');
                     } else if (role === 'STAFF') {
                         window.location = '/edit'
                     }
