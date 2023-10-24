@@ -2,7 +2,7 @@ import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllAnimals } from '~/api/animalsService';
+import { getAllAnimals, getEnclosuresAnimals } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './actions';
@@ -22,80 +22,130 @@ function ViewAnimals() {
     }
     const [animals, setAnimals] = useState(null);
     const [remove, setRemove] = useState(null);
+    // useEffect(() => {
+    //     try {
+    //         const enclouses = getEnclosuresAnimals()
+    //         console.log(enclouses)
+    //         const res = getAllAnimals();
+    //         res.then((animals) => {
+    //             animals.map(animal => {
+    //                 enclouses.then(result => {
+    //                     result.map(enclouse => {
+    //                         console.log(enclouse)
+    //                         if (animal.id === enclouse.animal.id) {
+    //                             console.log(animal.id)
+    //                             animal.enclouse = enclouse.enclosure
+    //                         } else {
+    //                             animal.enclouse = null
+    //                         }
+    //                     })
+    //                 })
+    //             })
+    //             setAnimals(animals);
+    //             console.log('setAnimals')
+    //         })
+
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }, [remove])
     useEffect(() => {
         try {
-            const res = getAllAnimals();
-            res.then((animals) => {
-                setAnimals(animals);
-            })
+            const updateAnimalsWithEnclosures = async () => {
+                const enclouses = await getEnclosuresAnimals();
+                const animals = await getAllAnimals();
+
+                const updatedAnimals = animals.map(animal => {
+                    const matchingEnclosure = enclouses.find(enclouse => animal.id === enclouse.animal.id);
+
+                    if (matchingEnclosure) {
+                        animal.enclouse = matchingEnclosure.enclosure;
+                    } else {
+                        animal.enclouse = null;
+                    }
+
+                    return animal;
+                });
+
+                setAnimals(updatedAnimals);
+            };
+
+            updateAnimalsWithEnclosures();
         } catch (error) {
             console.error(error);
         }
-    }, [remove])
+    }, [remove]);
+    console.log(animals);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    console.log(animals)
     const columns = [
         {
             field: 'id',
             headerName: 'ID',
+            width: '20'
         },
         {
             field: 'imgUrl',
             headerName: 'Image',
             headerAlign: 'center',
             align: 'left',
-            flex: 1,
             renderCell: (params) => (
                 <img src={params.row.imgUrl} alt={params.row.name} style={{ width: '75%', height: 'auto' }} />
             ),
         },
         {
             field: 'arrivalDate',
-            headerName: 'arrivalDate    ',
+            headerName: 'Arrival Date    ',
             headerAlign: 'left',
             align: 'left',
         },
         {
             field: 'dateOfBirth', // Keep the field as 'firstname'
-            headerName: 'dateOfBirth',
+            headerName: 'Date of Birth',
             headerAlign: 'left',
             align: 'left',
-            flex: 1,
+            width: '100'
         },
 
         {
             field: 'name',
-            headerName: 'name',
+            headerName: 'Name',
             headerAlign: 'left',
             align: 'left',
         },
 
         {
             field: 'origin',
-            headerName: 'origin',
+            headerName: 'Origin',
             headerAlign: 'left',
             align: 'left',
         },
 
         {
             field: 'sex',
-            headerName: 'sex',
+            headerName: 'Sex',
             headerAlign: 'left',
             width: 80,
         },
 
         {
             field: 'species',
-            headerName: 'species',
+            headerName: 'Species',
             headerAlign: 'left',
-            width: 80,
+            width: 40,
         },
         {
             field: 'status',
-            headerName: 'status',
+            headerName: 'Status',
             headerAlign: 'left',
-            width: 80,
+            width: 40,
+        },
+        {
+            field: 'enclouse',
+            headerName: 'Current Enclosures',
+            headerAlign: 'left',
+            width: 120,
+            valueGetter: (params) => { return params.row.enclouse ? params.row.enclouse.name : "Not yet" },
         },
 
         {
@@ -104,7 +154,6 @@ function ViewAnimals() {
             type: 'actions',
             width: 80,
             renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
-            flex: 1,
         },
     ];
     return (

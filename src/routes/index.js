@@ -60,6 +60,9 @@ import ViewSchedule from '~/pages/AdminPage/ViewSchedule/ViewSchedule';
 import ViewTicket from '~/pages/AdminPage/ViewTicket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
+import Order from '~/pages/Order/Order';
+import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
+import BannerLayout from '~/component/Layout/BannerLayout/BannerLayout';
 
 
 const publicRoutes = [
@@ -77,6 +80,7 @@ const publicRoutes = [
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
     { path: 'verify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: 'public' },
     { path: 'inputnewpassword', component: InputNewPassword, layout: NormalLayout, name: 'InputNewPassword', Authen: "public" },
+    { path: 'order', component: Order, layout: BannerLayout, name: 'Order', Authen: "public" },
     { path: 'profile', component: Profile, layout: NormalLayout, name: 'Profile', Authen: "private" },
 
 

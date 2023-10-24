@@ -236,7 +236,7 @@ const Sidebar = () => {
                                 />
                                 <Item
                                     title="Check ticket"
-                                    to="/checkticket"
+                                    to="/home/checkticket"
                                     icon={<BsQrCodeScan />}
                                     selected={selected}
                                     setSelected={setSelected}
@@ -305,7 +305,7 @@ const Sidebar = () => {
                                             <ListItemButton>
                                                 <Item
                                                     title="View Animal"
-                                                    to="/animal/view"
+                                                    to="/home/animal"
                                                     icon={<GiElephant />}
                                                     selected={selected}
                                                     setSelected={setSelected}

@@ -178,3 +178,12 @@ export const deleteEnclosure = async (id) => {
         return error.response;
     }
 }
+
+export const getEnclosuresAnimals = async () => {
+    try {
+        const res = await axiosClient.get('animals/enclosures')
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}
