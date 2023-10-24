@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik, resetForm } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 
@@ -33,6 +33,7 @@ const validationSchema = Yup.object().shape({
 
 function RegisterForm({ onClose, onLoginClick }) {
 
+
     const registerFormRef = useRef(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [failMessage, setFailMessage] = useState(null);
@@ -62,19 +63,19 @@ function RegisterForm({ onClose, onLoginClick }) {
     ];
 
 
-    const handleClickOutsideForm = (event) => {
-        if (registerFormRef.current && !registerFormRef.current.contains(event.target)) {
-            onClose();
-        }
-    };
+    // const handleClickOutsideForm = (event) => {
+    //     if (registerFormRef.current && !registerFormRef.current.contains(event.target)) {
+    //         onClose();
+    //     }
+    // };
 
-    useEffect(() => {
-        document.addEventListener('click', handleClickOutsideForm);
+    // useEffect(() => {
+    //     document.addEventListener('click', handleClickOutsideForm);
 
-        return () => {
-            document.removeEventListener('click', handleClickOutsideForm);
-        };
-    }, []);
+    //     return () => {
+    //         document.removeEventListener('click', handleClickOutsideForm);
+    //     };
+    // }, []);
 
     const initialValues = {
         username: '',
@@ -86,15 +87,15 @@ function RegisterForm({ onClose, onLoginClick }) {
         phone: '',
         address: '',
         nationality: '',
-        // sex: users?.sex ? 'male' : 'female',
+        sex: 'male',
     }
 
-    const handleSubmit = async (values, { setSubmitting } = {}) => {
-        // if (values.sex === 'male') {
-        //     values.sex = true;
-        // } else if (values.sex === 'female') {
-        //     values.sex = false;
-        // }
+    const handleSubmit = async (values, { setSubmitting, resetForm } = {}) => {
+        if (values.sex === 'male') {
+            values.sex = true;
+        } else if (values.sex === 'female') {
+            values.sex = false;
+        }
         try {
             if (values.dateOfBirth && values.dateOfBirth.includes('T')) {
                 values.dateOfBirth = values.dateOfBirth;
@@ -104,21 +105,21 @@ function RegisterForm({ onClose, onLoginClick }) {
             // Use the registerUser function from api.js
             const response = await registerUser(values);
             console.log(response);
+            console.log(values);
             // Handle the response as needed
             if (response && response.status === 'Ok') {
                 setSuccessMessage('Registration successful!');
                 setFailMessage(null);
-            }
-        } catch (error) {
-            if (error.response.data.data === values.username) {
-                setFailMessage('Username is taken');
+                resetForm({
+                    values: {
+                        ...initialValues,
+                        confirmPassword: '',
+                    },
+                });
+            } else if (response.status === 400) {
                 setSuccessMessage(null);
-            } else if (error) {
-                console.log(error);
-                setFailMessage('Fail to Register');
-                setSuccessMessage(null);
+                setFailMessage(response.data.serverError);
             }
-
         } finally {
             if (setSubmitting) {
                 setSubmitting(false);
@@ -130,7 +131,7 @@ function RegisterForm({ onClose, onLoginClick }) {
     return (
         <>
             <div className={styles.overlay}>
-                <div className={styles.container} ref={registerFormRef}>
+                <div className={styles.container} /*ref={registerFormRef}*/>
                     {successMessage && (
                         <div className={styles.successMessage}>{successMessage}</div>
                     )}
@@ -200,7 +201,7 @@ function RegisterForm({ onClose, onLoginClick }) {
                                 <h5>Gender</h5>
                                 <div className={styles.gender}>
                                     <div className={styles.option}>
-                                        <Field type='radio' id='check-male' name='sex' value='male' checked />
+                                        <Field type='radio' id='check-male' name='sex' value='male' />
                                         <label htmlFor='check-male'>Male</label>
                                     </div>
                                     <div className={styles.option}>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 const api = axios.create({
-    // baseURL: 'https://zoo-by-valt.azurewebsites.net/api/'
+    // baseURL: 'https://zoo-by-valt-be.azurewebsites.net/api/'
     baseURL: 'http://localhost:8080/api/'
 })
 export const get = async (path) => {

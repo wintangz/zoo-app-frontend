@@ -128,7 +128,10 @@ function UpdateSpecies() {
                     enableReinitialize={true}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
-                            <Box>
+                            <Box
+                                display="grid"
+                                gap="30px"
+                                gridTemplateColumns="repeat(4,minmax(0,1fr))">
                                 <TextField
                                     fullWidth
                                     variant="filled"
@@ -140,6 +143,9 @@ function UpdateSpecies() {
                                     name="name"
                                     error={!!touched.name && !!errors.name}
                                     helperText={touched.name && errors.name}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -153,6 +159,9 @@ function UpdateSpecies() {
                                     name="species"
                                     error={!!touched.species && !!errors.species}
                                     helperText={touched.species && errors.species}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -166,6 +175,9 @@ function UpdateSpecies() {
                                     name="genus"
                                     error={!!touched.genus && !!errors.genus}
                                     helperText={touched.genus && errors.genus}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -179,6 +191,9 @@ function UpdateSpecies() {
                                     name="family"
                                     error={!!touched.family && !!errors.family}
                                     helperText={touched.family && errors.family}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -190,7 +205,7 @@ function UpdateSpecies() {
                                     onChange={handleChangeHabitatId}
                                     value={habitattId}
                                     name="habitat"
-                                    defaultValue="African Savannah"
+                                    defaultValue={habitattId}
                                     sx={{
                                         gridColumn: 'span 4',
                                         gridRow: '2',
@@ -221,6 +236,9 @@ function UpdateSpecies() {
                                     name="diet"
                                     error={!!touched.diet && !!errors.diet}
                                     helperText={touched.diet && errors.diet}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -234,6 +252,9 @@ function UpdateSpecies() {
                                     name="conversationStatus"
                                     error={!!touched.conservationStatus && !!errors.conservationStatus}
                                     helperText={touched.conservationStatus && errors.conservationStatus}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -247,6 +268,9 @@ function UpdateSpecies() {
                                     name="description"
                                     error={!!touched.description && !!errors.description}
                                     helperText={touched.description && errors.description}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <FormControl component="fieldset">

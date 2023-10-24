@@ -125,7 +125,10 @@ function CreateSpecies() {
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
-                            <Box>
+                            <Box
+                                display="grid"
+                                gap="30px"
+                                gridTemplateColumns="repeat(4,minmax(0,1fr))">
                                 <TextField
                                     fullWidth
                                     variant="filled"
@@ -137,6 +140,9 @@ function CreateSpecies() {
                                     name="name"
                                     error={!!touched.name && !!errors.name}
                                     helperText={touched.name && errors.name}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -150,6 +156,9 @@ function CreateSpecies() {
                                     name="species"
                                     error={!!touched.species && !!errors.species}
                                     helperText={touched.species && errors.species}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -163,6 +172,9 @@ function CreateSpecies() {
                                     name="genus"
                                     error={!!touched.genus && !!errors.genus}
                                     helperText={touched.genus && errors.genus}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -176,6 +188,9 @@ function CreateSpecies() {
                                     name="family"
                                     error={!!touched.family && !!errors.family}
                                     helperText={touched.family && errors.family}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -199,7 +214,7 @@ function CreateSpecies() {
                                         },
                                     }}
                                 >
-                                    {habitats.map((option) => {
+                                    {habitats && habitats.map((option) => {
                                         return (
                                             <MenuItem key={option.id} value={option.id}>
                                                 {option.name}
@@ -219,6 +234,9 @@ function CreateSpecies() {
                                     name="diet"
                                     error={!!touched.diet && !!errors.diet}
                                     helperText={touched.diet && errors.diet}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -232,6 +250,9 @@ function CreateSpecies() {
                                     name="conversationStatus"
                                     error={!!touched.conversationStatus && !!errors.conversationStatus}
                                     helperText={touched.conversationStatus && errors.conversationStatus}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
 
                                 <TextField
@@ -245,6 +266,9 @@ function CreateSpecies() {
                                     name="description"
                                     error={!!touched.description && !!errors.description}
                                     helperText={touched.description && errors.description}
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
                                 />
                                 <FormControl component="fieldset">
                                     <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>

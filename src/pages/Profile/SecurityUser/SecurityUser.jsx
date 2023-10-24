@@ -9,7 +9,7 @@ import { tokens } from '~/theme';
 import { Link } from 'react-router-dom';
 import SidebarUser from '../SidebarUser/SidebarUser';
 
-function SercurityUser() {
+function SecurityUser() {
     //****************---------------------- Config Color Theme ****************************/
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
@@ -163,4 +163,4 @@ function SercurityUser() {
     );
 }
 
-export default SercurityUser;
+export default SecurityUser;

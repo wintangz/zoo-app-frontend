@@ -16,25 +16,25 @@ function ProfileUserLayout({ children }) {
     const contentStyles = {
         display: 'flex',
         flexGrow: 1,
-        marginTop: '68px', // Đặt marginTop là 100px cho cả content
+        // marginTop: '68px', // Đặt marginTop là 100px cho cả content
     };
 
     const sidebarStyles = {
-        marginTop: '68px', // Đặt marginTop là 100px cho SidebarUser
+        // marginTop: '68px', // Đặt marginTop là 100px cho SidebarUser
         zIndex: -10000,
     };
 
     return (
-        <Box style={layoutStyles}>
+        <div>
             <Header />
-            <Box style={contentStyles}>
-                <SidebarUser style={sidebarStyles} />
-                <Box flexGrow={1}>
-                    {children}
-                </Box>
-            </Box>
+            <div style={{ display: "flex", marginTop: "68px", zIndex: "-100000" }}>
+                <SidebarUser />
+                <div className="-container">{children}</div>
+            </div>
+
             <Footer />
-        </Box>
+        </div>
+
     );
 }
 

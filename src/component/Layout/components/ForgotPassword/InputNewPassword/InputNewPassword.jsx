@@ -11,6 +11,7 @@ import styles from './InputNewPassword.module.scss';
 
 function InputNewPassword() {
     const [error, setError] = useState(null);
+    const [mess, setMess] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const navigate = useNavigate();
@@ -46,8 +47,10 @@ function InputNewPassword() {
             console.log(response.data);
             setError(response.data.serverError)
             if (response.status === 'Ok') {
-                // console.log(response.data.resetToken);
-                // navigate(`/inputnewpassword?resetToken=${response.data.resetToken}`);
+                setMess("Your password is successfully changed.")
+                setTimeout(() => {
+                    navigate('/');
+                }, 2000);
             }
         } catch (error) {
             console.log(error);
@@ -119,9 +122,10 @@ function InputNewPassword() {
                                     }}
                                 />
                                 {error && <div className={styles.error}>{error}</div>}
+                                {mess && <div className={styles.mess}>{mess}</div>}
                                 <div className={styles.submit}>
                                     <button className={styles.btnCancel} type="button" onClick={() => navigate('/')}>
-                                        Canncel
+                                        Cancel
                                     </button>
 
                                     <button className={styles.btnSearch} type="submit">

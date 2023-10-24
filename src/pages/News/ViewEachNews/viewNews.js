@@ -25,20 +25,41 @@ function ViewEachNews() {
         return <div>Loading...</div>;
     }
 
+    const originalDateStr = selectedNews.createdDate; // Assuming it's in the format '2023-10-31T15:34:0000'
+    const dateObj = new Date(originalDateStr);
+    const day = dateObj.getDate().toString().padStart(2, '0'); // Get day and pad with '0' if needed
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0'); // Get month and pad with '0' if needed
+    const year = dateObj.getFullYear();
+
+    const formattedDateStr = `${day}/${month}/${year}`;
+
     return (
         <>
             <div className={styles.imgbanner}>
                 <NormalBanner />
             </div>
             <div className={styles.container}>
-                <h1 className={styles.title}>{selectedNews.title}</h1>
-                <p>{selectedNews.shortDescription}</p>
-                <img src={selectedNews.thumbnailUrl} />
+                <div className={styles.title}>
+                    <h1 >{selectedNews.title}</h1>
+                </div>
+
+
+                <div className={styles.thumbnailContainer}>
+                    <img src={selectedNews.thumbnailUrl} />
+                </div>
+
+                <div>
+                    {selectedNews.shortDescription}
+                </div>
+
                 <div
                     className="ql-editor"
                     dangerouslySetInnerHTML={{ __html: selectedNews.content }}
                 />
-                <p>{selectedNews.createdDate}</p>
+
+                <div className={styles.date}>
+                    <i>Date of Public: {formattedDateStr}</i>
+                </div>
             </div>
         </>
     );
