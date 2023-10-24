@@ -125,7 +125,7 @@ function InputNewPassword() {
                                 {mess && <div className={styles.mess}>{mess}</div>}
                                 <div className={styles.submit}>
                                     <button className={styles.btnCancel} type="button" onClick={() => navigate('/')}>
-                                        Canncel
+                                        Cancel
                                     </button>
 
                                     <button className={styles.btnSearch} type="submit">
