@@ -30,8 +30,6 @@ import CreateTicket from '~/pages/AdminPage/CreateTicket';
 import CreateDiet from '~/pages/AdminPage/Diet/CreateDiet';
 import ViewDiet from '~/pages/AdminPage/Diet/Diet';
 import UpdateDiets from '~/pages/AdminPage/Diet/UpdateDiet';
-import EditProfile from '~/pages/AdminPage/EditProfile';
-import Security from '~/pages/AdminPage/EditProfile/Sercurity';
 import CreateEnclosure from '~/pages/AdminPage/Enclosure/CreateEnclosure';
 import UpdateEnclosure from '~/pages/AdminPage/Enclosure/UpdateEnclosure';
 import ViewEnclosure from '~/pages/AdminPage/Enclosure/ViewEnclosure';
@@ -40,7 +38,6 @@ import FeedSchedule from '~/pages/AdminPage/FeedSchedule';
 import CreateFood from '~/pages/AdminPage/Food/CreateFood';
 import ViewFood from '~/pages/AdminPage/Food/Food';
 import UpdateFood from '~/pages/AdminPage/Food/UpdateFood';
-import Form from '~/pages/AdminPage/Form';
 import CreateHabitat from '~/pages/AdminPage/Habitat/CreateHabitat';
 import UpdateHabitat from '~/pages/AdminPage/Habitat/UpdateHabitat';
 import ViewHabitat from '~/pages/AdminPage/Habitat/ViewHabitat';
@@ -52,7 +49,10 @@ import ViewOrders from '~/pages/AdminPage/Order/ViewOrder';
 import CreateSpecies from '~/pages/AdminPage/Species/CreateSpecies';
 import ViewSpecies from '~/pages/AdminPage/Species/Species';
 import UpdateSpecies from '~/pages/AdminPage/Species/UpdateSpecies';
-import Team from '~/pages/AdminPage/Team';
+import Form from '~/pages/AdminPage/Team/CreateUser';
+import EditProfile from '~/pages/AdminPage/Team/EditProfile';
+import Security from '~/pages/AdminPage/Team/EditProfile/Sercurity';
+import Team from '~/pages/AdminPage/Team/ViewUser';
 import UpdateSchedule from '~/pages/AdminPage/UpdateSchedule/UpdateSchedule';
 import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
 import ViewAnimals from '~/pages/AdminPage/ViewAnimal';
@@ -113,7 +113,7 @@ const publicRoutes = [
     { path: 'home/animal', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
     { path: 'home/animal/assign/', component: AssignAnimal, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },
     { path: 'home/animal/feed', component: FeedSchedule, layout: AdminMainPage, name: 'feed;', Authen: "private" },
-    { path: 'home/animal/schedule/view', component: ViewSchedule, layout: AdminMainPage, name: 'viewSchedule;', Authen: "private" },
+    { path: 'home/animal/schedule', component: ViewSchedule, layout: AdminMainPage, name: 'viewSchedule;', Authen: "private" },
     { path: 'home/animal/confirm', component: Confirm, layout: AdminMainPage, name: 'confirm;', Authen: "private" },
     { path: 'home/animal/schedule/update', component: UpdateSchedule, layout: AdminMainPage, name: 'updateSchedule;', Authen: "private" },
 

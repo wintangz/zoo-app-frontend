@@ -33,6 +33,7 @@ function CreateFood() {
     const initialValues = {
         name: '',
         type: '',
+        status: true,
     };
 
     const userSchema = yup.object().shape({

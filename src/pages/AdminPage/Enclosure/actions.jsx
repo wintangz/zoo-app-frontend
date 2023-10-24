@@ -106,7 +106,7 @@ const Actions = ({ params, setRemove }) => {
                 </Tooltip>
 
                 <Tooltip title="Edit">
-                    <Link to={`/enclosure/update/${params.row.id}`}>
+                    <Link to={`/home/enclosure/update/${params.row.id}`}>
                         <IconButton
                             onClick={() => {
 
