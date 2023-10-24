@@ -178,6 +178,7 @@ export const deleteEnclosure = async (id) => {
         return error.response;
     }
 }
+<<<<<<< Updated upstream
 
 export const getEnclosuresAnimals = async () => {
     try {
@@ -187,3 +188,23 @@ export const getEnclosuresAnimals = async () => {
         return error.response;
     }
 }
+=======
+export const deleteAnimals = async (id) => {
+    try {
+        const res = await axiosClient.remove(`animals/${id}`);
+        return res.data
+    } catch (error) {
+        console.log(error.response);
+        return error.response;
+    }
+}
+export const deleteSchedules = async (id) => {
+    try {
+        const res = await axiosClient.remove(`feeding_schedules/${id}`);
+        return res.data
+    } catch (error) {
+        console.log(error.response);
+        return error.response;
+    }
+}
+>>>>>>> Stashed changes

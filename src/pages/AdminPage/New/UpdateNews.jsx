@@ -24,9 +24,16 @@ function UpdateNews() {
     useEffect(() => {
         const res = fetchapi(newsId);
         res.then((result) => {
-            setNews(result);
+            setNews((values) => ({
+                ...values,
+                title: result?.title || '',
+                shortDescription: result?.shortDescription || '',
+                type: result?.type || '',
+                imgUrl: result?.imgUrl || '',
+                thumbnailUrl: result?.thumbnailUrl || '',
+                status: result?.status ? 'True' : 'False',
+            }));
             setEditorContent(result.content || '');
-
         });
     }, []);
     const theme = useTheme({ isDashboard: false });
@@ -144,9 +151,9 @@ function UpdateNews() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Create News" subtitle="Create news content" />
+                <AdminHeader title="Update News" subtitle="Update news content" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema} enableReinitialize={true}>
-                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
+                    {({ values, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box>
                                 <TextField
@@ -184,12 +191,8 @@ function UpdateNews() {
                                             modules={modules}
                                             formats={formats}
                                             style={{ height: '25vh' }}
-                                            error={!!touched.editorContent && !!errors.editorContent}
                                         />
                                     </Box>
-                                    {touched.content && errors.content && (
-                                        <div style={{ color: 'red' }}>{errors.content}</div>
-                                    )}
                                 </Box>
                                 <FormControl fullWidth variant="filled">
                                     <InputLabel id="type-label">Type</InputLabel>
@@ -219,18 +222,17 @@ function UpdateNews() {
                                         onBlur={handleBlur}
                                         onChange={(e) => {
                                             setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                        }} // Handle file input change
+                                        }}
                                         name="imgUrl"
-                                        error={!!touched.imgUrl && !!errors.imgUrl}
                                     />
-                                    {touched.imgUrl && errors.imgUrl && (
-                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
-                                    )}
+                                    <Typography variant="body2" color="textSecondary">
+                                        Image URL: {values.imgUrl}
+                                    </Typography>
                                 </FormControl>
 
                                 <FormControl component="fieldset">
                                     <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
-                                        thumbnailUrls
+                                        thumbnailUrl
                                     </Typography>
                                     <Input
                                         type="file"
@@ -240,11 +242,10 @@ function UpdateNews() {
                                             setFieldValue('thumbnailUrl', e.currentTarget.files[0]);
                                         }}
                                         name="thumbnailUrl"
-                                        error={!!touched.thumbnailUrl && !!errors.thumbnailUrl}
                                     />
-                                    {touched.thumbnailUrl && errors.thumbnailUrl && (
-                                        <div style={{ color: 'red' }}>{errors.thumbnailUrl}</div>
-                                    )}
+                                    <Typography variant="body2" color="textSecondary">
+                                        Image URL: {values.thumbnailUrl}
+                                    </Typography>
                                 </FormControl>
                                 <FormControl
                                     component="fieldset"

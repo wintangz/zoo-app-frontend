@@ -1,13 +1,11 @@
-import { Delete } from '@mui/icons-material';
-import AddHomeIcon from '@mui/icons-material/AddHome';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import { Delete, Edit } from '@mui/icons-material';
+import CheckIcon from '@mui/icons-material/Check';
 import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { deleteSchedules } from '~/api/animalsService';
 import { tokens } from '~/theme';
-
 const Actions = ({ params, setRemove }) => {
     let navigate = useNavigate();
     const [message, setMessage] = useState(false);
@@ -29,20 +27,11 @@ const Actions = ({ params, setRemove }) => {
         pb: 3,
     };
     const handleDelete = (values) => {
-        const token = localStorage.getItem('token');
-        // Define the URL and headers
-        const url = `https://zoo-by-valt.azurewebsites.net/api/animals/${values}`;
-        const headers = {
-            Authorization: `Bearer ${token}`,
-        };
-
-        // Send the DELETE request
-        axios
-            .delete(url, { headers })
+        setOpen(false);
+        deleteSchedules(values)
             .then((response) => {
-                if (response.status === 200) {
+                if (response.status === "Ok") {
                     console.log('DELETE request successful:', response);
-                    setOpen(false);
                     setMessage(true);
                 }
             })
@@ -50,9 +39,6 @@ const Actions = ({ params, setRemove }) => {
                 console.error('DELETE request failed:', error);
             });
     };
-    const handleEdit = () => {
-        navigate('')
-    }
 
     const handleClose = () => {
         setOpen(false);
@@ -76,8 +62,8 @@ const Actions = ({ params, setRemove }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete user</h2>
-                        <p id="parent-modal-description">Are you sure want to delete this animal?</p>
+                        <h2 id="parent-modal-title">Delete schedule</h2>
+                        <p id="parent-modal-description">Are you sure want to delete this schedule?</p>
                         <Button onClick={handleClose}>Close</Button>
                         <Button
                             onClick={() => {
@@ -124,26 +110,27 @@ const Actions = ({ params, setRemove }) => {
 
 
 
-                <Tooltip title="Assign trainer">
-                    <Link to="/animal/assign" state={params.row}>
+                <Tooltip title="Update">
+                    <Link to="/home/animal/schedule/update" state={params.row}>
                         <IconButton
                         // onClick={handleEdit(params.row)}
                         >
-                            <AssignmentIcon />
+                            <Edit />
                         </IconButton  >
                     </Link>
+
                 </Tooltip>
 
-                <Tooltip title="Move in Enclosure">
-                    <Link to="/enclosure/in" state={params.row}>
+                <Tooltip title="Confirm">
+                    <Link to="/animal/confirm" state={params.row}>
                         <IconButton
                         // onClick={handleEdit(params.row)}
                         >
-                            <AddHomeIcon />
+                            <CheckIcon />
                         </IconButton  >
                     </Link>
-                </Tooltip>
 
+                </Tooltip>
             </Box>
         </>
     );

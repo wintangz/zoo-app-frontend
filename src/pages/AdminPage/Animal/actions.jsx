@@ -1,13 +1,15 @@
-import { Delete, Edit } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
+import AddHomeIcon from '@mui/icons-material/AddHome';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { deleteUser } from '~/api/userService';
+import { Link, useNavigate } from 'react-router-dom';
+import { deleteAnimals } from '~/api/animalsService';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
 const Actions = ({ params, setRemove }) => {
+    let navigate = useNavigate();
     const [message, setMessage] = useState(false);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -28,8 +30,9 @@ const Actions = ({ params, setRemove }) => {
     };
     const handleDelete = (values) => {
         setOpen(false);
-        deleteUser(values)
+        deleteAnimals(values)
             .then((response) => {
+                console.log(response);
                 if (response.status === "Ok") {
                     console.log('DELETE request successful:', response);
                     setMessage(true);
@@ -39,7 +42,9 @@ const Actions = ({ params, setRemove }) => {
                 console.error('DELETE request failed:', error);
             });
     };
-
+    const handleEdit = () => {
+        navigate('')
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -48,8 +53,11 @@ const Actions = ({ params, setRemove }) => {
         setMessage(false);
         setRemove(values);
     };
-    const userRole = decode(localStorage.getItem('token')).roles[0];
-
+    const userInfo = {
+        // Add your user information here
+        name: 'John Doe',
+        // Other properties
+    };
     return (
         <>
             <div>
@@ -61,7 +69,7 @@ const Actions = ({ params, setRemove }) => {
                 >
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Delete user</h2>
-                        <p id="parent-modal-description">Are you sure want to delete this user?</p>
+                        <p id="parent-modal-description">Are you sure want to delete this animal?</p>
                         <Button onClick={handleClose}>Close</Button>
                         <Button
                             onClick={() => {
@@ -104,20 +112,30 @@ const Actions = ({ params, setRemove }) => {
                         <Delete />
                     </IconButton  >
                 </Tooltip>
-                {userRole === 'ADMIN' && (
-                    <Tooltip title="Edit">
-                        <Link to={`/staff/update/${params.row.id}`}>
-                            <IconButton
-                                onClick={() => {
 
-                                }}
-                            >
-                                <Edit />
-                            </IconButton  >
-                        </Link>
 
-                    </Tooltip>
-                )}
+
+
+                <Tooltip title="Assign trainer">
+                    <Link to="/animal/assign" state={params.row}>
+                        <IconButton
+                        // onClick={handleEdit(params.row)}
+                        >
+                            <AssignmentIcon />
+                        </IconButton  >
+                    </Link>
+                </Tooltip>
+
+                <Tooltip title="Move in Enclosure">
+                    <Link to="/enclosure/in" state={params.row}>
+                        <IconButton
+                        // onClick={handleEdit(params.row)}
+                        >
+                            <AddHomeIcon />
+                        </IconButton  >
+                    </Link>
+                </Tooltip>
+
             </Box>
         </>
     );

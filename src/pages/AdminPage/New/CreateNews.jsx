@@ -78,11 +78,13 @@ function NewsPostForm() {
             submitValue.imgUrl = imgURL;
             submitValue.thumbnailUrl = thumbnailUrl;
             const response = await createNews(submitValue);
-            console.log(response);
-            console.log(submitValue);
             if (response.data.status === "Ok") {
                 setOpen(true);
-                resetForm();
+                resetForm({
+                    values: initialValues,
+                    errors: {},
+                    touched: {},
+                });
                 setEditorContent('');
             }
 
@@ -141,7 +143,7 @@ function NewsPostForm() {
                 <AdminHeader title="Create News" subtitle="Create news content" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, handleBlur, handleChange, handleSubmit, setFieldValue, touched }) => (
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} >
                             <Box>
                                 <TextField
                                     fullWidth
@@ -209,8 +211,8 @@ function NewsPostForm() {
                                         label="imgUrl"
                                         onBlur={handleBlur}
                                         onChange={(e) => {
-                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                        }} // Handle file input change
+                                            handleChange('imgUrl', e.currentTarget.files[0]);
+                                        }}
                                         name="imgUrl"
                                         error={!!touched.imgUrl && !!errors.imgUrl}
                                     />
@@ -221,15 +223,15 @@ function NewsPostForm() {
 
                                 <FormControl component="fieldset">
                                     <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
-                                        thumbnailUrls
+                                        thumbnailUrl
                                     </Typography>
                                     <Input
                                         type="file"
                                         label="thumbnailUrl"
                                         onBlur={handleBlur}
                                         onChange={(e) => {
-                                            setFieldValue('thumbnailUrl', e.currentTarget.files[0]);
-                                        }} // Handle file input change
+                                            handleChange('thumbnailUrl', e.currentTarget.files[0]);
+                                        }}
                                         name="thumbnailUrl"
                                         error={!!touched.thumbnailUrl && !!errors.thumbnailUrl}
                                     />

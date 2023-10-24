@@ -10,19 +10,17 @@ import {
     useTheme,
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { createStaff, createZooTrainer } from '~/api/userService';
+import { createCustomer } from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
-function Form() {
+function CreateCustomer() {
     const navigate = useNavigate();
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
@@ -41,8 +39,6 @@ function Form() {
         px: 4,
         pb: 3,
     };
-    const isNonMobile = useMediaQuery('(min-width: 600px)');
-    const userRole = decode(localStorage.getItem('token')).roles[0];
     const handleFormSubmit = async (values, { resetForm, setFailMessage }) => {
         const inputDate = new Date(values.dateOfBirth);
 
@@ -65,54 +61,20 @@ function Form() {
         } else if (values.sex === 'female') {
             values.sex = false;
         }
-        if (userRole === 'ADMIN') {
-            const response = await createStaff(values);
-            if (response) {
-                const status = response.status;
-                console.log(status);
-                if (status === 200) {
-                    setOpen(true);
-                }
-            }
-            resetForm();
-        }
-        if (userRole === 'STAFF') {
-            const response = await createZooTrainer(values);
-            if (response) {
-                const status = response.status;
-                console.log(status);
-                if (status === 200) {
-                    setOpen(true);
-                }
-            }
-            resetForm();
-        }
 
+        const response = await createCustomer(values);
+        if (response) {
+            const status = response.status;
+            console.log(status);
+            if (status === 200) {
+                setOpen(true);
+            }
+        }
+        resetForm();
 
     };
 
-    let modalTitle = '';
-    let description = '';
-    let button = '';
-    let button1 = '';
-    let title = '';
-    let subtitle = '';
 
-    if (userRole === 'ADMIN') {
-        modalTitle = 'Create new staff successfully!';
-        description = 'New staff have been add to DataBase!';
-        button = 'CREATE NEW STAFF';
-        button1 = 'VIEW ALL USER';
-        title = 'CREATE USER';
-        subtitle = 'Create a New User Profile';
-    } else if (userRole === 'STAFF') {
-        modalTitle = 'Create new Zoo Trainer successfully!';
-        description = 'New zoo trainer have been add to DataBase!';
-        button = 'CREATE NEW ZOO TRAINER';
-        button1 = 'VIEW ALL ZOO TRAINER';
-        title = 'CREATE ZOO TRAINER';
-        subtitle = 'Create a New Zoo Trainer Profile';
-    }
     const initialValues = {
         username: '',
         password: '',
@@ -161,14 +123,14 @@ function Form() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">{modalTitle}</h2>
-                        <p id="parent-modal-description">{description}</p>
+                        <h2 id="parent-modal-title">Create new customer successfully!</h2>
+                        <p id="parent-modal-description">New customer have been add to DataBase!</p>
                         <Button onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title={title} subtitle={subtitle} />
+                <AdminHeader title="CREATE CUSTOMER" subtitle="Create A New Customer Profile" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
                         <form onSubmit={handleSubmit}>
@@ -176,9 +138,6 @@ function Form() {
                                 display="grid"
                                 gap="30px"
                                 gridTemplateColumns="repeat(4,minmax(0,1fr))"
-                                sx={{
-                                    '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
-                                }}
                             >
                                 <TextField
                                     fullWidth
@@ -389,12 +348,12 @@ function Form() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/home')}
+                                    onClick={() => navigate('/home/customers')}
                                 >
-                                    {button1}
+                                    VIEW ALL CUSTOMERS
                                 </Button>
                                 <Button type="submit" color="secondary" variant="contained">
-                                    {button}
+                                    CREATE NEW CUSTOMER
                                 </Button>
                             </Box>
                         </form>
@@ -405,4 +364,4 @@ function Form() {
     );
 }
 
-export default Form;
+export default CreateCustomer;
