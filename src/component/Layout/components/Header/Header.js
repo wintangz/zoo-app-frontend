@@ -30,6 +30,8 @@ function Header() {
             setSub(decode(token).sub)
         }
     }, []);
+    console.log(sub);
+    console.log(user);
 
     useEffect(() => {
         const headerNavItems = document.querySelectorAll(`.${styles.navitem_container}`);
@@ -195,10 +197,11 @@ function Header() {
                 </div>
             </header >
 
-            {showLogin && <LoginForm
-                onClose={handleCloseLogin}
-                onRegisterClick={(event) => handleRegisterFormClick(event)}
-                onForgotPasswordClick={(event) => handleForgotPasswordFormClick(event)} />
+            {
+                showLogin && <LoginForm
+                    onClose={handleCloseLogin}
+                    onRegisterClick={(event) => handleRegisterFormClick(event)}
+                    onForgotPasswordClick={(event) => handleForgotPasswordFormClick(event)} />
             }
             {
                 showRegister && <RegisterForm

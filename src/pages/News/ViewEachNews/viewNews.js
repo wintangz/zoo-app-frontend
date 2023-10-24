@@ -51,7 +51,9 @@ function ViewEachNews() {
                 <div>
                     {selectedNews.shortDescription}
                 </div>
-
+                <div className={styles.imgContainer}>
+                    <img src={selectedNews.imgUrl} />
+                </div>
                 <div
                     className="ql-editor"
                     dangerouslySetInnerHTML={{ __html: selectedNews.content }}
