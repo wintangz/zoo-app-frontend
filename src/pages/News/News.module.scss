@@ -44,31 +44,21 @@
             min-width: 155px;
             height: 36px;
             line-height: 36px;
-            background-color: rgba(57, 59, 64, 0.18);
-            color: #393b40;
+            // background-color: rgba(57, 59, 64, 0.18);
+            // color: #393b40;
             border-radius: 4px;
             text-align: center;
             margin-right: 20px;
             cursor: pointer;
-            transition: all 0.2s 0s ease;
-            border: black 0.1px solid;
-            background-color: rgb(235, 235, 235);
+            transition: all 0.3s 0s ease;
+            // border: black 0.1px solid;
+            opacity: transition 0.3s;
+            background-color: rgb(226, 226, 226);
             color: #161515;
         }
 
-        .item:hover {
-            display: inline-block;
-            min-width: 155px;
-            height: 36px;
-            line-height: 36px;
-            background-color: rgba(57, 59, 64, 0.18);
-            color: #393b40;
-            border-radius: 4px;
-            text-align: center;
-            margin-right: 20px;
-            cursor: pointer;
-            transition: all 0.2s 0s ease;
-
+        .item:hover,
+        .item:focus {
             background-color: #161515;
             color: #f8bf02;
         }
