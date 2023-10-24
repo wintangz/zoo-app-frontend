@@ -184,10 +184,11 @@ function UpdateNews() {
                                             modules={modules}
                                             formats={formats}
                                             style={{ height: '25vh' }}
+                                            error={!!touched.editorContent && !!errors.editorContent}
                                         />
                                     </Box>
-                                    {errors.content && (
-                                        <div style={{ color: 'red', marginTop: '0.5rem' }}>{errors.content}</div>
+                                    {touched.content && errors.content && (
+                                        <div style={{ color: 'red' }}>{errors.content}</div>
                                     )}
                                 </Box>
                                 <FormControl fullWidth variant="filled">

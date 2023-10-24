@@ -1,14 +1,18 @@
 import {
     Box,
     Button,
+    FormControl,
+    FormControlLabel,
     MenuItem,
+    Radio,
+    RadioGroup,
     TextField,
+    Typography,
     useTheme
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
-import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
@@ -59,26 +63,12 @@ function UpdateEnclosure() {
     };
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        navigate('/enclosure/update');
+        navigate('/home/enclosure');
     };
 
     //---------------------------------------- Handle Submit----------------------------------/
 
     const handleFormSubmit = async (values, { resetForm }) => {
-        const inputDate = new Date(values.dateOfBirth);
-        const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-        // Get the time zone offset and convert it to the "hh:mm" format
-        const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-        const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-        const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-            .toString()
-            .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
-
-        // Combine the date and time zone offset to get the final formatted string
-        const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-        values.dateOfBirth = formattedDateTime;
         const res = updateEnclosures(enclosureId, values);
         res.then((result) => {
             const status = result.status;
@@ -91,10 +81,10 @@ function UpdateEnclosure() {
     //********************************** INITIAL VALUE*********************************** */
     const initialValues = {
         name: enclosure?.name || '',
-        createdDate: moment(enclosure?.createdDate),
         maxCapacity: enclosure?.maxCapacity || '',
         info: enclosure?.info || '',
         imgUrl: enclosure?.imgUrl || '',
+        status: enclosure?.status ? 'True' : 'False',
 
     };
 
@@ -108,10 +98,6 @@ function UpdateEnclosure() {
             .min(1, 'Max Capacity must be greater than 0')
             .required('Max Capacity cannot be empty'),
         info: yup.string().required('Information cannot be empty'),
-        createdDate: yup
-            .date()
-            .required('Created Date is required')
-            .nonNullable(), // Allow null values for createdDate
         imgUrl: yup.string().required('Infomation cannot be empty'),
     });
 
@@ -151,16 +137,6 @@ function UpdateEnclosure() {
 
             <>
                 <Box m="20px">
-                    <Box mb="20px" display="flex" justifyContent="left">
-                        <Button
-                            type="button"
-                            color="secondary"
-                            variant="contained"
-                            onClick={() => navigate('/enclosure/view')}
-                        >
-                            VIEW ALL ENCLOSURE
-                        </Button>
-                    </Box>
                     <Formik
                         onSubmit={handleFormSubmit}
                         initialValues={initialValues}
@@ -173,9 +149,6 @@ function UpdateEnclosure() {
                                     display="grid"
                                     gap="30px"
                                     gridTemplateColumns="repeat(4,minmax(0,1fr))"
-                                    sx={{
-                                        '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
-                                    }}
                                 >
                                     <TextField
                                         fullWidth
@@ -184,6 +157,7 @@ function UpdateEnclosure() {
                                         label="Name"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
+                                        defaultValue=" "
                                         value={values.name}
                                         name="name"
                                         error={!!touched.name && !!errors.name}
@@ -300,62 +274,58 @@ function UpdateEnclosure() {
                                         }}
                                     />
 
-                                    {/* <FormControl
-                                        padding="0"
+
+                                    <FormControl
                                         component="fieldset"
-                                        fullWidth
+                                        width="75%"
                                         sx={{
-                                            gridColumn: 'span 2',
+                                            gridColumn: 'span 1',
                                         }}
+                                        label="Status"
                                     >
-                                        <LocalizationProvider dateAdapter={AdapterMoment}>
-                                            <DatePicker
-                                                value={moment(values.createdDate)}
-                                                onChange={(date) => {
-                                                    handleChange({ target: { name: 'createdDate', value: moment(date) } });
-                                                }}
-                                                textField={(params) => (
-                                                    <TextField
-                                                        {...params}
-                                                        fullWidth
-                                                        variant="outlined"
-                                                        label="Create Date"
-                                                    />
-                                                )}
-                                                name="createdDate"
-                                                label="What is the enclosure's create date?"
-                                                sx={{
-                                                    width: 250,
-                                                    '& .MuiOutlinedInput-root': {
-                                                        '& fieldset': {
-                                                            borderColor: colors.grey[100],
-                                                            color: colors.grey[100],
-                                                        },
-                                                        '&:hover fieldset': {
-                                                            borderColor: colors.grey[100],
-                                                            color: colors.grey[100],
-                                                        },
-                                                        '&.Mui-focused fieldset': {
-                                                            borderColor: colors.grey[100],
-                                                            color: colors.grey[100],
-                                                        },
-                                                    },
-                                                }}
-                                            />
-                                        </LocalizationProvider>
-                                    </FormControl> */}
-                                </Box>
-                                <Box display="flex" justifyContent="end" mt="20px">
-                                    {/* <Link to="/edit/sercurity">
-                                        <Button
-                                            onClick={handleSercurity}
-                                            type="submit"
-                                            color="secondary"
-                                            variant="contained"
+                                        <Typography variant="h6" color={colors.grey[300]} style={{ margin: '0.8vw' }}>
+                                            Status
+                                        </Typography>
+                                        <RadioGroup
+                                            aria-label="Status"
+                                            name="status"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            defaultValue=" "
+                                            value={values.status}
+                                            sx={{ display: 'inline-block' }}
+                                            label="Status"
                                         >
-                                            VIEW ENCLOSURE
-                                        </Button>
-                                    </Link> */}
+                                            <FormControlLabel
+                                                value="True"
+                                                control={
+                                                    <Radio
+                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                    />
+                                                }
+                                                label="True"
+                                            />
+                                            <FormControlLabel
+                                                value="False"
+                                                control={
+                                                    <Radio
+                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                    />
+                                                }
+                                                label="False"
+                                            />
+                                        </RadioGroup>
+                                    </FormControl>
+                                </Box>
+                                <Box display="flex" justifyContent="space-between" mt="20px">
+                                    <Button
+                                        type="button"
+                                        color="secondary"
+                                        variant="contained"
+                                        onClick={() => navigate('/home/enclosure')}
+                                    >
+                                        VIEW All ENCLOSURE
+                                    </Button>
 
                                     <Button type="submit" color="secondary" variant="contained">
                                         UPDATE ENCLOSURE
