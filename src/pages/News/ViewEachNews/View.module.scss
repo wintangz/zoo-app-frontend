@@ -3,6 +3,24 @@
 }
 
 .container {
-    padding-top: 5vh;
+    margin: 5vh 5vw;
+    font-size: 1.2rem;
 
+    .title {
+        margin-bottom: 4vh;
+    }
+
+    .thumbnailContainer {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 4vh;
+
+        img {
+            max-width: 80vw;
+        }
+    }
+
+    .date {
+        margin-top: 20vh;
+    }
 }

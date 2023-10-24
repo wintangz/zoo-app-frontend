@@ -13,7 +13,7 @@ function Verify() {
 
 
     const [code, setCode] = useState("");
-    const [error, setError] = useState(null);
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
     const location = useLocation();
@@ -22,21 +22,25 @@ function Verify() {
 
     const handleSubmit = async () => {
         try {
+            if (code === null) {
+                setError("OTP is required");
+            }
             const data = {
                 email: email, // Retrieve email from the URL parameter or state
                 code: code, // The verification code entered by the user
             };
             const response = await verificationCode(data);
-
-
             console.log("Code:", code);
             console.log("Email:", email);
 
             console.log(response.data);
             setError(response.data.serverError)
             if (response.status === 'Ok') {
+                setError("");
                 console.log(response.data.resetToken);
                 navigate(`/inputnewpassword?resetToken=${response.data.resetToken}`);
+            } else if (response.data.message === "Invalid") {
+                setError("OTP is Invalid");
             }
         } catch (error) {
             console.log(error);

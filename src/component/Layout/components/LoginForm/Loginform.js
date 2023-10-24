@@ -58,25 +58,25 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
     };
 
 
-    const loginFormRef = useRef(null);
+    // const loginFormRef = useRef(null);
 
-    const handleClickOutsideForm = (event) => {
-        if (loginFormRef.current && !loginFormRef.current.contains(event.target)) {
-            onClose();
-        }
-    };
+    // const handleClickOutsideForm = (event) => {
+    //     if (loginFormRef.current && !loginFormRef.current.contains(event.target)) {
+    //         onClose();
+    //     }
+    // };
 
-    useEffect(() => {
-        document.addEventListener('click', handleClickOutsideForm);
+    // useEffect(() => {
+    //     document.addEventListener('click', handleClickOutsideForm);
 
-        return () => {
-            document.removeEventListener('click', handleClickOutsideForm);
-        };
-    }, []);
+    //     return () => {
+    //         document.removeEventListener('click', handleClickOutsideForm);
+    //     };
+    // }, []);
 
     return (
         <div className={`${styles.overlay}`}>
-            <div className={styles.modal} ref={loginFormRef} >
+            <div className={styles.modal}/* ref={loginFormRef} */>
                 <div className={styles.close} onClick={onClose}>
                     <FontAwesomeIcon icon={faClose} />
                 </div>

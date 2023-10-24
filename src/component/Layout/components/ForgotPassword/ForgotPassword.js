@@ -15,19 +15,19 @@ function ForgotPassword({ onClose, onLoginClick }) {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false); // Add loading state
 
-    const handleClickOutsideForm = (event) => {
-        if (forgotpasswordFormRef.current && !forgotpasswordFormRef.current.contains(event.target)) {
-            onClose();
-        }
-    };
+    // const handleClickOutsideForm = (event) => {
+    //     if (forgotpasswordFormRef.current && !forgotpasswordFormRef.current.contains(event.target)) {
+    //         onClose();
+    //     }
+    // };
 
-    useEffect(() => {
-        document.addEventListener('click', handleClickOutsideForm);
+    // useEffect(() => {
+    //     document.addEventListener('click', handleClickOutsideForm);
 
-        return () => {
-            document.removeEventListener('click', handleClickOutsideForm);
-        };
-    }, []);
+    //     return () => {
+    //         document.removeEventListener('click', handleClickOutsideForm);
+    //     };
+    // }, []);
 
     const handleSearchClick = async (values) => {
         try {
@@ -55,7 +55,7 @@ function ForgotPassword({ onClose, onLoginClick }) {
     return (
         <>
             <div className={styles.overlay}>
-                <div className={styles.container} ref={forgotpasswordFormRef}>
+                <div className={styles.container} /*ref={forgotpasswordFormRef}*/>
                     <div className={styles.close} onClick={onClose}>
                         <FontAwesomeIcon icon={faClose} />
                     </div>

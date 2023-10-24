@@ -93,6 +93,7 @@ const SidebarUser = () => {
 
     const initialValues = {
         lastname: users?.lastname || '',
+        firstname: users?.firstname || '',
         avatarUrl: users?.avatarUrl || '',
     };
 
@@ -121,7 +122,7 @@ const SidebarUser = () => {
                 },
             }}
         >
-            <ProSidebar collapsed={isCollapsed} sx={{ height: '10vh' }}>
+            <ProSidebar collapsed={isCollapsed} sx={{ height: '10vh', zIndex: -100000 }}>
                 <Menu iconShape="square" initialValues={initialValues}>
                     {/* LOGO AND MENU ICON */}
                     <MenuItem
@@ -157,7 +158,7 @@ const SidebarUser = () => {
                             </Box>
                             <Box textAlign="center">
                                 <Typography variant="h5" color='rgb(248, 191, 2)' fontWeight='bold'>
-                                    {initialValues.lastname}
+                                    {initialValues.firstname} {initialValues.lastname}
                                 </Typography>
                             </Box>
                         </Box>
@@ -181,8 +182,8 @@ const SidebarUser = () => {
                             <ListItem disablePadding>
                                 <ListItemButton>
                                     <Item
-                                        title="Sercurity"
-                                        to="/profile/sercurity"
+                                        title="Security"
+                                        to="/profile/security"
                                         icon={<LockIcon />}
                                         selected={selected}
                                         setSelected={setSelected}

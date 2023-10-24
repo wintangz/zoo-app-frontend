@@ -15,7 +15,7 @@ import Home from '~/pages/Home/Home';
 import Maps from '~/pages/Map/Map';
 import News from '~/pages/News';
 import Profile from '~/pages/Profile/Profile';
-import SercurityUser from '~/pages/Profile/SercurityUser/SercurityUser';
+import SecurityUser from '~/pages/Profile/SecurityUser/SecurityUser';
 import Summary from '~/pages/Ticket/Summary/Summary';
 import Ticket from '~/pages/Ticket/Ticket';
 
@@ -68,11 +68,11 @@ const publicRoutes = [
     { path: "news/:id/:title", component: ParentComponent, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
     { path: 'profile', component: Profile, layout: ProfileUserLayout, name: 'Profile', Authen: "public" },
-    { path: 'profile/sercurity', component: SercurityUser, layout: ProfileUserLayout, name: 'Profile', Authen: "public" },
+    { path: 'profile/security', component: SecurityUser, layout: ProfileUserLayout, name: 'Profile', Authen: "public" },
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
-    { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats', Authen: "public" },
+    { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Ha    bitats', Authen: "public" },
     { path: 'map', component: Maps, layout: NormalLayout, name: 'Map' },
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
     { path: 'verify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: 'public' },
