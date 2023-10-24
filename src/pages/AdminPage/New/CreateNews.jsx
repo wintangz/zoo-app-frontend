@@ -77,10 +77,10 @@ function NewsPostForm() {
             const thumbnailUrl = await uploadFile(submitValue.thumbnailUrl, 'create-news');
             submitValue.imgUrl = imgURL;
             submitValue.thumbnailUrl = thumbnailUrl;
-            console.log(submitValue);
             const response = await createNews(submitValue);
+            console.log(response);
             console.log(submitValue);
-            if (response?.status === 200) {
+            if (response.data.status === "Ok") {
                 setOpen(true);
                 resetForm();
                 setEditorContent('');
@@ -244,7 +244,7 @@ function NewsPostForm() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/viewfoods')}
+                                    onClick={() => navigate('/home/news')}
                                 >
                                     VIEW All NEWS
                                 </Button>

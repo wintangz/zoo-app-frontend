@@ -86,13 +86,13 @@ function ViewNews() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View New" subtitle="Show All News" />
+            <AdminHeader title="View News" subtitle="Show All News" />
             <Box display="flex" justifyContent="left">
                 <Button
                     type="button"
                     color="secondary"
                     variant="contained"
-                    onClick={() => navigate('/create/news')}
+                    onClick={() => navigate('/home/news/create')}
                 >
                     CREATE NEWS
                 </Button>

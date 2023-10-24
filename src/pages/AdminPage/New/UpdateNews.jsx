@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormControlLabel, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Button, FormControl, FormControlLabel, Input, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import { getNewsById, updateNews } from '~/api/newsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
+import uploadFile from '~/utils/transferFile';
 import CustomToolbar from './QuillEditor/CustomToolbar';
 
 function UpdateNews() {
@@ -51,7 +51,6 @@ function UpdateNews() {
     const handleEditorChange = (content) => {
         setEditorContent(content);
     };
-    const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
         title: news?.title || '',
         shortDescription: news?.shortDescription || '',
@@ -61,24 +60,33 @@ function UpdateNews() {
         thumbnailUrl: news?.thumbnailUrl || '',
         status: news?.status ? 'True' : 'False',
     };
+    const FILE_SIZE = 1920 * 1080;
+    const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const typeOptions = ['Event', 'Info'];
     const userSchema = yup.object().shape({
         title: yup.string().required('Title is required'),
         shortDescription: yup.string().required('Short Description is required'),
-        content: yup.string(),
-        // .test('word-count', 'Content must have at least 10 words', (value) => {
-        //     if (!value) return false; // Empty content is not allowed
-        //     const wordCount = value.trim().split(/\s+/).length;
-        //     return wordCount <= 10;
-        // }),
+        content: yup.string().required('Content is required'),
         type: yup.string().required('Type is required'),
-        imgUrl: yup.string().required('Image URL is required'),
-        thumbnailUrl: yup.string().required('Thumbnail URL is required'),
+        imgUrl: yup
+            .mixed()
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+        thumbnailUrl: yup
+            .mixed()
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type))
     });
 
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values) => {
         try {
             const submitValue = { ...values, content: editorContent };
+            const imgURL = await uploadFile(submitValue.imgUrl, 'update-news');
+            const thumbnailUrl = await uploadFile(submitValue.thumbnailUrl, 'update-news');
+            submitValue.imgUrl = imgURL;
+            submitValue.thumbnailUrl = thumbnailUrl;
             const response = await updateNews(newsId, submitValue);
             console.log(submitValue);
             if (response?.status === 200) {
@@ -90,7 +98,7 @@ function UpdateNews() {
     };
 
     const handleClose = () => {
-        navigate('/viewallnews');
+        navigate('/home/news');
     };
     const modules = {
         toolbar: {
@@ -137,9 +145,8 @@ function UpdateNews() {
             </div>
             <Box m="20px">
                 <AdminHeader title="Create News" subtitle="Create news content" />
-                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}
-                    enableReinitialize={true}>
-                    {({ values, errors, handleBlur, handleChange, handleSubmit }) => (
+                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema} enableReinitialize={true}>
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box>
                                 <TextField
@@ -201,28 +208,43 @@ function UpdateNews() {
                                         ))}
                                     </Select>
                                 </FormControl>
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="ImgUrl"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    defaultValue=" "
-                                    value={values.imgUrl}
-                                    name="imgUrl"
-                                />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="ThumbnailUrl"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    defaultValue=" "
-                                    value={values.thumbnailUrl}
-                                    name="thumbnailUrl"
-                                />
+                                <FormControl component="fieldset" >
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                        imgUrl
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="imgUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                        }} // Handle file input change
+                                        name="imgUrl"
+                                        error={!!touched.imgUrl && !!errors.imgUrl}
+                                    />
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                </FormControl>
+
+                                <FormControl component="fieldset">
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                        thumbnailUrls
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="thumbnailUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('thumbnailUrl', e.currentTarget.files[0]);
+                                        }}
+                                        name="thumbnailUrl"
+                                        error={!!touched.thumbnailUrl && !!errors.thumbnailUrl}
+                                    />
+                                    {touched.thumbnailUrl && errors.thumbnailUrl && (
+                                        <div style={{ color: 'red' }}>{errors.thumbnailUrl}</div>
+                                    )}
+                                </FormControl>
                                 <FormControl
                                     component="fieldset"
                                     width="75%"
@@ -271,7 +293,7 @@ function UpdateNews() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/viewfoods')}
+                                    onClick={() => navigate('/home/news')}
                                 >
                                     VIEW All NEWS
                                 </Button>

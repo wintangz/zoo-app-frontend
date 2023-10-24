@@ -68,7 +68,7 @@ function ViewDiet() {
                     type="button"
                     color="secondary"
                     variant="contained"
-                    onClick={() => navigate('/create/diet')}
+                    onClick={() => navigate('/home/diets/create')}
                 >
                     CREATE DIET
                 </Button>

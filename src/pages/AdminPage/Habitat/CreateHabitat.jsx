@@ -38,30 +38,10 @@ function CreateHabitat() {
     };
     const isNonMobile = useMediaQuery('(min-width: 600px)');
 
-    // const formattedDateTime = (values) => {
-    //     const inputDate = new Date(values);
-
-    //     const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-    //         .toString()
-    //         .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-    //     // Get the time zone offset and convert it to the "hh:mm" format
-    //     const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-    //     const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-    //     const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-    //         .toString()
-    //         .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
-
-    //     // Combine the date and time zone offset to get the final formatted string
-    //     const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-    //     return formattedDateTime;
-    // };
     const handleFormSubmit = async (values, { resetForm }) => {
-        // values.createdDate = formattedDateTime(values.createdDate);
         console.log(values);
         try {
             const response = await createHabitats(values);
-            // response.data.data.status = true;
-            // response.data.data.createdDate = formattedDateTime(values.createdDate);
             console.log(values);
             console.log(response);
             if (response.status === 200) {
@@ -121,7 +101,6 @@ function CreateHabitat() {
                                     '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
                                 }}
                             >
-                                {/* Name and Created Date */}
                                 <TextField
                                     fullWidth
                                     variant="filled"
@@ -137,52 +116,7 @@ function CreateHabitat() {
                                         gridColumn: 'span 2',
                                     }}
                                 />
-                                {/* <FormControl
-                                    padding="0"
-                                    component="fieldset"
-                                    fullWidth
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                >
-                                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                                        <DatePicker
-                                            value={moment(values.createdDate)}
-                                            onChange={(date) => {
-                                                handleChange({ target: { name: 'createdDate', value: moment(date) } });
-                                            }}
-                                            textField={(params) => (
-                                                <TextField
-                                                    {...params}
-                                                    fullWidth
-                                                    variant="outlined"
-                                                    label="Created Date"
-                                                />
-                                            )}
-                                            name="createdDate"
-                                            label="What is the habitat's created date?"
-                                            sx={{
-                                                width: 250,
-                                                '& .MuiOutlinedInput-root': {
-                                                    '& fieldset': {
-                                                        borderColor: colors.grey[100],
-                                                        color: colors.grey[100],
-                                                    },
-                                                    '&:hover fieldset': {
-                                                        borderColor: colors.grey[100],
-                                                        color: colors.grey[100],
-                                                    },
-                                                    '&.Mui-focused fieldset': {
-                                                        borderColor: colors.grey[100],
-                                                        color: colors.grey[100],
-                                                    },
-                                                },
-                                            }}
-                                        />
-                                    </LocalizationProvider>
-                                </FormControl> */}
 
-                                {/* Info */}
                                 <TextField
                                     fullWidth
                                     variant="filled"
@@ -200,8 +134,6 @@ function CreateHabitat() {
                                         gridColumn: 'span 4',
                                     }}
                                 />
-
-                                {/* Image Url and Banner Url */}
                                 <TextField
                                     fullWidth
                                     variant="filled"

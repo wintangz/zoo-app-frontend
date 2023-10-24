@@ -1,9 +1,9 @@
 import { Delete, Edit } from '@mui/icons-material';
 import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { deleteEnclosure } from '~/api/animalsService';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 
@@ -30,20 +30,11 @@ const Actions = ({ params, setRemove }) => {
         pb: 3,
     };
     const handleDelete = (values) => {
-        const token = localStorage.getItem('token');
-        // Define the URL and headers
-        const url = `https://zoo-by-valt.azurewebsites.net/api/enclosures/${values}`;
-        const headers = {
-            Authorization: `Bearer ${token}`,
-        };
-
-        // Send the DELETE request
-        axios
-            .delete(url, { headers })
+        setOpen(false);
+        deleteEnclosure(values)
             .then((response) => {
-                if (response.status === 200) {
+                if (response.status === "Ok") {
                     console.log('DELETE request successful:', response);
-                    setOpen(false);
                     setMessage(true);
                 }
             })

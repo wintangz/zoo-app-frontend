@@ -142,7 +142,7 @@ function CreateDiet() {
                                     }}
                                     MenuProps={MenuProps}
                                 >
-                                    {foods.map((food) => {
+                                    {foods && foods.map((food) => {
                                         return (
                                             <MenuItem
                                                 key={food.id}
@@ -160,7 +160,7 @@ function CreateDiet() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/viewdiets')}
+                                    onClick={() => navigate('/home/diets')}
                                 >
                                     VIEW DIETS
                                 </Button>

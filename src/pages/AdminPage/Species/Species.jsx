@@ -131,7 +131,7 @@ function ViewSpecies() {
                     type="button"
                     color="secondary"
                     variant="contained"
-                    onClick={() => navigate('/create/species')}
+                    onClick={() => navigate('/home/species/create')}
                 >
                     CREATE SPECIES
                 </Button>

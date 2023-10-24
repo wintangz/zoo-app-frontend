@@ -74,7 +74,7 @@ function ViewFood() {
                     type="button"
                     color="secondary"
                     variant="contained"
-                    onClick={() => navigate('/create/foods')}
+                    onClick={() => navigate('/home/foods/create')}
                 >
                     CREATE FOOD
                 </Button>

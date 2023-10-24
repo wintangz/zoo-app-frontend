@@ -2,12 +2,8 @@ import {
     Box,
     Button,
     FormControl,
-    FormControlLabel,
-    Radio,
-    RadioGroup,
     TextField,
-    Typography,
-    useTheme,
+    useTheme
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -16,7 +12,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/animalsService';
 import { updateHabitats } from '~/api/animalsService';
@@ -141,7 +137,7 @@ function UpdateHabitat() {
                             type="button"
                             color="secondary"
                             variant="contained"
-                            onClick={() => navigate('/habitat/view')}
+                            onClick={() => navigate('/home/habitat')}
                         >
                             VIEW ALL HABITAT
                         </Button>

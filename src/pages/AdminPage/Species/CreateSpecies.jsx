@@ -1,13 +1,15 @@
-import { Box, Button, FormControl, Input, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Button, FormControl, Input, MenuItem, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import { getHabitats } from '~/api/animalsService';
 import { createSpecies } from '~/api/speciesService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
+import uploadFile from '~/utils/transferFile';
 
 function CreateSpecies() {
     const navigate = useNavigate();
@@ -28,6 +30,9 @@ function CreateSpecies() {
         px: 4,
         pb: 3,
     };
+
+    const [habitats, setHabitats] = useState([]);
+    const [habitattId, setHabitatId] = useState([])
     const initialValues = {
         name: '',
         species: '',
@@ -42,6 +47,16 @@ function CreateSpecies() {
         status: true,
 
     };
+    useEffect(() => {
+        const res = getHabitats();
+        res.then((result) => {
+            setHabitats(result);
+        });
+    }, []);
+
+    const handleChangeHabitatId = (event) => {
+        setHabitatId(event.target.value)
+    }
     const FILE_SIZE = 1920 * 1080;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const userSchema = yup.object().shape({
@@ -49,9 +64,9 @@ function CreateSpecies() {
         species: yup.string().required('Species is required'),
         genus: yup.string().required('Genus is required'),
         family: yup.string().required('Family is required'),
-        habitatId: yup.string().required('Habitat is required'),
+        habitatId: yup.number(yup.string()),
         diet: yup.string().required('Diet is required'),
-        conservationStatus: yup.string().required('Conservation Status is required'),
+        conversationStatus: yup.string().required('Conservation Status is required'),
         description: yup.string().required('Description is required'),
         imgUrl: yup.mixed()
             .required('A file is required')
@@ -61,18 +76,26 @@ function CreateSpecies() {
             .required('A file is required')
             .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
             .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
-        status: yup.boolean().required('Status is required'),
     });
 
     const handleFormSubmit = async (values, { resetForm }) => {
         try {
-            const submitValue = { ...values };
-            const response = await createSpecies(submitValue);
+            const submitValue = {
+                ...values,
+                habitatId: habitattId,
+            };
+            const imgURL = await uploadFile(submitValue.imgUrl, 'create-species');
+            const avatarUrl = await uploadFile(submitValue.avatarUrl, 'create-species');
+            submitValue.imgUrl = imgURL;
+            submitValue.avatarUrl = avatarUrl;
+            const response = createSpecies(submitValue);
             console.log(submitValue);
-            if (response?.status === 200) {
-                setOpen(true);
-                resetForm();
-            }
+            response.then((result) => {
+                if (result.data.status === "Ok") {
+                    setOpen(true);
+                    resetForm();
+                }
+            });
         } catch (error) {
             console.error('Error submitting form:', error.message);
         }
@@ -158,15 +181,32 @@ function CreateSpecies() {
                                 <TextField
                                     fullWidth
                                     variant="filled"
-                                    type="text"
-                                    label="HabitatId"
+                                    label="Habitat"
+                                    select
                                     onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.habitat}
-                                    name="habitatId"
-                                    error={!!touched.habitat && !!errors.habitat}
-                                    helperText={touched.habitat && errors.habitat}
-                                />
+                                    onChange={handleChangeHabitatId}
+                                    value={habitattId}
+                                    name="habitat"
+                                    defaultValue="African Savannah"
+                                    sx={{
+                                        gridColumn: 'span 4',
+                                        gridRow: '2',
+                                    }}
+                                    SelectProps={{
+                                        PopperProps: {
+                                            anchorEl: null,
+                                            placement: 'bottom-start',
+                                        },
+                                    }}
+                                >
+                                    {habitats.map((option) => {
+                                        return (
+                                            <MenuItem key={option.id} value={option.id}>
+                                                {option.name}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </TextField>
 
                                 <TextField
                                     fullWidth
@@ -188,10 +228,10 @@ function CreateSpecies() {
                                     label="Conservation Status"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={values.conservationStatus}
-                                    name="conservationStatus"
-                                    error={!!touched.conservationStatus && !!errors.conservationStatus}
-                                    helperText={touched.conservationStatus && errors.conservationStatus}
+                                    value={values.conversationStatus}
+                                    name="conversationStatus"
+                                    error={!!touched.conversationStatus && !!errors.conversationStatus}
+                                    helperText={touched.conversationStatus && errors.conversationStatus}
                                 />
 
                                 <TextField
@@ -250,7 +290,7 @@ function CreateSpecies() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/viewspecies')}
+                                    onClick={() => navigate('/home/species')}
                                 >
                                     VIEW All SPECIES
                                 </Button>

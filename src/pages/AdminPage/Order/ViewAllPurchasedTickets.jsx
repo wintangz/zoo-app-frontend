@@ -24,6 +24,7 @@ function ViewOrdersTickets() {
             field: 'id',
             headerName: 'ID',
             flex: 0.2,
+            valueGetter: (params) => `${params.row.id}`
         },
         {
             field: 'ticket',
@@ -31,7 +32,7 @@ function ViewOrdersTickets() {
             headerAlign: 'left',
             align: 'left',
             flex: 1,
-            valueGetter: (params) => `${params.row.ticket}`,
+            valueGetter: (params) => `${params.row.ticket?.name}`
         },
         {
             field: 'order',
@@ -47,7 +48,7 @@ function ViewOrdersTickets() {
             headerAlign: 'left',
             align: 'left',
             flex: 0.5,
-            valueGetter: (params) => `${params.row.checkedBy}`,
+            valueGetter: (params) => `${params.row.checkedBy?.name}`,
         },
         {
             field: 'checked',

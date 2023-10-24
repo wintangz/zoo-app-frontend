@@ -37,19 +37,14 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                 // const {data} = await getInfo(token)
                 setAuth(true)
                 tokendecode.roles.map((role) => {
-                    if (role !== 'CUSTOMER') {
-                        window.open('/team', '_blank');
-                    } else if (role === 'STAFF') {
-                        window.location = '/edit'
+                    switch (role) {
+                        case "ZOO_TRAINER": window.open('/home/animal', '_blank');
+                            break;
+                        case "CUSTOMER": window.location = ('/');
+                            break;
+                        default: window.open('/home', '_blank')
                     }
                 })
-                // if (localStorage.getItem('role')) {
-                //     console.log("true")
-                //     window.location = '/mainPage';
-                // } else {
-                //     console.log(false);
-                // }
-
             }
             onClose();
         } catch (error) {

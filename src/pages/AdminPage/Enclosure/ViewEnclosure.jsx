@@ -121,7 +121,7 @@ function ViewEnclosure() {
                 type="button"
                 color="secondary"
                 variant="contained"
-                onClick={() => navigate('/enclosure/create')}
+                onClick={() => navigate('/home/enclosure/create')}
             >
                 Create Enclosure
             </Button>

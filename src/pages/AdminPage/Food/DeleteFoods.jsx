@@ -27,9 +27,11 @@ const Actions = ({ params, setRemove }) => {
     };
     console.log(open)
     const handleDelete = (foodId) => {
+        console.log(foodId);
         setOpen(false);
         deleteFoods(foodId)
             .then((response) => {
+                console.log(response);
                 if (response.status === "Ok") {
                     console.log('DELETE request successful:', response);
                     setMessage(true);
@@ -102,7 +104,7 @@ const Actions = ({ params, setRemove }) => {
                 </Tooltip>
 
                 <Tooltip title="Edit">
-                    <Link to={`/update/foods/${params.row.id}`}>
+                    <Link to={`/home/foods/update/${params.row.id}`}>
                         <IconButton
                             onClick={() => {
 

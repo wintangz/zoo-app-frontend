@@ -1,10 +1,11 @@
-import { Box, Button, FormControl, FormControlLabel, Radio, RadioGroup, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Button, FormControl, FormControlLabel, Input, MenuItem, Radio, RadioGroup, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
+import { getHabitats } from '~/api/animalsService';
 import { getSpeciesById, updateSpecies } from '~/api/speciesService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
@@ -13,7 +14,8 @@ function UpdateSpecies() {
     const { speciesId } = useParams();
     const [species, setSpecies] = useState({});
     const navigate = useNavigate();
-
+    const [habitats, setHabitats] = useState([]);
+    const [habitattId, setHabitatId] = useState([])
     const fetchapi = async (id) => {
         const result = await getSpeciesById(id);
         return result;
@@ -22,9 +24,19 @@ function UpdateSpecies() {
         const res = fetchapi(speciesId);
         res.then((result) => {
             setSpecies(result);
-
+            setHabitatId(result.habitatId || '');
         });
     }, []);
+    useEffect(() => {
+        const res = getHabitats();
+        res.then((result) => {
+            setHabitats(result);
+        });
+    }, []);
+
+    const handleChangeHabitatId = (event) => {
+        setHabitatId(event.target.value)
+    }
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
@@ -42,6 +54,7 @@ function UpdateSpecies() {
         px: 4,
         pb: 3,
     };
+
     const initialValues = {
         name: species?.name || '',
         species: species?.species || '',
@@ -55,8 +68,8 @@ function UpdateSpecies() {
         avatarUrl: species?.avatarUrl || '',
         status: species?.status ? 'True' : 'False',
     };
-
-    const typeOptions = ['Event', 'Info'];
+    const FILE_SIZE = 1920 * 1080;
+    const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const userSchema = yup.object().shape({
         name: yup.string().required('Name is required'),
         species: yup.string().required('Species is required'),
@@ -66,15 +79,22 @@ function UpdateSpecies() {
         diet: yup.string().required('Diet is required'),
         conservationStatus: yup.string().required('Conservation Status is required'),
         description: yup.string().required('Description is required'),
-        imgUrl: yup.string().url('Invalid URL format').required('Image URL is required'),
-        avatarUrl: yup.string().url('Invalid URL format').required('Avatar URL is required'),
+        imgUrl: yup.mixed()
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+        avatarUrl: yup.mixed()
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
         status: yup.boolean().required('Status is required'),
     });
 
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values) => {
         try {
-            const submitValue = { ...values };
+            const submitValue = { ...values, habitatId: habitattId, };
             const response = await updateSpecies(speciesId, submitValue);
+            console.log(submitValue);
             if (response?.status === 200) {
                 setOpen(true);
             }
@@ -84,7 +104,7 @@ function UpdateSpecies() {
     };
 
     const handleClose = () => {
-        navigate('/viewspecies');
+        navigate('/home/species');
     };
     return (
         <>
@@ -106,7 +126,7 @@ function UpdateSpecies() {
                 <AdminHeader title="Update Species" subtitle="Update Species" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}
                     enableReinitialize={true}>
-                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box>
                                 <TextField
@@ -164,16 +184,32 @@ function UpdateSpecies() {
                                 <TextField
                                     fullWidth
                                     variant="filled"
-                                    type="text"
-                                    label="HabitatId"
+                                    label="Habitat"
+                                    select
                                     onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.habitat.id}
-                                    name="habitatId"
-                                    error={!!touched.habitat && !!errors.habitat}
-                                    helperText={touched.habitat && errors.habitat}
-                                />
-
+                                    onChange={handleChangeHabitatId}
+                                    value={habitattId}
+                                    name="habitat"
+                                    defaultValue="African Savannah"
+                                    sx={{
+                                        gridColumn: 'span 4',
+                                        gridRow: '2',
+                                    }}
+                                    SelectProps={{
+                                        PopperProps: {
+                                            anchorEl: null,
+                                            placement: 'bottom-start',
+                                        },
+                                    }}
+                                >
+                                    {habitats.map((option) => {
+                                        return (
+                                            <MenuItem key={option.id} value={option.id}>
+                                                {option.name}
+                                            </MenuItem>
+                                        )
+                                    })}
+                                </TextField>
                                 <TextField
                                     fullWidth
                                     variant="filled"
@@ -213,31 +249,43 @@ function UpdateSpecies() {
                                     helperText={touched.description && errors.description}
                                 />
 
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Image URL"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.imgUrl}
-                                    name="imgUrl"
-                                    error={!!touched.imgUrl && !!errors.imgUrl}
-                                    helperText={touched.imgUrl && errors.imgUrl}
-                                />
+                                <FormControl component="fieldset">
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                        Img File
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="Image URL"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                        }} // Handle file input change
+                                        name="imgUrl"
+                                        error={!!touched.avatarUrl && !!errors.avatarUrl}
+                                    />
+                                    {touched.avatarUrl && errors.avatarUrl && (
+                                        <div style={{ color: 'red' }}>{errors.avatarUrl}</div>
+                                    )}
+                                </FormControl>
 
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Avatar URL"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.avatarUrl}
-                                    name="avatarUrl"
-                                    error={!!touched.avatarUrl && !!errors.avatarUrl}
-                                    helperText={touched.avatarUrl && errors.avatarUrl}
-                                />
+                                <FormControl component="fieldset">
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                        Avatar File
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="Avatar URL"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('avatarUrl', e.currentTarget.files[0]);
+                                        }} // Handle file input change
+                                        name="avatarUrl"
+                                        error={!!touched.avatarUrl && !!errors.avatarUrl}
+                                    />
+                                    {touched.avatarUrl && errors.avatarUrl && (
+                                        <div style={{ color: 'red' }}>{errors.avatarUrl}</div>
+                                    )}
+                                </FormControl>
 
                                 <FormControl
                                     component="fieldset"
@@ -286,7 +334,7 @@ function UpdateSpecies() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/viewspecies')}
+                                    onClick={() => navigate('/home/species')}
                                 >
                                     VIEW All SPECIES
                                 </Button>

@@ -1,7 +1,10 @@
 import {
     Box,
     Button,
+    FormControl,
+    Input,
     TextField,
+    Typography,
     useTheme
 } from '@mui/material';
 
@@ -16,6 +19,7 @@ import { tokens } from '~/theme';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import { createEnclousures, getHabitats } from '~/api/animalsService';
+import uploadFile from '~/utils/transferFile';
 
 
 function CreateEnclosure() {
@@ -62,8 +66,10 @@ function CreateEnclosure() {
                 ...values,
                 habitatId: habitattId,
             };
-            const response = await createEnclousures(submitValue);
+            const imgUrl = await uploadFile(submitValue.imgUrl, 'create-news');
+            submitValue.imgUrl = imgUrl;
             console.log(submitValue);
+            const response = await createEnclousures(submitValue);
             console.log(response);
             if (response.data.status === "Ok") {
                 console.log(values);
@@ -83,7 +89,8 @@ function CreateEnclosure() {
         habitatId: '',
         status: true,
     };
-
+    const FILE_SIZE = 1920 * 1080;
+    const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const userSchema = yup.object().shape({
         name: yup.string().required('Name cannot be empty'),
         maxCapacity: yup
@@ -92,7 +99,11 @@ function CreateEnclosure() {
             .min(1, 'Max Capacity must be greater than 0')
             .required('Max Capacity cannot be empty'),
         info: yup.string().required('Information cannot be empty'),
-        imgUrl: yup.string().required('imgUrl cannot be empty'),
+        imgUrl: yup
+            .mixed()
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
         habitatId: yup.number(yup.string())
     });
     const handleClose = () => {
@@ -208,29 +219,31 @@ function CreateEnclosure() {
                                         gridRow: '3',        // Below the first row
                                     }}
                                 />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text" // Change the type to "text"
-                                    label="ImgUrl"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.imgUrl}
-                                    name="imgUrl"
-                                    error={!!touched.imgUrl && !!errors.imgUrl}
-                                    helperText={touched.imgUrl && errors.imgUrl}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                        gridRow: '4',
-                                    }}
-                                />
+                                <FormControl component="fieldset" >
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                        imgUrl
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="imgUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                        }}
+                                        name="imgUrl"
+                                        error={!!touched.imgUrl && !!errors.imgUrl}
+                                    />
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                </FormControl>
                             </Box>
                             <Box display="flex" justifyContent="space-between" mt="20px">
                                 <Button
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/enclosure/view')}
+                                    onClick={() => navigate('/home/enclosure')}
                                 >
                                     VIEW All ENCLOSURE
                                 </Button>

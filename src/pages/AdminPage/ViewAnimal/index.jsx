@@ -1,11 +1,11 @@
 import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getAllAnimals } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './actions';
-import { useNavigate } from 'react-router-dom';
 
 function ViewAnimals() {
     const navigate = useNavigate()
@@ -114,7 +114,7 @@ function ViewAnimals() {
                 type="button"
                 color="secondary"
                 variant="contained"
-                onClick={() => navigate('/animal/create')}
+                onClick={() => navigate('/home/animal/create')}
             >
                 Create Animal
             </Button>

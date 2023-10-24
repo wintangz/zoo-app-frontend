@@ -160,3 +160,21 @@ export const moveInEnclosure = async (path, path2) => {
         return error.response;
     }
 }
+export const deleteHabitats = async (id) => {
+    try {
+        const res = await axiosClient.remove(`habitats/${id}`);
+        return res.data
+    } catch (error) {
+        console.log(error.response);
+        return error.response;
+    }
+}
+export const deleteEnclosure = async (id) => {
+    try {
+        const res = await axiosClient.remove(`enclosures/${id}`);
+        return res.data
+    } catch (error) {
+        console.log(error.response);
+        return error.response;
+    }
+}

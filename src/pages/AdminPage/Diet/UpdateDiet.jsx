@@ -9,7 +9,6 @@ import { getDietById, updateDiets } from '~/api/dietService';
 import { getFood } from '~/api/foodService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -46,10 +45,9 @@ function UpdateDiets() {
         px: 4,
         pb: 3,
     };
-    const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
         type: diets?.type || '',
-        foodListIds: diets?.foodListIds || '',
+        foodListIds: [],
     };
 
     const userSchema = yup.object().shape({
@@ -77,7 +75,7 @@ function UpdateDiets() {
         setFoodListId(event.target.value)
     }
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/diets');
     };
     const fetchApi = async () => {
         const result = await getFood();
@@ -92,7 +90,7 @@ function UpdateDiets() {
         const res = fetchapi(dietsId);
         res.then((result) => {
             setDiets(result);
-
+            setFoodListId(result.foodListIds || []);
         });
     }, []);
 
@@ -171,7 +169,7 @@ function UpdateDiets() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/viewdiets')}
+                                    onClick={() => navigate('/home/diets')}
                                 >
                                     VIEW DIETS
                                 </Button>

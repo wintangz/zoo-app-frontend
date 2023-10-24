@@ -1,9 +1,9 @@
 import { Delete, Edit } from '@mui/icons-material';
 import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { deleteHabitats } from '~/api/animalsService';
 import { tokens } from '~/theme';
 
 const Actions = ({ params, setRemove }) => {
@@ -27,20 +27,11 @@ const Actions = ({ params, setRemove }) => {
         pb: 3,
     };
     const handleDelete = (values) => {
-        const token = localStorage.getItem('token');
-        // Define the URL and headers
-        const url = `https://zoo-by-valt.azurewebsites.net/api/habitats/${values}`;
-        const headers = {
-            Authorization: `Bearer ${token}`,
-        };
-
-        // Send the DELETE request
-        axios
-            .delete(url, { headers })
+        setOpen(false);
+        deleteHabitats(values)
             .then((response) => {
-                if (response.status === 200) {
+                if (response.status === "Ok") {
                     console.log('DELETE request successful:', response);
-                    setOpen(false);
                     setMessage(true);
                 }
             })
@@ -111,7 +102,7 @@ const Actions = ({ params, setRemove }) => {
                 </Tooltip>
 
                 <Tooltip title="Edit">
-                    <Link to={`/habitat/update/${params.row.id}`}>
+                    <Link to={`/home/habitat/update/${params.row.id}`}>
                         <IconButton
                             onClick={() => {
 

@@ -8,7 +8,6 @@ import * as yup from 'yup';
 import { getFoodById, updateFoods } from '~/api/foodService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
 function UpdateFood() {
     const { foodId } = useParams();
@@ -22,9 +21,7 @@ function UpdateFood() {
     useEffect(() => {
         const res = fetchapi(foodId);
         res.then((result) => {
-            console.log(result);
             setFood(result);
-
         });
     }, []);
     const theme = useTheme({ isDashboard: false });
@@ -44,7 +41,6 @@ function UpdateFood() {
         px: 4,
         pb: 3,
     };
-    const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
         name: food?.name || '',
         type: food?.type || '',
@@ -55,7 +51,7 @@ function UpdateFood() {
         type: yup.string().required('Type is not empty'),
     });
 
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values) => {
         try {
             const submitValue = { ...values, };
             const response = await updateFoods(foodId, submitValue);
@@ -69,7 +65,7 @@ function UpdateFood() {
     };
 
     const handleClose = () => {
-        navigate('/viewfoods');
+        navigate('/home/foods');
     };
 
     return (
@@ -82,14 +78,14 @@ function UpdateFood() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">"Create Food Successfully!"</h2>
+                        <h2 id="parent-modal-title">"Update Food Successfully!"</h2>
                         <p id="parent-modal-description">New food have been add to DataBase!</p>
                         <Button onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Create Foods" subtitle="Create new food" />
+                <AdminHeader title="Update Foods" subtitle="Update new food" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema} enableReinitialize={true}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
                         <form onSubmit={handleSubmit}>
@@ -125,7 +121,7 @@ function UpdateFood() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/viewfoods')}
+                                    onClick={() => navigate('/home/foods')}
                                 >
                                     VIEW FOODS
                                 </Button>

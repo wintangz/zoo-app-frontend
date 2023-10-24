@@ -19,6 +19,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createAnimals } from '~/api/animalsService';
 import { getSpecies } from '~/api/speciesService';
@@ -33,6 +34,7 @@ function CreateAnimal() {
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
     const [species, setSpecies] = useState([]);
+    const navigate = useNavigate();
     const style = {
         position: 'absolute',
         top: '50%',
@@ -351,7 +353,15 @@ function CreateAnimal() {
                                     )}
                                 </FormControl>
                             </Box>
-                            <Box display="flex" justifyContent="end" mt="20px">
+                            <Box display="flex" justifyContent="space-between" mt="20px">
+                                <Button
+                                    type="button"
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={() => navigate('/home/animal')}
+                                >
+                                    VIEW ANIMALS
+                                </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE ANIMAL
                                 </Button>
