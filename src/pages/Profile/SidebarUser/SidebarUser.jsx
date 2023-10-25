@@ -36,11 +36,6 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     );
 };
 
-let role = null;
-if (localStorage.getItem('token')) {
-    role = decode(localStorage.getItem('token')).roles[0];
-}
-
 const SidebarUser = () => {
 
     const theme = useTheme();
@@ -71,20 +66,19 @@ const SidebarUser = () => {
         });
     }, []);
 
-    const { auth, setAuth } = useAppContext()
+    // const { auth, setAuth } = useAppContext()
 
-    useEffect(() => {
-        console.log(auth);
-        if (!auth) {
-            nav('/')
-        }
-    }, [auth, nav])
+    // useEffect(() => {
+    //     console.log(auth);
+    //     if (!auth) {
+    //         nav('/')
+    //     }
+    // }, [auth, nav])
 
     const handleLogout = () => {
         const res = logout(localStorage.getItem('token'));
         res.then((result) => {
             if (result.status === 200) {
-                setAuth(false)
                 localStorage.removeItem('token');
                 nav('/')
             }

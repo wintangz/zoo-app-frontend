@@ -9,6 +9,7 @@ import ConfirmTickets from './confirmTickets';
 import Information from './information';
 import PaymentIcon from '@mui/icons-material/Payment';
 import InfoIcon from '@mui/icons-material/Info';
+import vnpayLogo from '~/assets/img/vnpayLogo.png'
 
 function Summary() {
 
@@ -18,7 +19,7 @@ function Summary() {
             const result = await confirmTicketPurchase(cart, totalPrice, totalQuantity);
             // alert('Purchase successful');
             console.log(result.data);
-            // window.location.href = result.data;
+            window.location.href = result.data;
         } catch (error) {
             console.error(error.message);
             // alert('Purchase failed');
@@ -142,8 +143,8 @@ function Summary() {
             </section>
             <div className={styles.below}>
                 <div className={styles.infomation}>
-                    <h2><InfoIcon /> Infomation</h2>
-                    <table>
+                    <h2><InfoIcon /> Customer Infomation</h2>
+                    <table className={styles.table_info}>
                         {info && <Information info={info} />}
                     </table>
                 </div>
@@ -158,14 +159,20 @@ function Summary() {
                                     name="payment"
                                     render={({ field }) => (
                                         <>
-                                            <input
-                                                type="radio"
-                                                value="VNPAY"
-                                                {...field}
-                                                className={styles.paymentRadio}
-                                                ref={checkPayment}
-                                            />
-                                            <span className={styles.payment}> VNPAY</span>
+                                            <div className={styles.paymentContainer}>
+                                                <input
+                                                    type="radio"
+                                                    value="VNPAY"
+                                                    {...field}
+                                                    className={styles.paymentRadio}
+                                                    ref={checkPayment}
+                                                    checked
+                                                />
+                                                <div className={styles.paymentText}>
+                                                    <img src={vnpayLogo} className={styles.vnpayLogo} alt="VNPAY Logo" />
+                                                    VNPAY
+                                                </div>
+                                            </div>
                                         </>
                                     )}
                                 />
@@ -173,12 +180,12 @@ function Summary() {
                         </tr>
                         <tr className={styles.allTotal}>
                             <td>Total:</td>
-                            <td>{totalPrice.toLocaleString()} VND</td>
-                        </tr>
-                        <tr className={styles.submit}>
-                            <button onClick={handleSubmitBuy} className={styles.btn}>Buy</button>
+                            <td><td>{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND</td></td>
                         </tr>
                     </table>
+                    <div className={styles.submit}>
+                        <button onClick={handleSubmitBuy} className={styles.btn}>Buy</button>
+                    </div>
                 </div>
             </div>
 

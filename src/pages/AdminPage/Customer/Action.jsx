@@ -3,8 +3,8 @@ import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { deleteUser } from '~/api/userService';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
 const Actions = ({ params, setRemove }) => {
     const [message, setMessage] = useState(false);
@@ -27,16 +27,16 @@ const Actions = ({ params, setRemove }) => {
     };
     const handleDelete = (values) => {
         setOpen(false);
-        // deleteUser(values)
-        //     .then((response) => {
-        //         if (response.status === "Ok") {
-        //             console.log('DELETE request successful:', response);
-        //             setMessage(true);
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.error('DELETE request failed:', error);
-        //     });
+        deleteUser(values)
+            .then((response) => {
+                if (response.status === "Ok") {
+                    console.log('DELETE request successful:', response);
+                    setMessage(true);
+                }
+            })
+            .catch((error) => {
+                console.error('DELETE request failed:', error);
+            });
     };
 
 
@@ -47,7 +47,6 @@ const Actions = ({ params, setRemove }) => {
         setMessage(false);
         setRemove(values);
     };
-    const userRole = decode(localStorage.getItem('token')).roles[0];
 
     return (
         <>
@@ -103,20 +102,18 @@ const Actions = ({ params, setRemove }) => {
                         <Delete />
                     </IconButton  >
                 </Tooltip>
-                {userRole === 'ADMIN' && (
-                    <Tooltip title="Edit">
-                        <Link to={`/staff/update/${params.row.id}`}>
-                            <IconButton
-                                onClick={() => {
+                <Tooltip title="Edit">
+                    <Link to={`/home/staff/update/${params.row.id}`}>
+                        <IconButton
+                            onClick={() => {
 
-                                }}
-                            >
-                                <Edit />
-                            </IconButton  >
-                        </Link>
+                            }}
+                        >
+                            <Edit />
+                        </IconButton  >
+                    </Link>
 
-                    </Tooltip>
-                )}
+                </Tooltip>
             </Box>
         </>
     );

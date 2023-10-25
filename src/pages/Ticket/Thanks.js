@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-import styles from './Ticket.module.scss';
+import styles from './Thanks.module.scss';
+import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 
 const ThankYouPage = () => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -50,12 +51,24 @@ const ThankYouPage = () => {
 
     return (
         <div className={styles.container_thanks}>
-            <h1>Thank You for Purchasing</h1>
+
             {responseCode === '00' ? (
-                <p>Please check your email.</p>
+                <>
+                    <h1 className={styles.thanks}>Thank you.</h1>
+                    <h2 className={styles.mail}>Your order was completed successfully.</h2>
+                    <div className={styles.check}>
+                        <AttachEmailIcon />
+                        <p><i>An email receipt including the details about your order has been <br /> sent to the email address provided. Please keep it for your records.</i></p>
+                    </div>
+                    <div className={styles.button}>
+                        <button>Back to Home</button>
+                    </div>
+                </>
             ) : (
-                <p>Waiting...</p>
+                // <p className={`waiting-text ${styles.waitingText}`}>Waiting...</p>
+                <div className={styles.loader}></div>
             )}
+
         </div>
     );
 };

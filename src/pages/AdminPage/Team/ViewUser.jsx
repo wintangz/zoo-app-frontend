@@ -168,7 +168,7 @@ function Team() {
                     type="button"
                     color="secondary"
                     variant="contained"
-                    onClick={() => navigate('/staff/form')}
+                    onClick={() => navigate('/home/staff/create')}
                 >
                     {button}
                 </Button>

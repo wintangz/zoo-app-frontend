@@ -55,7 +55,6 @@ import ViewSpecies from '~/pages/AdminPage/Species/Species';
 import UpdateSpecies from '~/pages/AdminPage/Species/UpdateSpecies';
 import Form from '~/pages/AdminPage/Team/CreateUser';
 import EditProfile from '~/pages/AdminPage/Team/EditProfile';
-import Security from '~/pages/AdminPage/Team/EditProfile/Sercurity';
 import UpdateStaff from "~/pages/AdminPage/Team/UpdateStaff";
 import Team from '~/pages/AdminPage/Team/ViewUser';
 import { default as CreateTicket, default as ViewTicket } from '~/pages/AdminPage/Ticket';
@@ -73,8 +72,8 @@ const publicRoutes = [
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: "news/:id/:title", component: ParentComponent, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
-    { path: 'profile', component: Profile, layout: ProfileUserLayout, name: 'Profile', Authen: "public" },
-    { path: 'profile/security', component: SecurityUser, layout: ProfileUserLayout, name: 'Profile', Authen: "public" },
+    { path: 'profile', component: Profile, layout: ProfileUserLayout, name: 'Profile', Authen: "private" },
+    { path: 'profile/security', component: SecurityUser, layout: ProfileUserLayout, name: 'SecurityUser', Authen: "private" },
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
@@ -84,7 +83,6 @@ const publicRoutes = [
     { path: 'verify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: 'public' },
     { path: 'inputnewpassword', component: InputNewPassword, layout: NormalLayout, name: 'InputNewPassword', Authen: "public" },
     { path: 'order', component: Order, layout: BannerLayout, name: 'Order', Authen: "public" },
-    { path: 'profile', component: Profile, layout: NormalLayout, name: 'Profile', Authen: "private" },
 
 
     // Admin routes
@@ -93,7 +91,6 @@ const publicRoutes = [
     { path: 'home/staff/create', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'home/staff/update/:userId', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/edit', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
-    { path: 'home/edit/security', component: Security, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/tickets', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
     { path: 'home/tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
 

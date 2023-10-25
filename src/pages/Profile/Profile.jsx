@@ -39,6 +39,7 @@ function Profile() {
         const result = await getUserById(id);
         return result;
     };
+
     const newObj = decode(localStorage.getItem('token'));
     useEffect(() => {
         const res = fetchapi(newObj.sub);
@@ -69,6 +70,7 @@ function Profile() {
             values.sex = false;
         }
         const res = updateUser(newObj.sub, values);
+        console.log(values);
         res.then((result) => {
             const status = result.status;
             if (status === 200) {
@@ -128,9 +130,6 @@ function Profile() {
 
     return (
         <>
-            {/* <div className={styles.container}>
-                <SidebarUser />
-                <> */}
             <div>
                 <Modal
                     open={open}

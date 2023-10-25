@@ -1,0 +1,13 @@
+.row {
+    .name {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        gap: 1vh;
+        color: rgb(43, 43, 43);
+    }
+
+    .value {
+        color: rgba(65, 65, 65, 0.8);
+    }
+}

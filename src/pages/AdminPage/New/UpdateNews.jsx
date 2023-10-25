@@ -58,61 +58,68 @@ function UpdateNews() {
         type: news?.type || '',
         imgUrl: news?.imgUrl || '',
         thumbnailUrl: news?.thumbnailUrl || '',
-        status: news?.status ? 'True' : 'False',
+        status: news?.status ? 'True' : 'False'
     };
     const FILE_SIZE = 1920 * 1080;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const typeOptions = ['Event', 'Info'];
     const userSchema = yup.object().shape({
-        title: yup.string().required('Title is required'),
-        shortDescription: yup.string().required('Short Description is required'),
-        content: yup.string().required('Content is required'),
-        type: yup.string().required('Type is required'),
         imgUrl: yup
             .mixed()
-            .required('A file is required')
-            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
-            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+            .notRequired()
+            .nullable()
+            .test('is-file', 'Invalid file', function (value) {
+                if (typeof value === 'string') {
+                    return true;
+                }
+                if (value === null || value === undefined) {
+                    return true;
+                }
+                if (value instanceof File) {
+                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+                }
+                return false;
+            }),
         thumbnailUrl: yup
             .mixed()
-            .required('A file is required')
-            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
-            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type))
+            .notRequired()
+            .nullable()
+            .test('is-file', 'Invalid file', function (value) {
+                if (typeof value === 'string') {
+                    return true;
+                }
+                if (value === null || value === undefined) {
+                    return true;
+                }
+                if (value instanceof File) {
+                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+                }
+                return false;
+            }),
     });
+
 
     const handleFormSubmit = async (values) => {
         try {
             const submitValue = { ...values, content: editorContent };
-            const imgURL = await uploadFile(submitValue.imgUrl, 'update-news');
-            const thumbnailUrl = await uploadFile(submitValue.thumbnailUrl, 'update-news');
-            submitValue.imgUrl = imgURL;
-            submitValue.thumbnailUrl = thumbnailUrl;
-            const response = await updateNews(newsId, submitValue);
-            console.log(submitValue);
-            if (response.data.status === "Ok") {
-                setOpen(true);
+            if (values.imgUrl instanceof File) {
+                const imgURL = await uploadFile(submitValue.imgUrl, 'update-news');
+                submitValue.imgUrl = imgURL;
             }
+            if (values.thumbnailUrl instanceof File) {
+                const thumbnailURL = await uploadFile(submitValue.thumbnailUrl, 'update-news');
+                submitValue.thumbnailUrl = thumbnailURL;
+            }
+            const response = updateNews(newsId, submitValue);
+            response.then((result) => {
+                if (result.data.status === "Ok") {
+                    setOpen(true);
+                }
+            });
         } catch (error) {
             console.error('Error submitting form:', error.message);
         }
     };
-
-    // const handleFormSubmit = async (values, { resetForm }) => {
-    //     try {
-    //         const submitValue = { ...values, content: editorContent };
-    //         const imgURL = await uploadFile(submitValue.imgUrl, 'update-news');
-    //         const thumbnailUrl = await uploadFile(submitValue.thumbnailUrl, 'update-news');
-    //         submitValue.imgUrl = imgURL;
-    //         submitValue.thumbnailUrl = thumbnailUrl;
-    //         const response = await updateNews(newsId, submitValue);
-    //         if (response.data.status === "Ok") {
-    //             setOpen(true);
-    //         }
-
-    //     } catch (error) {
-    //         console.error('Error submitting form:', error.message);
-    //     }
-    // };
 
     const handleClose = () => {
         navigate('/home/news');
@@ -161,9 +168,9 @@ function UpdateNews() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Create News" subtitle="Create news content" />
+                <AdminHeader title="Update News" subtitle="Update news content" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema} enableReinitialize={true}>
-                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
+                    {({ values, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box>
                                 <TextField
@@ -235,10 +242,8 @@ function UpdateNews() {
                                         }}
                                         name="imgUrl"
                                     />
-                                    <Typography variant="body2" color="textSecondary">
-                                        {values.imgUrl}
-                                    </Typography>
                                 </FormControl>
+                                <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
 
                                 <FormControl component="fieldset" sx={{ paddingLeft: "10px" }}>
                                     <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px", paddingLeft: "10px" }}>
@@ -253,10 +258,8 @@ function UpdateNews() {
                                         }}
                                         name="thumbnailUrl"
                                     />
-                                    <Typography variant="body2" color="textSecondary">
-                                        {values.thumbnailUrl}
-                                    </Typography>
                                 </FormControl>
+                                <img src={values.thumbnailUrl} alt='' style={{ width: "150px", height: "70px" }} />
                                 <FormControl
                                     component="fieldset"
                                     width="75%"
