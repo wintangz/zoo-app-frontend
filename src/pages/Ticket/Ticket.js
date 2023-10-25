@@ -78,7 +78,7 @@ function Ticket() {
     //     }
     //     console.log(totalQuantity)
     // }, [totalQuantity])
-
+    console.log(tickets);
     return (
         <>
             <div className={styles.imgbanner}>
@@ -98,10 +98,17 @@ function Ticket() {
                         <th className={styles.table_header}>Quantity</th>
                     </tr>
                     {tickets && tickets.map(ticket => {
-                        return <TicketDetail ticket={ticket}
-                            // key={ticket.id}
-                            increaseQuantity={(price) => handleIncreaseQuantity(price)}
-                            reduceQuantity={(price) => handleReduceQuantity(price)} />
+                        if (ticket.status) {
+                            return (
+                                <TicketDetail
+                                    ticket={ticket}
+                                    // key={ticket.id} (optional but recommended)
+                                    increaseQuantity={(price) => handleIncreaseQuantity(price)}
+                                    reduceQuantity={(price) => handleReduceQuantity(price)}
+                                />
+                            );
+                        }
+                        return null; // or any other content you want when status is false
                     })}
 
                     <tr className={`${styles.table_row} ${styles.total}`}>
