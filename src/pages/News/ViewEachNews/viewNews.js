@@ -46,6 +46,7 @@ function ViewEachNews() {
         stripHtmlTags(sentence + (index < sentences.length - 1 ? '.' : ''))
     ));
 
+    console.log(selectedNews)
     return (
         <>
             <div className={styles.imgbanner}>
@@ -83,12 +84,19 @@ function ViewEachNews() {
 
 
 
-
-                <div className={styles.dateContainer}>
-                    <div className={styles.date}>
-                        <i>Date of Published: {formattedDateStr}</i>
+                <div className={styles.down_content}>
+                    <div className={styles.dateContainer}>
+                        <div className={styles.date}>
+                            <i>Date of Published: {formattedDateStr}</i>
+                        </div>
+                    </div>
+                    <div className={styles.authorContainer}>
+                        <div className={styles.author}>
+                            {selectedNews.authorLastname + " " + selectedNews.authorFirstname}
+                        </div>
                     </div>
                 </div>
+
             </div>
         </>
     );

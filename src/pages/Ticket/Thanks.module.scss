@@ -1,0 +1,79 @@
+.container_thanks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #ececec;
+    text-align: center;
+
+    .thanks {
+        font-size: 5rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Styles for the p element */
+    .check {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+            font-size: 4rem;
+        }
+
+        p {
+            font-size: 1.4rem;
+            color: #777;
+            margin: 0;
+            padding: 1rem;
+            line-height: 1.4rem;
+        }
+    }
+
+    .button {
+        display: flex;
+        justify-content: center;
+        margin-top: 4vh;
+
+        button {
+            background-color: rgb(248, 191, 2);
+            color: rgb(18, 4, 47);
+            padding: 2vh;
+            border: none;
+            border-radius: 2vh;
+            cursor: pointer;
+            opacity: transition 0.25s;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: background-color 0.35s,
+                color 0.35s;
+        }
+
+        button:hover {
+            background-color: rgb(8, 2, 19);
+            color: white;
+        }
+
+    }
+
+    .loader {
+        height: 100px;
+        width: 100px;
+        border: 8px solid white;
+        border-radius: 50%;
+        border-right-color: rgb(248, 191, 2);
+        animation: spin 1s ease infinite;
+    }
+
+    @keyframes spin {
+        100% {
+            transform: rotate(360deg);
+            /* Corrected the spelling of transform and added 'deg' */
+        }
+    }
+}
+
+/* Styles for the h1 element */

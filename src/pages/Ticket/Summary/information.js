@@ -1,53 +1,32 @@
-import styles from './Summary.module.scss';
-
+import styles from './Infomation.module.scss';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from '@mui/icons-material/Home';
+import PublicIcon from '@mui/icons-material/Public';
+import EmailIcon from '@mui/icons-material/Email';
+import SmartphoneIcon from '@mui/icons-material/Smartphone';
 export default function Information(props) {
     console.log(props);
     return (
         <>
-            {/* <div className={styles.row}>
-                <div className={styles.card}>
-                    <div className={styles.card_header}>
-                        <h5>Billing Address</h5>
-                    </div>
-                    <div className={styles.card_body}>
-                        <b className={styles.table_data}>{props.info.lastname} {props.info.firstname}</b> */}
-            {/* <p className={styles.table_data}>168/5 binh duong 3 an binh</p>
-                    <p className={styles.table_data}>di an</p> */}
-            {/* <p className={styles.table_data}>{props.info.address}</p>
-                        <p className={styles.table_data}>{props.info.nationality}</p>
-                    </div>
-                </div>
-                <div className={styles.card}>
-                    <div className={styles.card_header}>
-                        <h5>Contact Method</h5>
-                    </div>
-                    <div className={styles.card_body}>
-                        <p>Selected shipping type: Email</p>
-                        <p className={styles.email}>to: {props.info.email}</p>
-                    </div>
-                </div>
-            </div> */}
-
-
-            <tr>
-                <td>Name: </td>
-                <td>{props.info.lastname} {props.info.firstname}</td>
+            <tr className={styles.row}>
+                <td className={styles.name}><AccountCircleIcon />Full Name:</td>
+                <td className={styles.value}>{props.info.lastname} {props.info.firstname}</td>
             </tr>
-            <tr>
-                <td>Address: </td>
-                <td>{props.info.address}</td>
+            <tr className={styles.row}>
+                <td className={styles.name}><HomeIcon />Address:</td>
+                <td className={styles.value}>{props.info.address}</td>
             </tr>
-            <tr>
-                <td>Nationality: </td>
-                <td>{props.info.nationality}</td>
+            <tr className={styles.row}>
+                <td className={styles.name}><PublicIcon />Nationality:</td>
+                <td className={styles.value}>{props.info.nationality}</td>
             </tr>
-            <tr>
-                <td>Email: </td>
-                <td>{props.info.email}</td>
+            <tr className={styles.row}>
+                <td className={styles.name}><EmailIcon />Email:</td>
+                <td className={styles.value}>{props.info.email}</td>
             </tr>
-            <tr>
-                <td>Phone: </td>
-                <td>{props.info.phone}</td>
+            <tr className={styles.row}>
+                <td className={styles.name}><SmartphoneIcon />Phone:</td>
+                <td className={styles.value}>{props.info.phone}</td>
             </tr>
         </>
 
