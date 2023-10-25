@@ -194,6 +194,7 @@ function NewsPostForm() {
                                         onBlur={handleBlur}
                                         label="Type"
                                         name="type"
+                                        error={!!touched.imgUrl && !!errors.imgUrl}
                                     >
                                         {typeOptions.map((type) => (
                                             <MenuItem key={type} value={type}>
