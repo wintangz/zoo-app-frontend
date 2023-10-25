@@ -3,6 +3,7 @@ import {
     Button,
     FormControl,
     FormControlLabel,
+    Input,
     MenuItem,
     Radio,
     RadioGroup,
@@ -11,16 +12,15 @@ import {
     useTheme
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import * as mockData from '~/api/animalsService';
-import { getHabitats, updateEnclosures } from '~/api/animalsService';
+import { getEnclosuresById, getHabitats, updateEnclosures } from '~/api/animalsService';
 import { getSpecies } from '~/api/speciesService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
+import uploadFile from '~/utils/transferFile';
 
 function UpdateEnclosure() {
     //--------------- Call API GET USER ---------------------------------//'
@@ -31,7 +31,7 @@ function UpdateEnclosure() {
     const [habitats, setHabitats] = useState([]);
 
     const fetchapi = async (id) => {
-        const result = await mockData.getEnclosuresById(id);
+        const result = await getEnclosuresById(id);
         return result;
     };
     useEffect(() => {
@@ -44,7 +44,6 @@ function UpdateEnclosure() {
     //****************---------------------- Config Color Theme ****************************/
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
-    const isNonMobile = useMediaQuery('(min-width: 600px)');
 
     // ******************************** MODAL FUCTION ********************************/
     const style = {
@@ -68,7 +67,11 @@ function UpdateEnclosure() {
 
     //---------------------------------------- Handle Submit----------------------------------/
 
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values) => {
+        if (values.imgUrl instanceof File) {
+            const imgURL = await uploadFile(values.imgUrl, 'update-news');
+            values.imgUrl = imgURL;
+        }
         const res = updateEnclosures(enclosureId, values);
         res.then((result) => {
             const status = result.status;
@@ -89,16 +92,30 @@ function UpdateEnclosure() {
     };
 
     //****************************** VALIDATION ********************************
-
+    const FILE_SIZE = 1920 * 1080;
+    const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const userSchema = yup.object().shape({
-        name: yup.string().required('Name cannot be empty'),
         maxCapacity: yup
             .number()
             .typeError('Max Capacity must be a number')
             .min(1, 'Max Capacity must be greater than 0')
             .required('Max Capacity cannot be empty'),
-        info: yup.string().required('Information cannot be empty'),
-        imgUrl: yup.string().required('Infomation cannot be empty'),
+        imgUrl: yup
+            .mixed()
+            .notRequired()
+            .nullable()
+            .test('is-file', 'Invalid file', function (value) {
+                if (typeof value === 'string') {
+                    return true;
+                }
+                if (value === null || value === undefined) {
+                    return true;
+                }
+                if (value instanceof File) {
+                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+                }
+                return false;
+            }),
     });
 
     useEffect(() => {
@@ -143,7 +160,7 @@ function UpdateEnclosure() {
                         validationSchema={userSchema}
                         enableReinitialize={true}
                     >
-                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                             <form onSubmit={handleSubmit}>
                                 <Box
                                     display="grid"
@@ -157,7 +174,6 @@ function UpdateEnclosure() {
                                         label="Name"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
                                         value={values.name}
                                         name="name"
                                         error={!!touched.name && !!errors.name}
@@ -257,22 +273,21 @@ function UpdateEnclosure() {
                                             gridRow: '3',        // Below the first row
                                         }}
                                     />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text" // Change the type to "text"
-                                        label="ImgUrl"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.imgUrl}
-                                        name="imgUrl"
-                                        error={!!touched.imgUrl && !!errors.imgUrl}
-                                        helperText={touched.imgUrl && errors.imgUrl}
-                                        sx={{
-                                            gridColumn: 'span 2',  // Span the entire width
-                                            gridRow: '4',        // Below the first row
-                                        }}
-                                    />
+                                    <FormControl component="fieldset" >
+                                        <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                            imgUrl
+                                        </Typography>
+                                        <Input
+                                            type="file"
+                                            label="imgUrl"
+                                            onBlur={handleBlur}
+                                            onChange={(e) => {
+                                                setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                            }}
+                                            name="imgUrl"
+                                        />
+                                    </FormControl>
+                                    <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
 
 
                                     <FormControl

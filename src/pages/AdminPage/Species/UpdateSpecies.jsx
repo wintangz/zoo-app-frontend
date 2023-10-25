@@ -9,6 +9,7 @@ import { getHabitats } from '~/api/animalsService';
 import { getSpeciesById, updateSpecies } from '~/api/speciesService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
+import uploadFile from '~/utils/transferFile';
 
 function UpdateSpecies() {
     const { speciesId } = useParams();
@@ -71,33 +72,59 @@ function UpdateSpecies() {
     const FILE_SIZE = 1920 * 1080;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const userSchema = yup.object().shape({
-        name: yup.string().required('Name is required'),
-        species: yup.string().required('Species is required'),
-        genus: yup.string().required('Genus is required'),
-        family: yup.string().required('Family is required'),
         habitatId: yup.string().required('Habitat is required'),
-        diet: yup.string().required('Diet is required'),
-        conservationStatus: yup.string().required('Conservation Status is required'),
-        description: yup.string().required('Description is required'),
-        imgUrl: yup.mixed()
-            .required('A file is required')
-            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
-            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
-        avatarUrl: yup.mixed()
-            .required('A file is required')
-            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
-            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
-        status: yup.boolean().required('Status is required'),
+        imgUrl: yup
+            .mixed()
+            .notRequired()
+            .nullable()
+            .test('is-file', 'Invalid file', function (value) {
+                if (typeof value === 'string') {
+                    return true;
+                }
+                if (value === null || value === undefined) {
+                    return true;
+                }
+                if (value instanceof File) {
+                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+                }
+                return false;
+            }),
+        avatarUrl: yup
+            .mixed()
+            .notRequired()
+            .nullable()
+            .test('is-file', 'Invalid file', function (value) {
+                if (typeof value === 'string') {
+                    return true;
+                }
+                if (value === null || value === undefined) {
+                    return true;
+                }
+                if (value instanceof File) {
+                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+                }
+                return false;
+            }),
     });
 
     const handleFormSubmit = async (values) => {
         try {
             const submitValue = { ...values, habitatId: habitattId, };
-            const response = await updateSpecies(speciesId, submitValue);
             console.log(submitValue);
-            if (response?.status === 200) {
-                setOpen(true);
+            if (values.imgUrl instanceof File) {
+                const imgURL = await uploadFile(submitValue.imgUrl, 'update-species');
+                submitValue.imgUrl = imgURL;
             }
+            if (values.avatarUrl instanceof File) {
+                const avatarURL = await uploadFile(submitValue.avatarUrl, 'update-species');
+                submitValue.avatarUrl = avatarURL;
+            }
+            const response = updateSpecies(speciesId, submitValue);
+            response.then((result) => {
+                if (result.data.status === "Ok") {
+                    setOpen(true);
+                }
+            });
         } catch (error) {
             console.error('Error submitting form:', error.message);
         }
@@ -273,23 +300,20 @@ function UpdateSpecies() {
                                     }}
                                 />
 
-                                <FormControl component="fieldset">
+                                <FormControl component="fieldset" >
                                     <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
-                                        Img File
+                                        imgUrl
                                     </Typography>
                                     <Input
                                         type="file"
-                                        label="Image URL"
+                                        label="imgUrl"
                                         onBlur={handleBlur}
                                         onChange={(e) => {
                                             setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                        }} // Handle file input change
+                                        }}
                                         name="imgUrl"
-                                        error={!!touched.avatarUrl && !!errors.avatarUrl}
                                     />
-                                    {touched.avatarUrl && errors.avatarUrl && (
-                                        <div style={{ color: 'red' }}>{errors.avatarUrl}</div>
-                                    )}
+                                    <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
                                 </FormControl>
 
                                 <FormControl component="fieldset">
@@ -304,11 +328,8 @@ function UpdateSpecies() {
                                             setFieldValue('avatarUrl', e.currentTarget.files[0]);
                                         }} // Handle file input change
                                         name="avatarUrl"
-                                        error={!!touched.avatarUrl && !!errors.avatarUrl}
                                     />
-                                    {touched.avatarUrl && errors.avatarUrl && (
-                                        <div style={{ color: 'red' }}>{errors.avatarUrl}</div>
-                                    )}
+                                    <img src={values.avatarUrl} alt='' style={{ width: "150px", height: "70px" }} />
                                 </FormControl>
 
                                 <FormControl
