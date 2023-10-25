@@ -3,10 +3,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { tokens } from '~/theme';
 import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 import { useEffect, useState } from "react";
-import { decode } from "~/utils/axiosClient";
 import { createFeedingSchedule, getAllAnimals, getAllDiet } from "~/api/animalsService";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
-import MultiDatePicker, { DateObject, addHours, addMinutes } from "react-multi-date-picker";
 // import TimePicker from "react-time-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import DatePicker from "react-multi-date-picker";
@@ -17,8 +15,7 @@ function FeedSchedule() {
     const [values, setValues] = useState([]);
     const [open, setOpen] = useState(false);
     const [currentDiet, setCurrentDiet] = useState()
-    const [selectedRows, setSelectedRows] = useState([]);
-    const [diet, Setdiet] = useState();
+    const [diet, Setdiet] = useState(null);
     const [animals, setAnimals] = useState([]);
     const [currentAnimal, setCurrentAnimal] = useState();
     const theme = useTheme({ isDashboard: false });
