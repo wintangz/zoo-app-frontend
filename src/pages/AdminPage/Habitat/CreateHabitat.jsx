@@ -1,7 +1,10 @@
 import {
     Box,
     Button,
+    FormControl,
+    Input,
     TextField,
+    Typography,
     useTheme
 } from '@mui/material';
 
@@ -9,12 +12,14 @@ import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createHabitats } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 // import { DataGridPro } from '@mui/x-data-grid-pro';
 function CreateHabitat() {
+    const navigate = useNavigate();
     const FILE_SIZE = 160 * 1024;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const theme = useTheme({ isDashboard: false });
@@ -134,39 +139,53 @@ function CreateHabitat() {
                                         gridColumn: 'span 4',
                                     }}
                                 />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Image URL"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.imgUrl}
-                                    name="imgUrl"
-                                    error={!!touched.imgUrl && !!errors.imgUrl}
-                                    helperText={touched.imgUrl && errors.imgUrl}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                />
+                                <FormControl component="fieldset" >
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                        imgUrl
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="imgUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            handleChange('imgUrl', e.currentTarget.files[0]);
+                                        }}
+                                        name="imgUrl"
+                                        error={!!touched.imgUrl && !!errors.imgUrl}
+                                    />
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                </FormControl>
 
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Banner URL"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.bannerUrl}
-                                    name="bannerUrl"
-                                    error={!!touched.bannerUrl && !!errors.bannerUrl}
-                                    helperText={touched.bannerUrl && errors.bannerUrl}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                />
+                                <FormControl component="fieldset" >
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                        bannerUrl
+                                    </Typography>
+                                    <Input
+                                        type="file"
+                                        label="bannerUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            handleChange('imgUrl', e.currentTarget.files[0]);
+                                        }}
+                                        name="bannerUrl"
+                                        error={!!touched.bannerUrl && !!errors.bannerUrl}
+                                    />
+                                    {touched.bannerUrl && errors.bannerUrl && (
+                                        <div style={{ color: 'red' }}>{errors.bannerUrl}</div>
+                                    )}
+                                </FormControl>
                             </Box>
-                            <Box display="flex" justifyContent="end" mt="20px">
+                            <Box display="flex" justifyContent="space-between" mt="20px">
+                                <Button
+                                    type="button"
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={() => navigate('/home/habitat')}
+                                >
+                                    VIEW All HABITATS
+                                </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE HABITAT
                                 </Button>

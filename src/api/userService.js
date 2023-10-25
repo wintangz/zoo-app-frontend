@@ -84,15 +84,6 @@ export const deleteUser = async (id) => {
         return error.response;
     }
 }
-// export const deleteCustomer = async (id) => {
-//     try {
-//         const res = await axiosClient.remove(`users/${id}`);
-//         return res.data
-//     } catch (error) {
-//         console.log(error.response);
-//         return error.response;
-//     }
-// }
 
 export const logout = async (values) => {
     try {

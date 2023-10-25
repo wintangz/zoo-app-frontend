@@ -68,7 +68,7 @@ function EditProfile() {
     };
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        navigate('/team');
+        navigate('/home');
     };
 
     //---------------------------------------- Handle Submit----------------------------------/

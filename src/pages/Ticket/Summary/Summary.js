@@ -1,3 +1,5 @@
+import InfoIcon from '@mui/icons-material/Info';
+import PaymentIcon from '@mui/icons-material/Payment';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { confirmTicketPurchase } from '~/api/confirmService';
@@ -19,7 +21,7 @@ function Summary() {
             const result = await confirmTicketPurchase(cart, totalPrice, totalQuantity);
             // alert('Purchase successful');
             console.log(result.data);
-            // window.location.href = result.data;
+            window.location.href = result.data;
         } catch (error) {
             console.error(error.message);
             // alert('Purchase failed');

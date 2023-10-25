@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import * as mockData from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
+import Actions from '../Team/actions';
 
 function ViewCustomers() {
     const navigate = useNavigate();
@@ -78,13 +79,13 @@ function ViewCustomers() {
             headerName: 'Email',
             flex: 1,
         },
-        // {
-        //     field: 'actions',
-        //     headerName: 'Actions',
-        //     type: 'actions',
-        //     width: 80,
-        //     renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
-        // },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            type: 'actions',
+            width: 80,
+            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
+        },
     ];
     return (
         <Box m="20px">
