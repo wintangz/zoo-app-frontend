@@ -1,13 +1,12 @@
 import { Box, Button, Link as MuiLink, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
-import React from 'react';
+import { useState } from 'react';
 import * as yup from 'yup';
-import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 // import { updatePassword } from '~/api/data/mockData'; // Assuming there's a function for updating the password
 import { Link } from 'react-router-dom';
-import SidebarUser from '../SidebarUser/SidebarUser';
+import { Security } from '~/api/authService';
 
 function SecurityUser() {
     //****************---------------------- Config Color Theme ****************************/
@@ -29,17 +28,43 @@ function SecurityUser() {
         px: 4,
         pb: 3,
     };
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleClose = () => {
         setOpen(false);
+        localStorage.removeItem('token');
+        // history.push('/');
+        window.location = ('/');
     };
 
     const passwordSchema = yup.object().shape({
-        password: yup.string().required('required'),
-        password: yup.string().required('required').min(8, 'Password must be at least 8 characters'),
+        oldPassword: yup.string().required('required').min(8, 'Password must be at least 8 characters'),
+        newPassword: yup.string().required('required').min(8, 'Password must be at least 8 characters'),
         confirm: yup.string().oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
     });
 
+    const [responseMessage, setResponseMessage] = useState('');
+    const handleFormSubmit = async (values, { resetForm }) => {
+        try {
+            if (values.newPassword === values.confirm) {
+                const data = {
+                    oldPassword: values.oldPassword,
+                    newPassword: values.newPassword,
+                };
+
+                const response = await Security(data);
+                console.log(response);
+                console.log(data);
+                if (response.status === "Ok") {
+                    setOpen(true);
+                    resetForm();
+                } else {
+                    setResponseMessage(response.data.data);
+                }
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error.message);
+        }
+    };
     return (
         <>
             <div>
@@ -58,89 +83,77 @@ function SecurityUser() {
             </div>
             <>
 
-                <Box m="20px">
+                <Box m="35px" width={"150%"} >
+                    <Box mb="60px" mt="30px" ml="20px">
+                        <Typography color="rgb(248, 191, 2)" variant="h3" fontWeight="bold" sx={{ m: '0 0 5px 0' }}>
+                            Change Password
+                        </Typography>
+                        <Typography variant="h6">
+                            Change your Password
+                        </Typography>
+                    </Box>
                     <Formik
-                        // onSubmit={handleFormSubmit}
+                        onSubmit={handleFormSubmit}
                         initialValues={{
-                            currentPassword: '',
+                            oldPassword: '',
                             newPassword: '',
-                            retypeNewPassword: '',
+                            confirm: '',
                         }}
                         validationSchema={passwordSchema}
                     >
-                        {({ values, errors, touched, handleBlur, handleChange }) => (
-                            <>
-                                <Box mb="60px" mt="30px" ml="20px">
-                                    <Typography color="rgb(248, 191, 2)" variant="h3" fontWeight="bold" sx={{ m: '0 0 5px 0' }}>
-                                        Change Password
-                                    </Typography>
-                                    <Typography variant="h6">
-                                        Change your Password
-                                    </Typography>
-                                </Box>
-                                <form>
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="password"
-                                        label="Current Password"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.password}
-                                        name="currentPassword"
-                                        error={!!touched.password && !!errors.password}
-                                        helperText={touched.password && errors.password}
-                                        style={{ marginBottom: '20px' }}
-                                    />
+                        {({ values, errors, touched, handleBlur, handleSubmit, handleChange }) => (
 
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="password"
-                                        label="New Password"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.password}
-                                        name="newPassword"
-                                        error={!!touched.password && !!errors.password}
-                                        helperText={touched.password && errors.password}
-                                        style={{ marginBottom: '20px' }}
-                                    />
+                            <form onSubmit={handleSubmit}>
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="password"
+                                    label="Current Password"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.oldPassword}
+                                    name="oldPassword"
+                                    error={!!touched.oldPassword && !!errors.oldPassword}
+                                    helperText={touched.oldPassword && errors.oldPassword}
+                                    style={{ marginBottom: '20px' }}
+                                />
+                                <Typography color="red" style={{ marginTop: '5px' }}>{responseMessage}</Typography>
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="password"
+                                    label="New Password"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.newPassword}
+                                    name="newPassword"
+                                    error={!!touched.newPassword && !!errors.newPassword}
+                                    helperText={touched.newPassword && errors.newPassword}
+                                    style={{ marginBottom: '20px' }}
+                                />
 
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="password"
-                                        label="Confirm New Password"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.confirm}
-                                        name="retypeNewPassword"
-                                        error={!!touched.confirm && !!errors.confirm}
-                                        helperText={touched.confirm && errors.confirm}
-                                        style={{ marginBottom: '20px' }}
-                                    />
+                                <TextField
+                                    fullWidth
+                                    variant="filled"
+                                    type="password"
+                                    label="Confirm New Password"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.confirm}
+                                    name="confirm"
+                                    error={!!touched.confirm && !!errors.confirm}
+                                    helperText={touched.confirm && errors.confirm}
+                                    style={{ marginBottom: '20px' }}
+                                />
 
-                                    <Typography mb={2}>
-                                        <MuiLink color={colors.blueAccent[100]}>
-                                            Forgot your password?
-                                        </MuiLink>
-                                    </Typography>
+                                <Typography mb={2}>
+                                    <MuiLink color={colors.blueAccent[300]}>
+                                        Forgot your password?
+                                    </MuiLink>
+                                </Typography>
 
-                                    <Box display="flex" justifyContent="space-between" mt={2}>
-                                        <Link to="/profile">
-                                            <Button type="button" variant="contained"
-                                                sx={{
-                                                    color: 'white', // Text color
-                                                    backgroundColor: 'rgb(248, 191, 2)',
-                                                    '&:hover': {
-                                                        backgroundColor: 'rgb(218, 161, 2)',
-                                                    },
-                                                }}>
-                                                BACK
-                                            </Button>
-                                        </Link>
-
+                                <Box display="flex" justifyContent="space-between" mt={2}>
+                                    <Link to="/profile">
                                         <Button type="button" variant="contained"
                                             sx={{
                                                 color: 'white', // Text color
@@ -149,12 +162,22 @@ function SecurityUser() {
                                                     backgroundColor: 'rgb(218, 161, 2)',
                                                 },
                                             }}>
-                                            CHANGE PASSWORD
+                                            BACK
                                         </Button>
-                                    </Box>
-                                </form>
-                            </>
+                                    </Link>
 
+                                    <Button type="submit" variant="contained"
+                                        sx={{
+                                            color: 'white', // Text color
+                                            backgroundColor: 'rgb(248, 191, 2)',
+                                            '&:hover': {
+                                                backgroundColor: 'rgb(218, 161, 2)',
+                                            },
+                                        }}>
+                                        CHANGE PASSWORD
+                                    </Button>
+                                </Box>
+                            </form>
                         )}
                     </Formik>
                 </Box>

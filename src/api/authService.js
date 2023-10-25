@@ -54,3 +54,12 @@ export const resetPassword = async (values) => {
         return error.response;
     }
 }
+export const Security = async (values) => {
+    try {
+
+        const res = await axiosClient.post('users/password-change', values)
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}
