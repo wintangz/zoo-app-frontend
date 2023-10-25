@@ -24,16 +24,9 @@ function UpdateNews() {
     useEffect(() => {
         const res = fetchapi(newsId);
         res.then((result) => {
-            setNews((values) => ({
-                ...values,
-                title: result?.title || '',
-                shortDescription: result?.shortDescription || '',
-                type: result?.type || '',
-                imgUrl: result?.imgUrl || '',
-                thumbnailUrl: result?.thumbnailUrl || '',
-                status: result?.status ? 'True' : 'False',
-            }));
+            setNews(result);
             setEditorContent(result.content || '');
+
         });
     }, []);
     const theme = useTheme({ isDashboard: false });
@@ -96,13 +89,30 @@ function UpdateNews() {
             submitValue.thumbnailUrl = thumbnailUrl;
             const response = await updateNews(newsId, submitValue);
             console.log(submitValue);
-            if (response?.status === 200) {
+            if (response.data.status === "Ok") {
                 setOpen(true);
             }
         } catch (error) {
             console.error('Error submitting form:', error.message);
         }
     };
+
+    // const handleFormSubmit = async (values, { resetForm }) => {
+    //     try {
+    //         const submitValue = { ...values, content: editorContent };
+    //         const imgURL = await uploadFile(submitValue.imgUrl, 'update-news');
+    //         const thumbnailUrl = await uploadFile(submitValue.thumbnailUrl, 'update-news');
+    //         submitValue.imgUrl = imgURL;
+    //         submitValue.thumbnailUrl = thumbnailUrl;
+    //         const response = await updateNews(newsId, submitValue);
+    //         if (response.data.status === "Ok") {
+    //             setOpen(true);
+    //         }
+
+    //     } catch (error) {
+    //         console.error('Error submitting form:', error.message);
+    //     }
+    // };
 
     const handleClose = () => {
         navigate('/home/news');
@@ -151,9 +161,9 @@ function UpdateNews() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Update News" subtitle="Update news content" />
+                <AdminHeader title="Create News" subtitle="Create news content" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema} enableReinitialize={true}>
-                    {({ values, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box>
                                 <TextField
@@ -226,13 +236,13 @@ function UpdateNews() {
                                         name="imgUrl"
                                     />
                                     <Typography variant="body2" color="textSecondary">
-                                        Image URL: {values.imgUrl}
+                                        {values.imgUrl}
                                     </Typography>
                                 </FormControl>
 
-                                <FormControl component="fieldset">
-                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
-                                        thumbnailUrl
+                                <FormControl component="fieldset" sx={{ paddingLeft: "10px" }}>
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px", paddingLeft: "10px" }}>
+                                        thumbnailUrls
                                     </Typography>
                                     <Input
                                         type="file"
@@ -244,14 +254,14 @@ function UpdateNews() {
                                         name="thumbnailUrl"
                                     />
                                     <Typography variant="body2" color="textSecondary">
-                                        Image URL: {values.thumbnailUrl}
+                                        {values.thumbnailUrl}
                                     </Typography>
                                 </FormControl>
                                 <FormControl
                                     component="fieldset"
                                     width="75%"
                                     sx={{
-                                        gridColumn: 'span 1',
+                                        gridColumn: 'span 1', paddingLeft: "10px"
                                     }}
                                     label="Status"
                                 >
@@ -312,3 +322,4 @@ function UpdateNews() {
 }
 
 export default UpdateNews;
+
