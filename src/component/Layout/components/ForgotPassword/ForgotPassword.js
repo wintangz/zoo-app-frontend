@@ -86,7 +86,11 @@ function ForgotPassword({ onClose, onLoginClick }) {
                                         type='submit'
                                         className={styles.btnSearch}
                                     >
-                                        Send
+                                        {isLoading ? (
+                                            <div className={styles.loader}></div>
+                                        ) : (
+                                            'Send'
+                                        )}
                                     </button>
                                 </div>
                             </Form>
