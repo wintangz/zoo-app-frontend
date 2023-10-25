@@ -71,8 +71,8 @@ const publicRoutes = [
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: "news/:id/:title", component: ParentComponent, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
-    { path: 'profile', component: Profile, layout: ProfileUserLayout, name: 'Profile', Authen: "public" },
-    { path: 'profile/security', component: SecurityUser, layout: ProfileUserLayout, name: 'Profile', Authen: "public" },
+    { path: 'profile', component: Profile, layout: ProfileUserLayout, name: 'Profile', Authen: "private" },
+    { path: 'profile/security', component: SecurityUser, layout: ProfileUserLayout, name: 'SecurityUser', Authen: "private" },
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
@@ -82,7 +82,6 @@ const publicRoutes = [
     { path: 'verify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: 'public' },
     { path: 'inputnewpassword', component: InputNewPassword, layout: NormalLayout, name: 'InputNewPassword', Authen: "public" },
     { path: 'order', component: Order, layout: BannerLayout, name: 'Order', Authen: "public" },
-    { path: 'profile', component: Profile, layout: NormalLayout, name: 'Profile', Authen: "private" },
 
 
     // Admin routes

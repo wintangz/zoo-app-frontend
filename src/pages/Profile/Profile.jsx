@@ -39,6 +39,7 @@ function Profile() {
         const result = await getUserById(id);
         return result;
     };
+
     const newObj = decode(localStorage.getItem('token'));
     useEffect(() => {
         const res = fetchapi(newObj.sub);
@@ -128,9 +129,6 @@ function Profile() {
 
     return (
         <>
-            {/* <div className={styles.container}>
-                <SidebarUser />
-                <> */}
             <div>
                 <Modal
                     open={open}
