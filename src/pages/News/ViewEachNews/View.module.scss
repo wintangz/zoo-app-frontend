@@ -77,17 +77,27 @@
         }
     }
 
-    .dateContainer {
-        font-size: 1.1rem;
-        margin-top: 10vh;
-        font-style: italic;
-        color: #6c6c6c;
-        border-color: rgb(250, 144, 0);
-        border-left-width: 4px;
-        border-left-style: solid;
-        border-right: none;
-        padding: 0 0 0 10px;
+    .down_content {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+
+        .dateContainer {
+            font-size: 1.1rem;
+            margin-top: 10vh;
+            font-style: italic;
+            color: #6c6c6c;
+            border-color: rgb(250, 144, 0);
+            border-left-width: 4px;
+            border-left-style: solid;
+            border-right: none;
+            padding: 0 0 0 10px;
+        }
+
+        .authorContainer {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
     }
-
-
 }

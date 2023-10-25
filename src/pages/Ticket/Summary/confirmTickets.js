@@ -2,6 +2,10 @@
 // import { TicketContext } from '../index';
 import styles from './ConfirmTickets.module.scss';
 
+function formatPrice(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
 function ConfirmTickets(props) {
 
     console.log(props.cart);
@@ -28,13 +32,17 @@ function ConfirmTickets(props) {
                                 {cart.name}
                             </td>
                             <td className={styles.table_data}>
-                                {cart.price === 0 ? 'Free' : cart.price.toLocaleString() + ' VND'}
+                                {cart.price === 0
+                                    ? 'Free'
+                                    : `${formatPrice(cart.price)} VND`}
                             </td>
-                            <td className={styles.table_data}>
+                            <td className={styles.table_quantity}>
                                 {cart.quantity}
                             </td>
                             <td className={styles.table_total}>
-                                {cart.totalItemPrice === 0 ? 'Free' : cart.totalItemPrice.toLocaleString() + ' VND'}
+                                {cart.totalItemPrice === 0
+                                    ? 'Free'
+                                    : `${formatPrice(cart.totalItemPrice)} VND`}
                             </td>
                         </tr>
                     </>

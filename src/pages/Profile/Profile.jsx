@@ -70,6 +70,7 @@ function Profile() {
             values.sex = false;
         }
         const res = updateUser(newObj.sub, values);
+        console.log(values);
         res.then((result) => {
             const status = result.status;
             if (status === 200) {

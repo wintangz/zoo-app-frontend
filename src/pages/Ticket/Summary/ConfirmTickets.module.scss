@@ -1,19 +1,32 @@
-tr {
+.table_row {
+
     .table_data {
         padding: 0 2vh;
         font-size: 1.2rem;
+        border-bottom: 1px solid black;
+    }
+
+    .table_quantity {
+        text-align: center;
+        font-size: 1.2rem;
+        padding-right: 4vh;
+        border-bottom: 1px solid black;
     }
 
     .table_total {
         padding: 0 2vh;
         font-size: 1.2rem;
         font-weight: bold;
+        border-bottom: 1px solid black;
     }
 
     .table_img {
+        border-bottom: 1px solid black;
+
         img {
-            width: 22vw;
-            height: 25vh;
+            width: 15vw;
+            height: 15vh;
         }
+
     }
 }

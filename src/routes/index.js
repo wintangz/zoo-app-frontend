@@ -55,7 +55,6 @@ import ViewSpecies from '~/pages/AdminPage/Species/Species';
 import UpdateSpecies from '~/pages/AdminPage/Species/UpdateSpecies';
 import Form from '~/pages/AdminPage/Team/CreateUser';
 import EditProfile from '~/pages/AdminPage/Team/EditProfile';
-import Security from '~/pages/AdminPage/Team/EditProfile/Sercurity';
 import UpdateStaff from "~/pages/AdminPage/Team/UpdateStaff";
 import Team from '~/pages/AdminPage/Team/ViewUser';
 import { default as CreateTicket, default as ViewTicket } from '~/pages/AdminPage/Ticket';
@@ -90,7 +89,6 @@ const publicRoutes = [
     { path: 'home/staff/create', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'home/staff/update/:userId', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/edit', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
-    { path: 'home/edit/security', component: Security, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/tickets', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
     { path: 'home/tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
 
