@@ -5,6 +5,12 @@ import { getNewsById } from '~/api/newsService';
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import styles from './View.module.scss';
 
+function stripHtmlTags(html) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+}
+
 function ViewEachNews() {
     const { id } = useParams();
 
@@ -33,34 +39,55 @@ function ViewEachNews() {
 
     const formattedDateStr = `${day}/${month}/${year}`;
 
+    const sentences = selectedNews.content.split('. ');
+
+    // Map sentences into paragraphs while keeping the periods and removing <p> tags
+    const paragraphs = sentences.map((sentence, index) => (
+        stripHtmlTags(sentence + (index < sentences.length - 1 ? '.' : ''))
+    ));
+
     return (
         <>
             <div className={styles.imgbanner}>
                 <NormalBanner />
             </div>
             <div className={styles.container}>
-                <div className={styles.title}>
-                    <h1 >{selectedNews.title}</h1>
-                </div>
-
 
                 <div className={styles.thumbnailContainer}>
                     <img src={selectedNews.thumbnailUrl} />
                 </div>
 
-                <div>
-                    {selectedNews.shortDescription}
+                <div className={styles.title}>
+                    <h1 >{selectedNews.title}</h1>
                 </div>
+
+
+
+                <div className={styles.shortDescription}>
+                    <p><i>{selectedNews.shortDescription}</i></p>
+                </div>
+
+
+
                 <div className={styles.imgContainer}>
                     <img src={selectedNews.imgUrl} />
                 </div>
-                <div
-                    className="ql-editor"
-                    dangerouslySetInnerHTML={{ __html: selectedNews.content }}
-                />
 
-                <div className={styles.date}>
-                    <i>Date of Public: {formattedDateStr}</i>
+
+
+                <div className={styles.ql_editor}>
+                    {paragraphs.map((paragraph, index) => (
+                        <p key={index}>{paragraph}</p>
+                    ))}
+                </div>
+
+
+
+
+                <div className={styles.dateContainer}>
+                    <div className={styles.date}>
+                        <i>Date of Published: {formattedDateStr}</i>
+                    </div>
                 </div>
             </div>
         </>

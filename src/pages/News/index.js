@@ -20,7 +20,7 @@ function News() {
             </div>
             <div className={styles.news_list}>
                 <div className={styles.category}>
-                    <div className={styles.item}> Latest</div>
+                    <div className={styles.item}>Latest</div>
                     <div className={styles.item}>Info</div>
                     <div className={styles.item}>Event</div>
                 </div>

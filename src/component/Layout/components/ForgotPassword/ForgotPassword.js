@@ -37,8 +37,11 @@ function ForgotPassword({ onClose, onLoginClick }) {
             setError(response.data.serverError)
             console.log(response.data)
             if (response.status === 'Ok') {
-                navigate(`/verify?email=${values.email}`);
+                setTimeout(() => {
+                    navigate(`/verify?email=${values.email}`);
+                }, 0);
             }
+
         } catch (error) {
             console.log(error)
             return error;
