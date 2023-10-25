@@ -64,6 +64,8 @@ import ThankYouPage from '~/pages/Ticket/Thanks';
 import Order from '~/pages/Order/Order';
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import BannerLayout from '~/component/Layout/BannerLayout/BannerLayout';
+import ViewHealth from '~/pages/AdminPage/HealthCare/viewHealth';
+import CreateHealth from '~/pages/AdminPage/HealthCare/createHealth';
 
 
 const publicRoutes = [
@@ -135,6 +137,8 @@ const publicRoutes = [
 
     { path: 'home/checkticket', component: TicketScanner, layout: AdminMainPage, name: 'TicketScanner;', Authen: "private" },
     { path: '/enclosure/in', component: MoveInEnclosure, layout: AdminMainPage, name: 'moveInEnclosure;', Authen: "private" },
+    { path: 'home/health/view', component: ViewHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
+    { path: 'home/health/create', component: CreateHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
 
 
 ];
