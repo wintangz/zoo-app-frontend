@@ -19,7 +19,7 @@ function News() {
     const images = [];
     const posts = [];
     {
-        post && post.map(post => {
+        post && post.slice(0).reverse().map(post => {
             if (images.length <= 4) {
                 images.push({
                     id: post.id,

@@ -181,7 +181,7 @@ function Header() {
                     </div>
                 </div>
                 <div className={styles.login}>
-                    {auth ? (
+                    {localStorage.getItem('token') ? (
                         <div className={styles.loginUser}>
                             <p>Hello {sub}</p>
                             <ul>

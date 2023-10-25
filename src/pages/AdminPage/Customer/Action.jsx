@@ -1,13 +1,12 @@
 import { Delete, Edit } from '@mui/icons-material';
-import CheckIcon from '@mui/icons-material/Check';
 import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import axios from 'axios';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { tokens } from '~/theme';
+import { decode } from '~/utils/axiosClient';
+
 const Actions = ({ params, setRemove }) => {
-    let navigate = useNavigate();
     const [message, setMessage] = useState(false);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -27,27 +26,19 @@ const Actions = ({ params, setRemove }) => {
         pb: 3,
     };
     const handleDelete = (values) => {
-        const token = localStorage.getItem('token');
-        // Define the URL and headers
-        const url = `https://zoo-by-valt.azurewebsites.net/api/feeding_schedules/${values}`;
-        const headers = {
-            Authorization: `Bearer ${token}`,
-        };
-
-        // Send the DELETE request
-        axios
-            .delete(url, { headers })
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log('DELETE request successful:', response);
-                    setOpen(false);
-                    setMessage(true);
-                }
-            })
-            .catch((error) => {
-                console.error('DELETE request failed:', error);
-            });
+        setOpen(false);
+        // deleteUser(values)
+        //     .then((response) => {
+        //         if (response.status === "Ok") {
+        //             console.log('DELETE request successful:', response);
+        //             setMessage(true);
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.error('DELETE request failed:', error);
+        //     });
     };
+
 
     const handleClose = () => {
         setOpen(false);
@@ -56,11 +47,8 @@ const Actions = ({ params, setRemove }) => {
         setMessage(false);
         setRemove(values);
     };
-    const userInfo = {
-        // Add your user information here
-        name: 'John Doe',
-        // Other properties
-    };
+    const userRole = decode(localStorage.getItem('token')).roles[0];
+
     return (
         <>
             <div>
@@ -71,8 +59,8 @@ const Actions = ({ params, setRemove }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete schedule</h2>
-                        <p id="parent-modal-description">Are you sure want to delete this schedule?</p>
+                        <h2 id="parent-modal-title">Delete user</h2>
+                        <p id="parent-modal-description">Are you sure want to delete this user?</p>
                         <Button onClick={handleClose}>Close</Button>
                         <Button
                             onClick={() => {
@@ -115,31 +103,20 @@ const Actions = ({ params, setRemove }) => {
                         <Delete />
                     </IconButton  >
                 </Tooltip>
+                {userRole === 'ADMIN' && (
+                    <Tooltip title="Edit">
+                        <Link to={`/staff/update/${params.row.id}`}>
+                            <IconButton
+                                onClick={() => {
 
+                                }}
+                            >
+                                <Edit />
+                            </IconButton  >
+                        </Link>
 
-
-
-                <Tooltip title="Update">
-                    <Link to="/home/animal/schedule/update" state={params.row}>
-                        <IconButton
-                        // onClick={handleEdit(params.row)}
-                        >
-                            <Edit />
-                        </IconButton  >
-                    </Link>
-
-                </Tooltip>
-
-                <Tooltip title="Confirm">
-                    <Link to="/animal/confirm" state={params.row}>
-                        <IconButton
-                        // onClick={handleEdit(params.row)}
-                        >
-                            <CheckIcon />
-                        </IconButton  >
-                    </Link>
-
-                </Tooltip>
+                    </Tooltip>
+                )}
             </Box>
         </>
     );

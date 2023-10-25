@@ -178,3 +178,30 @@ export const deleteEnclosure = async (id) => {
         return error.response;
     }
 }
+
+export const getEnclosuresAnimals = async () => {
+    try {
+        const res = await axiosClient.get('animals/enclosures')
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}
+export const deleteAnimals = async (id) => {
+    try {
+        const res = await axiosClient.remove(`animals/${id}`);
+        return res.data
+    } catch (error) {
+        console.log(error.response);
+        return error.response;
+    }
+}
+export const deleteSchedules = async (id) => {
+    try {
+        const res = await axiosClient.remove(`feeding_schedules/${id}`);
+        return res.data
+    } catch (error) {
+        console.log(error.response);
+        return error.response;
+    }
+}

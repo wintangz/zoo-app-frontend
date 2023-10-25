@@ -42,7 +42,7 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                             break;
                         case "CUSTOMER": window.location = ('/');
                             break;
-                        default: window.open('/home', '_blank')
+                        default: window.open('/home', '_blank'); break;
                     }
                 })
             }

@@ -21,12 +21,14 @@ import Ticket from '~/pages/Ticket/Ticket';
 
 //Admin routes
 // import Bar from '~/pages/AdminPage/Bar/index';
-import AssignAnimal from '~/pages/AdminPage/AssignAnimal';
+import ViewAnimals from '~/pages/AdminPage/Animal';
+import AssignAnimal from '~/pages/AdminPage/Animal/AssignAnimal';
+import CreateAnimal from '~/pages/AdminPage/Animal/CreateAnimal';
 import Calendar from '~/pages/AdminPage/Calendar';
 import TicketScanner from '~/pages/AdminPage/CheckTicket/checkTicket';
 import Confirm from '~/pages/AdminPage/Confirm/confirm';
-import CreateAnimal from '~/pages/AdminPage/CreateAnimal';
-import CreateTicket from '~/pages/AdminPage/CreateTicket';
+import CreateCustomer from '~/pages/AdminPage/Customer/CreateCustomer';
+import ViewCustomers from '~/pages/AdminPage/Customer/ViewCustomers';
 import CreateDiet from '~/pages/AdminPage/Diet/CreateDiet';
 import ViewDiet from '~/pages/AdminPage/Diet/Diet';
 import UpdateDiets from '~/pages/AdminPage/Diet/UpdateDiet';
@@ -34,7 +36,6 @@ import CreateEnclosure from '~/pages/AdminPage/Enclosure/CreateEnclosure';
 import UpdateEnclosure from '~/pages/AdminPage/Enclosure/UpdateEnclosure';
 import ViewEnclosure from '~/pages/AdminPage/Enclosure/ViewEnclosure';
 import MoveInEnclosure from '~/pages/AdminPage/Enclosure/moveInEnclosure';
-import FeedSchedule from '~/pages/AdminPage/FeedSchedule';
 import CreateFood from '~/pages/AdminPage/Food/CreateFood';
 import ViewFood from '~/pages/AdminPage/Food/Food';
 import UpdateFood from '~/pages/AdminPage/Food/UpdateFood';
@@ -46,20 +47,23 @@ import ViewNews from '~/pages/AdminPage/New/News';
 import UpdateNews from '~/pages/AdminPage/New/UpdateNews';
 import ViewOrdersTickets from '~/pages/AdminPage/Order/ViewAllPurchasedTickets';
 import ViewOrders from '~/pages/AdminPage/Order/ViewOrder';
+import FeedSchedule from '~/pages/AdminPage/Schedule/FeedSchedule';
+import UpdateSchedule from '~/pages/AdminPage/Schedule/UpdateSchedule';
+import ViewSchedule from '~/pages/AdminPage/Schedule/ViewSchedule';
 import CreateSpecies from '~/pages/AdminPage/Species/CreateSpecies';
 import ViewSpecies from '~/pages/AdminPage/Species/Species';
 import UpdateSpecies from '~/pages/AdminPage/Species/UpdateSpecies';
 import Form from '~/pages/AdminPage/Team/CreateUser';
 import EditProfile from '~/pages/AdminPage/Team/EditProfile';
 import Security from '~/pages/AdminPage/Team/EditProfile/Sercurity';
+import UpdateStaff from "~/pages/AdminPage/Team/UpdateStaff";
 import Team from '~/pages/AdminPage/Team/ViewUser';
-import UpdateSchedule from '~/pages/AdminPage/UpdateSchedule/UpdateSchedule';
-import UpdateStaff from "~/pages/AdminPage/UpdateStaff";
-import ViewAnimals from '~/pages/AdminPage/ViewAnimal';
-import ViewSchedule from '~/pages/AdminPage/ViewSchedule/ViewSchedule';
-import ViewTicket from '~/pages/AdminPage/ViewTicket';
+import { default as CreateTicket, default as ViewTicket } from '~/pages/AdminPage/Ticket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
+import Order from '~/pages/Order/Order';
+import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
+import BannerLayout from '~/component/Layout/BannerLayout/BannerLayout';
 
 
 const publicRoutes = [
@@ -77,6 +81,7 @@ const publicRoutes = [
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
     { path: 'verify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: 'public' },
     { path: 'inputnewpassword', component: InputNewPassword, layout: NormalLayout, name: 'InputNewPassword', Authen: "public" },
+    { path: 'order', component: Order, layout: BannerLayout, name: 'Order', Authen: "public" },
     { path: 'profile', component: Profile, layout: NormalLayout, name: 'Profile', Authen: "private" },
 
 
@@ -89,6 +94,9 @@ const publicRoutes = [
     { path: 'home/edit/security', component: Security, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/tickets', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
     { path: 'home/tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
+
+    { path: 'home/customers', component: ViewCustomers, layout: AdminMainPage, name: 'ViewCustomers', Authen: "private" },
+    { path: 'home/customers/create', component: CreateCustomer, layout: AdminMainPage, name: 'CreateCustomer', Authen: "private" },
 
     { path: 'home/news', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
     { path: 'home/news/create', component: NewsPostForm, layout: AdminMainPage, name: 'CreateNews', Authen: "private" },

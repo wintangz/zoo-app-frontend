@@ -214,6 +214,13 @@ const Sidebar = () => {
                         {userRole === 'STAFF' && (
                             <>
                                 <Item
+                                    title="View Customers"
+                                    to="/home/customers"
+                                    icon={<BsNewspaper />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
                                     title={titleNews}
                                     to="/home/news"
                                     icon={<BsNewspaper />}
@@ -236,7 +243,7 @@ const Sidebar = () => {
                                 />
                                 <Item
                                     title="Check ticket"
-                                    to="/checkticket"
+                                    to="/home/checkticket"
                                     icon={<BsQrCodeScan />}
                                     selected={selected}
                                     setSelected={setSelected}
