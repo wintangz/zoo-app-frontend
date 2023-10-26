@@ -50,7 +50,7 @@ function NewsPostForm() {
     const typeOptions = ['Event', 'Info'];
     const userSchema = yup.object().shape({
         title: yup.string().required('Title is required'),
-        shortDescription: yup.string().required('Short Description is required'),
+        shortDescription: yup.string().required('Short Description is required').max(250, "Short Description max is 250 words."),
         content: yup.string(),
         // .test('word-count', 'Content must have at least 10 words', (value) => {
         //     if (!value) return false; // Empty content is not allowed
@@ -77,6 +77,7 @@ function NewsPostForm() {
             const thumbnailUrl = await uploadFile(submitValue.thumbnailUrl, 'create-news');
             submitValue.imgUrl = imgURL;
             submitValue.thumbnailUrl = thumbnailUrl;
+            console.log(submitValue);
             const response = await createNews(submitValue);
             if (response.data.status === "Ok") {
                 setOpen(true);
@@ -212,7 +213,7 @@ function NewsPostForm() {
                                         label="imgUrl"
                                         onBlur={handleBlur}
                                         onChange={(e) => {
-                                            handleChange('imgUrl', e.currentTarget.files[0]);
+                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
                                         }}
                                         name="imgUrl"
                                         error={!!touched.imgUrl && !!errors.imgUrl}
@@ -231,7 +232,7 @@ function NewsPostForm() {
                                         label="thumbnailUrl"
                                         onBlur={handleBlur}
                                         onChange={(e) => {
-                                            handleChange('thumbnailUrl', e.currentTarget.files[0]);
+                                            setFieldValue('thumbnailUrl', e.currentTarget.files[0]);
                                         }}
                                         name="thumbnailUrl"
                                         error={!!touched.thumbnailUrl && !!errors.thumbnailUrl}
