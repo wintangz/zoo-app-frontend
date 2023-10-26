@@ -126,6 +126,7 @@ function ViewTicket() {
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}
                         checkboxSelection
+
                     />
                 )}
             </Box>
