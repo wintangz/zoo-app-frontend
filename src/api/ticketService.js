@@ -1,4 +1,5 @@
 import * as axiosClient from '~/utils/axiosClient';
+
 export const getTickets = async () => {
     try {
         const res = await axiosClient.get('tickets')
@@ -7,7 +8,6 @@ export const getTickets = async () => {
         return error.response;
     }
 }
-
 export const createTicket = async (values) => {
     try {
         const res = await axiosClient.post('tickets', values);

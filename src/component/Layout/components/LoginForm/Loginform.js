@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import * as Yup from 'yup';
 
 import { faClose } from '@fortawesome/free-solid-svg-icons';
@@ -37,18 +37,27 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                 // const {data} = await getInfo(token)
                 setAuth(true)
                 tokendecode.roles.map((role) => {
-                    switch (role) {
-                        case "ZOO_TRAINER": window.open('/home/animal', '_blank');
+                    for (let index = 0; index < tokendecode.roles.length; index++) {
+                        if (tokendecode.roles[index] === 'ADMIN') {
+                            window.open('/home', '_blank');
                             break;
-                        case "CUSTOMER": window.location = ('/');
+                        }
+                        if (tokendecode.roles[index] === 'STAFF') {
+                            window.open('/home', '_blank');
                             break;
-                        default: window.open('/home', '_blank'); break;
+                        }
+                        if (tokendecode.roles[index] === 'ZOO_TRAINER') {
+                            window.open('/home/animal', '_blank');
+                            break;
+                        }
+                        if (tokendecode.roles[index] === 'CUSTOMER') {
+                            break;
+                        }
                     }
                 })
             }
             onClose();
         } catch (error) {
-            // Handle errors
             console.error('Error during login:', error);
             setFailMessage("Username or Password is incorrect!");
 
