@@ -213,6 +213,7 @@ function Team() {
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}
                         checkboxSelection
+                        disableRowSelectionOnClick
                     />
                 )}
             </Box>

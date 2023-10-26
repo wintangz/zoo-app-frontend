@@ -182,7 +182,7 @@ function CreateHabitat() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/home/habitat')}
+                                    onClick={() => navigate('/home/habitats')}
                                 >
                                     VIEW All HABITATS
                                 </Button>

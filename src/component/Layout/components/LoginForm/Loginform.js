@@ -46,7 +46,7 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                         break;
                     }
                     if (tokendecode.roles[index] === 'ZOO_TRAINER') {
-                        window.open('/home/animal', '_blank');
+                        window.open('/home/animals', '_blank');
                         break;
                     }
                     if (tokendecode.roles[index] === 'CUSTOMER') {

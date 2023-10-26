@@ -136,7 +136,7 @@ function UpdateHabitat() {
                             type="button"
                             color="secondary"
                             variant="contained"
-                            onClick={() => navigate('/home/habitat')}
+                            onClick={() => navigate('/home/habitats')}
                         >
                             VIEW ALL HABITAT
                         </Button>
