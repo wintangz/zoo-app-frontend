@@ -52,12 +52,11 @@
             opacity: transition 0.3s;
             background-color: rgb(226, 226, 226);
             color: #161515;
-        }
 
-        .item:hover,
-        .item:focus {
-            background-color: #161515;
-            color: #f8bf02;
+            &:hover {
+                background-color: #161515 !important;
+                color: #f8bf02 !important;
+            }
         }
     }
 
@@ -69,5 +68,29 @@
         padding-left: 100px;
         padding-right: 100px;
 
+    }
+}
+
+.container_error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgb(217, 217, 217);
+
+    .loader {
+        height: 100px;
+        width: 100px;
+        border: 8px solid white;
+        border-radius: 50%;
+        border-right-color: rgb(248, 191, 2);
+        animation: spin 1s ease infinite;
+    }
+
+    @keyframes spin {
+        100% {
+            transform: rotate(360deg);
+            /* Corrected the spelling of transform and added 'deg' */
+        }
     }
 }

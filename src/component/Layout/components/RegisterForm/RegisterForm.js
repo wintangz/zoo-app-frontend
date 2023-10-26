@@ -116,7 +116,8 @@ function RegisterForm({ onClose, onLoginClick }) {
                         confirmPassword: '',
                     },
                 });
-            } else if (response.status === 400) {
+            } else if (response.status === 400 || response.status === 401) {
+                console.log(response.data);
                 setSuccessMessage(null);
                 setFailMessage(response.data.serverError);
             }
