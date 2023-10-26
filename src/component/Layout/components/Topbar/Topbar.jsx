@@ -47,9 +47,6 @@ const Topbar = () => {
                     {theme.palette.mode === 'dark' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                 </IconButton>
                 <IconButton>
-                    <NotificationsOutlinedIcon />
-                </IconButton>
-                <IconButton>
                     <SettingsOutlinedIcon />
                 </IconButton>
                 <div>

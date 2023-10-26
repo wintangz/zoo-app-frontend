@@ -61,10 +61,10 @@ import { default as CreateTicket, default as ViewTicket } from '~/pages/AdminPag
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import ThankYouPage from '~/pages/Ticket/Thanks';
 import Order from '~/pages/Order/Order';
-import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import BannerLayout from '~/component/Layout/BannerLayout/BannerLayout';
 import ViewHealth from '~/pages/AdminPage/HealthCare/viewHealth';
 import CreateHealth from '~/pages/AdminPage/HealthCare/createHealth';
+import UpdateHealth from '~/pages/AdminPage/HealthCare/updateHealth';
 
 
 const publicRoutes = [
@@ -136,6 +136,7 @@ const publicRoutes = [
     { path: '/enclosure/in', component: MoveInEnclosure, layout: AdminMainPage, name: 'moveInEnclosure;', Authen: "private" },
     { path: 'home/health/view', component: ViewHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
     { path: 'home/health/create', component: CreateHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
+    { path: 'home/health/update', component: UpdateHealth, layout: AdminMainPage, name: 'UpdateHealth;', Authen: "private" },
 
 
 ];
