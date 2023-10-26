@@ -153,7 +153,7 @@ function EditProfile() {
                 </Modal>
             </div>
             <Box>
-                <AdminHeader title="Edit Profile" subtitle="Edit you profile" />
+                <AdminHeader title="Update" />
             </Box>
 
             <>
@@ -371,19 +371,10 @@ function EditProfile() {
                                         }}
                                     />
                                 </Box>
-                                <Box display="flex" justifyContent="space-between" mt="20px">
-                                    <Link to="/edit/sercurity">
-                                        <Button
-                                            onClick={handleSercurity}
-                                            type="submit"
-                                            color="secondary"
-                                            variant="contained"
-                                        >
-                                            SERCURITY
-                                        </Button>
-                                    </Link>
+                                <Box display="flex" justifyContent="space-between" mt="20px" sx={{ flexDirection: "row-reverse" }}>
 
-                                    <Button type="submit" color="secondary" variant="contained">
+
+                                    <Button type="submit" color="secondary" variant="contained" >
                                         EDIT ACCOUNT
                                     </Button>
                                 </Box>

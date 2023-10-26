@@ -353,14 +353,14 @@ function EditProfile() {
                                     />
                                 </Box>
                                 <Box display="flex" justifyContent="space-between" mt="20px">
-                                    <Link to="/edit/sercurity">
+                                    <Link to="/home/edit/security">
                                         <Button
                                             onClick={handleSercurity}
                                             type="submit"
                                             color="secondary"
                                             variant="contained"
                                         >
-                                            SERCURITY
+                                            SECURITY
                                         </Button>
                                     </Link>
 

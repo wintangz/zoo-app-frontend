@@ -34,7 +34,6 @@ function ViewAnimals() {
     }, [remove])
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    console.log(animals)
     const columns = [
         {
             field: 'id',

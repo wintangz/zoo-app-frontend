@@ -186,6 +186,7 @@ function Header() {
                             <p>Hello {sub}</p>
                             <ul>
                                 <li><Link to="/profile">Profile</Link></li>
+                                <li><Link to="/order">Order</Link></li>
                                 <li onClick={handleLogout}>Logout</li>
                             </ul>
                         </div>
