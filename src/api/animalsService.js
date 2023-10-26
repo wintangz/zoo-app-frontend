@@ -151,7 +151,6 @@ export const conFirm = async (path, values) => {
     }
 }
 
-
 export const moveInEnclosure = async (path, path2) => {
     try {
         const res = await axiosClient.post(`animals/${path}/enclosures/${path2}`)

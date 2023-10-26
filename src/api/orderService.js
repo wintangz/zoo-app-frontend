@@ -33,3 +33,12 @@ export const getOrderDetailByOderId = async (values) => {
         return error.response;
     }
 }
+
+export const ApiRequest = async () => {
+    try {
+        const res = await axiosClient.get('orders/payment')
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}

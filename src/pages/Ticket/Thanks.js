@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-import styles from './Thanks.module.scss';
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { ApiRequest } from '~/api/orderService';
+import styles from './Thanks.module.scss';
 
 const ThankYouPage = () => {
     const navigate = useNavigate();
@@ -20,20 +20,13 @@ const ThankYouPage = () => {
                 // Perform actions if ResponseCode is '00'
                 console.log('Please check your email');
 
-                // Make a GET request to the specified endpoint with request parameters
-                const token = localStorage.getItem('token');
-                const apiUrl = 'http://localhost:8080/api/orders/payment';
-
-                const response = await axios.get(apiUrl, {
+                const response = await ApiRequest({
                     params: {
                         vnp_TxnRef: txnRef,
                         vnp_ResponseCode: responseCode,
                         vnp_OrderInfo: orderInfo,
                         vnp_BankCode: bankCode,
                         vnp_Amount: amount
-                    },
-                    headers: {
-                        Authorization: `Bearer ${token}`,
                     },
                 });
 
