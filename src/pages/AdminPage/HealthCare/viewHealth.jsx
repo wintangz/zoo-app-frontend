@@ -94,7 +94,7 @@ function ViewHealth() {
                         type="button"
                         color="secondary"
                         variant="contained"
-                        onClick={() => navigate('/home/health/create')}
+                        onClick={() => navigate('/home/animals/health/create')}
                     >
                         Create HealthCare
                     </Button>

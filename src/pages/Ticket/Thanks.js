@@ -1,9 +1,11 @@
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { ApiRequest } from '~/api/orderService';
 import styles from './Thanks.module.scss';
 
 const ThankYouPage = () => {
+    const navigate = useNavigate();
     const queryParams = new URLSearchParams(window.location.search);
 
     const responseCode = queryParams.get('vnp_ResponseCode');
@@ -54,7 +56,9 @@ const ThankYouPage = () => {
                         <p><i>An email receipt including the details about your order has been <br /> sent to the email address provided. Please keep it for your records.</i></p>
                     </div>
                     <div className={styles.button}>
-                        <button>Back to Home</button>
+                        <button onClick={() => navigate('/')} className={styles.backToHomeButton}>
+                            Back to Home
+                        </button>
                     </div>
                 </>
             ) : (

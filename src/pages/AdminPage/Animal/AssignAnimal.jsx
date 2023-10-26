@@ -1,5 +1,4 @@
-import { Autocomplete, Box, Button, TextField, Typography, useTheme } from "@mui/material";
-import MenuItem from '@mui/material/MenuItem';
+import { Autocomplete, Box, Button, MenuItem, TextField, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { assignZooTrainerToAnimal } from "~/api/animalsService";
@@ -34,7 +33,6 @@ function AssignAnimal(props) {
             }
         })
     }
-    console.log(trainers)
     return (
         <>
             <Box>
@@ -156,13 +154,15 @@ function AssignAnimal(props) {
                                 width: '100%'
                             }}
                         >
-                            {trainers && (trainers.map((trainer) => (
-                                <MenuItem key={trainer.id} value={`${trainer.lastname} ${trainer.firstname}`} onClick={() => {
-                                    setCurrentTrainer(trainer);
-                                }} >
-                                    {`${trainer.lastname} ${trainer.firstname}`}
-                                </MenuItem>
-                            )))}
+                            {trainers &&
+                                (trainers.map((trainer) => (
+                                    <MenuItem key={trainer.id} value={`${trainer.lastname} ${trainer.firstname}`} onClick={() => {
+                                        setCurrentTrainer(trainer);
+                                    }} >
+                                        {`${trainer.lastname} ${trainer.firstname}`}
+                                    </MenuItem>
+                                )))
+                            }
                         </TextField>
                         <TextField
                             variant="filled"

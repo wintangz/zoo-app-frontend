@@ -117,7 +117,7 @@ const Actions = ({ params, setRemove }) => {
 
 
                 <Tooltip title="Assign trainer">
-                    <Link to="/animal/assign" state={params.row}>
+                    <Link to="/home/animals/assign" state={params.row}>
                         <IconButton
                         // onClick={handleEdit(params.row)}
                         >
@@ -127,7 +127,7 @@ const Actions = ({ params, setRemove }) => {
                 </Tooltip>
 
                 <Tooltip title="Move in Enclosure">
-                    <Link to="/enclosure/in" state={params.row}>
+                    <Link to="/home/enclosures/move_in" state={params.row}>
                         <IconButton
                         // onClick={handleEdit(params.row)}
                         >

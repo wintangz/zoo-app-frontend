@@ -37,7 +37,7 @@ const Actions = ({ params, setRemove }) => {
     return (
         <>
             <Tooltip title="Update">
-                <Link to="/home/health/update" state={params.row}>
+                <Link to="/home/animals/health/update" state={params.row}>
                     <IconButton
                     // onClick={handleEdit(params.row)}
                     >

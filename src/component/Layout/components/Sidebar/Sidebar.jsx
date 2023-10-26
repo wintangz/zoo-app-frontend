@@ -236,14 +236,14 @@ const Sidebar = () => {
                                 />
                                 <Item
                                     title="View Purchased Tickets"
-                                    to="/home/orderstickets"
+                                    to="/home/purchased_tickets"
                                     icon={<GiCage />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
                                 <Item
                                     title="Check ticket"
-                                    to="/home/checkticket"
+                                    to="/home/check_ticket"
                                     icon={<BsQrCodeScan />}
                                     selected={selected}
                                     setSelected={setSelected}
@@ -283,7 +283,7 @@ const Sidebar = () => {
                                         <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
                                             <InboxIcon />
                                         </ListItemIcon>
-                                        {!isCollapsed && <ListItemText primary="Manage Animal" sx={{ paddingLeft: '4px' }} />}
+                                        {!isCollapsed && <ListItemText primary="Manage Animals" sx={{ paddingLeft: '4px' }} />}
                                         {openAnimal ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemButton>
                                     <Collapse in={openAnimal} timeout="auto" unmountOnExit>
@@ -292,7 +292,7 @@ const Sidebar = () => {
                                             <ListItemButton>
                                                 <Item
                                                     title="Animals"
-                                                    to="/home/animal"
+                                                    to="/home/animals"
                                                     icon={<GiElephant />}
                                                     selected={selected}
                                                     setSelected={setSelected}
@@ -303,7 +303,16 @@ const Sidebar = () => {
                                             <ListItemButton>
                                                 <Item
                                                     title="Feed Schedules"
-                                                    to="/home/animal/schedule"
+                                                    to="/home/animals/schedule"
+                                                    icon={<PersonOutlinedIcon />}
+                                                    selected={selected}
+                                                    setSelected={setSelected}
+                                                />
+                                            </ListItemButton>
+                                            <ListItemButton>
+                                                <Item
+                                                    title="Health Records"
+                                                    to="/home/animals/health"
                                                     icon={<PersonOutlinedIcon />}
                                                     selected={selected}
                                                     setSelected={setSelected}

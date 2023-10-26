@@ -111,7 +111,7 @@ const Actions = ({ params, setRemove }) => {
 
 
                 <Tooltip title="Update">
-                    <Link to="/home/animal/schedule/update" state={params.row}>
+                    <Link to="/home/animals/schedule/update" state={params.row}>
                         <IconButton
                         // onClick={handleEdit(params.row)}
                         >
@@ -122,7 +122,7 @@ const Actions = ({ params, setRemove }) => {
                 </Tooltip>
 
                 <Tooltip title="Confirm">
-                    <Link to="/animal/confirm" state={params.row}>
+                    <Link to="/home/animals/confirm" state={params.row}>
                         <IconButton
                         // onClick={handleEdit(params.row)}
                         >

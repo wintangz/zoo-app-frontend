@@ -112,7 +112,7 @@ function ViewHabitat() {
                     type="button"
                     color="secondary"
                     variant="contained"
-                    onClick={() => navigate('/home/habitat/create')}
+                    onClick={() => navigate('/home/habitats/create')}
                 >
                     CREATE HABITAT
                 </Button>

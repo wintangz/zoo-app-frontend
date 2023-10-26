@@ -23,7 +23,6 @@ import * as yup from 'yup';
 import { getUserById, updateUser } from '~/api/userService';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
-import { useAppContext } from "~/context/Context";
 
 function Profile() {
 
@@ -35,21 +34,18 @@ function Profile() {
 
     const [users, setUsers] = useState({});
 
-    const fetchapi = async (id) => {
-        const result = await getUserById(id);
-        return result;
-    };
 
-    const newObj = decode(localStorage.getItem('token'));
+
+    const id = decode(localStorage.getItem('token')).sub;
     useEffect(() => {
-        const res = fetchapi(newObj.sub);
+        const res = getUserById(id);
         res.then((result) => {
             setUsers(result);
         });
     }, []);
 
 
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values) => {
         const inputDate = new Date(values.dateOfBirth);
         const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
             .toString()
@@ -69,7 +65,7 @@ function Profile() {
         } else if (values.sex === 'female') {
             values.sex = false;
         }
-        const res = updateUser(newObj.sub, values);
+        const res = updateUser(id, values);
         console.log(values);
         res.then((result) => {
             const status = result.status;

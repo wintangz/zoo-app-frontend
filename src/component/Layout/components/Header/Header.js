@@ -185,8 +185,8 @@ function Header() {
                         <div className={styles.loginUser}>
                             <p>Hello {sub}</p>
                             <ul>
-                                <li><Link to="/profile">Profile</Link></li>
-                                <li><Link to="/order">Order</Link></li>
+                                <li><Link to="/settings/profile">Profile</Link></li>
+                                <li><Link to="/orders">Order</Link></li>
                                 <li onClick={handleLogout}>Logout</li>
                             </ul>
                         </div>

@@ -36,25 +36,23 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
             if (response.status === "Ok") {
                 // const {data} = await getInfo(token)
                 setAuth(true)
-                tokendecode.roles.map((role) => {
-                    for (let index = 0; index < tokendecode.roles.length; index++) {
-                        if (tokendecode.roles[index] === 'ADMIN') {
-                            window.open('/home', '_blank');
-                            break;
-                        }
-                        if (tokendecode.roles[index] === 'STAFF') {
-                            window.open('/home', '_blank');
-                            break;
-                        }
-                        if (tokendecode.roles[index] === 'ZOO_TRAINER') {
-                            window.open('/home/animal', '_blank');
-                            break;
-                        }
-                        if (tokendecode.roles[index] === 'CUSTOMER') {
-                            break;
-                        }
+                for (let index = 0; index < tokendecode.roles.length; index++) {
+                    if (tokendecode.roles[index] === 'ADMIN') {
+                        window.open('/home', '_blank');
+                        break;
                     }
-                })
+                    if (tokendecode.roles[index] === 'STAFF') {
+                        window.open('/home', '_blank');
+                        break;
+                    }
+                    if (tokendecode.roles[index] === 'ZOO_TRAINER') {
+                        window.open('/home/animals', '_blank');
+                        break;
+                    }
+                    if (tokendecode.roles[index] === 'CUSTOMER') {
+                        break;
+                    }
+                }
             }
             onClose();
         } catch (error) {
