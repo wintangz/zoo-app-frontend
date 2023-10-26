@@ -71,13 +71,8 @@ const publicRoutes = [
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: "news/:id/:title", component: ParentComponent, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
-<<<<<<< Updated upstream
-    { path: 'profile', component: Profile, layout: ProfileUserLayout, name: 'Profile', Authen: "public" },
-    { path: 'profile/security', component: SecurityUser, layout: ProfileUserLayout, name: 'SecurityUser', Authen: "public" },
-=======
     { path: 'settings/profile', component: Profile, layout: ProfileUserLayout, name: 'Profile', Authen: "private" },
     { path: 'settings/security', component: SecurityUser, layout: ProfileUserLayout, name: 'SecurityUser', Authen: "private" },
->>>>>>> Stashed changes
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
