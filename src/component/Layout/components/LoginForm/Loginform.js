@@ -39,17 +39,21 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                 for (let index = 0; index < tokendecode.roles.length; index++) {
                     if (tokendecode.roles[index] === 'ADMIN') {
                         window.open('/home', '_blank');
+                        window.location.reload();
                         break;
                     }
                     if (tokendecode.roles[index] === 'STAFF') {
                         window.open('/home', '_blank');
+                        window.location.reload();
                         break;
                     }
                     if (tokendecode.roles[index] === 'ZOO_TRAINER') {
                         window.open('/home/animals', '_blank');
+                        window.location.reload();
                         break;
                     }
                     if (tokendecode.roles[index] === 'CUSTOMER') {
+                        window.location.reload();
                         break;
                     }
                 }

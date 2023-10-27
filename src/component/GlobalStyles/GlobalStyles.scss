@@ -16,6 +16,8 @@
 
 
 
+
+
 // body {
 //     font-family: 'Lato', sans-serif;
 //     font-size: 1.6rem;
@@ -46,4 +48,8 @@ body {
 
 .MuiTablePagination-root p {
     margin-bottom: 0;
+}
+
+.MuiDataGrid-cell--withRenderer p {
+    margin: 0 !important;
 }

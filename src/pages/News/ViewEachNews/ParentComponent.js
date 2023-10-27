@@ -6,15 +6,6 @@ import ViewEachNews from './viewNews';
 const ParentComponent = () => {
     const [news] = useState();
 
-    // const updateNews = (id, updatedData) => {
-    //     setNews((prevNews) => {
-    //         const updatedNews = prevNews.map((item) =>
-    //             item.id === id ? { ...item, ...updatedData } : item
-    //         );
-    //         return updatedNews;
-    //     });
-    // };
-
     return (
         <div>
             <ViewEachNews news={news} />

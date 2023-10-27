@@ -65,6 +65,7 @@ import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import Order from '~/pages/Order/Order';
 import UpdateHealth from '~/pages/AdminPage/HealthCare/updateHealth';
 import ThankYouPage from '~/pages/Ticket/Thanks';
+import History from '~/pages/AdminPage/Animal/history';
 
 
 const publicRoutes = [
@@ -77,7 +78,8 @@ const publicRoutes = [
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
-    { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Ha    bitats', Authen: "public" },
+    { path: 'habitats', component: Habitats, layout: NormalLayout, name: 'Habitats', Authen: "public" },
+    { path: 'habitats/:name', component: Habitats, layout: NormalLayout, name: 'Habitats', Authen: "public" },
     { path: 'map', component: Maps, layout: NormalLayout, name: 'Map' },
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
     { path: 'verify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: 'public' },
@@ -111,7 +113,7 @@ const publicRoutes = [
 
     { path: 'home/species', component: ViewSpecies, layout: AdminMainPage, name: 'ViewSpecies', Authen: "private" },
     { path: 'home/species/create', component: CreateSpecies, layout: AdminMainPage, name: 'CreateSpecies', Authen: "private" },
-    { path: 'home/species/update/:speciesId', component: UpdateSpecies, layout: AdminMainPage, name: 'UpdateSpecies', Authen: "private" },
+    { path: 'home/species/update/:id', component: UpdateSpecies, layout: AdminMainPage, name: 'UpdateSpecies', Authen: "private" },
 
     { path: 'home/orders', component: ViewOrders, layout: AdminMainPage, name: 'ViewOrders', Authen: "private" },
     { path: 'home/purchased_tickets', component: ViewOrdersTickets, layout: AdminMainPage, name: 'ViewOrdersTickets', Authen: "private" },
@@ -126,6 +128,7 @@ const publicRoutes = [
 
     { path: 'home/enclosures/create', component: CreateEnclosure, layout: AdminMainPage, name: 'CreateEnclosure;', Authen: "private" },
     { path: 'home/enclosures', component: ViewEnclosure, layout: AdminMainPage, name: 'ViewEnclosure;', Authen: "private" },
+    { path: 'home/animals/enclosures_history', component: History, layout: AdminMainPage, name: 'enclosureHistory', Authen: "private" },
     { path: 'home/enclosures/update/:enclosureId', component: UpdateEnclosure, layout: AdminMainPage, name: 'UpdateEnlosure', Authen: "private" },
 
     { path: 'home/habitats/create', component: CreateHabitat, layout: AdminMainPage, name: 'CreateHabitat;', Authen: "private" },

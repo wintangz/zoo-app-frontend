@@ -17,7 +17,7 @@ import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 // import uploadFile from '~/utils/transferFile';
 import MenuItem from '@mui/material/MenuItem';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { createEnclousures, getHabitats } from '~/api/animalsService';
 import uploadFile from '~/utils/transferFile';
 

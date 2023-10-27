@@ -12,20 +12,11 @@ import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import { getUsersWithRoles } from '~/utils/getUserByRole';
 import Actions from './actions';
+import { formatDate } from '~/utils/dateTimeFormat';
 
 function Team() {
     const navigate = useNavigate();
-    function formatDate(originalDate) {
-        const date = new Date(originalDate);
-        const day = date.getDate();
-        const month = date.getMonth() + 1; // Note that months are zero-based
-        const year = date.getFullYear();
 
-        // Use template literals to format the date
-        const formattedDate = `${day}/${month}/${year}`;
-
-        return formattedDate;
-    }
     const [users, setUsers] = useState(null);
     const fetchapi = async () => {
         const result = await mockData.getUser();

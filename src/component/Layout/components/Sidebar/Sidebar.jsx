@@ -90,40 +90,29 @@ const Sidebar = () => {
             if (result.status === 200) {
                 localStorage.removeItem('token');
                 window.location = '/';
+            } else {
+                localStorage.removeItem('token');
+                window.location = '/';
             }
         });
     };
     const userRole = decode(localStorage.getItem('token')).roles[0];
     let titleData = '';
-    let titleCreate = '';
-    let titleUpdate = '';
     let titleNews = '';
-    let titleEnclosure = '';
-    let titleHabitat = '';
-    let primary = '';
 
     if (userRole === 'ADMIN') {
         titleData = 'Users';
-        titleCreate = 'Create New Staff';
-        titleUpdate = 'Update Staff';
-        primary = 'Manage Staff';
     } else if (userRole === 'STAFF') {
         titleData = 'Zoo Trainers';
         titleNews = 'News';
-        titleEnclosure = 'Enclosure';
-        titleHabitat = 'Habitats';
-        primary = 'Manage Zoo Trainers';
     }
     else if (userRole === 'ZOO_TRAINER') {
-        titleEnclosure = 'Enclosures';
-        titleHabitat = 'Habitats';
-        primary = 'Manage Animal';
     }
     return (
         <Box
             sx={{
                 '& .pro-sidebar-inner': {
-                    background: `${colors.primary[400]} !important`,
+                    background: `${colors.primary[900]}!important`,
                     height: '100vh',
                 },
                 '& .pro-icon-wrapper': {
@@ -142,9 +131,13 @@ const Sidebar = () => {
                     height: '100%',
                     paddingBottom: '5%',
                 },
+                // '& .pro-sidebar': {
+                //     backgroundColor
+                // },
+
             }}
         >
-            <ProSidebar collapsed={isCollapsed} sx={{ height: '100vh' }}>
+            <ProSidebar collapsed={isCollapsed} style={{ height: '100%', background: colors.primary[900] }}>
                 <Menu iconShape="square">
                     {/* LOGO AND MENU ICON */}
                     <MenuItem
@@ -257,15 +250,13 @@ const Sidebar = () => {
                         {userRole === 'ADMIN' && (
                             <>
 
-                                <ListItemButton>
-                                    <Item
-                                        title="View Ticket"
-                                        to="/home/tickets"
-                                        icon={<BsFillTicketPerforatedFill />}
-                                        selected={selected}
-                                        setSelected={setSelected}
-                                    />
-                                </ListItemButton>
+                                <Item
+                                    title="Ticket types"
+                                    to="/home/tickets"
+                                    icon={<BsFillTicketPerforatedFill />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
 
                             </>
                         )}
@@ -345,20 +336,20 @@ const Sidebar = () => {
                                     setSelected={setSelected}
                                 />
                                 <Item
-                                    title="Enclosures"
+                                    title="Enclosure"
                                     to="/home/enclosures"
                                     icon={<PersonOutlinedIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
+
                                 <Item
-                                    title="Habitats"
+                                    title="Habitat"
                                     to="/home/habitats"
                                     icon={<PersonOutlinedIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
-
                             </>
                         )}
                         <Button

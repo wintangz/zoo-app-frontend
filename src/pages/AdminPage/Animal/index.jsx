@@ -6,20 +6,10 @@ import { getAllAnimals, getEnclosuresAnimals } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './actions';
+import DateTimeFormatComponent, { formatDate } from '~/utils/dateTimeFormat';
 
 function ViewAnimals() {
     const navigate = useNavigate()
-    function formatDate(originalDate) {
-        const date = new Date(originalDate);
-        const day = date.getDate();
-        const month = date.getMonth() + 1; // Note that months are zero-based
-        const year = date.getFullYear();
-
-        // Use template literals to format the date
-        const formattedDate = `${day}/${month}/${year}`;
-
-        return formattedDate;
-    }
     const [animals, setAnimals] = useState(null);
     const [remove, setRemove] = useState(null);
     useEffect(() => {
@@ -70,14 +60,17 @@ function ViewAnimals() {
             field: 'arrivalDate',
             headerName: 'Arrival Date    ',
             headerAlign: 'left',
+            width: "120",
             align: 'left',
+            valueGetter: (params) => { return formatDate(params.row.arrivalDate) }
         },
         {
             field: 'dateOfBirth', // Keep the field as 'firstname'
             headerName: 'Date Of Birth',
             headerAlign: 'left',
-            align: 'left',
-            flex: 1,
+            width: "120",
+            margin: "0 !important",
+            valueGetter: (params) => { return formatDate(params.row.dateOfBirth) }
         },
 
         {
@@ -180,6 +173,7 @@ function ViewAnimals() {
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}
                         checkboxSelection
+                        disableRowSelectionOnClick
                     />
                 )}
             </Box>
