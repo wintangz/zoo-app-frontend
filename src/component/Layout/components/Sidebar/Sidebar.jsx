@@ -250,15 +250,13 @@ const Sidebar = () => {
                         {userRole === 'ADMIN' && (
                             <>
 
-                                <ListItemButton>
-                                    <Item
-                                        title="View Ticket"
-                                        to="/home/tickets"
-                                        icon={<BsFillTicketPerforatedFill />}
-                                        selected={selected}
-                                        setSelected={setSelected}
-                                    />
-                                </ListItemButton>
+                                <Item
+                                    title="Ticket types"
+                                    to="/home/tickets"
+                                    icon={<BsFillTicketPerforatedFill />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
 
                             </>
                         )}
@@ -337,67 +335,21 @@ const Sidebar = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
-                                <List
-                                    sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
-                                    component="nav"
-                                    aria-labelledby="enclosure"
-                                >
-                                    <ListItemButton
-                                        onClick={handleEnclosure}
-                                        sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
-                                    >
-                                        <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
-                                            <InboxIcon />
-                                        </ListItemIcon>
-                                        {!isCollapsed && <ListItemText primary="Manage Enclosure" sx={{ paddingLeft: '4px' }} />}
-                                        {openEnclosure ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItemButton>
-                                    <Collapse in={openEnclosure} timeout="auto" unmountOnExit>
-                                        <List component="div" disablePadding>
-                                            <ListItemButton>
-                                                <Item
-                                                    title="Enclosure"
-                                                    to="/home/enclosures"
-                                                    icon={<PersonOutlinedIcon />}
-                                                    selected={selected}
-                                                    setSelected={setSelected}
-                                                />
-                                            </ListItemButton>
+                                <Item
+                                    title="Enclosure"
+                                    to="/home/enclosures"
+                                    icon={<PersonOutlinedIcon />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
 
-                                        </List>
-                                    </Collapse>
-                                </List>
-                                <List
-                                    sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
-                                    component="nav"
-                                    aria-labelledby="habitat"
-                                >
-                                    <ListItemButton
-                                        onClick={handleHabitat}
-                                        sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
-                                    >
-                                        <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
-                                            <InboxIcon />
-                                        </ListItemIcon>
-                                        {!isCollapsed && <ListItemText primary="Manage Habitat" sx={{ paddingLeft: '4px' }} />}
-                                        {openHabitat ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItemButton>
-                                    <Collapse in={openHabitat} timeout="auto" unmountOnExit>
-                                        <List component="div" disablePadding>
-                                            <ListItemButton>
-                                                <Item
-                                                    title="Habitat"
-                                                    to="/home/habitats"
-                                                    icon={<PersonOutlinedIcon />}
-                                                    selected={selected}
-                                                    setSelected={setSelected}
-                                                />
-                                            </ListItemButton>
-
-                                        </List>
-                                    </Collapse>
-                                </List>
-
+                                <Item
+                                    title="Habitat"
+                                    to="/home/habitats"
+                                    icon={<PersonOutlinedIcon />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
                             </>
                         )}
                         <Button

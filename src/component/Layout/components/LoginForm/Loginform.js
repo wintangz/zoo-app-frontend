@@ -38,18 +38,18 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                 setAuth(true)
                 for (let index = 0; index < tokendecode.roles.length; index++) {
                     if (tokendecode.roles[index] === 'ADMIN') {
-                        window.location.reload();
                         window.open('/home', '_blank');
+                        window.location.reload();
                         break;
                     }
                     if (tokendecode.roles[index] === 'STAFF') {
-                        window.location.reload();
                         window.open('/home', '_blank');
+                        window.location.reload();
                         break;
                     }
                     if (tokendecode.roles[index] === 'ZOO_TRAINER') {
-                        window.location.reload();
                         window.open('/home/animals', '_blank');
+                        window.location.reload();
                         break;
                     }
                     if (tokendecode.roles[index] === 'CUSTOMER') {
