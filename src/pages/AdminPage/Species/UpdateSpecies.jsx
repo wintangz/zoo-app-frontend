@@ -3,7 +3,7 @@ import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { getHabitats } from '~/api/animalsService';
 import { getSpeciesById, updateSpecies } from '~/api/speciesService';
@@ -12,11 +12,13 @@ import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
 
 function UpdateSpecies() {
-    const { speciesId } = useParams();
+    const location = useLocation();
+    const speciesId = location.state.id
     const [species, setSpecies] = useState({});
     const navigate = useNavigate();
     const [habitats, setHabitats] = useState([]);
     const [habitattId, setHabitatId] = useState([])
+    const [habitatName, setHabitatName] = useState([])
     const fetchapi = async (id) => {
         const result = await getSpeciesById(id);
         return result;
@@ -25,7 +27,8 @@ function UpdateSpecies() {
         const res = fetchapi(speciesId);
         res.then((result) => {
             setSpecies(result);
-            setHabitatId(result.habitatId || '');
+            setHabitatId(result.habitat.id || '');
+            setHabitatName(result.habitat.name || ''); //
         });
     }, []);
     useEffect(() => {
@@ -61,7 +64,7 @@ function UpdateSpecies() {
         species: species?.species || '',
         genus: species?.genus || '',
         family: species?.family || '',
-        habitatId: species?.habitatId || '',
+        habitatId: species.habitatId,
         diet: species?.diet || '',
         conversationStatus: species?.conversationStatus || '',
         description: species?.description || '',
@@ -72,7 +75,10 @@ function UpdateSpecies() {
     const FILE_SIZE = 1920 * 1080;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const userSchema = yup.object().shape({
+        name: yup.string().required("Name is required"),
         habitatId: yup.string().required('Habitat is required'),
+        genus: yup.string().required('Genus is required'),
+        family: yup.string().required('Family is required'),
         imgUrl: yup
             .mixed()
             .notRequired()
@@ -106,7 +112,6 @@ function UpdateSpecies() {
                 return false;
             }),
     });
-
     const handleFormSubmit = async (values) => {
         try {
             const submitValue = { ...values, habitatId: habitattId, };
@@ -133,6 +138,7 @@ function UpdateSpecies() {
     const handleClose = () => {
         navigate('/home/species');
     };
+
     return (
         <>
             <div>
@@ -230,28 +236,25 @@ function UpdateSpecies() {
                                     select
                                     onBlur={handleBlur}
                                     onChange={handleChangeHabitatId}
-                                    value={habitattId}
-                                    name="habitat"
-                                    defaultValue={habitattId}
+                                    defaultValue={location.state.habitat.id}
+                                    name="habitatId"
+                                    error={!!touched.habitatId && !!errors.habitatId}
+                                    helperText={touched.habitatId && errors.habitatId}
                                     sx={{
                                         gridColumn: 'span 4',
                                         gridRow: '2',
                                     }}
-                                    SelectProps={{
-                                        PopperProps: {
-                                            anchorEl: null,
-                                            placement: 'bottom-start',
-                                        },
-                                    }}
                                 >
                                     {habitats.map((option) => {
                                         return (
-                                            <MenuItem key={option.id} value={option.id}>
+                                            <MenuItem key={option.id} value={option.id} >
                                                 {option.name}
                                             </MenuItem>
                                         )
                                     })}
                                 </TextField>
+
+
                                 <TextField
                                     fullWidth
                                     variant="filled"

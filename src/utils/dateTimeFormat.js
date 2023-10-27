@@ -24,4 +24,16 @@ const DateTimeFormatComponent = ({ apiDateTime }) => {
     );
 };
 
+export function formatDate(originalDate) {
+    const date = new Date(originalDate);
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Note that months are zero-based
+    const year = date.getFullYear();
+
+    // Use template literals to format the date
+    const formattedDate = `${day}/${month}/${year}`;
+
+    return formattedDate;
+}
+
 export default DateTimeFormatComponent;

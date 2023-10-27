@@ -2,6 +2,7 @@ import { Delete } from '@mui/icons-material';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
@@ -152,15 +153,16 @@ const Actions = ({ params, setRemove }) => {
                     </Link>
                 </Tooltip>
 
-                <Tooltip title="Move in Enclosure">
-                    <Link to="/home/enclosures/move_in" state={params.row}>
-                        <IconButton
-                        // onClick={handleEdit(params.row)}
-                        >
-                            <AddHomeIcon />
-                        </IconButton  >
-                    </Link>
-                </Tooltip>
+                {!params.row.enclosure &&
+                    <Tooltip title="Move in Enclosure">
+                        <Link to="/home/enclosures/move_in" state={params.row}>
+                            <IconButton
+                            // onClick={handleEdit(params.row)}
+                            >
+                                <AddHomeIcon />
+                            </IconButton  >
+                        </Link>
+                    </Tooltip>}
 
                 {params.row.enclosure &&
                     <Tooltip title="Move out Enclosure">
@@ -171,6 +173,15 @@ const Actions = ({ params, setRemove }) => {
                             <ExitToAppIcon />
                         </IconButton  >
                     </Tooltip>}
+
+                <Tooltip title="History Move">
+                    <Link to="/home/animals/enclosures_history" state={params.row}>
+                        <IconButton
+                        >
+                            <ManageSearchOutlinedIcon />
+                        </IconButton  >
+                    </Link>
+                </Tooltip>
             </Box>
         </>
     );
