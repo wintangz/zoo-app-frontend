@@ -90,6 +90,9 @@ const Sidebar = () => {
             if (result.status === 200) {
                 localStorage.removeItem('token');
                 window.location = '/';
+            } else {
+                localStorage.removeItem('token');
+                window.location = '/';
             }
         });
     };

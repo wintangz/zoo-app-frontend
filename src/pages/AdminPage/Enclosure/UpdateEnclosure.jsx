@@ -14,7 +14,7 @@ import {
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { getEnclosuresById, getHabitats, updateEnclosures } from '~/api/animalsService';
 import { getSpecies } from '~/api/speciesService';
@@ -24,21 +24,18 @@ import uploadFile from '~/utils/transferFile';
 
 function UpdateEnclosure() {
     //--------------- Call API GET USER ---------------------------------//'
+    const location = useLocation()
+    console.log(location.state)
     const { enclosureId } = useParams();
     const [enclosure, setEnclosure] = useState({});
     const navigate = useNavigate();
     const [species, setSpecies] = useState([]);
     const [habitats, setHabitats] = useState([]);
 
-    const fetchapi = async (id) => {
-        const result = await getEnclosuresById(id);
-        return result;
-    };
+
     useEffect(() => {
-        const res = fetchapi(enclosureId);
-        res.then((result) => {
-            setEnclosure(result);
-        });
+
+        setEnclosure(location.state);
     }, []);
 
     //****************---------------------- Config Color Theme ****************************/
@@ -175,6 +172,7 @@ function UpdateEnclosure() {
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         value={values.name}
+                                        defaultValue=" "
                                         name="name"
                                         error={!!touched.name && !!errors.name}
                                         helperText={touched.name && errors.name}
@@ -199,32 +197,6 @@ function UpdateEnclosure() {
                                             gridRow: '1',
                                         }}
                                     />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        label="Species"
-                                        select
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.species}
-                                        name="species"
-                                        defaultValue="Tiger"
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
-                                        SelectProps={{
-                                            PopperProps: {
-                                                anchorEl: null, // Ensures the menu is always at the bottom
-                                                placement: 'bottom-start', // Adjust the placement as needed
-                                            },
-                                        }}
-                                    >
-                                        {species.map((option) => (
-                                            <MenuItem key={option.id} value={option.name}>
-                                                {option.name}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
 
                                     <TextField
                                         fullWidth
@@ -235,7 +207,7 @@ function UpdateEnclosure() {
                                         onChange={handleChange}
                                         value={values.habitats}
                                         name="habitat"
-                                        defaultValue="African Savannah"
+                                        defaultValue={location.state.habitat.id}
                                         sx={{
                                             gridColumn: 'span 2',
                                             gridRow: '2',
@@ -248,7 +220,7 @@ function UpdateEnclosure() {
                                         }}
                                     >
                                         {habitats.map((option) => (
-                                            <MenuItem key={option.id} value={option.name}>
+                                            <MenuItem key={option.id} value={option.id}>
                                                 {option.name}
                                             </MenuItem>
                                         ))}

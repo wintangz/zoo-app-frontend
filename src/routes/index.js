@@ -113,7 +113,7 @@ const publicRoutes = [
 
     { path: 'home/species', component: ViewSpecies, layout: AdminMainPage, name: 'ViewSpecies', Authen: "private" },
     { path: 'home/species/create', component: CreateSpecies, layout: AdminMainPage, name: 'CreateSpecies', Authen: "private" },
-    { path: 'home/species/update', component: UpdateSpecies, layout: AdminMainPage, name: 'UpdateSpecies', Authen: "private" },
+    { path: 'home/species/update/:id', component: UpdateSpecies, layout: AdminMainPage, name: 'UpdateSpecies', Authen: "private" },
 
     { path: 'home/orders', component: ViewOrders, layout: AdminMainPage, name: 'ViewOrders', Authen: "private" },
     { path: 'home/purchased_tickets', component: ViewOrdersTickets, layout: AdminMainPage, name: 'ViewOrdersTickets', Authen: "private" },

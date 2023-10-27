@@ -104,7 +104,7 @@ const Actions = ({ params, setRemove }) => {
                 {console.log(params.row)}
 
                 <Tooltip title="Edit">
-                    <Link to="/home/species/update" state={params.row}>
+                    <Link to={`/home/species/update/${params.row.id}`} state={params.row}>
                         <IconButton
                         >
                             <Edit />
