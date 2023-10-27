@@ -1,9 +1,11 @@
-import Zone from './ZoneComponent';
+import Zone from './ZoneComponent/Zone';
 import Information from './Information';
 import News from './NewsComponent';
 import Animals from './Animals';
 import NewWiddle from './NewWiddle';
 import styles from './Home.module.scss'
+
+
 function Home() {
     return (
         <div className={styles.Home}>
@@ -11,7 +13,7 @@ function Home() {
             <Information />
             <News />
             <Zone />
-            <Animals />
+            {/* <Animals /> */}
         </div>
     );
 }

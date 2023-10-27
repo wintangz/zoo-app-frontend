@@ -95,29 +95,15 @@ const Sidebar = () => {
     };
     const userRole = decode(localStorage.getItem('token')).roles[0];
     let titleData = '';
-    let titleCreate = '';
-    let titleUpdate = '';
     let titleNews = '';
-    let titleEnclosure = '';
-    let titleHabitat = '';
-    let primary = '';
 
     if (userRole === 'ADMIN') {
         titleData = 'Users';
-        titleCreate = 'Create New Staff';
-        titleUpdate = 'Update Staff';
-        primary = 'Manage Staff';
     } else if (userRole === 'STAFF') {
         titleData = 'Zoo Trainers';
         titleNews = 'News';
-        titleEnclosure = 'Enclosure';
-        titleHabitat = 'Habitats';
-        primary = 'Manage Zoo Trainers';
     }
     else if (userRole === 'ZOO_TRAINER') {
-        titleEnclosure = 'Enclosures';
-        titleHabitat = 'Habitats';
-        primary = 'Manage Animal';
     }
     return (
         <Box
@@ -348,20 +334,66 @@ const Sidebar = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
-                                <Item
-                                    title="Enclosures"
-                                    to="/home/enclosures"
-                                    icon={<PersonOutlinedIcon />}
-                                    selected={selected}
-                                    setSelected={setSelected}
-                                />
-                                <Item
-                                    title="Habitats"
-                                    to="/home/habitats"
-                                    icon={<PersonOutlinedIcon />}
-                                    selected={selected}
-                                    setSelected={setSelected}
-                                />
+                                <List
+                                    sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
+                                    component="nav"
+                                    aria-labelledby="enclosure"
+                                >
+                                    <ListItemButton
+                                        onClick={handleEnclosure}
+                                        sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
+                                    >
+                                        <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
+                                            <InboxIcon />
+                                        </ListItemIcon>
+                                        {!isCollapsed && <ListItemText primary="Manage Enclosure" sx={{ paddingLeft: '4px' }} />}
+                                        {openEnclosure ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItemButton>
+                                    <Collapse in={openEnclosure} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding>
+                                            <ListItemButton>
+                                                <Item
+                                                    title="Enclosure"
+                                                    to="/home/enclosures"
+                                                    icon={<PersonOutlinedIcon />}
+                                                    selected={selected}
+                                                    setSelected={setSelected}
+                                                />
+                                            </ListItemButton>
+
+                                        </List>
+                                    </Collapse>
+                                </List>
+                                <List
+                                    sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
+                                    component="nav"
+                                    aria-labelledby="habitat"
+                                >
+                                    <ListItemButton
+                                        onClick={handleHabitat}
+                                        sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
+                                    >
+                                        <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
+                                            <InboxIcon />
+                                        </ListItemIcon>
+                                        {!isCollapsed && <ListItemText primary="Manage Habitat" sx={{ paddingLeft: '4px' }} />}
+                                        {openHabitat ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItemButton>
+                                    <Collapse in={openHabitat} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding>
+                                            <ListItemButton>
+                                                <Item
+                                                    title="Habitat"
+                                                    to="/home/habitats"
+                                                    icon={<PersonOutlinedIcon />}
+                                                    selected={selected}
+                                                    setSelected={setSelected}
+                                                />
+                                            </ListItemButton>
+
+                                        </List>
+                                    </Collapse>
+                                </List>
 
                             </>
                         )}

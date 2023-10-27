@@ -115,9 +115,9 @@ function SecurityUser() {
                                     name="oldPassword"
                                     error={!!touched.oldPassword && !!errors.oldPassword}
                                     helperText={touched.oldPassword && errors.oldPassword}
-                                    style={{ marginBottom: '20px' }}
+                                    style={{ marginBottom: '10px' }}
                                 />
-                                <Typography color="red" style={{ marginTop: '5px' }}>{responseMessage}</Typography>
+                                <Typography color="red">{responseMessage}</Typography>
                                 <TextField
                                     fullWidth
                                     variant="filled"
@@ -129,7 +129,7 @@ function SecurityUser() {
                                     name="newPassword"
                                     error={!!touched.newPassword && !!errors.newPassword}
                                     helperText={touched.newPassword && errors.newPassword}
-                                    style={{ marginBottom: '20px' }}
+                                    style={{ marginBottom: '20px', marginTop: '10px' }}
                                 />
 
                                 <TextField

@@ -27,6 +27,7 @@ function News() {
 
     return (
         <div className={styles.news_container}>
+
             <div className={styles.background}></div>
             <div className={styles.container}>
 

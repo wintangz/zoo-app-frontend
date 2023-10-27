@@ -358,7 +358,7 @@ function CreateAnimal() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/home/animal')}
+                                    onClick={() => navigate('/home/animals')}
                                 >
                                     VIEW ANIMALS
                                 </Button>

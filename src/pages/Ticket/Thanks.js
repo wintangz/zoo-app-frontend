@@ -60,6 +60,7 @@ const ThankYouPage = () => {
                             Back to Home
                         </button>
                     </div>
+
                 </>
             ) : (
                 // <p className={`waiting-text ${styles.waitingText}`}>Waiting...</p>

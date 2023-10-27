@@ -89,10 +89,12 @@
             color: #fff;
             line-height: 260px;
             width: 50vw;
+            left: 22%;
             height: 250px;
-            left: 37%;
             padding-left: 25px;
             z-index: 17;
+            display: flex;
+            justify-content: center;
         }
 
         .zone--title-hover {
@@ -103,18 +105,18 @@
             width: 50vw;
             height: 45%;
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity 0.4s;
             z-index: 17;
         }
 
         .zone--hover {
-            // position: absolute;
+            position: absolute;
             // right: 7%;
             // width: 50%;
             // height: 100%;
-            // opacity: 0;
-            // background: transparent;
-            transition: all 0.2s;
+            opacity: 0;
+            background: transparent;
+            transition: all 0.5s;
         }
     }
 
@@ -133,7 +135,7 @@
     }
 
     .zone--container:hover .zone--title-hover {
-        transition: opacity 0.2s;
+        transition: opacity 0.25s;
         opacity: 1;
     }
 

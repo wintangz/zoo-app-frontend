@@ -157,7 +157,7 @@ function Profile() {
                                     Edit Profile
                                 </Typography>
                                 <Typography variant="h6">
-                                    Welcome, <span style={{ fontWeight: "bold", color: 'rgb(248, 191, 2)', fontSize: '1.5rem' }}>{values.lastname}</span>
+                                    Welcome, <span style={{ fontWeight: "bold", color: 'rgb(248, 191, 2)', fontSize: '1.5rem' }}>{values.firstname}</span>
                                 </Typography>
                             </Box>
                             <form onSubmit={handleSubmit}>
@@ -359,22 +359,6 @@ function Profile() {
                                         }}
                                     />
 
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        type="text"
-                                        label="Avatar Url"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.avatarUrl}
-                                        name="avatarUrl"
-                                        error={!!touched.avatarUrl && !!errors.avatarUrl}
-                                        helperText={touched.avatarUrl && errors.avatarUrl}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
-                                    />
                                 </Box>
                                 <Box display="flex" justifyContent="space-between" mt="30px">
 
