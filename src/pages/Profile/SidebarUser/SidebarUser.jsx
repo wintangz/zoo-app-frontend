@@ -1,20 +1,18 @@
-import { Box, IconButton, Typography, useTheme, Avatar, ListItemButton, List, ListItem, ListItemIcon, ListItemText, Button, Dialog, DialogContent } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import LockIcon from '@mui/icons-material/Lock';
-import React, { useState, useEffect } from 'react';
+import { Avatar, Box, Button, Dialog, DialogContent, FormControl, IconButton, Input, List, ListItem, ListItemButton, Typography, useTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { Menu, MenuItem, ProSidebar } from 'react-pro-sidebar';
-import { useAppContext } from "~/context/Context";
 
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { logo_long_dark } from '~/utils/assets-src';
-import { logout } from '~/api/userService';
+import { getUserById, logout, updateUser } from '~/api/userService';
 import { tokens } from '~/theme';
+import { logo_long_dark } from '~/utils/assets-src';
 import { decode } from '~/utils/axiosClient';
-import { getUserById } from '~/api/userService';
+import uploadFile from '~/utils/transferFile';
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -46,25 +44,34 @@ const SidebarUser = () => {
 
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
     const [enlargedImageUrl, setEnlargedImageUrl] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [avatarUpdated, setAvatarUpdated] = useState(null);
+
+    const handleFileSelect = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+        }
+    };
     const handleAvatarClick = () => {
-        // When the avatar is clicked, open the modal and set the image URL
         setIsImageModalOpen(true);
         setEnlargedImageUrl(initialValues.avatarUrl);
     };
 
     const [users, setUsers] = useState({});
 
+    const id = decode(localStorage.getItem('token'));
     const fetchapi = async (id) => {
         const result = await getUserById(id);
+        console.log(result);
         return result;
     };
-    const newObj = decode(localStorage.getItem('token'));
     useEffect(() => {
-        const res = fetchapi(newObj.sub);
+        const res = fetchapi(id.sub);
         res.then((result) => {
             setUsers(result);
         });
-    }, []);
+    }, [avatarUpdated]);
 
     // const { auth, setAuth } = useAppContext()
 
@@ -83,6 +90,31 @@ const SidebarUser = () => {
                 nav('/')
             }
         });
+    };
+    const handleSubmit = async (values) => {
+        try {
+            if (values.avatarUrl instanceof File) {
+                const avatarURL = await uploadFile(selectedFile, 'update-avataruser');
+                values.avatarUrl = avatarURL;
+            }
+            console.log(values)
+            const res = updateUser(id.sub, values);
+            res.then((result) => {
+                console.log(result);
+                const status = result.status;
+                if (status === 200) {
+                    setIsImageModalOpen(false);
+                    setAvatarUpdated(initialValues.avatarUrl);
+
+
+                } else {
+                    console.log(result);
+                }
+            });
+        } catch (error) {
+            console.log(error)
+        }
+
     };
 
     const initialValues = {
@@ -144,7 +176,6 @@ const SidebarUser = () => {
                             <Box display="flex" justifyContent="center" alignItems="center">
                                 <Avatar
                                     src={initialValues.avatarUrl || "broken-image.jpg"}
-
                                     sx={{ width: 120, height: 120, cursor: 'pointer' }}
                                     onClick={handleAvatarClick} // Open the modal when the avatar is clicked
                                 />
@@ -152,7 +183,7 @@ const SidebarUser = () => {
                             </Box>
                             <Box textAlign="center">
                                 <Typography variant="h5" color='rgb(248, 191, 2)' fontWeight='bold'>
-                                    {initialValues.firstname} {initialValues.lastname}
+                                    {initialValues.lastname} {initialValues.firstname}
                                 </Typography>
                             </Box>
                         </Box>
@@ -165,7 +196,7 @@ const SidebarUser = () => {
                                     <Item
 
                                         title="Profile"
-                                        to="/profile"
+                                        to="/settings/profile"
                                         icon={<HomeIcon />}
                                         selected={selected}
                                         setSelected={setSelected}
@@ -177,7 +208,7 @@ const SidebarUser = () => {
                                 <ListItemButton>
                                     <Item
                                         title="Security"
-                                        to="/profile/security"
+                                        to="/settings/security"
                                         icon={<LockIcon />}
                                         selected={selected}
                                         setSelected={setSelected}
@@ -211,8 +242,22 @@ const SidebarUser = () => {
                                 />
 
                             </DialogContent>
+                            <FormControl component="fieldset" sx={{ paddingLeft: "10px" }}>
+                                <Input
+                                    type="file"
+                                    label="avatarUrl"
+                                    onChange={handleFileSelect}
+                                    name="avatarUrl"
+                                />
+                            </FormControl>
                             <Button
                                 variant="outlined"
+                                type="submit"
+                                onClick={() => {
+                                    handleSubmit(
+                                        { avatarUrl: selectedFile }
+                                    )
+                                }}
                             >
                                 Edit Avatar
                             </Button>
@@ -220,7 +265,7 @@ const SidebarUser = () => {
                     </Box>
                 </Menu>
             </ProSidebar>
-        </Box>
+        </Box >
     );
 };
 

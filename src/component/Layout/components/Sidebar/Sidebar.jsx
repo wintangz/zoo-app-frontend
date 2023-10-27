@@ -95,29 +95,15 @@ const Sidebar = () => {
     };
     const userRole = decode(localStorage.getItem('token')).roles[0];
     let titleData = '';
-    let titleCreate = '';
-    let titleUpdate = '';
     let titleNews = '';
-    let titleEnclosure = '';
-    let titleHabitat = '';
-    let primary = '';
 
     if (userRole === 'ADMIN') {
         titleData = 'Users';
-        titleCreate = 'Create New Staff';
-        titleUpdate = 'Update Staff';
-        primary = 'Manage Staff';
     } else if (userRole === 'STAFF') {
         titleData = 'Zoo Trainers';
         titleNews = 'News';
-        titleEnclosure = 'Enclosure';
-        titleHabitat = 'Habitats';
-        primary = 'Manage Zoo Trainers';
     }
     else if (userRole === 'ZOO_TRAINER') {
-        titleEnclosure = 'Enclosures';
-        titleHabitat = 'Habitats';
-        primary = 'Manage Animal';
     }
     return (
         <Box
@@ -363,7 +349,7 @@ const Sidebar = () => {
                                         <List component="div" disablePadding>
                                             <ListItemButton>
                                                 <Item
-                                                    title="View Enclosure"
+                                                    title="Enclosure"
                                                     to="/home/enclosures"
                                                     icon={<PersonOutlinedIcon />}
                                                     selected={selected}
@@ -393,7 +379,7 @@ const Sidebar = () => {
                                         <List component="div" disablePadding>
                                             <ListItemButton>
                                                 <Item
-                                                    title="View Habitat"
+                                                    title="Habitat"
                                                     to="/home/habitats"
                                                     icon={<PersonOutlinedIcon />}
                                                     selected={selected}
