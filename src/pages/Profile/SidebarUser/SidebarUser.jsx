@@ -177,7 +177,7 @@ const SidebarUser = () => {
                                 <Avatar
                                     src={initialValues.avatarUrl || "broken-image.jpg"}
                                     sx={{ width: 120, height: 120, cursor: 'pointer' }}
-                                    onClick={handleAvatarClick} // Open the modal when the avatar is clicked
+                                    onClick={handleAvatarClick}
                                 />
 
                             </Box>

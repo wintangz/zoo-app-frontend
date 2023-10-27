@@ -34,9 +34,9 @@ export const getOrderDetailByOderId = async (values) => {
     }
 }
 
-export const ApiRequest = async () => {
+export const ApiRequest = async (values) => {
     try {
-        const res = await axiosClient.get('orders/payment')
+        const res = await axiosClient.get(`orders/payment?vnp_TxnRef=${values.params.vnp_TxnRef}&vnp_ResponseCode=${values.params.vnp_ResponseCode}&vnp_OrderInfo=${values.params.vnp_OrderInfo}&vnp_BankCode=${values.params.vnp_BankCode}&vnp_Amount=${values.params.vnp_Amount}`)
         return res.data;
     } catch (error) {
         return error.response;
