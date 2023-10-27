@@ -16,7 +16,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/userService';
 import { updateUser } from '~/api/userService';
@@ -163,7 +163,7 @@ function EditProfile() {
                             type="button"
                             color="secondary"
                             variant="contained"
-                            onClick={() => navigate('/team')}
+                            onClick={() => navigate('/home')}
                         >
                             VIEW ALL USER
                         </Button>

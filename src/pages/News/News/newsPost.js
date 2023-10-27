@@ -8,7 +8,7 @@ function NewsPost(props) {
         .replace(/,/g, '-')
         .replace(/ /g, '-');
 
-    console.log(props.post.type);
+    // console.log(props.post.type);
 
     const typeStyle = {
         color: props.post.type === 'Info' ? '#ffc000' : props.post.type === 'Event' ? '#9c3' : 'inherit',

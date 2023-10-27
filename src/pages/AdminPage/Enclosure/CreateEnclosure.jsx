@@ -243,7 +243,7 @@ function CreateEnclosure() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/home/enclosure')}
+                                    onClick={() => navigate('/home/enclosures')}
                                 >
                                     VIEW All ENCLOSURE
                                 </Button>

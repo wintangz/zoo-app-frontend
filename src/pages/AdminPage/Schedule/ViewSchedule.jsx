@@ -41,7 +41,6 @@ function ViewSchedule() {
             headerName: 'Is fed',
             headerAlign: 'left',
             align: 'left',
-            flex: 1,
             valueGetter: (params) => { return params.row.fed ? "Đã cho ăn" : "Not yet"; },
         },
 
@@ -56,6 +55,7 @@ function ViewSchedule() {
             field: 'feedingTime',
             headerName: 'Feeding Time',
             headerAlign: 'left',
+            width: '135',
             align: 'left',
         },
 
@@ -69,7 +69,7 @@ function ViewSchedule() {
             field: 'createdDate',
             headerName: 'Created Date',
             headerAlign: 'left',
-            width: 80,
+            width: '135',
         },
         {
             field: 'approved',
@@ -79,17 +79,10 @@ function ViewSchedule() {
             valueGetter: (params) => { return params.row.approved ? "Yes" : "Not yet"; },
         },
         {
-            field: 'staffId',
-            headerName: 'Approved by',
-            headerAlign: 'left',
-            width: 80,
-            valueGetter: (params) => { return params.row.staffId ? params.row.staffId : undefined; },
-        },
-        {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',
-            width: 80,
+            width: 120,
             renderCell: (params) => <>{params.row.approved ? undefined : <Actions {...{ params }} />}</>
         }
     ];

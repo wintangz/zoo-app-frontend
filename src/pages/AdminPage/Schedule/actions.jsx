@@ -64,11 +64,12 @@ const Actions = ({ params, setRemove }) => {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Delete schedule</h2>
                         <p id="parent-modal-description">Are you sure want to delete this schedule?</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <Button onClick={handleClose} sx={{ color: colors.grey[100], }}>Close</Button>
                         <Button
                             onClick={() => {
                                 handleDelete(params.row.id);
                             }}
+                            sx={{ color: colors.grey[100], }}
                         >
                             Delete
                         </Button>
@@ -111,7 +112,7 @@ const Actions = ({ params, setRemove }) => {
 
 
                 <Tooltip title="Update">
-                    <Link to="/home/animal/schedule/update" state={params.row}>
+                    <Link to="/home/animals/schedule/update" state={params.row}>
                         <IconButton
                         // onClick={handleEdit(params.row)}
                         >
@@ -122,7 +123,7 @@ const Actions = ({ params, setRemove }) => {
                 </Tooltip>
 
                 <Tooltip title="Confirm">
-                    <Link to="/animal/confirm" state={params.row}>
+                    <Link to="/home/animals/confirm" state={params.row}>
                         <IconButton
                         // onClick={handleEdit(params.row)}
                         >

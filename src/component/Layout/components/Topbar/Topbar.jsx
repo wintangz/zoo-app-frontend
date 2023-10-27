@@ -47,9 +47,6 @@ const Topbar = () => {
                     {theme.palette.mode === 'dark' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                 </IconButton>
                 <IconButton>
-                    <NotificationsOutlinedIcon />
-                </IconButton>
-                <IconButton>
                     <SettingsOutlinedIcon />
                 </IconButton>
                 <div>
@@ -73,7 +70,7 @@ const Topbar = () => {
                             'aria-labelledby': 'basic-button',
                         }}
                     >
-                        <Link to="/edit" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link to="/home/settings/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
                         </Link>
                         <MenuItem onClick={handleLogout}>Logout</MenuItem>

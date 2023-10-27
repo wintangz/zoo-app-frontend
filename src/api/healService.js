@@ -17,3 +17,12 @@ export const getHealthCare = async () => {
         return error.response;
     }
 }
+
+export const updateHealthCare = async (id, values) => {
+    try {
+        const res = await axiosClient.put(`health_records/${id}`, values);
+        return res;
+    } catch (error) {
+        return error.response;
+    }
+}

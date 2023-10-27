@@ -21,6 +21,7 @@ import Ticket from '~/pages/Ticket/Ticket';
 
 //Admin routes
 // import Bar from '~/pages/AdminPage/Bar/index';
+import BannerLayout from '~/component/Layout/BannerLayout/BannerLayout';
 import ViewAnimals from '~/pages/AdminPage/Animal';
 import AssignAnimal from '~/pages/AdminPage/Animal/AssignAnimal';
 import CreateAnimal from '~/pages/AdminPage/Animal/CreateAnimal';
@@ -42,6 +43,8 @@ import UpdateFood from '~/pages/AdminPage/Food/UpdateFood';
 import CreateHabitat from '~/pages/AdminPage/Habitat/CreateHabitat';
 import UpdateHabitat from '~/pages/AdminPage/Habitat/UpdateHabitat';
 import ViewHabitat from '~/pages/AdminPage/Habitat/ViewHabitat';
+import CreateHealth from '~/pages/AdminPage/HealthCare/createHealth';
+import ViewHealth from '~/pages/AdminPage/HealthCare/viewHealth';
 import NewsPostForm from '~/pages/AdminPage/New/CreateNews';
 import ViewNews from '~/pages/AdminPage/New/News';
 import UpdateNews from '~/pages/AdminPage/New/UpdateNews';
@@ -59,12 +62,9 @@ import UpdateStaff from "~/pages/AdminPage/Team/UpdateStaff";
 import Team from '~/pages/AdminPage/Team/ViewUser';
 import { default as CreateTicket, default as ViewTicket } from '~/pages/AdminPage/Ticket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
-import ThankYouPage from '~/pages/Ticket/Thanks';
 import Order from '~/pages/Order/Order';
-import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
-import BannerLayout from '~/component/Layout/BannerLayout/BannerLayout';
-import ViewHealth from '~/pages/AdminPage/HealthCare/viewHealth';
-import CreateHealth from '~/pages/AdminPage/HealthCare/createHealth';
+import UpdateHealth from '~/pages/AdminPage/HealthCare/updateHealth';
+import ThankYouPage from '~/pages/Ticket/Thanks';
 
 
 const publicRoutes = [
@@ -72,8 +72,8 @@ const publicRoutes = [
     { path: 'news', component: News, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: "news/:id/:title", component: ParentComponent, layout: NormalLayout, name: 'News', Authen: "public" },
     { path: 'animals', component: Animals, layout: AnimalLayout, name: 'Animals', Authen: "public" },
-    { path: 'profile', component: Profile, layout: ProfileUserLayout, name: 'Profile', Authen: "private" },
-    { path: 'profile/security', component: SecurityUser, layout: ProfileUserLayout, name: 'SecurityUser', Authen: "private" },
+    { path: 'settings/profile', component: Profile, layout: ProfileUserLayout, name: 'Profile', Authen: "public" },
+    { path: 'settings/security', component: SecurityUser, layout: ProfileUserLayout, name: 'SecurityUser', Authen: "public" },
     { path: 'ticket', component: Ticket, layout: NormalLayout, name: 'Ticket', Authen: "public" },
     { path: 'summary', component: Summary, layout: NormalLayout, name: 'Summary', Authen: "public" },
     { path: 'about', component: About, layout: NormalLayout, name: 'About', Authen: "public" },
@@ -82,7 +82,7 @@ const publicRoutes = [
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
     { path: 'verify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: 'public' },
     { path: 'inputnewpassword', component: InputNewPassword, layout: NormalLayout, name: 'InputNewPassword', Authen: "public" },
-    { path: 'order', component: Order, layout: BannerLayout, name: 'Order', Authen: "public" },
+    { path: 'orders', component: Order, layout: BannerLayout, name: 'Order', Authen: "public" },
 
 
     // Admin routes
@@ -90,7 +90,7 @@ const publicRoutes = [
     { path: 'calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/staff/create', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'home/staff/update/:userId', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
-    { path: 'home/edit', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
+    { path: 'home/settings/profile', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/tickets', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
     { path: 'home/tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
 
@@ -114,28 +114,29 @@ const publicRoutes = [
     { path: 'home/species/update/:speciesId', component: UpdateSpecies, layout: AdminMainPage, name: 'UpdateSpecies', Authen: "private" },
 
     { path: 'home/orders', component: ViewOrders, layout: AdminMainPage, name: 'ViewOrders', Authen: "private" },
-    { path: 'home/orderstickets', component: ViewOrdersTickets, layout: AdminMainPage, name: 'ViewOrdersTickets', Authen: "private" },
+    { path: 'home/purchased_tickets', component: ViewOrdersTickets, layout: AdminMainPage, name: 'ViewOrdersTickets', Authen: "private" },
 
-    { path: 'home/animal/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
-    { path: 'home/animal', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
-    { path: 'home/animal/assign/', component: AssignAnimal, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },
-    { path: 'home/animal/feed', component: FeedSchedule, layout: AdminMainPage, name: 'feed;', Authen: "private" },
-    { path: 'home/animal/schedule', component: ViewSchedule, layout: AdminMainPage, name: 'viewSchedule;', Authen: "private" },
-    { path: 'home/animal/confirm', component: Confirm, layout: AdminMainPage, name: 'confirm;', Authen: "private" },
-    { path: 'home/animal/schedule/update', component: UpdateSchedule, layout: AdminMainPage, name: 'updateSchedule;', Authen: "private" },
+    { path: 'home/animals/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
+    { path: 'home/animals', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
+    { path: 'home/animals/assign/', component: AssignAnimal, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },
+    { path: 'home/animals/feed', component: FeedSchedule, layout: AdminMainPage, name: 'feed;', Authen: "private" },
+    { path: 'home/animals/schedule', component: ViewSchedule, layout: AdminMainPage, name: 'viewSchedule;', Authen: "private" },
+    { path: 'home/animals/confirm', component: Confirm, layout: AdminMainPage, name: 'confirm;', Authen: "private" },
+    { path: 'home/animals/schedule/update', component: UpdateSchedule, layout: AdminMainPage, name: 'updateSchedule;', Authen: "private" },
 
-    { path: 'home/enclosure/create', component: CreateEnclosure, layout: AdminMainPage, name: 'CreateEnclosure;', Authen: "private" },
-    { path: 'home/enclosure', component: ViewEnclosure, layout: AdminMainPage, name: 'ViewEnclosure;', Authen: "private" },
-    { path: 'home/enclosure/update/:enclosureId', component: UpdateEnclosure, layout: AdminMainPage, name: 'UpdateEnlosure', Authen: "private" },
+    { path: 'home/enclosures/create', component: CreateEnclosure, layout: AdminMainPage, name: 'CreateEnclosure;', Authen: "private" },
+    { path: 'home/enclosures', component: ViewEnclosure, layout: AdminMainPage, name: 'ViewEnclosure;', Authen: "private" },
+    { path: 'home/enclosures/update/:enclosureId', component: UpdateEnclosure, layout: AdminMainPage, name: 'UpdateEnlosure', Authen: "private" },
 
-    { path: 'home/habitat/create', component: CreateHabitat, layout: AdminMainPage, name: 'CreateHabitat;', Authen: "private" },
-    { path: 'home/habitat', component: ViewHabitat, layout: AdminMainPage, name: 'ViewHatbitat;', Authen: "private" },
-    { path: 'home/habitat/update/:habitatId', component: UpdateHabitat, layout: AdminMainPage, name: 'UpdateHabitat', Authen: "private" },
+    { path: 'home/habitats/create', component: CreateHabitat, layout: AdminMainPage, name: 'CreateHabitat;', Authen: "private" },
+    { path: 'home/habitats', component: ViewHabitat, layout: AdminMainPage, name: 'ViewHatbitat;', Authen: "private" },
+    { path: 'home/habitats/update/:habitatId', component: UpdateHabitat, layout: AdminMainPage, name: 'UpdateHabitat', Authen: "private" },
 
-    { path: 'home/checkticket', component: TicketScanner, layout: AdminMainPage, name: 'TicketScanner;', Authen: "private" },
-    { path: '/enclosure/in', component: MoveInEnclosure, layout: AdminMainPage, name: 'moveInEnclosure;', Authen: "private" },
-    { path: 'home/health/view', component: ViewHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
-    { path: 'home/health/create', component: CreateHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
+    { path: 'home/check_ticket', component: TicketScanner, layout: AdminMainPage, name: 'TicketScanner;', Authen: "private" },
+    { path: 'home/enclosures/move_in', component: MoveInEnclosure, layout: AdminMainPage, name: 'moveInEnclosure;', Authen: "private" },
+    { path: 'home/animals/health', component: ViewHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
+    { path: 'home/animals/health/create', component: CreateHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
+    { path: 'home/animals/health/update', component: UpdateHealth, layout: AdminMainPage, name: 'UpdateHealth;', Authen: "private" },
 
 
 ];
