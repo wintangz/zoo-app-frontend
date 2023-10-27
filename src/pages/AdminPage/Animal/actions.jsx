@@ -1,11 +1,12 @@
 import { Delete } from '@mui/icons-material';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { deleteAnimals } from '~/api/animalsService';
+import { deleteAnimals, moveOutEnclosure } from '~/api/animalsService';
 import { tokens } from '~/theme';
 
 const Actions = ({ params, setRemove }) => {
@@ -14,6 +15,7 @@ const Actions = ({ params, setRemove }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
+    const [moveOut, setMoveOut] = useState(false);
     const style = {
         position: 'absolute',
         top: '50%',
@@ -53,11 +55,15 @@ const Actions = ({ params, setRemove }) => {
         setMessage(false);
         setRemove(values);
     };
-    const userInfo = {
-        // Add your user information here
-        name: 'John Doe',
-        // Other properties
-    };
+    const handleMoveout = (values) => {
+        const res = moveOutEnclosure(values.id, values.enclosure.enclosure.id)
+        res.then(result => {
+            if (result.status === "Ok") {
+                setMoveOut(true);
+                setRemove(values);
+            }
+        })
+    }
     return (
         <>
             <div>
@@ -72,6 +78,7 @@ const Actions = ({ params, setRemove }) => {
                         <p id="parent-modal-description">Are you sure want to delete this animal?</p>
                         <Button onClick={handleClose}>Close</Button>
                         <Button
+                            sx={{ color: colors.grey[100] }}
                             onClick={() => {
                                 handleDelete(params.row.id);
                             }}
@@ -95,6 +102,25 @@ const Actions = ({ params, setRemove }) => {
                             onClick={() => {
                                 handleMessage(params.row.id);
                             }}
+                        >
+                            Close
+                        </Button>
+                    </Box>
+                </Modal>
+            </div>
+            <div>
+                <Modal
+                    open={moveOut}
+                    onClose={() => setMoveOut(false)}
+                    aria-labelledby="parent-modal-title"
+                    aria-describedby="parent-modal-description"
+                >
+                    <Box sx={{ ...style, width: 400 }}>
+                        <h2 id="parent-modal-title">Move Out Successfully!</h2>
+                        <p id="parent-modal-description">Animal have been moved out to Enclosure !</p>
+                        <Button
+                            sx={{ color: colors.grey[100] }}
+                            onClick={() => { setMoveOut(false) }}
                         >
                             Close
                         </Button>
@@ -136,6 +162,15 @@ const Actions = ({ params, setRemove }) => {
                     </Link>
                 </Tooltip>
 
+                {params.row.enclosure &&
+                    <Tooltip title="Move out Enclosure">
+
+                        <IconButton
+                            onClick={() => handleMoveout(params.row)}
+                        >
+                            <ExitToAppIcon />
+                        </IconButton  >
+                    </Tooltip>}
             </Box>
         </>
     );

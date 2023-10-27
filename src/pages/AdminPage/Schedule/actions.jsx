@@ -64,11 +64,12 @@ const Actions = ({ params, setRemove }) => {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Delete schedule</h2>
                         <p id="parent-modal-description">Are you sure want to delete this schedule?</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <Button onClick={handleClose} sx={{ color: colors.grey[100], }}>Close</Button>
                         <Button
                             onClick={() => {
                                 handleDelete(params.row.id);
                             }}
+                            sx={{ color: colors.grey[100], }}
                         >
                             Delete
                         </Button>

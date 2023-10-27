@@ -2,7 +2,7 @@ import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllAnimals } from '~/api/animalsService';
+import { getAllAnimals, getEnclosuresAnimals } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './actions';
@@ -24,14 +24,31 @@ function ViewAnimals() {
     const [remove, setRemove] = useState(null);
     useEffect(() => {
         try {
+            const response = getEnclosuresAnimals();
             const res = getAllAnimals();
             res.then((animals) => {
+                response.then((enclosures) => {
+                    animals.map(animal => {
+                        for (var i = 0; i < enclosures.length; i++) {
+                            if (animal.id === enclosures[i].animal.id) {
+                                if (enclosures[i].moveOutDate === null) {
+                                    animal.enclosure = enclosures[i];
+                                    break;
+                                }
+                            } else {
+                                animal.enclosure = null
+                            }
+                        }
+                    })
+                })
                 setAnimals(animals);
+
             })
         } catch (error) {
             console.error(error);
         }
     }, [remove])
+    console.log(animals);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
@@ -51,13 +68,13 @@ function ViewAnimals() {
         },
         {
             field: 'arrivalDate',
-            headerName: 'arrivalDate    ',
+            headerName: 'Arrival Date    ',
             headerAlign: 'left',
             align: 'left',
         },
         {
             field: 'dateOfBirth', // Keep the field as 'firstname'
-            headerName: 'dateOfBirth',
+            headerName: 'Date Of Birth',
             headerAlign: 'left',
             align: 'left',
             flex: 1,
@@ -65,43 +82,49 @@ function ViewAnimals() {
 
         {
             field: 'name',
-            headerName: 'name',
+            headerName: 'Name',
             headerAlign: 'left',
             align: 'left',
         },
 
         {
             field: 'origin',
-            headerName: 'origin',
+            headerName: 'Origin',
             headerAlign: 'left',
             align: 'left',
         },
 
         {
             field: 'sex',
-            headerName: 'sex',
+            headerName: 'Sex',
             headerAlign: 'left',
             width: 80,
         },
 
         {
             field: 'species',
-            headerName: 'species',
+            headerName: 'Species',
             headerAlign: 'left',
             width: 80,
         },
         {
             field: 'status',
-            headerName: 'status',
+            headerName: 'Status',
             headerAlign: 'left',
             width: 80,
         },
-
+        {
+            field: 'currentEnlosures',
+            headerName: 'Current Enlosures',
+            headerAlign: 'left',
+            valueGetter: (params) => { return params.row.enclosure ? params.row.enclosure.enclosure.name : "Not yet" },
+            width: 80,
+        },
         {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',
-            width: 80,
+            float: 'left',
             renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
             flex: 1,
         },

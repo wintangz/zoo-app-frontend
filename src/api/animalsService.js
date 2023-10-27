@@ -159,6 +159,15 @@ export const moveInEnclosure = async (path, path2) => {
         return error.response;
     }
 }
+
+export const moveOutEnclosure = async (path, path2) => {
+    try {
+        const res = await axiosClient.put(`animals/${path}/enclosures/${path2}`)
+        return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}
 export const deleteHabitats = async (id) => {
     try {
         const res = await axiosClient.remove(`habitats/${id}`);
