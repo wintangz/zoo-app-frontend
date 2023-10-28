@@ -13,6 +13,7 @@ function ViewAnimals() {
     const navigate = useNavigate()
     const currentId = Number.parseInt(decode(localStorage.getItem('token')).sub);
     const userRole = decode(localStorage.getItem('token')).roles[0];
+    const [accept, setAccept] = useState(false)
     const [animals, setAnimals] = useState(null);
     const [remove, setRemove] = useState(null);
     const [open, setOpen] = useState(false);
@@ -41,12 +42,13 @@ function ViewAnimals() {
                     })
                     return trainer.length !== 0
                 })
-                console.log(userRole)
-                if (userRole === "ZOO_TRAINER") {
-                    setAnimals(animalsFilter);
-                } else {
-                    setAnimals(animals)
-                }
+                setAccept(animalsFilter)
+                setAnimals(animals)
+                // if (userRole === "ZOO_TRAINER") {
+                //     setAnimals(animalsFilter);
+                // } else {
+                //     setAnimals(animals)
+                // }
                 setOpen(true);
             })
 
@@ -134,7 +136,7 @@ function ViewAnimals() {
             headerName: 'Actions',
             type: 'actions',
             float: 'left',
-            renderCell: (params) => animals && (<Actions {...{ params }} setRemove={setRemove} />),
+            renderCell: (params) => animals && (<Actions {...{ params }} setRemove={setRemove} accept={accept} />),
             flex: 1,
         },
     ];

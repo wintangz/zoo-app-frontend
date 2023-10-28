@@ -107,16 +107,19 @@ function ViewHabitat() {
     return (
         <Box m="20px">
             <AdminHeader title="View all Habitats" subtitle="Table of Habitats" />
-            <Box display="flex" justifyContent="left">
-                <Button
-                    type="button"
-                    color="secondary"
-                    variant="contained"
-                    onClick={() => navigate('/home/habitats/create')}
-                >
-                    CREATE HABITAT
-                </Button>
-            </Box>
+            {userRole === 'STAFF' && (
+                <Box display="flex" justifyContent="left">
+                    <Button
+                        type="button"
+                        color="secondary"
+                        variant="contained"
+                        onClick={() => navigate('/home/habitats/create')}
+                    >
+                        CREATE HABITAT
+                    </Button>
+                </Box>
+            )}
+
             <Box
                 m="20px 0 0 0"
                 height="75vh"

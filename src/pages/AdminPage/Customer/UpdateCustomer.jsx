@@ -16,24 +16,24 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/userService';
 import { updateUser } from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
-function EditProfile() {
-    //--------------- Call API GET USER ---------------------------------//
+function UpdateCustomer() {
+    const navigate = useNavigate();
+    //--------------- Call API GET USER ---------------------------------//'
+    const { userId } = useParams();
     const [users, setUsers] = useState({});
     const fetchapi = async (id) => {
         const result = await mockData.getUserById(id);
         return result;
     };
-    const newObj = decode(localStorage.getItem('token'));
     useEffect(() => {
-        const res = fetchapi(newObj.sub);
+        const res = fetchapi(userId);
         res.then((result) => {
             setUsers(result);
         });
@@ -66,7 +66,6 @@ function EditProfile() {
         pb: 3,
     };
     const [open, setOpen] = useState(false);
-    const navigate = useNavigate();
     const handleClose = () => {
         navigate('/home');
     };
@@ -93,7 +92,7 @@ function EditProfile() {
         } else if (values.sex === 'female') {
             values.sex = false;
         }
-        const res = updateUser(newObj.sub, values);
+        const res = updateUser(userId, values);
         res.then((result) => {
             const status = result.status;
             if (status === 200) {
@@ -127,6 +126,7 @@ function EditProfile() {
         phone: yup.string().matches(phoneRegExp, 'Phone numbers is not valid').required('required'),
         email: yup.string().email('Invalid email').required('required'),
     });
+
     return (
         <>
             <div>
@@ -137,18 +137,28 @@ function EditProfile() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Update User Successfully!</h2>
-                        <p id="parent-modal-description">User have been update to DataBase!</p>
+                        <h2 id="parent-modal-title">Update Customer Successfully!</h2>
+                        <p id="parent-modal-description">Customer have been update to DataBase!</p>
                         <Button onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>
             <Box>
-                <AdminHeader title="Edit Profile" subtitle="Edit you profile" />
+                <AdminHeader title="Update" />
             </Box>
 
             <>
                 <Box m="20px">
+                    <Box mb="20px" display="flex" justifyContent="left">
+                        <Button
+                            type="button"
+                            color="secondary"
+                            variant="contained"
+                            onClick={() => navigate('/home')}
+                        >
+                            VIEW ALL USER
+                        </Button>
+                    </Box>
                     <Formik
                         onSubmit={handleFormSubmit}
                         initialValues={initialValues}
@@ -352,19 +362,10 @@ function EditProfile() {
                                         }}
                                     />
                                 </Box>
-                                <Box display="flex" justifyContent="space-between" mt="20px">
-                                    <Link to="/home/edit/security">
-                                        <Button
-                                            onClick={handleSercurity}
-                                            type="submit"
-                                            color="secondary"
-                                            variant="contained"
-                                        >
-                                            SECURITY
-                                        </Button>
-                                    </Link>
+                                <Box display="flex" justifyContent="space-between" mt="20px" sx={{ flexDirection: "row-reverse" }}>
 
-                                    <Button type="submit" color="secondary" variant="contained">
+
+                                    <Button type="submit" color="secondary" variant="contained" >
                                         EDIT ACCOUNT
                                     </Button>
                                 </Box>
@@ -377,4 +378,4 @@ function EditProfile() {
     );
 }
 
-export default EditProfile;
+export default UpdateCustomer;

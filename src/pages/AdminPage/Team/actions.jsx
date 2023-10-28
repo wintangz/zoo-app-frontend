@@ -104,18 +104,34 @@ const Actions = ({ params, setRemove }) => {
                         <Delete />
                     </IconButton  >
                 </Tooltip>
-                <Tooltip title="Edit">
-                    <Link to={`/home/staff/update/${params.row.id}`}>
-                        <IconButton
-                            onClick={() => {
+                {userRole === 'ADMIN' && (
+                    <Tooltip title="Edit">
+                        <Link to={`/home/staff/update/${params.row.id}`}>
+                            <IconButton
+                                onClick={() => {
 
-                            }}
-                        >
-                            <Edit />
-                        </IconButton  >
-                    </Link>
+                                }}
+                            >
+                                <Edit />
+                            </IconButton  >
+                        </Link>
 
-                </Tooltip>
+                    </Tooltip>
+                )}
+                {userRole === 'STAFF' && (
+                    <Tooltip title="Edit">
+                        <Link to={`/home/zootrainer/update/${params.row.id}`}>
+                            <IconButton
+                                onClick={() => {
+
+                                }}
+                            >
+                                <Edit />
+                            </IconButton  >
+                        </Link>
+
+                    </Tooltip>
+                )}
             </Box>
         </>
     );

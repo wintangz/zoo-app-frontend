@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Dialog, DialogContent, FormControl, IconButton, Input, Typography, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { Menu, MenuItem, ProSidebar } from 'react-pro-sidebar';
@@ -15,15 +15,17 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { useEffect } from 'react';
 import { BsFillTicketPerforatedFill, BsNewspaper, BsQrCodeScan } from 'react-icons/bs';
 import { FaBalanceScale } from 'react-icons/fa';
 import { GiCage, GiElephant } from 'react-icons/gi';
 import { TbMeat } from 'react-icons/tb';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Link } from 'react-router-dom';
-import { logout } from '~/api/userService';
+import { getUserById, logout, updateUser } from '~/api/userService';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
+import uploadFile from '~/utils/transferFile';
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -96,6 +98,64 @@ const Sidebar = () => {
             }
         });
     };
+
+    const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+    const [enlargedImageUrl, setEnlargedImageUrl] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [avatarUpdated, setAvatarUpdated] = useState(null);
+    const [users, setUsers] = useState({});
+    const handleFileSelect = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+        }
+    };
+    const handleAvatarClick = () => {
+        setIsImageModalOpen(true);
+        setEnlargedImageUrl(initialValues.avatarUrl);
+    };
+    const id = decode(localStorage.getItem('token'));
+    const fetchapi = async (id) => {
+        const result = await getUserById(id);
+        console.log(result);
+        return result;
+    };
+    useEffect(() => {
+        const res = fetchapi(id.sub);
+        res.then((result) => {
+            setUsers(result);
+        });
+    }, [avatarUpdated]);
+    const handleSubmit = async (values) => {
+        try {
+            if (values.avatarUrl instanceof File) {
+                const avatarURL = await uploadFile(selectedFile, 'update-avataruser');
+                values.avatarUrl = avatarURL;
+            }
+            console.log(values)
+            const res = updateUser(id.sub, values);
+            res.then((result) => {
+                console.log(result);
+                const status = result.status;
+                if (status === 200) {
+                    setIsImageModalOpen(false);
+                    setAvatarUpdated(initialValues.avatarUrl);
+
+
+                } else {
+                    console.log(result);
+                }
+            });
+        } catch (error) {
+            console.log(error)
+        }
+
+    };
+    const initialValues = {
+        avatarUrl: users?.avatarUrl || '',
+        lastname: users?.lastname || '',
+        firstname: users?.firstname || '',
+    };
     const userRole = decode(localStorage.getItem('token')).roles[0];
     let titleData = '';
     let titleNews = '';
@@ -138,7 +198,7 @@ const Sidebar = () => {
             }}
         >
             <ProSidebar collapsed={isCollapsed} style={{ height: '100%', background: colors.primary[900] }}>
-                <Menu iconShape="square">
+                <Menu iconShape="square" initialValues={initialValues}>
                     {/* LOGO AND MENU ICON */}
                     <MenuItem
                         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -163,22 +223,21 @@ const Sidebar = () => {
                     {!isCollapsed && (
                         <Box mb="25px">
                             <Box display="flex" justifyContent="center" alignItems="center">
-                                <img
-                                    alt="profile-user"
-                                    width="100px"
-                                    height="100px"
-                                    src={`../../assets/user.png`}
-                                    style={{ cursor: 'pointer', borderRadius: '50%' }}
+                                <Avatar
+                                    src={initialValues.avatarUrl || "broken-image.jpg"}
+                                    sx={{ width: 120, height: 120, cursor: 'pointer' }}
+                                    onClick={handleAvatarClick}
                                 />
+
                             </Box>
                             <Box textAlign="center">
                                 <Typography
-                                    variant="h2"
+                                    variant="h3"
                                     color={colors.grey[100]}
                                     fontWeight="bold"
                                     sx={{ m: '10px 0 0 0' }}
                                 >
-                                    {decode(localStorage.getItem('token')).sub}
+                                    {initialValues.lastname} {initialValues.firstname}
                                 </Typography>
                                 <Typography variant="h5" color={colors.greenAccent[500]}>
                                     {role}
@@ -188,6 +247,35 @@ const Sidebar = () => {
                     )}
 
                     <Box paddingLeft={isCollapsed ? undefined : '10%'}>
+                        <Dialog open={isImageModalOpen} onClose={() => setIsImageModalOpen(false)}>
+                            <DialogContent>
+                                <img
+                                    src={enlargedImageUrl}
+                                    alt="Enlarged Avatar"
+                                    style={{ width: '100%' }}
+                                />
+
+                            </DialogContent>
+                            <FormControl component="fieldset" sx={{ paddingLeft: "10px" }}>
+                                <Input
+                                    type="file"
+                                    label="avatarUrl"
+                                    onChange={handleFileSelect}
+                                    name="avatarUrl"
+                                />
+                            </FormControl>
+                            <Button
+                                variant="outlined"
+                                type="submit"
+                                onClick={() => {
+                                    handleSubmit(
+                                        { avatarUrl: selectedFile }
+                                    )
+                                }}
+                            >
+                                Edit Avatar
+                            </Button>
+                        </Dialog>
 
                         {userRole !== 'ZOO_TRAINER' && (
                             <>
@@ -267,6 +355,7 @@ const Sidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />}
+
                         {userRole === 'ZOO_TRAINER' && (
                             <>
                                 <List
@@ -342,6 +431,10 @@ const Sidebar = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
+                            </>
+                        )}
+                        {userRole === "ZOO_TRAINER" && (
+                            <>
                                 <Item
                                     title="Enclosure"
                                     to="/home/enclosures"
@@ -349,7 +442,24 @@ const Sidebar = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
-
+                                <Item
+                                    title="Habitat"
+                                    to="/home/habitats"
+                                    icon={<PersonOutlinedIcon />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                            </>
+                        )}
+                        {userRole === "STAFF" && (
+                            <>
+                                <Item
+                                    title="Enclosure"
+                                    to="/home/enclosures"
+                                    icon={<PersonOutlinedIcon />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
                                 <Item
                                     title="Habitat"
                                     to="/home/habitats"

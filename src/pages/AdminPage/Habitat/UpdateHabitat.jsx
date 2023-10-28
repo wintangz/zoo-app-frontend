@@ -3,6 +3,7 @@ import {
     Button,
     FormControl,
     FormControlLabel,
+    Input,
     Radio,
     RadioGroup,
     TextField,
@@ -10,17 +11,14 @@ import {
     useTheme
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
-import moment from 'moment/moment';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/animalsService';
-import { updateHabitats } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
+import uploadFile from '~/utils/transferFile';
 
 function UpdateHabitat() {
     //--------------- Call API GET USER ---------------------------------//'
@@ -60,35 +58,30 @@ function UpdateHabitat() {
     };
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        navigate('/habitat/view');
+        navigate('/home/habitats');
     };
 
     //---------------------------------------- Handle Submit----------------------------------/
 
-    const handleFormSubmit = async (values, { resetForm }) => {
-        // console.log("Before formatting:", values.createdDate);
-        const inputDate = new Date(values.createdDate);
-        const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-        // Get the time zone offset and convert it to the "hh:mm" format
-        const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-        const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-        const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-            .toString()
-            .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
-
-        // Combine the date and time zone offset to get the final formatted string
-        const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-        values.createdDate = formattedDateTime;
-        const res = updateHabitats(habitatId, values);
-        // console.log("After formatting:", values.createdDate)
-        res.then((result) => {
-            const status = result.status;
-            if (status === 200) {
-                setOpen(true);
+    const handleFormSubmit = async (values) => {
+        try {
+            if (values.imgUrl instanceof File) {
+                const imgURL = await uploadFile(values.imgUrl, 'update-habitats');
+                values.imgUrl = imgURL;
             }
-        });
+            if (values.bannerUrl instanceof File) {
+                const bannerURL = await uploadFile(values.bannerUrl, 'update-habitats');
+                values.bannerUrl = bannerURL;
+            }
+            const response = mockData.updateHabitats(habitatId, values);
+            response.then((result) => {
+                if (result.data.status === "Ok") {
+                    setOpen(true);
+                }
+            });
+        } catch (error) {
+            console.error('Error submitting form:', error.message);
+        }
     };
 
     //********************************** INITIAL VALUE*********************************** */
@@ -147,7 +140,7 @@ function UpdateHabitat() {
                         validationSchema={userSchema}
                         enableReinitialize={true}
                     >
-                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                             <form onSubmit={handleSubmit}>
                                 <Box
                                     display="grid"
@@ -169,7 +162,7 @@ function UpdateHabitat() {
                                             gridColumn: 'span 2',
                                         }}
                                     />
-                                    <FormControl
+                                    {/* <FormControl
                                         padding="0"
                                         component="fieldset"
                                         fullWidth
@@ -212,7 +205,7 @@ function UpdateHabitat() {
                                                 }}
                                             />
                                         </LocalizationProvider>
-                                    </FormControl>
+                                    </FormControl> */}
 
                                     {/* Info */}
                                     <TextField
@@ -232,37 +225,36 @@ function UpdateHabitat() {
                                             gridColumn: 'span 4',
                                         }}
                                     />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="Image URL"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.imgUrl}
-                                        name="imgUrl"
-                                        error={!!touched.imgUrl && !!errors.imgUrl}
-                                        helperText={touched.imgUrl && errors.imgUrl}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
-                                    />
-
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="Banner URL"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.bannerUrl}
-                                        name="bannerUrl"
-                                        error={!!touched.bannerUrl && !!errors.bannerUrl}
-                                        helperText={touched.bannerUrl && errors.bannerUrl}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
-                                    />
+                                    <FormControl component="fieldset" >
+                                        <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                            imgUrl
+                                        </Typography>
+                                        <Input
+                                            type="file"
+                                            label="imgUrl"
+                                            onBlur={handleBlur}
+                                            onChange={(e) => {
+                                                setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                            }}
+                                            name="imgUrl"
+                                        />
+                                        <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
+                                    </FormControl>
+                                    <FormControl component="fieldset" >
+                                        <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
+                                            bannerUrl
+                                        </Typography>
+                                        <Input
+                                            type="file"
+                                            label="bannerUrl"
+                                            onBlur={handleBlur}
+                                            onChange={(e) => {
+                                                setFieldValue('bannerUrl', e.currentTarget.files[0]);
+                                            }}
+                                            name="bannerUrl"
+                                        />
+                                        <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
+                                    </FormControl>
                                     <FormControl
                                         component="fieldset"
                                         width="75%"

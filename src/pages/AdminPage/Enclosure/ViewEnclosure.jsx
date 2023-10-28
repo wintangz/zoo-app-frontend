@@ -105,7 +105,7 @@ function ViewEnclosure() {
             headerAlign: 'left',
             width: 80,
         },
-        // userRole === 'STAFF' && 
+        userRole === 'STAFF' &&
         {
             field: 'actions',
             headerName: 'Actions',
@@ -117,14 +117,16 @@ function ViewEnclosure() {
     return (
         <Box m="20px">
             <AdminHeader title="View all Enclosures" subtitle="Table of Enclosures" />
-            <Button
-                type="button"
-                color="secondary"
-                variant="contained"
-                onClick={() => navigate('/home/enclosures/create')}
-            >
-                Create Enclosure
-            </Button>
+            {userRole === 'STAFF' && (
+                <Button
+                    type="button"
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => navigate('/home/enclosures/create')}
+                >
+                    Create Enclosure
+                </Button>
+            )}
             <Box
                 m="40px 0 0 0"
                 height="75vh"
