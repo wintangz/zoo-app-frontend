@@ -11,8 +11,9 @@ import { deleteAnimals, moveOutEnclosure } from '~/api/animalsService';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 
-const Actions = ({ params, setRemove }) => {
+const Actions = ({ params, setRemove, accept }) => {
     const userRole = decode(localStorage.getItem('token')).roles[0];
+    const userID = Number.parseInt(decode(localStorage.getItem('token')).sub);
     let navigate = useNavigate();
     const [message, setMessage] = useState(false);
     const theme = useTheme();
@@ -131,18 +132,16 @@ const Actions = ({ params, setRemove }) => {
                 </Modal>
             </div>
             <Box>
-                {userRole === "STAFF" && <Tooltip title="Delete">
+                {userRole === "ZOO_TRAINER" && <Tooltip title="Delete">
                     <IconButton
                         onClick={() => {
-                            // handleDelete(params.row.id);
                             setOpen(true);
                         }}
                     >
                         <Delete />
                     </IconButton  >
                 </Tooltip>}
-
-                {userRole === "STAFF" && <Tooltip title="Edit Animal">
+                {userRole === "ZOO_TRAINER" && <Tooltip title="Edit Animal">
                     <Link to="/home/animals/update" state={params.row}>
                         <IconButton
                         >
@@ -151,6 +150,28 @@ const Actions = ({ params, setRemove }) => {
                     </Link>
                 </Tooltip>}
 
+
+
+
+                {userRole === "ZOO_TRAINER" && params.row.enclosure &&
+                    <Tooltip title="Move out Enclosure">
+                        <IconButton
+                            onClick={() => handleMoveout(params.row)}
+                        >
+                            <ExitToAppIcon />
+                        </IconButton  >
+                    </Tooltip>}
+
+
+                {userRole === "ZOO_TRAINER" && !params.row.enclosure &&
+                    <Tooltip title="Move in Enclosure">
+                        <Link to="/home/enclosures/move_in" state={params.row}>
+                            <IconButton
+                            >
+                                <AddHomeIcon />
+                            </IconButton  >
+                        </Link>
+                    </Tooltip>}
 
                 {userRole === "STAFF" && <Tooltip title="Assign trainer">
                     <Link to="/home/animals/assign" state={params.row}>
@@ -161,27 +182,6 @@ const Actions = ({ params, setRemove }) => {
                         </IconButton  >
                     </Link>
                 </Tooltip>}
-
-                {userRole === "STAFF" && params.row.enclosure &&
-                    <Tooltip title="Move out Enclosure">
-                        <IconButton
-                            onClick={() => handleMoveout(params.row)}
-                        >
-                            <ExitToAppIcon />
-                        </IconButton  >
-                    </Tooltip>}
-
-
-                {userRole === "STAFF" && !params.row.enclosure &&
-                    <Tooltip title="Move in Enclosure">
-                        <Link to="/home/enclosures/move_in" state={params.row}>
-                            <IconButton
-                            >
-                                <AddHomeIcon />
-                            </IconButton  >
-                        </Link>
-                    </Tooltip>}
-
 
                 <Tooltip title="History Move">
                     <Link to="/home/animals/enclosures_history" state={params.row}>
