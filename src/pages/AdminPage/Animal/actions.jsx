@@ -132,7 +132,7 @@ const Actions = ({ params, setRemove, accept }) => {
                 </Modal>
             </div>
             <Box>
-                {userRole === "ZOO_TRAINER" && <Tooltip title="Delete">
+                {userRole === "ZOO_TRAINER" && params.row.trainers?.some(element => element.id === userID) && <Tooltip title="Delete">
                     <IconButton
                         onClick={() => {
                             setOpen(true);
@@ -141,19 +141,20 @@ const Actions = ({ params, setRemove, accept }) => {
                         <Delete />
                     </IconButton  >
                 </Tooltip>}
-                {userRole === "ZOO_TRAINER" && <Tooltip title="Edit Animal">
-                    <Link to="/home/animals/update" state={params.row}>
-                        <IconButton
-                        >
-                            <Edit />
-                        </IconButton  >
-                    </Link>
-                </Tooltip>}
+                {userRole === "ZOO_TRAINER" && params.row.trainers?.some(element => element.id === userID)
+                    && <Tooltip title="Edit Animal">
+                        <Link to="/home/animals/update" state={params.row}>
+                            <IconButton
+                            >
+                                <Edit />
+                            </IconButton  >
+                        </Link>
+                    </Tooltip>}
 
 
 
 
-                {userRole === "ZOO_TRAINER" && params.row.enclosure &&
+                {userRole === "ZOO_TRAINER" && params.row.trainers?.some(element => element.id === userID) && params.row.enclosure &&
                     <Tooltip title="Move out Enclosure">
                         <IconButton
                             onClick={() => handleMoveout(params.row)}
@@ -163,7 +164,7 @@ const Actions = ({ params, setRemove, accept }) => {
                     </Tooltip>}
 
 
-                {userRole === "ZOO_TRAINER" && !params.row.enclosure &&
+                {userRole === "ZOO_TRAINER" && params.row.trainers?.some(element => element.id === userID) && !params.row.enclosure &&
                     <Tooltip title="Move in Enclosure">
                         <Link to="/home/enclosures/move_in" state={params.row}>
                             <IconButton
