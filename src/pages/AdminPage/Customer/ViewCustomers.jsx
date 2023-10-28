@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import * as mockData from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import Actions from '../Team/actions';
+import Actions from './Action';
 
 function ViewCustomers() {
     const navigate = useNavigate();

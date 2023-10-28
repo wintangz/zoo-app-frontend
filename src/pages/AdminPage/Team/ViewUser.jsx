@@ -10,9 +10,9 @@ import * as mockData from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
+import { formatDate } from '~/utils/dateTimeFormat';
 import { getUsersWithRoles } from '~/utils/getUserByRole';
 import Actions from './actions';
-import { formatDate } from '~/utils/dateTimeFormat';
 
 function Team() {
     const navigate = useNavigate();
@@ -155,14 +155,27 @@ function Team() {
         <Box m="20px">
             <AdminHeader title={title} subtitle={subtitle} />
             <Box display="flex" justifyContent="left">
-                <Button
-                    type="button"
-                    color="secondary"
-                    variant="contained"
-                    onClick={() => navigate('/home/staff/create')}
-                >
-                    {button}
-                </Button>
+                {userRole === 'ADMIN' && (
+                    <Button
+                        type="button"
+                        color="secondary"
+                        variant="contained"
+                        onClick={() => navigate('/home/staff/create')}
+                    >
+                        {button}
+                    </Button>
+                )}
+                {userRole === 'STAFF' && (
+                    <Button
+                        type="button"
+                        color="secondary"
+                        variant="contained"
+                        onClick={() => navigate('/home/zootrainer/create')}
+                    >
+                        {button}
+                    </Button>
+                )}
+
             </Box>
             <Box
                 m="20px 0 0 0"

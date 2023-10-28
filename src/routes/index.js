@@ -25,6 +25,7 @@ import BannerLayout from '~/component/Layout/BannerLayout/BannerLayout';
 import ViewAnimals from '~/pages/AdminPage/Animal';
 import AssignAnimal from '~/pages/AdminPage/Animal/AssignAnimal';
 import CreateAnimal from '~/pages/AdminPage/Animal/CreateAnimal';
+import History from '~/pages/AdminPage/Animal/history';
 import Calendar from '~/pages/AdminPage/Calendar';
 import TicketScanner from '~/pages/AdminPage/CheckTicket/checkTicket';
 import Confirm from '~/pages/AdminPage/Confirm/confirm';
@@ -44,6 +45,7 @@ import CreateHabitat from '~/pages/AdminPage/Habitat/CreateHabitat';
 import UpdateHabitat from '~/pages/AdminPage/Habitat/UpdateHabitat';
 import ViewHabitat from '~/pages/AdminPage/Habitat/ViewHabitat';
 import CreateHealth from '~/pages/AdminPage/HealthCare/createHealth';
+import UpdateHealth from '~/pages/AdminPage/HealthCare/updateHealth';
 import ViewHealth from '~/pages/AdminPage/HealthCare/viewHealth';
 import NewsPostForm from '~/pages/AdminPage/New/CreateNews';
 import ViewNews from '~/pages/AdminPage/New/News';
@@ -63,10 +65,12 @@ import Team from '~/pages/AdminPage/Team/ViewUser';
 import { default as CreateTicket, default as ViewTicket } from '~/pages/AdminPage/Ticket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import Order from '~/pages/Order/Order';
-import UpdateHealth from '~/pages/AdminPage/HealthCare/updateHealth';
 import ThankYouPage from '~/pages/Ticket/Thanks';
+<<<<<<< Updated upstream
 import History from '~/pages/AdminPage/Animal/history';
 import UpdateAnimal from '~/pages/AdminPage/Animal/update';
+=======
+>>>>>>> Stashed changes
 
 
 const publicRoutes = [
@@ -92,7 +96,10 @@ const publicRoutes = [
     { path: 'home', component: Team, layout: AdminMainPage, name: 'Team', Authen: "private" },
     { path: 'calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/staff/create', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
+    { path: 'home/zootainer/create', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'home/staff/update/:userId', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
+    { path: 'home/zootrainer/update/:userId', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
+    { path: 'home/customer/update/:userId', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/settings/profile', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/tickets', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
     { path: 'home/tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
