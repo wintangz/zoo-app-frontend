@@ -67,10 +67,6 @@ import { default as CreateTicket, default as ViewTicket } from '~/pages/AdminPag
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import Order from '~/pages/Order/Order';
 import ThankYouPage from '~/pages/Ticket/Thanks';
-<<<<<<< Updated upstream
-import UpdateAnimal from '~/pages/AdminPage/Animal/update';
-=======
->>>>>>> Stashed changes
 
 
 const publicRoutes = [
