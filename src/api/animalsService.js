@@ -109,7 +109,7 @@ export const updateHabitats = async (id, values) => {
 export const assignZooTrainerToAnimal = async (values, path) => {
     try {
         const res = await axiosClient.post(path, values)
-        return res.data;
+        return res;
     } catch (error) {
         return error.response;
     }
@@ -210,6 +210,15 @@ export const deleteSchedules = async (id) => {
         return res.data
     } catch (error) {
         console.log(error.response);
+        return error.response;
+    }
+}
+
+export const updateAnimal = async (path, values) => {
+    try {
+        const res = await axiosClient.put(`animals/${path}`, values)
+        return res;
+    } catch (error) {
         return error.response;
     }
 }

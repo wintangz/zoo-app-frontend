@@ -93,7 +93,7 @@ function ViewSchedule() {
                 type="button"
                 color="secondary"
                 variant="contained"
-                onClick={() => navigate('/home/animal/feed')}
+                onClick={() => navigate('/home/animals/feed')}
             >
                 Create Schedule
             </Button>

@@ -1,40 +1,28 @@
-import {
-    Box,
-    Button,
-    FormControl,
-    FormControlLabel,
-    Input,
-    Radio,
-    RadioGroup,
-    TextField,
-    Typography,
-    useTheme,
-} from '@mui/material';
-
+import { useTheme } from "@emotion/react";
 import MenuItem from '@mui/material/MenuItem';
-import Modal from '@mui/material/Modal';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { Box, Button, FormControl, FormControlLabel, Input, Modal, Radio, RadioGroup, TextField, Typography, useMediaQuery } from "@mui/material";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { tokens } from "~/theme";
+import * as yup from "yup";
+import { Formik } from "formik";
+import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import moment from "moment/moment";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { Formik } from 'formik';
-import moment from 'moment/moment';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { createAnimals } from '~/api/animalsService';
 import { getSpecies } from '~/api/speciesService';
-import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
-import { tokens } from '~/theme';
-import { formatDateTimeSubmit } from '~/utils/dateTimeFormat';
-import uploadFile from '~/utils/transferFile';
-// import { DataGridPro } from '@mui/x-data-grid-pro';
-function CreateAnimal() {
+import { useEffect } from "react";
+import { formatDateTimeSubmit } from "~/utils/dateTimeFormat";
+import { updateAnimal } from "~/api/animalsService";
+
+function UpdateAnimal() {
+    const location = useLocation()
     const FILE_SIZE = 1920 * 1080;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const theme = useTheme({});
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
-    const [species, setSpecies] = useState([]);
+    const [death, setDeath] = useState(location.state.status)
     const navigate = useNavigate();
     const style = {
         position: 'absolute',
@@ -50,7 +38,7 @@ function CreateAnimal() {
         px: 4,
         pb: 3,
     };
-    const isNonMobile = useMediaQuery('(min-width: 600px)');
+    const [species, setSpecies] = useState(null);
     useEffect(() => {
         const res = getSpecies();
         res.then((result) => {
@@ -58,74 +46,85 @@ function CreateAnimal() {
         });
     }, []);
 
-    const handleFormSubmit = async (values, { resetForm }) => {
-        values.dateOfBirth = formatDateTimeSubmit(values.dateOfBirth);
-        values.arrivalDate = formatDateTimeSubmit(values.arrivalDate);
-        try {
-            const imgURL = await uploadFile(values.imgUrl, 'animals-individual'); // Wait for the file upload to complete
-            values.imgUrl = imgURL;
-            const res = createAnimals(values);
-            res.then((result) => {
-                console.log(result);
-                const status = result.status;
-                if (status === 'Ok') {
-                    setOpen(true);
-                    resetForm();
-                }
-            });
-            // Optionally, you can display a success message or perform other actions here
-        } catch (error) {
-            console.log(error);
-            // Handle errors if needed
-        }
-    };
-
+    const isNonMobile = useMediaQuery('(min-width: 600px)');
     const initialValues = {
-        name: '',
-        sex: 'true',
-        imgUrl: '',
-        arrivalDate: null,
-        dateOfBirth: null,
-        origin: '',
-        species: '',
-        status: true,
+        name: location.state.name,
+        sex: location.state.sex,
+        imgUrl: location.state.imgUrl,
+        arrivalDate: location.state.arrivalDate,
+        dateOfBirth: location.state.dateOfBirth,
+        origin: location.state.origin,
+        species: location.state.species,
+        status: location.state.status,
+        dateOfDeath: null,
     };
-
     const userSchema = yup.object().shape({
         name: yup.string().required('required'),
         sex: yup.string().required('required'),
         imgUrl: yup
             .mixed()
-            .required('A file is required')
-            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
-            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+            .notRequired()
+            .nullable()
+            .test('is-file', 'Invalid file', function (value) {
+                if (typeof value === 'string') {
+                    return true;
+                }
+                if (value === null || value === undefined) {
+                    return true;
+                }
+                if (value instanceof File) {
+                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+                }
+                return false;
+            }),
         arrivalDate: yup.date().required('required'),
         dateOfBirth: yup.date().required('required'),
         origin: yup.string().required('required'),
         species: yup.string().required('required'),
         status: yup.string().required('required'),
+        dateOfDeath: yup.date().nullable(true),
     });
-    const handleClose = () => {
-        setOpen(false);
-    };
+
+    const handleFormSubmit = (values) => {
+        values.arrivalDate = formatDateTimeSubmit(values.arrivalDate)
+        values.dateOfBirth = formatDateTimeSubmit(values.dateOfBirth)
+        if (values.status === "true") {
+            values.dateOfDeath = null;
+        } else {
+            if (values.dateOfDeath) {
+                values.dateOfDeath = formatDateTimeSubmit(values.dateOfDeath)
+            }
+        }
+        console.log(values)
+        const res = updateAnimal(location.state.id, values);
+        res.then(result => {
+            console.log(result);
+            if (result.status === 200) {
+                setOpen(true);
+            }
+        })
+    }
+
     return (
         <>
             <div>
                 <Modal
                     open={open}
-                    onClose={handleClose}
+                    onClose={() => { setOpen(false) }}
                     aria-labelledby="parent-modal-title"
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Create animal successfully!</h2>
                         <p id="parent-modal-description">New animal have been add to DataBase!</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <Button
+                            sx={{ color: colors.grey[100] }}
+                            onClick={() => setOpen(false)}>Close</Button>
                     </Box>
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="CREATE ANIMAL" subtitle="Create a new animal" />
+                <AdminHeader title="Update Animal" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
@@ -145,6 +144,7 @@ function CreateAnimal() {
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.name}
+                                    defaultValue={location.state.name}
                                     name="name"
                                     error={!!touched.name && !!errors.name}
                                     helperText={touched.name && errors.name}
@@ -314,7 +314,7 @@ function CreateAnimal() {
                                         },
                                     }}
                                 >
-                                    {species.map((option) => (
+                                    {species && species.map((option) => (
                                         <MenuItem key={option.id} value={option.name}>
                                             {option.name}
                                         </MenuItem>
@@ -338,6 +338,7 @@ function CreateAnimal() {
                                     {touched.imgUrl && errors.imgUrl && (
                                         <div style={{ color: 'red' }}>{errors.imgUrl}</div>
                                     )}
+                                    <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
                                 </FormControl>
 
                                 <FormControl
@@ -346,7 +347,7 @@ function CreateAnimal() {
                                     sx={{
                                         gridColumn: 'span 2',
                                     }}
-                                    label="Gender"
+                                    label="Status"
                                 >
                                     <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
                                         Status
@@ -358,24 +359,76 @@ function CreateAnimal() {
                                         onChange={handleChange}
                                         value={values.status}
                                         sx={{ display: 'inline-block' }}
-                                        label="Gender"
+                                        label="Status"
                                     >
+                                        {setDeath(values.status)}
+
                                         <FormControlLabel
-                                            value="true"
+                                            value={true}
                                             control={
                                                 <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
                                             }
-                                            label="True"
+                                            label="Alive"
                                         />
                                         <FormControlLabel
-                                            value="false"
+
+                                            value={false}
                                             control={
                                                 <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
                                             }
-                                            label="False"
+                                            label="Death"
                                         />
+
+
                                     </RadioGroup>
                                 </FormControl>
+                                <FormControl
+                                    padding="0"
+                                    component="fieldset"
+                                    fullWidth
+                                    sx={{
+                                        gridColumn: 'span 2',
+                                    }}
+                                >
+                                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                                        <DatePicker
+                                            value={moment(values.dateOfDeath)}
+                                            onChange={(date) => {
+                                                handleChange({ target: { name: 'dateOfDeath', value: moment(date) } });
+                                            }}
+                                            textField={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    label="Date of death"
+                                                />
+                                            )}
+                                            name="dateOfDeath"
+                                            label="What is the animal's date of death? (Optional)"
+                                            sx={{
+                                                width: 250,
+                                                '& .MuiOutlinedInput-root': {
+                                                    '& fieldset': {
+                                                        borderColor: colors.grey[100],
+                                                        color: colors.grey[100],
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: colors.grey[100],
+                                                        color: colors.grey[100],
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: colors.grey[100],
+                                                        color: colors.grey[100],
+                                                    },
+                                                },
+                                            }}
+                                        />
+                                    </LocalizationProvider>
+                                </FormControl>
+
+
+                                {/* ----------------------------------------------------Date Of Death ----------------------------------------------------*/}
                             </Box>
                             <Box display="flex" justifyContent="space-between" mt="20px">
                                 <Button
@@ -398,4 +451,4 @@ function CreateAnimal() {
     );
 }
 
-export default CreateAnimal;
+export default UpdateAnimal;

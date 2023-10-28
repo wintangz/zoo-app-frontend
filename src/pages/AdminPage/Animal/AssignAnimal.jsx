@@ -1,17 +1,33 @@
-import { Autocomplete, Box, Button, MenuItem, TextField, Typography, useTheme } from "@mui/material";
+import { Autocomplete, Box, Button, MenuItem, Modal, TextField, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { assignZooTrainerToAnimal } from "~/api/animalsService";
 import { getZooTrainer } from "~/api/userService";
 import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 import { tokens } from '~/theme';
 import { decode } from "~/utils/axiosClient";
 function AssignAnimal(props) {
+    const navigate = useNavigate()
+    const [open, setOpen] = useState(false);
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const location = useLocation()
     const [trainers, setTrainers] = useState(null);
     const [currentTrainer, setCurrentTrainer] = useState(null);
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: colors.grey[500],
+        border: '2px solid #000',
+        color: colors.grey[100],
+        boxShadow: 24,
+        pt: 2,
+        px: 4,
+        pb: 3,
+    };
     useEffect(() => {
         const res = getZooTrainer();
         res.then((result) => {
@@ -25,16 +41,36 @@ function AssignAnimal(props) {
             trainer_id: currentTrainer.id,
         }
         const path = `animals/${location.state.id}/zoo-trainers/${currentTrainer.id}`;
-        console.log(path);
         const res = assignZooTrainerToAnimal(values, path);
-        res.then((result) => {
-            if (result.status === "Ok") {
-
+        console.log(res);
+        res.then((response) => {
+            if (response.status === 200) {
+                setOpen(true);
             }
+
         })
     }
     return (
         <>
+            <div>
+                <Modal
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    aria-labelledby="parent-modal-title"
+                    aria-describedby="parent-modal-description"
+                >
+                    <Box sx={{ ...style, width: 400 }}>
+                        <h2 id="parent-modal-title">Move Out Successfully!</h2>
+                        <p id="parent-modal-description">Animal have been moved out to Enclosure !</p>
+                        <Button
+                            sx={{ color: colors.grey[100] }}
+                            onClick={() => { navigate('/home/animals') }}
+                        >
+                            Close
+                        </Button>
+                    </Box>
+                </Modal>
+            </div>
             <Box>
                 <AdminHeader title="ASSIGN ANIMAL" subtitle="Assign animal to zoo trainer" />
             </Box>

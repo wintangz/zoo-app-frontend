@@ -66,6 +66,7 @@ import Order from '~/pages/Order/Order';
 import UpdateHealth from '~/pages/AdminPage/HealthCare/updateHealth';
 import ThankYouPage from '~/pages/Ticket/Thanks';
 import History from '~/pages/AdminPage/Animal/history';
+import UpdateAnimal from '~/pages/AdminPage/Animal/update';
 
 
 const publicRoutes = [
@@ -120,6 +121,7 @@ const publicRoutes = [
 
     { path: 'home/animals/create', component: CreateAnimal, layout: AdminMainPage, name: 'createAnimal;', Authen: "private" },
     { path: 'home/animals', component: ViewAnimals, layout: AdminMainPage, name: 'viewAnimal;', Authen: "private" },
+    { path: 'home/animals/update', component: UpdateAnimal, layout: AdminMainPage, name: 'update;', Authen: "private" },
     { path: 'home/animals/assign/', component: AssignAnimal, layout: AdminMainPage, name: 'AssignAnimal;', Authen: "private" },
     { path: 'home/animals/feed', component: FeedSchedule, layout: AdminMainPage, name: 'feed;', Authen: "private" },
     { path: 'home/animals/schedule', component: ViewSchedule, layout: AdminMainPage, name: 'viewSchedule;', Authen: "private" },

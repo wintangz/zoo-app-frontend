@@ -36,4 +36,22 @@ export function formatDate(originalDate) {
     return formattedDate;
 }
 
+export const formatDateTimeSubmit = (values) => {
+    const inputDate = new Date(values);
+
+    const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
+    // Get the time zone offset and convert it to the "hh:mm" format
+    const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
+    const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
+    const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
+        .toString()
+        .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
+
+    // Combine the date and time zone offset to get the final formatted string
+    const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
+    return formattedDateTime;
+};
+
 export default DateTimeFormatComponent;
