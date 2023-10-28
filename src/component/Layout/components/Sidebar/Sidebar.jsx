@@ -260,6 +260,13 @@ const Sidebar = () => {
 
                             </>
                         )}
+                        {userRole === "STAFF" && <Item
+                            title="Animals"
+                            to="/home/animals"
+                            icon={<GiElephant />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />}
                         {userRole === 'ZOO_TRAINER' && (
                             <>
                                 <List

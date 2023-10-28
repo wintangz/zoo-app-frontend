@@ -7,44 +7,60 @@ import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './actions';
 import DateTimeFormatComponent, { formatDate } from '~/utils/dateTimeFormat';
+import { decode } from '~/utils/axiosClient';
 
 function ViewAnimals() {
     const navigate = useNavigate()
+    const currentId = Number.parseInt(decode(localStorage.getItem('token')).sub);
+    const userRole = decode(localStorage.getItem('token')).roles[0];
     const [animals, setAnimals] = useState(null);
     const [remove, setRemove] = useState(null);
+    const [open, setOpen] = useState(false);
+
     useEffect(() => {
         try {
-            const response = getEnclosuresAnimals();
             const res = getAllAnimals();
-            res.then((animals) => {
-                response.then((enclosures) => {
-                    animals.map(animal => {
-                        for (var i = 0; i < enclosures.length; i++) {
-                            if (animal.id === enclosures[i].animal.id) {
-                                if (enclosures[i].moveOutDate === null) {
-                                    animal.enclosure = enclosures[i];
-                                    break;
-                                }
-                            } else {
-                                animal.enclosure = null
-                            }
-                        }
-                    })
-                })
-                setAnimals(animals);
+            const response = getEnclosuresAnimals();
 
+            Promise.all([res, response]).then(([animals, enclosures]) => {
+                animals.map(animal => {
+                    for (var i = 0; i < enclosures.length; i++) {
+                        if (animal.id === enclosures[i].animal.id) {
+                            if (enclosures[i].moveOutDate === null) {
+                                animal.enclosure = enclosures[i];
+                                break;
+                            }
+                        } else {
+                            animal.enclosure = null
+                        }
+                    }
+                })
+                const animalsFilter = animals.filter(animal => {
+                    const trainer = animal.trainers.filter(trainer => {
+                        return trainer.id === currentId
+                    })
+                    return trainer.length !== 0
+                })
+                console.log(userRole)
+                if (userRole === "ZOO_TRAINER") {
+                    setAnimals(animalsFilter);
+                } else {
+                    setAnimals(animals)
+                }
+                setOpen(true);
             })
+
         } catch (error) {
             console.error(error);
         }
     }, [remove])
-    console.log(animals);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
         {
             field: 'id',
             headerName: 'ID',
+            width: '30'
         },
         {
             field: 'imgUrl',
@@ -111,17 +127,18 @@ function ViewAnimals() {
             headerName: 'Current Enlosures',
             headerAlign: 'left',
             valueGetter: (params) => { return params.row.enclosure ? params.row.enclosure.enclosure.name : "Not yet" },
-            width: 80,
+            width: 120,
         },
         {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',
             float: 'left',
-            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
+            renderCell: (params) => animals && (<Actions {...{ params }} setRemove={setRemove} />),
             flex: 1,
         },
     ];
+
     return (
         <Box m="20px">
             <AdminHeader title="View all animals" subtitle="Table of Animals" />
@@ -166,16 +183,14 @@ function ViewAnimals() {
                     },
                 }}
             >
-                {animals && (
-                    <DataGrid
-                        rows={animals}
-                        columns={columns}
-                        getRowId={(row) => row.id}
-                        components={{ Toolbar: GridToolbar }}
-                        checkboxSelection
-                        disableRowSelectionOnClick
-                    />
-                )}
+                {open && <DataGrid
+                    rows={animals && animals}
+                    columns={animals && columns}
+                    getRowId={(row) => row.id}
+                    components={{ Toolbar: GridToolbar }}
+                    checkboxSelection
+                    disableRowSelectionOnClick
+                />}
             </Box>
         </Box>
     );

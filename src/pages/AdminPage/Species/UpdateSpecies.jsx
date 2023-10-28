@@ -12,6 +12,7 @@ import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
 
 function UpdateSpecies() {
+    // const { speciesId } = useParams()
     const location = useLocation();
     const speciesId = location.state.id
     const [species, setSpecies] = useState({});
@@ -64,7 +65,7 @@ function UpdateSpecies() {
         species: species?.species || '',
         genus: species?.genus || '',
         family: species?.family || '',
-        habitatId: species.habitatId,
+        habitatId: location.state.habitat.id,
         diet: species?.diet || '',
         conversationStatus: species?.conversationStatus || '',
         description: species?.description || '',
@@ -124,6 +125,7 @@ function UpdateSpecies() {
                 const avatarURL = await uploadFile(submitValue.avatarUrl, 'update-species');
                 submitValue.avatarUrl = avatarURL;
             }
+            console.log(submitValue);
             const response = updateSpecies(speciesId, submitValue);
             response.then((result) => {
                 if (result.data.status === "Ok") {
@@ -236,6 +238,7 @@ function UpdateSpecies() {
                                     select
                                     onBlur={handleBlur}
                                     onChange={handleChangeHabitatId}
+                                    values={values.habitatId}
                                     defaultValue={location.state.habitat.id}
                                     name="habitatId"
                                     error={!!touched.habitatId && !!errors.habitatId}

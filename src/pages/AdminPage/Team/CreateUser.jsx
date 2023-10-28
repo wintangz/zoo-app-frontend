@@ -80,12 +80,12 @@ function Form() {
             const response = await createZooTrainer(values);
             if (response) {
                 const status = response.status;
-                console.log(status);
+                console.log(response)
                 if (status === 200) {
                     setOpen(true);
+                    resetForm();
                 }
             }
-            resetForm();
         }
 
 
