@@ -355,6 +355,7 @@ const Sidebar = () => {
                             selected={selected}
                             setSelected={setSelected}
                         />}
+
                         {userRole === 'ZOO_TRAINER' && (
                             <>
                                 <List
@@ -430,6 +431,10 @@ const Sidebar = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
+                            </>
+                        )}
+                        {userRole === "ZOO_TRAINER" && (
+                            <>
                                 <Item
                                     title="Enclosure"
                                     to="/home/enclosures"
@@ -437,7 +442,24 @@ const Sidebar = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
-
+                                <Item
+                                    title="Habitat"
+                                    to="/home/habitats"
+                                    icon={<PersonOutlinedIcon />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                            </>
+                        )}
+                        {userRole === "STAFF" && (
+                            <>
+                                <Item
+                                    title="Enclosure"
+                                    to="/home/enclosures"
+                                    icon={<PersonOutlinedIcon />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
                                 <Item
                                     title="Habitat"
                                     to="/home/habitats"

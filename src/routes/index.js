@@ -26,6 +26,7 @@ import ViewAnimals from '~/pages/AdminPage/Animal';
 import AssignAnimal from '~/pages/AdminPage/Animal/AssignAnimal';
 import CreateAnimal from '~/pages/AdminPage/Animal/CreateAnimal';
 import History from '~/pages/AdminPage/Animal/history';
+import UpdateAnimal from '~/pages/AdminPage/Animal/update';
 import Calendar from '~/pages/AdminPage/Calendar';
 import TicketScanner from '~/pages/AdminPage/CheckTicket/checkTicket';
 import Confirm from '~/pages/AdminPage/Confirm/confirm';
@@ -66,7 +67,10 @@ import { default as CreateTicket, default as ViewTicket } from '~/pages/AdminPag
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import Order from '~/pages/Order/Order';
 import ThankYouPage from '~/pages/Ticket/Thanks';
+<<<<<<< Updated upstream
 import UpdateAnimal from '~/pages/AdminPage/Animal/update';
+=======
+>>>>>>> Stashed changes
 
 
 const publicRoutes = [

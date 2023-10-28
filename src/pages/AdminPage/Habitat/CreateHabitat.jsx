@@ -17,6 +17,7 @@ import * as yup from 'yup';
 import { createHabitats } from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
+import uploadFile from '~/utils/transferFile';
 // import { DataGridPro } from '@mui/x-data-grid-pro';
 function CreateHabitat() {
     const navigate = useNavigate();
@@ -46,13 +47,19 @@ function CreateHabitat() {
     const handleFormSubmit = async (values, { resetForm }) => {
         console.log(values);
         try {
-            const response = await createHabitats(values);
-            console.log(values);
-            console.log(response);
-            if (response.status === 200) {
-                setOpen(true);
-                resetForm();
-            }
+            const imgURL = await uploadFile(values.imgUrl, 'update-habitats');
+            values.imgUrl = imgURL;
+            const bannerURL = await uploadFile(values.bannerUrl, 'update-habitats');
+            values.bannerUrl = bannerURL;
+            const res = createHabitats(values);
+            res.then((result) => {
+                console.log(result);
+                const status = result.status;
+                if (status === 200) {
+                    setOpen(true);
+                    resetForm();
+                }
+            });
         } catch (error) {
             console.error(error);
 
@@ -70,8 +77,38 @@ function CreateHabitat() {
     const userSchema = yup.object().shape({
         name: yup.string().required('Name is required!'),
         info: yup.string().required('Information is required!'),
-        imgUrl: yup.string().required('Image URL is required!'),
-        bannerUrl: yup.string().required('Banner URL is required!'),
+        imgUrl: yup
+            .mixed()
+            .notRequired()
+            .nullable()
+            .test('is-file', 'Invalid file', function (value) {
+                if (typeof value === 'string') {
+                    return true;
+                }
+                if (value === null || value === undefined) {
+                    return true;
+                }
+                if (value instanceof File) {
+                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+                }
+                return false;
+            }),
+        bannerUrl: yup
+            .mixed()
+            .notRequired()
+            .nullable()
+            .test('is-file', 'Invalid file', function (value) {
+                if (typeof value === 'string') {
+                    return true;
+                }
+                if (value === null || value === undefined) {
+                    return true;
+                }
+                if (value instanceof File) {
+                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+                }
+                return false;
+            }),
 
     });
     const handleClose = () => {
@@ -148,7 +185,7 @@ function CreateHabitat() {
                                         label="imgUrl"
                                         onBlur={handleBlur}
                                         onChange={(e) => {
-                                            handleChange('imgUrl', e.currentTarget.files[0]);
+                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
                                         }}
                                         name="imgUrl"
                                         error={!!touched.imgUrl && !!errors.imgUrl}
@@ -167,7 +204,7 @@ function CreateHabitat() {
                                         label="bannerUrl"
                                         onBlur={handleBlur}
                                         onChange={(e) => {
-                                            handleChange('imgUrl', e.currentTarget.files[0]);
+                                            setFieldValue('bannerUrl', e.currentTarget.files[0]);
                                         }}
                                         name="bannerUrl"
                                         error={!!touched.bannerUrl && !!errors.bannerUrl}
