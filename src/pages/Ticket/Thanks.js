@@ -1,6 +1,6 @@
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
-import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ApiRequest } from '~/api/orderService';
 import styles from './Thanks.module.scss';
 
@@ -19,7 +19,9 @@ const ThankYouPage = () => {
             if (responseCode === '00') {
                 // Perform actions if ResponseCode is '00'
                 console.log('Please check your email');
-
+                if (!localStorage.getItem('thankYouPageShown')) {
+                    localStorage.setItem('thankYouPageShown', 'true');
+                }
                 const response = await ApiRequest({
                     params: {
                         vnp_TxnRef: txnRef,
@@ -41,7 +43,10 @@ const ThankYouPage = () => {
     };
 
     useEffect(() => {
-        handlePaymentConfirmation();
+        const thankYouPageShown = localStorage.getItem('thankYouPageShown');
+        if (!thankYouPageShown) {
+            handlePaymentConfirmation();
+        }
     }, [responseCode, txnRef]);
 
     return (
