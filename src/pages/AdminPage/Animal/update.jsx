@@ -118,7 +118,7 @@ function UpdateAnimal() {
                         <h2 id="parent-modal-title">Create animal successfully!</h2>
                         <p id="parent-modal-description">New animal have been add to DataBase!</p>
                         <Button
-                            sx={{ color: colors.grey[100] }}
+                            color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => setOpen(false)}>Close</Button>
                     </Box>
                 </Modal>

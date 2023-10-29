@@ -106,7 +106,7 @@ function UpdateDiets() {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">"Update Diet Successfully!"</h2>
                         <p id="parent-modal-description">New diet have been add to DataBase!</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>

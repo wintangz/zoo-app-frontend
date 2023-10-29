@@ -104,7 +104,7 @@ function Confirm() {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Confirm Succesful</h2>
                         <p id="parent-modal-description">You have update your confirm</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>
@@ -146,7 +146,7 @@ function Confirm() {
                                 }} sx={{ width: "100%", height: "50%", float: "right" }}>
                                     Get photo from your Camera
                                 </Button>
-                                {camera && <Button color="secondary" variant="contained" onClick={() => {
+                                {camera && <Button color="secondary" variant="contained" sx={{ color: 'white', fontWeight: "bold" }} onClick={() => {
                                     setCamera(false)
                                 }}>
                                     Close Camera
@@ -154,7 +154,7 @@ function Confirm() {
                             </Box>
 
                             <Box display="flex" justifyContent="end" mt="20px" mr="20px">
-                                <Button type="submit" color="secondary" variant="contained">
+                                <Button sx={{ color: 'white', fontWeight: "bold" }} type="submit" color="secondary" variant="contained">
                                     CONFIRM
                                 </Button>
                             </Box>

@@ -63,7 +63,7 @@ function AssignAnimal(props) {
                         <h2 id="parent-modal-title">Move Out Successfully!</h2>
                         <p id="parent-modal-description">Animal have been moved out to Enclosure !</p>
                         <Button
-                            sx={{ color: colors.grey[100] }}
+                            color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => { navigate('/home/animals') }}
                         >
                             Close

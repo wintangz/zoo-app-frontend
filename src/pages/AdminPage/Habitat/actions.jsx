@@ -59,8 +59,8 @@ const Actions = ({ params, setRemove }) => {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Delete Habitat</h2>
                         <p id="parent-modal-description">Are you sure want to delete this Habitat?</p>
-                        <Button onClick={handleClose}>Close</Button>
-                        <Button
+                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
+                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => {
                                 handleDelete(params.row.id);
                             }}
@@ -80,7 +80,7 @@ const Actions = ({ params, setRemove }) => {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Delete Habitat Successfully!</h2>
                         <p id="parent-modal-description">Habitat have been delete from DataBase!</p>
-                        <Button
+                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => {
                                 handleMessage(params.row.id);
                             }}
