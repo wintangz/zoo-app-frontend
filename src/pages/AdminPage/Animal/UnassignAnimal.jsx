@@ -61,10 +61,10 @@ function UnassignAnimal(props) {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Unaccsign Successfully!</h2>
+                        <h2 id="parent-modal-title">Unassign Successfully!</h2>
                         <p id="parent-modal-description">Animal have been Unassign to {currentTrainer && currentTrainer.id}!</p>
                         <Button
-                            sx={{ color: colors.grey[100] }}
+                            color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => { navigate('/home/animals') }}
                         >
                             Close

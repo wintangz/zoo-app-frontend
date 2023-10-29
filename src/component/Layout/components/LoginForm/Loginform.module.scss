@@ -116,6 +116,29 @@
                 font-weight: 700;
                 transition: all .2s ease-in-out;
                 opacity: transition .2s;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .loader {
+                    pointer-events: none;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    border: 4px solid transparent;
+                    border-top-color: white;
+                    animation: an1 1s ease infinite;
+                }
+
+                @keyframes an1 {
+                    0% {
+                        transform: rotate(0turn);
+                    }
+
+                    100% {
+                        transform: rotate(1turn);
+                    }
+                }
             }
 
             .linkBtn_warp {
