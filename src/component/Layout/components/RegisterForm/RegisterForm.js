@@ -33,7 +33,7 @@ const validationSchema = Yup.object().shape({
 
 function RegisterForm({ onClose, onLoginClick }) {
 
-
+    const [isLoading, setIsLoading] = useState(false);
     const registerFormRef = useRef(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [failMessage, setFailMessage] = useState(null);
@@ -97,6 +97,7 @@ function RegisterForm({ onClose, onLoginClick }) {
             values.sex = false;
         }
         try {
+            setIsLoading(true);
             if (values.dateOfBirth && values.dateOfBirth.includes('T')) {
                 values.dateOfBirth = values.dateOfBirth;
             } else {
@@ -125,6 +126,7 @@ function RegisterForm({ onClose, onLoginClick }) {
             if (setSubmitting) {
                 setSubmitting(false);
             }
+            setIsLoading(false);
         }
     };
 
@@ -231,7 +233,11 @@ function RegisterForm({ onClose, onLoginClick }) {
                                 </div>
                             </div>
                             <button type='submit' className={styles.submit} id='register'>
-                                Register
+                                {isLoading ? (
+                                    <div className={styles.loader}></div>
+                                ) : (
+                                    'Register'
+                                )}
                             </button>
                             <div className={styles.linkBtn_warp}>
                                 <a onClick={onLoginClick} className={styles.linkBtn}>Already have an account?</a>

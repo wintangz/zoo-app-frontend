@@ -67,7 +67,7 @@ const Actions = ({ params, setRemove }) => {
                             onClick={() => {
                                 handleDelete(params.row.id);
                             }}
-                            sx={{ color: 'white', fontWeight: "bold" }}
+                            color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                         >
                             Delete
                         </Button>

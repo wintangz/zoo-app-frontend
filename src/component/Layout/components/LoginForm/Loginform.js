@@ -23,10 +23,12 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
         password: '',
     };
     const { setAuth } = useAppContext()
+    const [isLoading, setIsLoading] = useState(false);
     const [failMessage, setFailMessage] = useState(null);
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
+            setIsLoading(true);
             const response = await loginUser(values);
             localStorage.setItem('token', response.data.accessToken);
             var token = response.data.accessToken;
@@ -65,6 +67,7 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
 
         } finally {
             setSubmitting(false);
+            setIsLoading(false);
         }
     };
 
@@ -84,6 +87,8 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
     //         document.removeEventListener('click', handleClickOutsideForm);
     //     };
     // }, []);
+
+
 
     return (
         <div className={`${styles.overlay}`}>
@@ -130,7 +135,11 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
                             />
                         </div>
                         <button className={styles.submit} type="submit" id="login">
-                            Login
+                            {isLoading ? (
+                                <div className={styles.loader}></div>
+                            ) : (
+                                'Login'
+                            )}
                         </button>
                         <div className={styles.linkBtn_warp}>
                             <a onClick={onForgotPasswordClick} className={styles.linkBtn}>Forgotten password?</a>

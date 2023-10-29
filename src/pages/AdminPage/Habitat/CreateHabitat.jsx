@@ -124,9 +124,9 @@ function CreateHabitat() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Create habitat successfully!</h2>
-                        <p id="parent-modal-description">New habitat have been add to DataBase!</p>
-                        <Button color='secondary' onClick={handleClose}>Close</Button>
+                        <h2 id="parent-modal-title">Create Habitat successfully!</h2>
+                        <p id="parent-modal-description">New Habitat have been add to DataBase!</p>
+                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>

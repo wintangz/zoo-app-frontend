@@ -152,7 +152,7 @@ function UpdateSpecies() {
                 >
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">"Update Species Successfully!"</h2>
-                        <p id="parent-modal-description">New species have been update to DataBase!</p>
+                        <p id="parent-modal-description">New Species have been update to DataBase!</p>
                         <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>

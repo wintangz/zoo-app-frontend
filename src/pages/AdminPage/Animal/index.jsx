@@ -144,14 +144,16 @@ function ViewAnimals() {
     return (
         <Box m="20px">
             <AdminHeader title="View all animals" subtitle="Table of Animals" />
-            <Button
-                type="button"
-                color="secondary"
-                variant="contained"
-                onClick={() => navigate('/home/animals/create')}
-            >
-                Create Animal
-            </Button>
+            {userRole === 'ZOO_TRAINER' && (
+                <Button
+                    type="button"
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => navigate('/home/animals/create')}
+                >
+                    Create Animal
+                </Button>
+            )}
             <Box
                 m="40px 0 0 0"
                 height="75vh"
