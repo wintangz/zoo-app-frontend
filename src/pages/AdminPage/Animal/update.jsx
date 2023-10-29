@@ -115,8 +115,8 @@ function UpdateAnimal() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Create animal successfully!</h2>
-                        <p id="parent-modal-description">New animal have been add to DataBase!</p>
+                        <h2 id="parent-modal-title">Update animal successfully!</h2>
+                        <p id="parent-modal-description">New animal have been Update to DataBase!</p>
                         <Button
                             color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => setOpen(false)}>Close</Button>

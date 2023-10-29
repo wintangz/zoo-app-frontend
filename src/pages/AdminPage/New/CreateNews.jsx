@@ -154,6 +154,8 @@ function NewsPostForm() {
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.title}
+                                    error={!!touched.title && !!errors.title}
+                                    helperText={touched.title && errors.title}
                                     name="title"
                                 />
                                 <TextField
@@ -164,6 +166,8 @@ function NewsPostForm() {
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={values.shortDescription}
+                                    error={!!touched.shortDescription && !!errors.shortDescription}
+                                    helperText={touched.shortDescription && errors.shortDescription}
                                     name="shortDescription"
                                 />
                                 <Box mt={2} overflow="auto">
@@ -179,9 +183,11 @@ function NewsPostForm() {
                                             modules={modules}
                                             formats={formats}
                                             style={{ height: '25vh' }}
+                                            error={!!touched.content && !!errors.content}
+                                            helperText={touched.content && errors.content}
                                         />
                                     </Box>
-                                    {errors.content && (
+                                    {touched.content && errors.content && (
                                         <div style={{ color: 'red', marginTop: '0.5rem' }}>{errors.content}</div>
                                     )}
                                 </Box>
@@ -195,7 +201,7 @@ function NewsPostForm() {
                                         onBlur={handleBlur}
                                         label="Type"
                                         name="type"
-                                        error={!!touched.imgUrl && !!errors.imgUrl}
+                                        error={!!touched.type && !!errors.type}
                                     >
                                         {typeOptions.map((type) => (
                                             <MenuItem key={type} value={type}>
@@ -203,6 +209,9 @@ function NewsPostForm() {
                                             </MenuItem>
                                         ))}
                                     </Select>
+                                    {touched.type && errors.type && (
+                                        <div style={{ color: 'red' }}>{errors.type}</div>
+                                    )}
                                 </FormControl>
                                 <FormControl component="fieldset" >
                                     <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>

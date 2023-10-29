@@ -221,7 +221,7 @@ function UpdateSchedule() {
             </Box>
         </Box>
         <Button type="submit" color="secondary" variant="contained" onClick={handleSubmit} sx={{ float: "right", marginRight: '20px' }} >
-            CREATE SCHEDULE
+            UPDATE SCHEDULE
         </Button>
     </>);
 }
