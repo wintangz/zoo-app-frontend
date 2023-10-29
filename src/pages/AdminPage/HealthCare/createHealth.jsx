@@ -3,7 +3,7 @@ import { tokens } from "~/theme";
 import * as yup from 'yup';
 import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 import { Formik } from "formik";
-import { Box, Button, FormControl, Input, TextField, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, FormControl, Input, Modal, TextField, Typography, useMediaQuery } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import { useEffect } from "react";
 import { getAllAnimals } from "~/api/animalsService";
@@ -13,10 +13,27 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
 import uploadFile from "~/utils/transferFile";
 import { createHealthCare } from "~/api/healService";
+import { useNavigate } from "react-router-dom";
 function CreateHealth() {
+    const navigate = useNavigate()
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [animals, setAnimals] = useState(null)
+    const [open, setOpen] = useState(false)
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: colors.grey[500],
+        border: '2px solid #000',
+        color: colors.grey[100],
+        boxShadow: 24,
+        pt: 2,
+        px: 4,
+        pb: 3,
+    };
     useEffect(() => {
         const res = getAllAnimals()
         res.then((result) => {
@@ -57,13 +74,36 @@ function CreateHealth() {
             const res = await uploadFile(values.imgUrl, "health");
             values.imgUrl = res
             const response = createHealthCare(values);
-            console.log(response);
+            response.then(result => {
+                if (result.status === 200) {
+                    setOpen(true);
+                }
+            })
         } catch (error) {
             console.error(error);
         }
     }
     return (
         <>
+            <div>
+                <Modal
+                    open={open}
+                    onClose={() => navigate('/home/animals/health')}
+                    aria-labelledby="parent-modal-title"
+                    aria-describedby="parent-modal-description"
+                >
+                    <Box sx={{ ...style, width: 400 }}>
+                        <h2 id="parent-modal-title">Record Successfully!</h2>
+                        <p id="parent-modal-description">Animal health have been recorded !</p>
+                        <Button
+                            sx={{ color: colors.grey[100] }}
+                            onClick={() => { navigate('/home/animals/health') }}
+                        >
+                            Close
+                        </Button>
+                    </Box>
+                </Modal>
+            </div>
             <Box m="20px">
                 <AdminHeader title="Create Health Record" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>

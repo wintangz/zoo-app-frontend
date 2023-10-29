@@ -1,34 +1,47 @@
-import { Autocomplete, Box, Button, FormControl, InputLabel, TextField, Typography, useTheme } from "@mui/material";
+import { Autocomplete, Box, Button, FormControl, InputLabel, Modal, TextField, Typography, useTheme } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
 import { tokens } from '~/theme';
 import { useEffect } from "react";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { getAllAnimals, getAllDiet } from "~/api/animalsService";
-import DatePicker, { DateObject } from "react-multi-date-picker";
-import TimePicker from "react-multi-date-picker/plugins/time_picker";
-import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getAllAnimals, getAllDiet, updateSchedule } from "~/api/animalsService";
 import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import { DatetimeDayjsformatted } from "~/utils/dateTimeFormat";
 
 function UpdateSchedule() {
+    const navigate = useNavigate();
+    const theme = useTheme({ isDashboard: false });
+    const colors = tokens(theme.palette.mode);
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: colors.grey[500],
+        border: '2px solid #000',
+        color: colors.grey[100],
+        boxShadow: 24,
+        pt: 2,
+        px: 4,
+        pb: 3,
+    };
     const location = useLocation()
     const format = "MM/DD/YYYY HH:mm:ss";
     const timeObject = new Date(location.state.feedingTime)
-    const defaulttime = new DateObject(timeObject)
-    const [defaultDiet, setDefaultDiet] = useState();
-    const [values, setValues] = useState([
-        defaulttime.set({ format })
-    ]);
 
+    const [defaultDiet, setDefaultDiet] = useState();
+    const [values, setValues] = useState(
+        dayjs(timeObject)
+    );
     const [open, setOpen] = useState(false);
     const [currentDiet, setCurrentDiet] = useState()
-    const [selectedRows, setSelectedRows] = useState([]);
     const [diet, Setdiet] = useState();
     const [animals, setAnimals] = useState([])
     const [currentAnimal, setCurrentAnimal] = useState([])
-    const theme = useTheme({ isDashboard: false });
-    const colors = tokens(theme.palette.mode);
-    console.log(location.state)
 
     useEffect(() => {
         const res = getAllAnimals();
@@ -37,7 +50,6 @@ function UpdateSchedule() {
                 if (animal.id === location.state.animalId) {
                     setAnimals(animal);
                     setCurrentAnimal(animal);
-                    console.log(animal)
                 }
             })
         })
@@ -55,17 +67,42 @@ function UpdateSchedule() {
     }, [])
 
     const handleSubmit = () => {
-        const parts = values.format().split(' ');
-        const dateParts = parts[0].split('/');
-        const timePart = parts[1];
-        const formattedDateTime = `${dateParts[2]}-${dateParts[0]}-${dateParts[1]}T${timePart}`;
-
-
-        const currentValue = {
-
+        const formattedDate = DatetimeDayjsformatted(values)
+        const submitValues = {
+            'feedingTime': formattedDate,
+            'dietId': currentDiet.id,
+            'animalId': currentAnimal.id
         }
+        const res = updateSchedule(location.state.id, submitValues)
+        res.then((result) => {
+            if (result.status === 200) {
+                setOpen(true);
+            }
+        })
     }
     return (<>
+        <div>
+            <Modal
+                open={open}
+                onClose={() => {
+                    setOpen(false);
+                    navigate('/home/animals/schedule');
+                }}
+                aria-labelledby="parent-modal-title"
+                aria-describedby="parent-modal-description"
+            >
+                <Box sx={{ ...style, width: 400 }}>
+                    <h2 id="parent-modal-title">Update Schedule Successfully!</h2>
+                    <p id="parent-modal-description">Schedule have been edit!</p>
+                    <Button onClick={() => {
+                        setOpen(false);
+                        navigate('/home/animals/schedule');
+                    }}
+                        sx={{ color: colors.grey[100] }}
+                    >Close</Button>
+                </Box>
+            </Modal>
+        </div>
         <Box>
             <AdminHeader title="EDIT FEEDING SCHEDULE" />
         </Box>
@@ -147,7 +184,7 @@ function UpdateSchedule() {
                 <Typography variant="h4" color={colors.primary[200]} sx={{ width: '100%' }}>
                     Feeding Schedule for Animal
                 </Typography>
-                <FormControl style={{ width: '100%', paddingTop: '12px', paddingBottom: '32px' }}>
+                {/* <FormControl style={{ width: '100%', paddingTop: '12px', paddingBottom: '32px' }}>
                     {(
                         <InputLabel htmlFor="date-picker" style={{ width: '100%' }}>
                         </InputLabel>
@@ -155,15 +192,22 @@ function UpdateSchedule() {
                     <h8>Feeding time</h8>
                     <DatePicker
                         style={{ width: "100%", height: '45px', background: colors.primary[200], border: "none" }}
-                        value={values}
-                        onChange={setValues}
+                        values={values}
+                        // onChange={setValues}
                         format={format}
                         plugins={[
-                            <TimePicker position="bottom" />,
+                            <TimePicker position="bottom" />,   
                             <DatePanel markFocused />
                         ]}
                     />
 
+
+                </FormControl> */}
+                <FormControl style={{ width: '100%', paddingTop: '12px', paddingBottom: '32px' }}>
+                    <h8>Feeding time</h8>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker value={dayjs(values)} onChange={setValues} />
+                    </LocalizationProvider>
                 </FormControl>
                 <Box
                     display="flex"
@@ -220,8 +264,8 @@ function UpdateSchedule() {
                 </Box>
             </Box>
         </Box>
-        <Button type="submit" color="secondary" variant="contained" onClick={handleSubmit} sx={{ float: "right", marginRight: '20px' }} >
-            CREATE SCHEDULE
+        <Button onClick={handleSubmit} color="secondary" variant="contained" sx={{ float: "right", marginRight: '20px' }} >
+            EDIT SCHEDULE
         </Button>
     </>);
 }

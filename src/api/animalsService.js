@@ -136,7 +136,7 @@ export const getAllDiet = async () => {
 export const createFeedingSchedule = async (values) => {
     try {
         const res = await axiosClient.post('feeding_schedules', values)
-        return res.data;
+        return res;
     } catch (error) {
         return error.response;
     }
@@ -146,6 +146,15 @@ export const getAllSchedule = async (values) => {
     try {
         const res = await axiosClient.get('feeding_schedules')
         return res.data;
+    } catch (error) {
+        return error.response;
+    }
+}
+
+export const updateSchedule = async (id, values) => {
+    try {
+        const res = await axiosClient.put(`feeding_schedules/${id}`, values)
+        return res;
     } catch (error) {
         return error.response;
     }

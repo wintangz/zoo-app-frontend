@@ -9,6 +9,10 @@ function RecommendCard(props) {
         .toLowerCase()
         .replace(/,/g, '-')
         .replace(/ /g, '-');
+
+    const typeStyle = {
+        color: props.post.type === 'Info' ? '#ffc000' : props.post.type === 'Event' ? '#9c3' : 'inherit',
+    };
     return (
         <Link to={`/news/${props.post.id}/${encodeURIComponent(formattedTitle)}`} className={styles.container}>
             <div className={styles.item}>
@@ -21,7 +25,7 @@ function RecommendCard(props) {
                     <span className={styles.date}>
                         <DateTimeFormatComponent apiDateTime={props.post.createdDate} />
                     </span>
-                    <span className={styles.type}>Event</span>
+                    <span className={styles.type} style={typeStyle}>{props.post.type}</span>
                 </div>
             </div>
         </Link>

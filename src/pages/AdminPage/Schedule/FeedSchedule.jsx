@@ -63,7 +63,7 @@ function FeedSchedule() {
             const res = createFeedingSchedule(currentValue)
             res.then((result) => {
                 console.log(result.status)
-                if (result.status === 'Ok') {
+                if (result.status === 200) {
                     setOpen(true);
                 }
             })

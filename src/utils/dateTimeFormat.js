@@ -54,4 +54,28 @@ export const formatDateTimeSubmit = (values) => {
     return formattedDateTime;
 };
 
+export const DatetimeDayjsformatted = (values) => {
+    const year = values.$y;
+    const month = values.$M + 1;
+    const day = values.$D;
+    const hours = values.$H;
+    const minutes = values.$m;
+
+    // Format the date and time
+    const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
+    return formattedDate;
+};
+
+export const formatDateTime = (values) => {
+    const day = values.getDate().toString().padStart(2, '0');
+    const month = (values.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-based
+    const year = values.getFullYear();
+    const hours = values.getHours().toString().padStart(2, '0');
+    const minutes = values.getMinutes().toString().padStart(2, '0');
+    const seconds = values.getSeconds().toString().padStart(2, '0');
+
+    const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    return formattedDate;
+};
+
 export default DateTimeFormatComponent;

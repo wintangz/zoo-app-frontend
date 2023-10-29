@@ -15,7 +15,7 @@ import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import WebcamCapture from './WebcamCapture';
 import uploadFile from '~/utils/transferFile';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { conFirm } from '~/api/animalsService';
 
 
@@ -24,13 +24,13 @@ const FACING_MODE_ENVIRONMENT = "environment";
 
 function Confirm() {
     const location = useLocation().state
-    console.log(location);
+    const navigate = useNavigate()
     const [camera, setCamera] = useState(false);
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/animals/schedule')
     };
     const [webcam, setWebcam] = useState({});
     const style = {
@@ -71,7 +71,7 @@ function Confirm() {
         let res = null;
 
         if (typeof (webcam.imgUrl) == "undefined") {
-            res = uploadFile(values, "confirm");
+            res = uploadFile(values.imgUrl, "confirm");
         } else {
             res = uploadFile(webcam.imgUrl, "confirm");
         }
