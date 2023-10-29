@@ -114,9 +114,9 @@ function CreateSpecies() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">"Create Species Successfully!"</h2>
-                        <p id="parent-modal-description">New species have been add to DataBase!</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <h2 id="parent-modal-title">Create Species Successfully!</h2>
+                        <p id="parent-modal-description">New Species have been add to DataBase!</p>
+                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>

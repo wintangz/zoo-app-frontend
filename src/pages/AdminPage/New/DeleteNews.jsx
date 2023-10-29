@@ -58,7 +58,7 @@ const Actions = ({ params, setRemove }) => {
                 >
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Delete news</h2>
-                        <p id="parent-modal-description">Are you sure want to delete this news?</p>
+                        <p id="parent-modal-description">Are you sure want to delete this News?</p>
                         <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                         <Button
                             color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}

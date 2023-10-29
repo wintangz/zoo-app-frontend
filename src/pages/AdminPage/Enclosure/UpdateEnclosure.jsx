@@ -16,7 +16,7 @@ import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import { getEnclosuresById, getHabitats, updateEnclosures } from '~/api/animalsService';
+import { getHabitats, updateEnclosures } from '~/api/animalsService';
 import { getSpecies } from '~/api/speciesService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
@@ -33,7 +33,7 @@ function UpdateEnclosure() {
 
 
     useEffect(() => {
-
+        console.log(location.state);
         setEnclosure(location.state);
     }, []);
 
@@ -89,6 +89,7 @@ function UpdateEnclosure() {
         status: enclosure?.status ? 'True' : 'False',
 
     };
+    const habitatId = location.state?.habitat?.id;
 
     //****************************** VALIDATION ********************************
     const FILE_SIZE = 1920 * 1080;
@@ -207,21 +208,21 @@ function UpdateEnclosure() {
                                         select
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.habitats}
-                                        name="habitat"
-                                        defaultValue={location.state.habitat}
+                                        value={values.habitatId}
+                                        name="habitatId"
+                                        defaultValue={habitatId}
                                         sx={{
                                             gridColumn: 'span 2',
                                             gridRow: '2',
                                         }}
-
                                     >
                                         {habitats.map((option) => (
-                                            <MenuItem key={option.id} value={option}>
+                                            <MenuItem key={option.id} value={option.id}>
                                                 {option.name}
                                             </MenuItem>
                                         ))}
                                     </TextField>
+
 
                                     {/* Information */}
                                     <TextField
