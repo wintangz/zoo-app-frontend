@@ -25,7 +25,6 @@ const Actions = ({ params, setRemove }) => {
         px: 4,
         pb: 3,
     };
-    console.log(open)
     const handleDelete = (speciesId) => {
         setOpen(false);
         deleteSpecies(speciesId)
@@ -102,7 +101,6 @@ const Actions = ({ params, setRemove }) => {
                     </IconButton  >
                 </Tooltip>
 
-                {console.log(params.row)}
 
                 <Tooltip title="Edit">
                     <Link to={`/home/species/update/${params.row.id}`} state={params.row}>
@@ -111,7 +109,6 @@ const Actions = ({ params, setRemove }) => {
                             <Edit />
                         </IconButton  >
                     </Link>
-
                 </Tooltip>
             </Box>
         </>

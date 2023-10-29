@@ -2,6 +2,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import OutputIcon from '@mui/icons-material/Output';
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
 import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
@@ -150,10 +151,6 @@ const Actions = ({ params, setRemove, accept }) => {
                             </IconButton  >
                         </Link>
                     </Tooltip>}
-
-
-
-
                 {userRole === "ZOO_TRAINER" && params.row.trainers?.some(element => element.id === userID) && params.row.enclosure &&
                     <Tooltip title="Move out Enclosure">
                         <IconButton
@@ -177,9 +174,17 @@ const Actions = ({ params, setRemove, accept }) => {
                 {userRole === "STAFF" && <Tooltip title="Assign trainer">
                     <Link to="/home/animals/assign" state={params.row}>
                         <IconButton
-                        // onClick={handleEdit(params.row)}
                         >
                             <AssignmentIcon />
+                        </IconButton  >
+                    </Link>
+                </Tooltip>}
+
+                {userRole === "STAFF" && <Tooltip title="Unassign trainer">
+                    <Link to="/home/animals/unassign" state={params.row}>
+                        <IconButton
+                        >
+                            <OutputIcon />
                         </IconButton  >
                     </Link>
                 </Tooltip>}

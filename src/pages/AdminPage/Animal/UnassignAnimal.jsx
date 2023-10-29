@@ -1,20 +1,19 @@
 import { Autocomplete, Box, Button, MenuItem, Modal, TextField, Typography, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { assignZooTrainerToAnimal } from "~/api/animalsService";
+import { assignZooTrainerToAnimal, unassignZooTrainerToAnimal } from "~/api/animalsService";
 import { getZooTrainer } from "~/api/userService";
 import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 import { tokens } from '~/theme';
 import { decode } from "~/utils/axiosClient";
-function AssignAnimal(props) {
+function UnassignAnimal(props) {
     const navigate = useNavigate()
     const [open, setOpen] = useState(false);
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const location = useLocation()
-    const [trainers, setTrainers] = useState(null);
+    const [trainers, setTrainers] = useState(location.state.trainers);
     const [currentTrainer, setCurrentTrainer] = useState(null);
-    console.log(currentTrainer)
     const style = {
         position: 'absolute',
         top: '50%',
@@ -29,22 +28,21 @@ function AssignAnimal(props) {
         px: 4,
         pb: 3,
     };
-    useEffect(() => {
-        const res = getZooTrainer();
-        res.then((result) => {
-            setTrainers(result);
-        })
-    }, [])
+    // useEffect(() => {
+    //     const res = getZooTrainer();
+    //     res.then((result) => {
+    //         setTrainers(result);
+    //     })
+    // }, [])
     const handleSubmit = () => {
         const values = {
             animal_id: location.state.id,
             assigned_by: parseInt(decode(localStorage.getItem('token')).sub),
             trainer_id: currentTrainer.id,
         }
+        console.log(values);
         const path = `animals/${location.state.id}/zoo-trainers/${currentTrainer.id}`;
-        console.log(values)
-        const res = assignZooTrainerToAnimal(values, path);
-        console.log(res);
+        const res = unassignZooTrainerToAnimal(values, path);
         res.then((response) => {
             if (response.status === 200) {
                 setOpen(true);
@@ -58,15 +56,15 @@ function AssignAnimal(props) {
             <div>
                 <Modal
                     open={open}
-                    onClose={() => setOpen(false)}
+                    onClose={() => navigate('/home/animals')}
                     aria-labelledby="parent-modal-title"
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Assign animal Successfully!</h2>
-                        <p id="parent-modal-description">Animal have been assign to {currentTrainer && currentTrainer.id} - {currentTrainer && currentTrainer.lastname} {currentTrainer && currentTrainer.firstname}  !</p>
+                        <h2 id="parent-modal-title">Unaccsign Successfully!</h2>
+                        <p id="parent-modal-description">Animal have been Unassign to {currentTrainer && currentTrainer.id}!</p>
                         <Button
-                            color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
+                            sx={{ color: colors.grey[100] }}
                             onClick={() => { navigate('/home/animals') }}
                         >
                             Close
@@ -75,7 +73,7 @@ function AssignAnimal(props) {
                 </Modal>
             </div>
             <Box>
-                <AdminHeader title="ASSIGN ANIMAL" subtitle="Assign animal to zoo trainer" />
+                <AdminHeader title="UNASSIGN ANIMAL" subtitle="Unassign animal to zoo trainer" />
             </Box>
             <Box display="flex" sx={{ justifyContent: 'space-around' }} >
                 <Box sx={{ width: "45%" }}>
@@ -199,6 +197,7 @@ function AssignAnimal(props) {
                                 width: '100%'
                             }}
                         >
+                            {console.log(trainers)}
                             {trainers &&
                                 (trainers.map((trainer) => (
                                     <MenuItem key={trainer.id} value={`${trainer.lastname} ${trainer.firstname}`} onClick={() => {
@@ -280,4 +279,4 @@ function AssignAnimal(props) {
     );
 }
 
-export default AssignAnimal;
+export default UnassignAnimal;
