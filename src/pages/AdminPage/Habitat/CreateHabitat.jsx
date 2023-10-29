@@ -126,7 +126,7 @@ function CreateHabitat() {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Create habitat successfully!</h2>
                         <p id="parent-modal-description">New habitat have been add to DataBase!</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <Button color='secondary' onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>

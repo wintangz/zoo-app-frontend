@@ -59,7 +59,7 @@ function UpdateEnclosure() {
     };
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        navigate('/home/enclosure');
+        navigate('/home/enclosures');
     };
 
     //---------------------------------------- Handle Submit----------------------------------/
@@ -141,7 +141,7 @@ function UpdateEnclosure() {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Update Enclosure Successfully!</h2>
                         <p id="parent-modal-description">Enclosure have been update to DataBase!</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <Button onClick={handleClose} color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Close</Button>
                     </Box>
                 </Modal>
             </div>
