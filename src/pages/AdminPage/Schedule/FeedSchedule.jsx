@@ -9,8 +9,10 @@ import DatePanel from "react-multi-date-picker/plugins/date_panel";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import DatePicker from "react-multi-date-picker";
 import Modal from '@mui/material/Modal';
+import { useNavigate } from "react-router-dom";
 
 function FeedSchedule() {
+    const navigate = useNavigate()
     const format = "MM/DD/YYYY HH:mm:ss";
     const [values, setValues] = useState([]);
     const [open, setOpen] = useState(false);
@@ -81,9 +83,14 @@ function FeedSchedule() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Update User Successfully!</h2>
-                        <p id="parent-modal-description">User have been update to DataBase!</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <h2 id="parent-modal-title">Create Schedule Successfully!</h2>
+                        <p id="parent-modal-description">New Schedule have been create!</p>
+                        <Button onClick={() => {
+                            setOpen(false);
+                            navigate('/home/animals/schedule');
+                        }}
+                            sx={{ color: colors.grey[100] }}
+                        >Close</Button>
                     </Box>
                 </Modal>
             </div>

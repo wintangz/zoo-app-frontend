@@ -6,89 +6,90 @@ import { getAllSchedule } from "~/api/animalsService";
 import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 import { tokens } from '~/theme';
 import Actions from "./actions";
+import { decode } from '~/utils/axiosClient';
 
 function ViewSchedule() {
+    const userId = Number.parseInt(decode(localStorage.getItem('token')).sub)
+    const userRole = decode(localStorage.getItem('token')).roles[0]
+    console.log(userRole)
+    const [remove, setRemove] = useState()
     const navigate = useNavigate();
     const [schedule, setSchedule] = useState({})
     useEffect(() => {
         const res = getAllSchedule();
         res.then((result) => {
-            setSchedule(result)
+            const filter = result.filter(schedule => {
+                return schedule.zooTrainerId === userId
+            });
+            if (userRole === "ZOO_TRAINER") {
+                setSchedule(filter)
+            } else if (userRole === "STAFF") {
+                setSchedule(result)
+            }
         })
-    }, [])
-
+    }, [remove])
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
         {
             field: 'id',
             headerName: 'ID',
+            width: "30"
         },
         {
             field: 'animalId',
             headerName: 'Animal ID',
             headerAlign: 'center',
-            align: 'left',
+            align: 'center',
         },
         {
             field: 'dietId',
             headerName: 'Diet ID',
-            headerAlign: 'left',
-            align: 'left',
+            headerAlign: 'center',
+            align: 'center',
         },
         {
             field: 'fed', // Keep the field as 'firstname'
             headerName: 'Is fed',
-            headerAlign: 'left',
-            align: 'left',
+            headerAlign: 'center',
+            align: 'center',
             valueGetter: (params) => { return params.row.fed ? "Đã cho ăn" : "Not yet"; },
         },
 
         {
             field: 'feederId',
             headerName: 'Feeder ID',
-            headerAlign: 'left',
-            align: 'left',
+            headerAlign: 'center',
+            align: 'center',
         },
 
         {
             field: 'feedingTime',
             headerName: 'Feeding Time',
-            headerAlign: 'left',
+            headerAlign: 'center',
             width: '135',
-            align: 'left',
+            align: 'center',
         },
 
         {
             field: 'zooTrainerId',
             headerName: 'Created by',
-            headerAlign: 'left',
+            headerAlign: 'center',
+            align: 'center',
             width: 80,
         },
-        {
-            field: 'createdDate',
-            headerName: 'Created Date',
-            headerAlign: 'left',
-            width: '135',
-        },
-        {
-            field: 'approved',
-            headerName: 'Approved',
-            headerAlign: 'left',
-            width: 80,
-            valueGetter: (params) => { return params.row.approved ? "Yes" : "Not yet"; },
-        },
+
         {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',
             width: 120,
-            renderCell: (params) => <>{params.row.approved ? undefined : <Actions {...{ params }} />}</>
+            renderCell: (params) => <>{!params.row.fed && <Actions {...{ params }} setRemove={setRemove} />}</>,
         }
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View all animals" subtitle="Table of Animals" />
+            <AdminHeader title="View Schedules" subtitle="Table of Schedules" />
             <Button
                 type="button"
                 color="secondary"

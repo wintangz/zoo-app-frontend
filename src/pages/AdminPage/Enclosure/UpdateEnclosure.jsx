@@ -25,7 +25,6 @@ import uploadFile from '~/utils/transferFile';
 function UpdateEnclosure() {
     //--------------- Call API GET USER ---------------------------------//'
     const location = useLocation()
-    console.log(location.state)
     const { enclosureId } = useParams();
     const [enclosure, setEnclosure] = useState({});
     const navigate = useNavigate();
@@ -59,7 +58,7 @@ function UpdateEnclosure() {
     };
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        navigate('/home/enclosure');
+        navigate('/home/enclosures');
     };
 
     //---------------------------------------- Handle Submit----------------------------------/
@@ -69,7 +68,10 @@ function UpdateEnclosure() {
             const imgURL = await uploadFile(values.imgUrl, 'update-news');
             values.imgUrl = imgURL;
         }
+        console.log(location.state)
+        console.log(values)
         const res = updateEnclosures(enclosureId, values);
+        console.log(res)
         res.then((result) => {
             const status = result.status;
             if (status === 200) {
@@ -207,20 +209,15 @@ function UpdateEnclosure() {
                                         onChange={handleChange}
                                         value={values.habitats}
                                         name="habitat"
-                                        defaultValue={location.state.habitat.id}
+                                        defaultValue={location.state.habitat}
                                         sx={{
                                             gridColumn: 'span 2',
                                             gridRow: '2',
                                         }}
-                                        SelectProps={{
-                                            PopperProps: {
-                                                anchorEl: null,
-                                                placement: 'bottom-start',
-                                            },
-                                        }}
+
                                     >
                                         {habitats.map((option) => (
-                                            <MenuItem key={option.id} value={option.id}>
+                                            <MenuItem key={option.id} value={option}>
                                                 {option.name}
                                             </MenuItem>
                                         ))}

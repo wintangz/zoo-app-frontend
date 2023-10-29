@@ -121,8 +121,8 @@ function UpdateSchedule() {
                     <Autocomplete
                         multiple
                         id="Assigned"
-                        options={(currentAnimal?.assignors || []).map(assigned => assigned.lastname + " " + assigned.firstname)}
-                        value={(currentAnimal?.assignors || []).map(assigned => assigned.lastname + " " + assigned.firstname)}
+                        options={(currentAnimal?.trainers || []).map(assigned => assigned.lastname + " " + assigned.firstname)}
+                        value={(currentAnimal?.trainers || []).map(assigned => assigned.lastname + " " + assigned.firstname)}
                         readOnly
                         renderInput={(params) => (
                             <TextField {...params} label="Assigned to" variant="filled" />
@@ -155,7 +155,7 @@ function UpdateSchedule() {
                     <h8>Feeding time</h8>
                     <DatePicker
                         style={{ width: "100%", height: '45px', background: colors.primary[200], border: "none" }}
-                        // value={values}
+                        value={values}
                         onChange={setValues}
                         format={format}
                         plugins={[

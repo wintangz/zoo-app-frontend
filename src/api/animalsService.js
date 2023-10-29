@@ -115,6 +115,15 @@ export const assignZooTrainerToAnimal = async (values, path) => {
     }
 }
 
+export const unassignZooTrainerToAnimal = async (values, path) => {
+    try {
+        const res = await axiosClient.remove(path, values)
+        return res;
+    } catch (error) {
+        return error.response;
+    }
+}
+
 export const getAllDiet = async () => {
     try {
         const res = await axiosClient.get('diets')

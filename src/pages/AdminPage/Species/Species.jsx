@@ -14,7 +14,6 @@ function ViewSpecies() {
     const [speciesResult, setSpeciesResult] = useState(null);
     const fetchApi = async () => {
         const result = await getSpecies();
-        console.log(result);
         setSpeciesResult(result);
     };
 
