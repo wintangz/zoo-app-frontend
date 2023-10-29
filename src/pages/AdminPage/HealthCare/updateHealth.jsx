@@ -1,7 +1,7 @@
 import { Box, Button, FormControl, Input, Modal, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Formik } from "formik";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { updateHealthCare } from "~/api/healService";
 import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
@@ -66,18 +66,22 @@ function UpdateHealth() {
             }),
 
     });
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/animals/health')
     }
     const handleFormSubmit = async (values, { resetForm }) => {
         try {
-            console.log(values);
-            values.animalName = null;
+            // values.animalName = null;
+            delete values.animalName;
             if (values.imgUrl instanceof File) {
                 values.imgUrl = await uploadFile(values.imgUrl, "health");
             }
+            console.log(values);
+
             const res = updateHealthCare(location.state.id, values);
+            console.log(res);
             res.then(result => {
                 if (result.status === 200) {
                     setOpen(true)
