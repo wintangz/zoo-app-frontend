@@ -3,7 +3,7 @@ import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { getDietById, updateDiets } from '~/api/dietService';
 import { getFood } from '~/api/foodService';
@@ -29,6 +29,12 @@ function UpdateDiets() {
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
     const [foods, setFoods] = useState([])
+    const location = useLocation()
+    useEffect(() => {
+        console.log(location.state);
+        setDiets(location.state);
+    }, []);
+    const foodListIds = location.state?.foodList?.id;
 
     const [foodListId, setFoodListId] = useState([])
     const style = {
@@ -55,7 +61,7 @@ function UpdateDiets() {
         foodListIds: yup.array(yup.string())
     });
 
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values) => {
         console.log(values);
         try {
             const submitValue = {
@@ -136,6 +142,8 @@ function UpdateDiets() {
                                     }}
                                     multiple
                                     value={foodListId}
+                                    name="foodListId"
+                                    defaultValue={foodListIds}
                                     onChange={handleChangeFoodId}
                                     input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                                     renderValue={(selected) => {
