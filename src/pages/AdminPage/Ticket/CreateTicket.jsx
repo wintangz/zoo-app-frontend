@@ -97,7 +97,7 @@ function CreateTicket() {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Create new staff successfully!</h2>
                         <p id="parent-modal-description">New staff have been add to DataBase!</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>

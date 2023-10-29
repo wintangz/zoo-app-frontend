@@ -81,9 +81,9 @@ const Actions = ({ params, setRemove, accept }) => {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Delete user</h2>
                         <p id="parent-modal-description">Are you sure want to delete this animal?</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <Button onClick={handleClose} color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Close</Button>
                         <Button
-                            sx={{ color: colors.grey[100] }}
+                            color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => {
                                 handleDelete(params.row.id);
                             }}
@@ -103,7 +103,7 @@ const Actions = ({ params, setRemove, accept }) => {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Delete User Successfully!</h2>
                         <p id="parent-modal-description">User have been delete from DataBase!</p>
-                        <Button
+                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => {
                                 handleMessage(params.row.id);
                             }}
@@ -124,7 +124,7 @@ const Actions = ({ params, setRemove, accept }) => {
                         <h2 id="parent-modal-title">Move Out Successfully!</h2>
                         <p id="parent-modal-description">Animal have been moved out to Enclosure !</p>
                         <Button
-                            sx={{ color: colors.grey[100] }}
+                            color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => { setMoveOut(false) }}
                         >
                             Close

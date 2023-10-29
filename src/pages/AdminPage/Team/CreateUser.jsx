@@ -163,7 +163,7 @@ function Form() {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">{modalTitle}</h2>
                         <p id="parent-modal-description">{description}</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <Button onClick={handleClose} color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Close</Button>
                     </Box>
                 </Modal>
             </div>

@@ -79,9 +79,9 @@ function ViewTicket() {
             <Box display="flex" justifyContent="left">
                 <Button
                     type="button"
-                    color="secondary"
+                    color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                     variant="contained"
-                    onClick={() => navigate('/tickets/create')}
+                    onClick={() => navigate('/home/tickets/create')}
                 >
                     {button}
                 </Button>

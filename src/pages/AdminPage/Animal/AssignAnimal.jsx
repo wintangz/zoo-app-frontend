@@ -66,7 +66,7 @@ function AssignAnimal(props) {
                         <h2 id="parent-modal-title">Assign animal Successfully!</h2>
                         <p id="parent-modal-description">Animal have been assign to {currentTrainer && currentTrainer.id} - {currentTrainer && currentTrainer.lastname} {currentTrainer && currentTrainer.firstname}  !</p>
                         <Button
-                            sx={{ color: colors.grey[100] }}
+                            color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => { navigate('/home/animals') }}
                         >
                             Close
