@@ -170,7 +170,7 @@ function UpdateNews() {
             <Box m="20px">
                 <AdminHeader title="Update News" subtitle="Update news content" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema} enableReinitialize={true}>
-                    {({ values, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box>
                                 <TextField
@@ -183,6 +183,8 @@ function UpdateNews() {
                                     defaultValue=" "
                                     value={values.title}
                                     name="title"
+                                    error={!!touched.title && !!errors.title}
+                                    helperText={touched.title && errors.title}
                                 />
                                 <TextField
                                     fullWidth
@@ -194,6 +196,8 @@ function UpdateNews() {
                                     defaultValue=" "
                                     value={values.shortDescription}
                                     name="shortDescription"
+                                    error={!!touched.shortDescription && !!errors.shortDescription}
+                                    helperText={touched.shortDescription && errors.shortDescription}
                                 />
                                 <Box overflow="auto">
                                     <Typography variant="h6" color={colors.grey[300]} style={{ margin: '0.8vw' }}>
@@ -208,8 +212,13 @@ function UpdateNews() {
                                             modules={modules}
                                             formats={formats}
                                             style={{ height: '25vh' }}
+                                            error={!!touched.content && !!errors.content}
+                                            helperText={touched.content && errors.content}
                                         />
                                     </Box>
+                                    {touched.content && errors.content && (
+                                        <div style={{ color: 'red', marginTop: '0.5rem' }}>{errors.content}</div>
+                                    )}
                                 </Box>
                                 <FormControl fullWidth variant="filled">
                                     <InputLabel id="type-label">Type</InputLabel>

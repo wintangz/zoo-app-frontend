@@ -34,7 +34,7 @@ function UpdateDiets() {
         console.log(location.state);
         setDiets(location.state);
     }, []);
-    const foodListIds = location.state?.foodList?.id;
+    const foodListIds = location.state?.foodList;
 
     const [foodListId, setFoodListId] = useState([])
     const style = {
@@ -53,9 +53,8 @@ function UpdateDiets() {
     };
     const initialValues = {
         type: diets?.type || '',
-        foodListIds: [],
+        foodListIds: [].id,
     };
-
     const userSchema = yup.object().shape({
         type: yup.string().required('Type is not empty'),
         foodListIds: yup.array(yup.string())
