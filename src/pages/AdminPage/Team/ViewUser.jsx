@@ -124,7 +124,7 @@ function Team() {
                 const roles = row.roles;
                 return (
                     <Box
-                        width="60%"
+                        width="75%"
                         m="0"
                         p="5px"
                         display="flex"

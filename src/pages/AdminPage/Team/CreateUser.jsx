@@ -13,7 +13,9 @@ import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
+import moment from 'moment/moment';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -21,6 +23,7 @@ import { createStaff, createZooTrainer } from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
+import { formatDateTimeSubmit } from '~/utils/dateTimeFormat';
 
 function Form() {
     const navigate = useNavigate();
@@ -44,20 +47,19 @@ function Form() {
     const isNonMobile = useMediaQuery('(min-width: 600px)');
     const userRole = decode(localStorage.getItem('token')).roles[0];
     const handleFormSubmit = async (values, { resetForm, setFailMessage }) => {
-        const inputDate = new Date(values.dateOfBirth);
+        const formattedDateTime = formatDateTimeSubmit(values.dateOfBirth)
+        // const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
+        //     .toString()
+        //     .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
+        // // Get the time zone offset and convert it to the "hh:mm" format
+        // const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
+        // const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
+        // const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
+        //     .toString()
+        //     .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
 
-        const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-        // Get the time zone offset and convert it to the "hh:mm" format
-        const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-        const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-        const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-            .toString()
-            .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
-
-        // Combine the date and time zone offset to get the final formatted string
-        const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
+        // // Combine the date and time zone offset to get the final formatted string
+        // const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
 
         values.dateOfBirth = formattedDateTime;
         if (values.sex === 'male') {
@@ -69,12 +71,15 @@ function Form() {
             const response = await createStaff(values);
             if (response) {
                 const status = response.status;
-                console.log(status);
+                console.log(response);
                 if (status === 200) {
                     setOpen(true);
+                    resetForm();
+                } else if (status === 400) {
+                    response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
+                        : document.getElementById('error-message').innerHTML = response.data.serverError
                 }
             }
-            resetForm();
         }
         if (userRole === 'STAFF') {
             const response = await createZooTrainer(values);
@@ -286,11 +291,11 @@ function Form() {
                                         gridColumn: 'span 1',
                                     }}
                                 >
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <LocalizationProvider dateAdapter={AdapterMoment}>
                                         <DatePicker
-                                            value={values.dateOfBirth}
+                                            value={moment(values.dateOfBirth)}
                                             onChange={(date) => {
-                                                handleChange({ target: { name: 'dateOfBirth', value: date } });
+                                                handleChange({ target: { name: 'dateOfBirth', value: moment(date) } });
                                             }}
                                             textField={(params) => (
                                                 <TextField
@@ -383,6 +388,7 @@ function Form() {
                                         gridColumn: 'span 4',
                                     }}
                                 />
+                                <p id='error-message' style={{ color: 'red', gridColumn: 'span 4', display: 'flex', flexDirection: 'row-reverse' }}></p>
                             </Box>
                             <Box display="flex" justifyContent="space-between" mt="20px">
                                 <Button
