@@ -121,8 +121,9 @@ function UpdateAnimal() {
                             color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => {
                                 setOpen(false);
-                                navigate('/home/animals/schedule');
-                            }}>Close</Button>
+                                navigate('/home/animals');
+                            }}>Close
+                        </Button>
                     </Box>
                 </Modal>
             </div>
