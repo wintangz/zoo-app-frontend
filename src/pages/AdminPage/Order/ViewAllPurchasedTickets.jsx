@@ -48,7 +48,7 @@ function ViewOrdersTickets() {
             headerAlign: 'left',
             align: 'left',
             flex: 0.5,
-            valueGetter: (params) => `${params.row.checkedBy?.name}`,
+            valueGetter: (params) => `${params.row.checkedBy?.username}`,
         },
         {
             field: 'checked',

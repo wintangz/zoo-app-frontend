@@ -1,12 +1,11 @@
 import { Delete, Edit } from '@mui/icons-material';
 import { Box, Button, IconButton, Modal, Tooltip, useTheme } from '@mui/material';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { deleteDiets } from '~/api/dietService';
 import { tokens } from '~/theme';
 
 const Actions = ({ params, setRemove }) => {
-    let navigate = useNavigate();
     const [message, setMessage] = useState(false);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -103,7 +102,7 @@ const Actions = ({ params, setRemove }) => {
                 </Tooltip>
 
                 <Tooltip title="Edit">
-                    <Link to={`/home/diets/update/${params.row.id}`}>
+                    <Link to={`/home/diets/update/${params.row.id}`} state={params.row}>
                         <IconButton
                             onClick={() => {
 
