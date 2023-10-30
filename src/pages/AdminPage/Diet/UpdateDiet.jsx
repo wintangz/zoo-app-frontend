@@ -34,9 +34,9 @@ function UpdateDiets() {
         console.log(location.state);
         setDiets(location.state);
     }, []);
-    const foodListIds = location.state?.foodList;
-
-    const [foodListId, setFoodListId] = useState([])
+    const foodListIds = location.state.foodList;
+    const [foodListId, setFoodListId] = useState(foodListIds.map(result => result.id));
+    console.log(foodListId)
     const style = {
         position: 'absolute',
         top: '50%',
@@ -94,10 +94,11 @@ function UpdateDiets() {
         fetchApi()
         const res = fetchapi(dietsId);
         res.then((result) => {
+            console.log(result);
             setDiets(result);
-            setFoodListId(result.foodListIds || []);
         });
     }, []);
+
 
     return (
         <>
@@ -133,6 +134,9 @@ function UpdateDiets() {
                                     error={!!touched.type && !!errors.type}
                                     helperText={touched.type && errors.type}
                                 />
+
+
+                                {console.log(foodListIds)}
                                 <Select
                                     labelId="demo-multiple-chip-label"
                                     id="demo-multiple-chip"
@@ -142,7 +146,7 @@ function UpdateDiets() {
                                     multiple
                                     value={foodListId}
                                     name="foodListId"
-                                    defaultValue={foodListIds}
+                                    defaultValue={foodListIds.map(result => { return result.id })}
                                     onChange={handleChangeFoodId}
                                     input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                                     renderValue={(selected) => {
