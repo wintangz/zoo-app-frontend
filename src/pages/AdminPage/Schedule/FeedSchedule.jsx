@@ -89,7 +89,7 @@ function FeedSchedule() {
                             setOpen(false);
                             navigate('/home/animals/schedule');
                         }}
-                            sx={{ color: colors.grey[100] }}
+                            color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                         >Close</Button>
                     </Box>
                 </Modal>

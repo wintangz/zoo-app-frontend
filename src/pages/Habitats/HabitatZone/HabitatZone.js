@@ -32,6 +32,7 @@ function HabitatZone() {
 
 
     }
+    console.log(habitats);
 
     useEffect(() => {
         fetchApi();
@@ -50,6 +51,13 @@ function HabitatZone() {
         setSelectedZone(selectedZone === zone ? null : zone); // Toggle the selected zone
     };
 
+    if (!habitats) {
+        return (
+            <div className={styles.container_error}>
+                <div className={styles.loader}></div>
+            </div>);
+    }
+
     return (
         <div className={styles.btnList}>
             {habitatZone.map((zone) => (
@@ -57,7 +65,7 @@ function HabitatZone() {
                     {habitats
                         .filter((component) => component.name === zone)
                         .map((component) => (
-                            <Link to={`/habitats/${component.name}`}>
+                            <Link to={`/habitats/${component.name}`} onClick={(e) => e.preventDefault()}>
                                 <div id={component.name} key={component.name} className={cx("zone--container")} onClick={() => handleZoneClick(zone)}>
                                     <div className={cx('overlay')}></div>
                                     <div
@@ -74,7 +82,7 @@ function HabitatZone() {
                                     <div
                                         className={cx("zone--hover")}
                                         style={{
-                                            backgroundImage: `url(${hoverImg})`,
+                                            backgroundImage: "url(" + component.bannerUrl + ")",
                                             backgroundRepeat: "no-repeat",
                                             backgroundSize: "30%",
                                             right: "-30%",
