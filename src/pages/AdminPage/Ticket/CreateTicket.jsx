@@ -16,6 +16,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import * as yup from 'yup';
+import { createTicket } from '~/api/ticketService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
@@ -48,11 +49,11 @@ function CreateTicket() {
             values.imgUrl = imgURL;
             console.log(values);
 
-            // const res = await createTicket(values);
-            // if (res.status === 'Ok') {
-            //     setOpen(true);
-            //     resetForm();
-            // }
+            const res = await createTicket(values);
+            if (res.status === 'Ok') {
+                setOpen(true);
+                resetForm();
+            }
             // Optionally, you can display a success message or perform other actions here
         } catch (error) {
             console.error(error);
@@ -69,7 +70,7 @@ function CreateTicket() {
         imgUrl: '',
         status: '',
     };
-    const FILE_SIZE = 160 * 1024;
+    const FILE_SIZE = 1920 * 1080;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const ticketType = [{ label: 'Children' }, { label: 'Adult' }, { label: 'Elder' }];
     const userSchema = yup.object().shape({
@@ -95,8 +96,8 @@ function CreateTicket() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Create new staff successfully!</h2>
-                        <p id="parent-modal-description">New staff have been add to DataBase!</p>
+                        <h2 id="parent-modal-title">Create new ticket successfully!</h2>
+                        <p id="parent-modal-description">New ticket have been add to DataBase!</p>
                         <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>

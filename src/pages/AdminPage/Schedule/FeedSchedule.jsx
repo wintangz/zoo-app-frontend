@@ -154,8 +154,8 @@ function FeedSchedule() {
                         <Autocomplete
                             multiple
                             id="Assigned"
-                            options={(currentAnimal?.assignors || []).map(assigned => assigned.lastname + " " + assigned.firstname)}
-                            value={(currentAnimal?.assignors || []).map(assigned => assigned.lastname + " " + assigned.firstname)}
+                            options={(currentAnimal?.trainers || []).map(assigned => assigned.lastname + " " + assigned.firstname)}
+                            value={(currentAnimal?.trainers || []).map(assigned => assigned.lastname + " " + assigned.firstname)}
                             readOnly
                             renderInput={(params) => (
                                 <TextField {...params} label="Assigned to" variant="filled" />

@@ -122,6 +122,7 @@ function ViewAnimals() {
             field: 'status',
             headerName: 'Status',
             headerAlign: 'left',
+            valueGetter: (params) => { return params.row.status ? "Alive" : "Dead" },
             width: 80,
         },
         {
