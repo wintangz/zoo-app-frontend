@@ -50,6 +50,12 @@ function ViewSchedule() {
             align: 'center',
         },
         {
+            field: 'img',
+            headerName: 'Image',
+            width: 120,
+            valueGetter: (params) => { console.log(params.row) }
+        },
+        {
             field: 'fed', // Keep the field as 'firstname'
             headerName: 'Is fed',
             headerAlign: 'center',

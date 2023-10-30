@@ -63,11 +63,12 @@ import Form from '~/pages/AdminPage/Team/CreateUser';
 import EditProfile from '~/pages/AdminPage/Team/EditProfile';
 import UpdateStaff from "~/pages/AdminPage/Team/UpdateStaff";
 import Team from '~/pages/AdminPage/Team/ViewUser';
-import { default as CreateTicket, default as ViewTicket } from '~/pages/AdminPage/Ticket';
+import { default as ViewTicket } from '~/pages/AdminPage/Ticket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import Order from '~/pages/Order/Order';
 import ThankYouPage from '~/pages/Ticket/Thanks';
 import UnassignAnimal from '~/pages/AdminPage/Animal/UnassignAnimal';
+import CreateTicket from '~/pages/AdminPage/Ticket/CreateTicket';
 
 
 const publicRoutes = [
