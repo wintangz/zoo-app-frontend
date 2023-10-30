@@ -4,13 +4,13 @@ import MenuItem from '@mui/material/MenuItem';
 import { tokens } from '~/theme';
 import { useState } from "react";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getEnclosures, moveInEnclosure } from "~/api/animalsService";
 import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 import { withSuccess } from "antd/es/modal/confirm";
 
 function MoveInEnclosure() {
-
+    const navigate = useNavigate()
     const [open, setOpen] = useState(false);
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
@@ -60,14 +60,16 @@ function MoveInEnclosure() {
             <div>
                 <Modal
                     open={open}
-                    onClose={handleClose}
+                    onClose={() => {
+                        navigate('/home/animals')
+                    }}
                     aria-labelledby="parent-modal-title"
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Move In animal successfully!</h2>
                         <p id="parent-modal-description">New animal have been add to Enclosure!</p>
-                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
+                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={() => navigate('/home/animals')}>Close</Button>
                     </Box>
                 </Modal>
             </div>
@@ -154,8 +156,8 @@ function MoveInEnclosure() {
                         <Autocomplete
                             multiple
                             id="Assigned"
-                            options={location.state.assignors.map(assigned => assigned.lastname + " " + assigned.firstname)}
-                            defaultValue={location.state.assignors.map(assigned => assigned.lastname + " " + assigned.firstname)}
+                            options={location.state.trainers.map(assigned => assigned.lastname + " " + assigned.firstname)}
+                            defaultValue={location.state.trainers.map(assigned => assigned.lastname + " " + assigned.firstname)}
                             readOnly
                             renderInput={(params) => (
                                 <TextField {...params} label="Assigned to" variant="filled" />

@@ -2,6 +2,7 @@ const { BlobServiceClient } = require('@azure/storage-blob');
 
 
 function generateUniqueImageName(file) {
+    console.log(file);
     const timestamp = Date.now(); // Get the current timestamp
     const randomChars = Math.random().toString(36).substring(2, 8); // Generate random characters
 

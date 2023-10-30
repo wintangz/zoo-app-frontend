@@ -22,7 +22,6 @@ import * as mockData from '~/api/userService';
 import { updateUser } from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
 function EditProfile() {
     const navigate = useNavigate();
@@ -129,13 +128,7 @@ function EditProfile() {
     });
 
     //------------------ROLE------------------------------
-    const userRole = decode(localStorage.getItem('token')).roles[0];
-    let button = '';
-    if (userRole === 'ADMIN') {
-        button = 'VIEW ALL USER';
-    } else if (userRole === 'STAFF') {
-        button = 'VIEW ALL ZOO TRAINER';
-    }
+    // const userRole = decode(localStorage.getItem('token')).roles[0];
     return (
         <>
             <div>

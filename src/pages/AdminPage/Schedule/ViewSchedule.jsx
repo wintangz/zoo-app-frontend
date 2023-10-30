@@ -7,6 +7,7 @@ import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 import { tokens } from '~/theme';
 import Actions from "./actions";
 import { decode } from '~/utils/axiosClient';
+import { formatDateTime } from '~/utils/dateTimeFormat';
 
 function ViewSchedule() {
     const userId = Number.parseInt(decode(localStorage.getItem('token')).sub)
@@ -69,6 +70,7 @@ function ViewSchedule() {
             headerAlign: 'center',
             width: '135',
             align: 'center',
+            valueGetter: (params) => { return formatDateTime(new Date(params.row.feedingTime)) }
         },
 
         {
