@@ -197,54 +197,33 @@ const Sidebar = () => {
 
             }}
         >
-            <ProSidebar collapsed={isCollapsed} style={{ height: '100%', background: colors.primary[900] }}>
+            <ProSidebar style={{ height: '100%', background: colors.primary[900] }}>
                 <Menu iconShape="square" initialValues={initialValues}>
                     {/* LOGO AND MENU ICON */}
-                    <MenuItem
-                        onClick={() => setIsCollapsed(!isCollapsed)}
-                        icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-                        style={{
-                            margin: '10px 0 20px 0',
-                            color: colors.grey[100],
-                        }}
-                    >
-                        {!isCollapsed && (
-                            <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
-                                <Typography variant="h3" color={colors.grey[100]}>
-                                    {userRole}
-                                </Typography>
-                                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                                    <MenuOutlinedIcon />
-                                </IconButton>
-                            </Box>
-                        )}
-                    </MenuItem>
+                    <Box mb="25px">
+                        <Box display="flex" justifyContent="center" alignItems="center" sx={{ marginTop: "10%" }}>
+                            <Avatar
+                                src={initialValues.avatarUrl || "broken-image.jpg"}
+                                sx={{ width: 120, height: 120, cursor: 'pointer' }}
+                                onClick={handleAvatarClick}
+                            />
 
-                    {!isCollapsed && (
-                        <Box mb="25px">
-                            <Box display="flex" justifyContent="center" alignItems="center">
-                                <Avatar
-                                    src={initialValues.avatarUrl || "broken-image.jpg"}
-                                    sx={{ width: 120, height: 120, cursor: 'pointer' }}
-                                    onClick={handleAvatarClick}
-                                />
-
-                            </Box>
-                            <Box textAlign="center">
-                                <Typography
-                                    variant="h3"
-                                    color={colors.grey[100]}
-                                    fontWeight="bold"
-                                    sx={{ m: '10px 0 0 0' }}
-                                >
-                                    {initialValues.lastname} {initialValues.firstname}
-                                </Typography>
-                                <Typography variant="h5" color={colors.greenAccent[500]}>
-                                    {role}
-                                </Typography>
-                            </Box>
                         </Box>
-                    )}
+                        <Box textAlign="center">
+                            <Typography
+                                variant="h3"
+                                color={colors.grey[100]}
+                                fontWeight="bold"
+                                sx={{ m: '10px 0 0 0' }}
+                            >
+                                {initialValues.lastname} {initialValues.firstname}
+                            </Typography>
+                            <Typography variant="h5" color={colors.greenAccent[500]}>
+                                {role}
+                            </Typography>
+                        </Box>
+                    </Box>
+
 
                     <Box paddingLeft={isCollapsed ? undefined : '10%'}>
                         <Dialog open={isImageModalOpen} onClose={() => setIsImageModalOpen(false)}>
