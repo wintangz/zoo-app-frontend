@@ -96,7 +96,7 @@ function CreateHealth() {
                         <h2 id="parent-modal-title">Record Successfully!</h2>
                         <p id="parent-modal-description">Animal health have been recorded !</p>
                         <Button
-                            sx={{ color: colors.grey[100] }}
+                            color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => { navigate('/home/animals/health') }}
                         >
                             Close

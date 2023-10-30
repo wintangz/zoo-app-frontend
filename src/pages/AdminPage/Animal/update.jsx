@@ -119,7 +119,10 @@ function UpdateAnimal() {
                         <p id="parent-modal-description">New animal have been Update to DataBase!</p>
                         <Button
                             color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
-                            onClick={() => setOpen(false)}>Close</Button>
+                            onClick={() => {
+                                setOpen(false);
+                                navigate('/home/animals/schedule');
+                            }}>Close</Button>
                     </Box>
                 </Modal>
             </div>
