@@ -32,7 +32,6 @@ function HabitatZone() {
 
 
     }
-    console.log(habitats);
 
     useEffect(() => {
         fetchApi();
@@ -84,12 +83,6 @@ function HabitatZone() {
                                         style={{
                                             backgroundImage: "url(" + component.bannerUrl + ")",
                                             backgroundRepeat: "no-repeat",
-                                            backgroundSize: "30%",
-                                            right: "-30%",
-                                            width: "50%",
-                                            height: "100%",
-                                            position: "absolute",
-                                            opacity: 0,
                                         }}
                                     ></div>
                                 </div>
