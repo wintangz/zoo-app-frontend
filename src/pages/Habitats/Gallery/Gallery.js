@@ -3,7 +3,6 @@ import styles from './Gallery.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, ImageList, ImageListItem } from '@mui/material'
 
 function Gallery({ item }) {
     const [modal, setModal] = useState(false);

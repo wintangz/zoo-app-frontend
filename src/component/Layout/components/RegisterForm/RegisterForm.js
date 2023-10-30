@@ -6,6 +6,7 @@ import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { registerUser } from '~/api/authService';
 import styles from './RegisterForm.module.scss';
+import { countries } from "./Contries"
 
 const validationSchema = Yup.object().shape({
     username: Yup.string()
@@ -37,30 +38,6 @@ function RegisterForm({ onClose, onLoginClick }) {
     const registerFormRef = useRef(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [failMessage, setFailMessage] = useState(null);
-
-    const countries = [
-        "Viet Nam",
-        "United States",
-        "China",
-        "India",
-        "Brazil",
-        "Russia",
-        "United Kingdom",
-        "France",
-        "Germany",
-        "Japan",
-        "South Korea",
-        "Canada",
-        "Australia",
-        "Mexico",
-        "South Africa",
-        "Nigeria",
-        "Egypt",
-        "Argentina",
-        "Italy",
-        "Spain",
-        "Turkey",
-    ];
 
 
     // const handleClickOutsideForm = (event) => {
