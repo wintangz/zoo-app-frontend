@@ -23,19 +23,16 @@ function Header() {
     const { auth } = useAppContext();
 
     useEffect(() => {
-        console.log(auth);
         const token = localStorage.getItem('token');
         if (token) {
             setUser(decode(token).roles[0]);
             setSub(decode(token).sub)
         }
     }, []);
-    console.log(sub);
-    console.log(user);
-
     useEffect(() => {
         const headerNavItems = document.querySelectorAll(`.${styles.navitem_container}`);
         const child = document.querySelectorAll(`.${styles.dropdown_item}`);
+        console.log(headerNavItems)
         if (headerNavItems.length > 0) {
             // Loop through the NodeList (similar to an HTMLCollection) using forEach
             console.log(NamePage);
