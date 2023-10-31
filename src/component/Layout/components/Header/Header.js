@@ -83,9 +83,9 @@ function Header() {
         }
     };
     const handleUnHover = () => {
-        const activeElement = document.querySelectorAll(`.${styles.active}`);
+        const activeElement = document.querySelector(`div[class*=${styles.active}]`);
         console.log(`.${styles.active}`);
-        console.log(activeElement);
+        console.log(document.querySelector(`.${styles.active}`));
         if (activeElement && activeElement.classList.contains("Home")) {
             console.log("active Element is: " + activeElement)
             lineRef.current.style.left = '45.5%';
@@ -104,6 +104,10 @@ function Header() {
             lineRef.current.style.width = '5.8%';
         }
     }
+    useEffect(() => {
+        handleUnHover()
+        console.log("Hover")
+    }, [`.${styles.active}`])
 
     const {
         showLogin,
