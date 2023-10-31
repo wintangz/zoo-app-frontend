@@ -349,7 +349,7 @@ function UpdateCustomer() {
                                         fullWidth
                                         variant="filled"
                                         type="text"
-                                        label="Emai"
+                                        label="Email"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         defaultValue=" "

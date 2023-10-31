@@ -17,7 +17,7 @@ import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 // import uploadFile from '~/utils/transferFile';
 import MenuItem from '@mui/material/MenuItem';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { createEnclousures, getHabitats } from '~/api/animalsService';
 import uploadFile from '~/utils/transferFile';
 
@@ -59,7 +59,7 @@ function CreateEnclosure() {
         setHabitatId(event.target.value)
     }
 
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values) => {
         // values.createdDate = formattedDateTime(values.createdDate);
         try {
             const submitValue = {
@@ -74,7 +74,6 @@ function CreateEnclosure() {
             if (response.data.status === "Ok") {
                 console.log(values);
                 setOpen(true);
-                resetForm();
             }
         } catch (error) {
             console.error(error);
@@ -107,7 +106,7 @@ function CreateEnclosure() {
         habitatId: yup.number(yup.string())
     });
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/enclosures');
     };
     return (
         <>
@@ -177,9 +176,8 @@ function CreateEnclosure() {
                                     select
                                     onBlur={handleBlur}
                                     onChange={handleChangeHabitatId}
-                                    value={habitattId}
                                     name="habitat"
-                                    defaultValue="African Savannah"
+                                    defaultValue={1}
                                     sx={{
                                         gridColumn: 'span 4',
                                         gridRow: '2',

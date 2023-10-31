@@ -93,7 +93,6 @@ function CreateSpecies() {
             response.then((result) => {
                 if (result.data.status === "Ok") {
                     setOpen(true);
-                    resetForm();
                 }
             });
         } catch (error) {
@@ -102,8 +101,8 @@ function CreateSpecies() {
     };
 
     const handleClose = () => {
-        setOpen(false);
-    };
+        navigate('/home/species');
+    }
     return (
         <>
             <div>
@@ -200,9 +199,8 @@ function CreateSpecies() {
                                     select
                                     onBlur={handleBlur}
                                     onChange={handleChangeHabitatId}
-                                    value={habitattId}
                                     name="habitat"
-                                    defaultValue="African Savannah"
+                                    defaultValue={1}
                                     sx={{
                                         gridColumn: 'span 4',
                                         gridRow: '2',
