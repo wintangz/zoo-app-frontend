@@ -85,6 +85,7 @@ function Header() {
     const handleUnHover = () => {
         const activeElement = document.querySelector(`.${styles.active}`);
         if (activeElement && activeElement.classList.contains("Home")) {
+            console.log("active Element is: " + activeElement)
             lineRef.current.style.left = '45.5%';
             lineRef.current.style.width = '5.8%';
         } else if (activeElement && activeElement.classList.contains("News")) {
