@@ -8,7 +8,6 @@ import * as yup from 'yup';
 import { createFood } from '~/api/foodService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
-import { decode } from '~/utils/axiosClient';
 
 function CreateFood() {
     const navigate = useNavigate();
@@ -29,7 +28,6 @@ function CreateFood() {
         px: 4,
         pb: 3,
     };
-    const userRole = decode(localStorage.getItem('token')).roles[0];
     const initialValues = {
         name: '',
         type: '',
@@ -49,7 +47,6 @@ function CreateFood() {
             console.log(submitValue);
             if (response?.status === 200) {
                 setOpen(true);
-                resetForm();
             }
         } catch (error) {
             console.error('Error submitting form:', error.message);
@@ -57,7 +54,7 @@ function CreateFood() {
     };
 
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/foods');
     };
 
     return (

@@ -64,7 +64,6 @@ function CreateDiet() {
             console.log(submitValue);
             if (response?.status === "Ok") {
                 setOpen(true);
-                resetForm();
             }
         } catch (error) {
             console.error('Error submitting form:', error.message);
@@ -74,7 +73,7 @@ function CreateDiet() {
         setFoodListId(event.target.value)
     }
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/diets');
     };
     const fetchApi = async () => {
         const result = await getFood();

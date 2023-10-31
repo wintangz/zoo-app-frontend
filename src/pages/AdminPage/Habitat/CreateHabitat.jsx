@@ -44,7 +44,7 @@ function CreateHabitat() {
     };
     const isNonMobile = useMediaQuery('(min-width: 600px)');
 
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values) => {
         console.log(values);
         try {
             const imgURL = await uploadFile(values.imgUrl, 'update-habitats');
@@ -57,7 +57,6 @@ function CreateHabitat() {
                 const status = result.status;
                 if (status === 200) {
                     setOpen(true);
-                    resetForm();
                 }
             });
         } catch (error) {
@@ -112,7 +111,7 @@ function CreateHabitat() {
 
     });
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/habitats');
     };
     return (
         <>

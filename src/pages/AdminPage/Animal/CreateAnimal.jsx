@@ -58,7 +58,7 @@ function CreateAnimal() {
         });
     }, []);
 
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values) => {
         values.dateOfBirth = formatDateTimeSubmit(values.dateOfBirth);
         values.arrivalDate = formatDateTimeSubmit(values.arrivalDate);
         try {
@@ -70,7 +70,6 @@ function CreateAnimal() {
                 const status = result.status;
                 if (status === 'Ok') {
                     setOpen(true);
-                    resetForm();
                 }
             });
             // Optionally, you can display a success message or perform other actions here
@@ -106,7 +105,7 @@ function CreateAnimal() {
         status: yup.string().required('required'),
     });
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/animals');
     };
     return (
         <>
