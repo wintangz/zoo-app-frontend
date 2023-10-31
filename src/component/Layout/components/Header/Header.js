@@ -83,7 +83,7 @@ function Header() {
         }
     };
     const handleUnHover = () => {
-        const activeElement = document.querySelector(`div[class*=${styles.active}]`);
+        const activeElement = document.querySelector(`div[class*='${styles.active}']`);
         console.log(`.${styles.active}`);
         console.log(document.querySelector(`.${styles.active}`));
         if (activeElement && activeElement.classList.contains("Home")) {
