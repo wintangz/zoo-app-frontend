@@ -53,7 +53,8 @@ function ViewSchedule() {
             field: 'img',
             headerName: 'Image',
             width: 120,
-            valueGetter: (params) => { console.log(params.row) }
+            // valueGetter: (params) => { console.log(params.row) },
+            renderCell: (params) => (<img src={params.row.confirmationImgUrl} />)
         },
         {
             field: 'fed', // Keep the field as 'firstname'

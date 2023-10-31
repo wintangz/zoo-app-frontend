@@ -92,6 +92,7 @@ function ViewSpecies() {
             headerAlign: 'left',
             align: 'left',
             flex: 1,
+            renderCell: (params) => (<div style={{ background: `url(${params.row.imgUrl}) no-repeat`, backgroundSize: 'cover', width: '100%', height: '100%' }}></div>)
         },
         {
             field: 'avatarUrl',
@@ -99,6 +100,7 @@ function ViewSpecies() {
             headerAlign: 'left',
             align: 'left',
             flex: 1,
+            renderCell: (params) => (<div style={{ background: `url(${params.row.avatarUrl}) no-repeat`, backgroundSize: 'cover', width: '100%', height: '100%' }}></div>)
         },
         {
             field: 'createdDate',
@@ -174,7 +176,13 @@ function ViewSpecies() {
                         columns={columns}
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}
-                    // checkboxSelection
+                        initialState={{
+                            pagination: { paginationModel: { pageSize: 15 } },
+                        }}
+
+                        // checkboxSelection
+                        pageSizeOptions={[15, 30, 50]}
+                        disableRowSelectionOnClick
                     />
                 )}
             </Box>
