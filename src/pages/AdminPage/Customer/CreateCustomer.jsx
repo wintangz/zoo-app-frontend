@@ -350,7 +350,7 @@ function CreateCustomer() {
                                     variant="contained"
                                     onClick={() => navigate('/home/customers')}
                                 >
-                                    VIEW ALL CUSTOMERS
+                                    VIEW CUSTOMERS
                                 </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE NEW CUSTOMER

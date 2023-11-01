@@ -144,7 +144,7 @@ function ViewAnimals() {
 
     return (
         <Box m="20px">
-            <AdminHeader title="View all animals" subtitle="Table of Animals" />
+            <AdminHeader title="View Animals" subtitle="Table of Animals" />
             {userRole === 'ZOO_TRAINER' && (
                 <Button
                     type="button"

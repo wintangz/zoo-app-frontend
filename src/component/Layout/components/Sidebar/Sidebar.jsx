@@ -6,10 +6,15 @@ import { Menu, MenuItem, ProSidebar } from 'react-pro-sidebar';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ForestIcon from '@mui/icons-material/Forest';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import HouseSidingIcon from '@mui/icons-material/HouseSiding';
+import BookOnlineIcon from '@mui/icons-material/BookOnline';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import PetsIcon from '@mui/icons-material/Pets';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -276,7 +281,7 @@ const Sidebar = () => {
                                 <Item
                                     title="Customers"
                                     to="/home/customers"
-                                    icon={<BsNewspaper />}
+                                    icon={<AccountCircleIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
@@ -290,14 +295,14 @@ const Sidebar = () => {
                                 <Item
                                     title="Orders"
                                     to="/home/orders"
-                                    icon={<GiCage />}
+                                    icon={<ShoppingCartIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
                                 <Item
                                     title="View Purchased Tickets"
                                     to="/home/purchased_tickets"
-                                    icon={<GiCage />}
+                                    icon={<BookOnlineIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
@@ -366,7 +371,7 @@ const Sidebar = () => {
                                                 <Item
                                                     title="Feed Schedules"
                                                     to="/home/animals/schedule"
-                                                    icon={<PersonOutlinedIcon />}
+                                                    icon={<PetsIcon />}
                                                     selected={selected}
                                                     setSelected={setSelected}
                                                 />
@@ -413,14 +418,14 @@ const Sidebar = () => {
                                 <Item
                                     title="Enclosure"
                                     to="/home/enclosures"
-                                    icon={<PersonOutlinedIcon />}
+                                    icon={<HouseSidingIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
                                 <Item
                                     title="Habitat"
                                     to="/home/habitats"
-                                    icon={<PersonOutlinedIcon />}
+                                    icon={<ForestIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
@@ -431,14 +436,14 @@ const Sidebar = () => {
                                 <Item
                                     title="Enclosure"
                                     to="/home/enclosures"
-                                    icon={<PersonOutlinedIcon />}
+                                    icon={<HouseSidingIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
                                 <Item
                                     title="Habitat"
                                     to="/home/habitats"
-                                    icon={<PersonOutlinedIcon />}
+                                    icon={<ForestIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />

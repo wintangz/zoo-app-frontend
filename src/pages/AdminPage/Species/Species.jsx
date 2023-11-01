@@ -124,7 +124,7 @@ function ViewSpecies() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View Species" subtitle="Show All Species" />
+            <AdminHeader title="View Species" subtitle="Table of Species" />
             <Box display="flex" justifyContent="left">
                 <Button
                     type="button"

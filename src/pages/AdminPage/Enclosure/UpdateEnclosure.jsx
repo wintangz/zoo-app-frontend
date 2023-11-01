@@ -309,7 +309,7 @@ function UpdateEnclosure() {
                                         variant="contained"
                                         onClick={() => navigate('/home/enclosures')}
                                     >
-                                        VIEW All ENCLOSURE
+                                        VIEW ENCLOSUREs
                                     </Button>
 
                                     <Button type="submit" color="secondary" variant="contained">

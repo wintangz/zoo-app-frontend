@@ -20,6 +20,7 @@ import { createTicket } from '~/api/ticketService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
+import { useNavigate } from 'react-router-dom';
 function CreateTicket() {
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
@@ -85,6 +86,8 @@ function CreateTicket() {
             .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
         status: yup.string().required('required'),
     });
+
+    const navigate = useNavigate();
 
     return (
         <>
@@ -237,7 +240,15 @@ function CreateTicket() {
                                     )}
                                 </FormControl>
                             </Box>
-                            <Box display="flex" justifyContent="end" mt="20px">
+                            <Box display="flex" justifyContent="space-between" mt="20px">
+                                <Button
+                                    type="button"
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={() => navigate('/home/tickets')}
+                                >
+                                    VIEW TICKET
+                                </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE NEW TICKET
                                 </Button>

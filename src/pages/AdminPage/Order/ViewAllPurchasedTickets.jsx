@@ -60,7 +60,7 @@ function ViewOrdersTickets() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View Purchased Tickets" subtitle="Show All Purchased Tickets" />
+            <AdminHeader title="View Purchased Tickets" subtitle="Table of Purchased Tickets" />
             <Box
                 m="20px 0 0 0"
                 height="75vh"

@@ -255,9 +255,21 @@ function FeedSchedule() {
                     </Box>
                 </Box>
             </Box>
-            <Button type="submit" color="secondary" variant="contained" onClick={handleSubmit} sx={{ float: "right", marginRight: '20px' }} >
-                CREATE SCHEDULE
-            </Button>
+            <Box display="flex" justifyContent="space-between" mt="20px">
+                <Button
+                    type="button"
+                    color="secondary"
+                    variant="contained"
+                    sx={{ float: "left", marginLeft: '32px' }}
+                    onClick={() => navigate('/home/animals/schedule')}
+                >
+                    VIEW SCHEDULES
+                </Button>
+                <Button type="submit" color="secondary" variant="contained" onClick={handleSubmit} sx={{ float: "right", marginRight: '32px' }} >
+                    CREATE SCHEDULE
+                </Button>
+            </Box>
+
         </>
     );
 }

@@ -95,8 +95,8 @@ function CreateDiet() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">"Create Diet Successfully!"</h2>
-                        <p id="parent-modal-description">New diet have been add to DataBase!</p>
+                        <h2 id="parent-modal-title">Create Diet Successfully!</h2>
+                        <p id="parent-modal-description">New Diet have been add to DataBase!</p>
                         <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>

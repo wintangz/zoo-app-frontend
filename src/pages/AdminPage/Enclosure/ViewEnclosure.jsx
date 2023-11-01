@@ -116,7 +116,7 @@ function ViewEnclosure() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View all Enclosures" subtitle="Table of Enclosures" />
+            <AdminHeader title="View Enclosures" subtitle="Table of Enclosures" />
             {userRole === 'STAFF' && (
                 <Button
                     type="button"

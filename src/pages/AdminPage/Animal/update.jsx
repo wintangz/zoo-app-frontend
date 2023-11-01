@@ -444,7 +444,7 @@ function UpdateAnimal() {
                                     VIEW ANIMALS
                                 </Button>
                                 <Button type="submit" color="secondary" variant="contained">
-                                    CREATE ANIMAL
+                                    UPDATE ANIMAL
                                 </Button>
                             </Box>
                         </form>

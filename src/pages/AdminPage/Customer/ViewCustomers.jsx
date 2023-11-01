@@ -89,7 +89,7 @@ function ViewCustomers() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View Customers" subtitle="View All Customers" />
+            <AdminHeader title="View Customers" subtitle="Table of Customers" />
             <Box display="flex" justifyContent="left">
                 <Button
                     type="button"

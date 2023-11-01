@@ -221,7 +221,7 @@ function CreateHabitat() {
                                     variant="contained"
                                     onClick={() => navigate('/home/habitats')}
                                 >
-                                    VIEW All HABITATS
+                                    VIEW HABITATS
                                 </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE HABITAT
