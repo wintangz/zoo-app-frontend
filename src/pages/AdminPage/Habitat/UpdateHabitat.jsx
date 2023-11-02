@@ -112,8 +112,8 @@ function UpdateHabitat() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Update User Successfully!</h2>
-                        <p id="parent-modal-description">User have been update to DataBase!</p>
+                        <h2 id="parent-modal-title">Update Habitat Successfully!</h2>
+                        <p id="parent-modal-description">Habitat have been update to DataBase!</p>
                         <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
@@ -124,16 +124,6 @@ function UpdateHabitat() {
 
             <>
                 <Box m="20px">
-                    <Box mb="20px" display="flex" justifyContent="left">
-                        <Button
-                            type="button"
-                            color="secondary"
-                            variant="contained"
-                            onClick={() => navigate('/home/habitats')}
-                        >
-                            VIEW ALL HABITAT
-                        </Button>
-                    </Box>
                     <Formik
                         onSubmit={handleFormSubmit}
                         initialValues={initialValues}
@@ -297,17 +287,15 @@ function UpdateHabitat() {
                                         </RadioGroup>
                                     </FormControl>
                                 </Box>
-                                <Box display="flex" justifyContent="end" mt="20px">
-                                    {/* <Link to="/edit/sercurity">
-                                        <Button
-                                            // onClick={handleSercurity}
-                                            type="submit"
-                                            color="secondary"
-                                            variant="contained"
-                                        >
-                                            SERCURITY
-                                        </Button>
-                                    </Link> */}
+                                <Box display="flex" justifyContent="space-between" mt="20px">
+                                    <Button
+                                        type="button"
+                                        color="secondary"
+                                        variant="contained"
+                                        onClick={handleClose}
+                                    >
+                                        VIEW habitats
+                                    </Button>
 
                                     <Button type="submit" color="secondary" variant="contained">
                                         Update Habitat

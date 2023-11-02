@@ -15,19 +15,18 @@ import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createTicket } from '~/api/ticketService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
+import { useNavigate } from 'react-router-dom';
 function CreateTicket() {
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
-    const navigate = useNavigate();
     const handleClose = () => {
-        navigate('/home/tickets');
+        setOpen(false);
     };
     const style = {
         position: 'absolute',
@@ -54,6 +53,7 @@ function CreateTicket() {
             const res = await createTicket(values);
             if (res.status === 'Ok') {
                 setOpen(true);
+                resetForm();
             }
             // Optionally, you can display a success message or perform other actions here
         } catch (error) {
@@ -86,6 +86,8 @@ function CreateTicket() {
             .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
         status: yup.string().required('required'),
     });
+
+    const navigate = useNavigate();
 
     return (
         <>
@@ -239,10 +241,13 @@ function CreateTicket() {
                                 </FormControl>
                             </Box>
                             <Box display="flex" justifyContent="space-between" mt="20px">
-                                <Button onClick={() => {
-                                    navigate("/home/tickets")
-                                }} color="secondary" variant="contained">
-                                    VIEW ALL TICKET
+                                <Button
+                                    type="button"
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={() => navigate('/home/tickets')}
+                                >
+                                    VIEW TICKET
                                 </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE NEW TICKET

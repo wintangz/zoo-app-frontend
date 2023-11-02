@@ -86,7 +86,7 @@ function ViewNews() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View News" subtitle="Show All News" />
+            <AdminHeader title="View News" subtitle="Table of News" />
             <Box display="flex" justifyContent="left">
                 <Button
                     type="button"

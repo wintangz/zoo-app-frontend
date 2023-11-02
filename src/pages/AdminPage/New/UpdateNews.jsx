@@ -161,8 +161,8 @@ function UpdateNews() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">"Update News Successfully!"</h2>
-                        <p id="parent-modal-description">New news have been update to DataBase!</p>
+                        <h2 id="parent-modal-title">Update News Successfully!</h2>
+                        <p id="parent-modal-description">New News have been update to DataBase!</p>
                         <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
@@ -319,7 +319,7 @@ function UpdateNews() {
                                     variant="contained"
                                     onClick={() => navigate('/home/news')}
                                 >
-                                    VIEW All NEWS
+                                    VIEW NEWS
                                 </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     UPDATE NEWS

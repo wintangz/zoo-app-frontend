@@ -104,7 +104,7 @@ function UpdateSchedule() {
             </Modal>
         </div>
         <Box>
-            <AdminHeader title="EDIT FEEDING SCHEDULE" />
+            <AdminHeader title="Update Feeding Schedule" subtitle="Update feeding schedule" />
         </Box>
         <Box display="flex" sx={{ justifyContent: 'space-around' }}>
             <Box sx={{ width: "45%" }}>

@@ -106,7 +106,7 @@ function ViewHabitat() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View all Habitats" subtitle="Table of Habitats" />
+            <AdminHeader title="View Habitats" subtitle="Table of Habitats" />
             {userRole === 'STAFF' && (
                 <Box display="flex" justifyContent="left">
                     <Button

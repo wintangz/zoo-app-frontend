@@ -108,7 +108,10 @@ function Confirm() {
                     </Box>
                 </Modal>
             </div>
-            <AdminHeader title="CONFIRM FEEDING" subtitle="Take a photo to check" />
+            <Box m="25px">
+                <AdminHeader title="Confirm Feeding" subtitle="Take a photo to check" />
+
+            </Box>
             <Box>
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (

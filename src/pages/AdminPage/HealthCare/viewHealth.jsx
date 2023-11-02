@@ -88,7 +88,7 @@ function ViewHealth() {
         <>
             <Box m="20px">
 
-                <AdminHeader title="Health Care Animals" />
+                <AdminHeader title="Health Record Animals" subtitle="Table of Health Record" />
                 <Box display="flex" justifyContent="left">
                     <Button
                         type="button"

@@ -75,7 +75,7 @@ function ViewFood() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View Food" subtitle="Show All Food" />
+            <AdminHeader title="View Foods" subtitle="Table of Foods" />
             <Box display="flex" justifyContent="left">
                 <Button
                     type="button"
