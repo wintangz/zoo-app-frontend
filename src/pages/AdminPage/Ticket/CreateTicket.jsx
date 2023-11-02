@@ -15,19 +15,18 @@ import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createTicket } from '~/api/ticketService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
+import { useNavigate } from 'react-router-dom';
 function CreateTicket() {
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
-    const navigate = useNavigate();
     const handleClose = () => {
-        navigate('/home/tickets');
+        setOpen(false);
     };
     const style = {
         position: 'absolute',
@@ -54,6 +53,7 @@ function CreateTicket() {
             const res = await createTicket(values);
             if (res.status === 'Ok') {
                 setOpen(true);
+                resetForm();
             }
             // Optionally, you can display a success message or perform other actions here
         } catch (error) {
@@ -87,6 +87,8 @@ function CreateTicket() {
         status: yup.string().required('required'),
     });
 
+    const navigate = useNavigate();
+
     return (
         <>
             <div>
@@ -104,7 +106,7 @@ function CreateTicket() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="CREATE TICKET" subtitle="CREATE NEW TICKET" />
+                <AdminHeader title="Create Ticket" subtitle="Create a new Ticket" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
@@ -238,7 +240,15 @@ function CreateTicket() {
                                     )}
                                 </FormControl>
                             </Box>
-                            <Box display="flex" justifyContent="end" mt="20px">
+                            <Box display="flex" justifyContent="space-between" mt="20px">
+                                <Button
+                                    type="button"
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={() => navigate('/home/tickets')}
+                                >
+                                    VIEW TICKET
+                                </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE NEW TICKET
                                 </Button>

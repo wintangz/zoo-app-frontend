@@ -79,8 +79,8 @@ const Actions = ({ params, setRemove, accept }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete user</h2>
-                        <p id="parent-modal-description">Are you sure want to delete this animal?</p>
+                        <h2 id="parent-modal-title">Delete Animal</h2>
+                        <p id="parent-modal-description">Are you sure want to delete this Animal?</p>
                         <Button onClick={handleClose} color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Close</Button>
                         <Button
                             color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}

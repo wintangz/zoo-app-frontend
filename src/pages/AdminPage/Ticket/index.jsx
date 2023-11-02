@@ -82,7 +82,7 @@ function ViewTicket() {
     return (
         <Box m="20px">
 
-            <AdminHeader title="User Management" subtitle="Show user info" />
+            <AdminHeader title="View Ticket" subtitle="Table of Tickets" />
             <Box display="flex" justifyContent="left">
                 <Button
                     type="button"

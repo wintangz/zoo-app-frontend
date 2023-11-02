@@ -101,7 +101,7 @@ function CreateHealth() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Create Health Record" />
+                <AdminHeader title="Create Health Record" subtitle="Create a new Health Record" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>

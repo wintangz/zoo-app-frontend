@@ -62,7 +62,7 @@ function ViewDiet() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View Diets" subtitle="Show All Diets" />
+            <AdminHeader title="View Diets" subtitle="Table of Diets" />
             <Box display="flex" justifyContent="left">
                 <Button
                     type="button"

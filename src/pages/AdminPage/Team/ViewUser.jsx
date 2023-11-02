@@ -62,11 +62,11 @@ function Team() {
 
     if (userRole === 'ADMIN') {
         title = 'User Management';
-        subtitle = 'Show user info';
+        subtitle = 'Table of User';
         button = 'Create New Staff';
     } else if (userRole === 'STAFF') {
         title = 'Zoo Trainer Management';
-        subtitle = 'Show zoo trainer info';
+        subtitle = 'Table of Zoo Trainer Account';
         button = 'Create New Zoo Trainer';
     }
     const theme = useTheme();

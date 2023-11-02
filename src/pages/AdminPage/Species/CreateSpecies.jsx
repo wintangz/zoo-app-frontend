@@ -120,7 +120,7 @@ function CreateSpecies() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Create Species" subtitle="Create new species" />
+                <AdminHeader title="Create Species" subtitle="Create a new species" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>

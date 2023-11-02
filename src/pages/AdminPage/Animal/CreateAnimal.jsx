@@ -125,7 +125,7 @@ function CreateAnimal() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="CREATE ANIMAL" subtitle="Create a new animal" />
+                <AdminHeader title="Create Animal" subtitle="Create a new animal" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>

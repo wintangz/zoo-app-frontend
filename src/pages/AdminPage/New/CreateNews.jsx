@@ -130,7 +130,7 @@ function NewsPostForm() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Create News" subtitle="Create news content" />
+                <AdminHeader title="Create News" subtitle="Create a news content" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, handleBlur, handleChange, handleSubmit, setFieldValue, touched }) => (
                         <form onSubmit={handleSubmit} >

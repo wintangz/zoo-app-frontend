@@ -125,7 +125,7 @@
                     z-index: 20;
                     background-size: contain;
                     transform: scale(1.1);
-
+                    background-position: center;
                 }
             }
 
@@ -175,30 +175,6 @@
             .zone--container:hover::after {
                 z-index: 100;
                 opacity: 1;
-            }
-        }
-    }
-
-    .container_error {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        background-color: rgba(255, 255, 255, 0);
-
-        .loader {
-            height: 100px;
-            width: 100px;
-            border: 8px solid rgb(248, 191, 2);
-            border-radius: 50%;
-            border-right-color: white;
-            animation: spin 1s ease infinite;
-        }
-
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-                /* Corrected the spelling of transform and added 'deg' */
             }
         }
     }

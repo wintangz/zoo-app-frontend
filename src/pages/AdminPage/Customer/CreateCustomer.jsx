@@ -128,7 +128,7 @@ function CreateCustomer() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="CREATE CUSTOMER" subtitle="Create A New Customer Profile" />
+                <AdminHeader title="Create Customer" subtitle="Create A New Customer Profile" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
                         <form onSubmit={handleSubmit}>
@@ -348,7 +348,7 @@ function CreateCustomer() {
                                     variant="contained"
                                     onClick={() => navigate('/home/customers')}
                                 >
-                                    VIEW ALL CUSTOMERS
+                                    VIEW CUSTOMERS
                                 </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE NEW CUSTOMER

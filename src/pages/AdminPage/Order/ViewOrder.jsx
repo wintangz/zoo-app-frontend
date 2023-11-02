@@ -57,7 +57,7 @@ function ViewOrders() {
     ];
     return (
         <Box m="20px">
-            <AdminHeader title="View Orders" subtitle="Show All Orders" />
+            <AdminHeader title="View Orders" subtitle="Table of Orders" />
             <Box
                 m="20px 0 0 0"
                 height="75vh"
