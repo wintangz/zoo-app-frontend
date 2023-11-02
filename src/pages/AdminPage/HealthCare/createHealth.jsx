@@ -292,7 +292,7 @@ function CreateHealth() {
                                     )}
                                 </FormControl>
                             </Box>
-                            <Box display="flex" justifyContent="end" mt="20px">
+                            <Box display="flex" justifyContent="end" mt="20px" sx={{ justifyContent: 'space-between' }}>
                                 <Button
                                     type="button"
                                     color="secondary"
