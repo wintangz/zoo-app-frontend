@@ -16,6 +16,15 @@ export const createTicket = async (values) => {
         return error.response;
     }
 }
+
+export const deleteTicket = async (id) => {
+    try {
+        const res = await axiosClient.remove(`tickets/${id}`);
+        return res;
+    } catch (error) {
+        return error.response;
+    }
+}
 export const checkTicketByQr = async (text) => {
     try {
         const res = await axiosClient.get(`orders/verification${text}`);
