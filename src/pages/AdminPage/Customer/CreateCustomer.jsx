@@ -39,7 +39,7 @@ function CreateCustomer() {
         px: 4,
         pb: 3,
     };
-    const handleFormSubmit = async (values, { resetForm, setFailMessage }) => {
+    const handleFormSubmit = async (values) => {
         const inputDate = new Date(values.dateOfBirth);
 
         const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
@@ -70,8 +70,6 @@ function CreateCustomer() {
                 setOpen(true);
             }
         }
-        resetForm();
-
     };
 
 
@@ -111,7 +109,7 @@ function CreateCustomer() {
     });
 
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/customers');
     };
     return (
         <>
@@ -157,7 +155,7 @@ function CreateCustomer() {
                                 <TextField
                                     fullWidth
                                     variant="filled"
-                                    type="text"
+                                    type="password"
                                     label="Password"
                                     onBlur={handleBlur}
                                     onChange={handleChange}

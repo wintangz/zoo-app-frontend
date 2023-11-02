@@ -108,7 +108,7 @@ function UpdateHealth() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Update Health Record" />
+                <AdminHeader title="UPDATE HEALTH RECORD" subtitle="Health Record" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
@@ -253,8 +253,13 @@ function UpdateHealth() {
                                 <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
                             </Box>
                             <Box display="flex" justifyContent="end" mt="20px">
+                                <Button onClick={() => {
+                                    navigate("/home/animals/health")
+                                }} color="secondary" variant="contained">
+                                    VIEW HEALTH RECORD
+                                </Button>
                                 <Button type="submit" color="secondary" variant="contained">
-                                    UPDATE HEALTHCARE
+                                    UPDATE HEALTH RECORD
                                 </Button>
                             </Box>
                         </form>

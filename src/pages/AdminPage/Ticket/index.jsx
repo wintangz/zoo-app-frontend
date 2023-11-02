@@ -6,7 +6,9 @@ import { tokens } from '~/theme';
 import { getTickets } from '~/api/ticketService.js';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { useNavigate } from 'react-router-dom';
+import Actions from './actions';
 function ViewTicket() {
+    const [remove, setRemove] = useState(null);
     const [ticket, setTicket] = useState(null);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -19,7 +21,7 @@ function ViewTicket() {
             });
         };
         getTicketInfo();
-    }, []);
+    }, [remove]);
     let button = 'Create Ticket';
     const columns = [
         {
@@ -63,14 +65,19 @@ function ViewTicket() {
             headerAlign: 'left',
             align: 'left',
         },
-
-        // {
-        //     field: 'actions',
-        //     headerName: 'Actions',
-        //     type: 'actions',
-        //     width: 80,
-        //     renderCell: (params) => <Actions {...{ params }} />,
-        // },
+        {
+            field: 'status',
+            headerName: 'Status',
+            headerAlign: 'center',
+            align: 'center',
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            type: 'actions',
+            width: 80,
+            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
+        },
     ];
     return (
         <Box m="20px">

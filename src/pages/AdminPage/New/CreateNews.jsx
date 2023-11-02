@@ -40,7 +40,7 @@ function NewsPostForm() {
         title: '',
         shortDescription: '',
         content: '',
-        type: '',
+        type: 'Event',
         imgUrl: '',
         thumbnailUrl: '',
         status: true,
@@ -51,12 +51,7 @@ function NewsPostForm() {
     const userSchema = yup.object().shape({
         title: yup.string().required('Title is required'),
         shortDescription: yup.string().required('Short Description is required').max(250, "Short Description max is 250 words."),
-        content: yup.string(),
-        // .test('word-count', 'Content must have at least 10 words', (value) => {
-        //     if (!value) return false; // Empty content is not allowed
-        //     const wordCount = value.trim().split(/\s+/).length;
-        //     return wordCount <= 10;
-        // }),
+        content: yup.string().required('Content is required'),
         type: yup.string().required('Type is required'),
         imgUrl: yup
             .mixed()
@@ -70,7 +65,7 @@ function NewsPostForm() {
             .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type))
     });
 
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values) => {
         try {
             const submitValue = { ...values, content: editorContent };
             const imgURL = await uploadFile(submitValue.imgUrl, 'create-news');
@@ -81,12 +76,6 @@ function NewsPostForm() {
             const response = await createNews(submitValue);
             if (response.data.status === "Ok") {
                 setOpen(true);
-                resetForm({
-                    values: initialValues,
-                    errors: {},
-                    touched: {},
-                });
-                setEditorContent('');
             }
 
         } catch (error) {
@@ -95,7 +84,7 @@ function NewsPostForm() {
     };
 
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/news');
     };
     const modules = {
         toolbar: {
@@ -183,13 +172,8 @@ function NewsPostForm() {
                                             modules={modules}
                                             formats={formats}
                                             style={{ height: '25vh' }}
-                                            error={!!touched.content && !!errors.content}
-                                            helperText={touched.content && errors.content}
                                         />
                                     </Box>
-                                    {touched.content && errors.content && (
-                                        <div style={{ color: 'red', marginTop: '0.5rem' }}>{errors.content}</div>
-                                    )}
                                 </Box>
                                 <FormControl fullWidth variant="filled">
                                     <InputLabel id="type-label">Type</InputLabel>

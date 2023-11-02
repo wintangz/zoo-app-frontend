@@ -12,7 +12,6 @@ import {
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
 import moment from 'moment/moment';
@@ -46,7 +45,7 @@ function Form() {
     };
     const isNonMobile = useMediaQuery('(min-width: 600px)');
     const userRole = decode(localStorage.getItem('token')).roles[0];
-    const handleFormSubmit = async (values, { resetForm, setFailMessage }) => {
+    const handleFormSubmit = async (values) => {
         const formattedDateTime = formatDateTimeSubmit(values.dateOfBirth)
         // const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
         //     .toString()
@@ -74,7 +73,6 @@ function Form() {
                 console.log(response);
                 if (status === 200) {
                     setOpen(true);
-                    resetForm();
                 } else if (status === 400) {
                     response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
                         : document.getElementById('error-message').innerHTML = response.data.serverError
@@ -88,7 +86,6 @@ function Form() {
                 console.log(response)
                 if (status === 200) {
                     setOpen(true);
-                    resetForm();
                 }
             }
         }
@@ -154,7 +151,7 @@ function Form() {
     });
 
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/home');
     };
     return (
         <>
@@ -203,7 +200,7 @@ function Form() {
                                 <TextField
                                     fullWidth
                                     variant="filled"
-                                    type="text"
+                                    type="password"
                                     label="Password"
                                     onBlur={handleBlur}
                                     onChange={handleChange}

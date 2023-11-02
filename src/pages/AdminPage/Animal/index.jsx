@@ -70,9 +70,11 @@ function ViewAnimals() {
             headerAlign: 'center',
             align: 'left',
             flex: 1,
-            renderCell: (params) => (
-                <img src={params.row.imgUrl} alt={params.row.name} style={{ width: '75%', height: 'auto' }} />
-            ),
+            // renderCell: (params) => (
+            //     <img src={params.row.imgUrl} alt={params.row.name} style={{ width: '75%', height: 'auto' }} />
+
+            // ),
+            renderCell: (params) => (<div style={{ background: `url(${params.row.imgUrl}) no-repeat`, backgroundSize: 'cover', width: '100%', height: '100%' }}></div>)
         },
         {
             field: 'arrivalDate',
@@ -194,7 +196,12 @@ function ViewAnimals() {
                     getRowId={(row) => row.id}
                     components={{ Toolbar: GridToolbar }}
                     checkboxSelection
-                    disableRowSelectionOnClick
+                    initialState={{
+                        pagination: { paginationModel: { pageSize: 15 } },
+                    }}
+
+                    // checkboxSelection
+                    pageSizeOptions={[15, 30, 50]}
                 />}
             </Box>
         </Box>

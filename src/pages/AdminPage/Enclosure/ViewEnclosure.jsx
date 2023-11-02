@@ -92,11 +92,12 @@ function ViewEnclosure() {
         {
             field: 'imgUrl',
             headerName: 'Image',
-            headerAlign: 'left',
-            align: 'left',
+            headerAlign: 'center',
+            align: 'center',
             flex: 1,
             renderCell: (params) => (
-                <img src={params.row.imgUrl} alt={params.row.name} style={{ width: '75%', height: 'auto' }} />
+                <img src={params.row.imgUrl} alt={params.row.name} style={{ width: '80%', height: 'auto' }} />
+                // <div style={{ background: `url(${params.row.imgUrl}) no-repeat`, backgroundSize: 'cover', width: '80%', height: '500%' }}></div>
             ),
         },
         {

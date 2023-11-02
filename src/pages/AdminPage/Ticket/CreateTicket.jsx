@@ -15,6 +15,7 @@ import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createTicket } from '~/api/ticketService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
@@ -25,8 +26,9 @@ function CreateTicket() {
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
     const handleClose = () => {
-        setOpen(false);
+        navigate('/home/tickets');
     };
     const style = {
         position: 'absolute',
@@ -53,7 +55,6 @@ function CreateTicket() {
             const res = await createTicket(values);
             if (res.status === 'Ok') {
                 setOpen(true);
-                resetForm();
             }
             // Optionally, you can display a success message or perform other actions here
         } catch (error) {

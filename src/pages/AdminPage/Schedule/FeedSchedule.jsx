@@ -95,7 +95,7 @@ function FeedSchedule() {
                 </Modal>
             </div>
             <Box>
-                <AdminHeader title="CREATE FEEDING SCHEDULE" />
+                <AdminHeader title="CREATE FEEDING SCHEDULE" subtitle="FEEDING SCHEDULE" />
             </Box>
             <Box display="flex" sx={{ justifyContent: 'space-around' }}>
                 <Box sx={{ width: "45%" }}>

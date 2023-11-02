@@ -1,19 +1,15 @@
 import { useTheme } from "@emotion/react";
-import { tokens } from "~/theme";
-import * as yup from 'yup';
-import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
-import { Formik } from "formik";
 import { Box, Button, FormControl, Input, Modal, TextField, Typography, useMediaQuery } from "@mui/material";
 import MenuItem from '@mui/material/MenuItem';
-import { useEffect } from "react";
-import { getAllAnimals } from "~/api/animalsService";
-import { useState } from "react";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import moment from "moment";
-import uploadFile from "~/utils/transferFile";
-import { createHealthCare } from "~/api/healService";
+import { Formik } from "formik";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import * as yup from 'yup';
+import { getAllAnimals } from "~/api/animalsService";
+import { createHealthCare } from "~/api/healService";
+import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
+import { tokens } from "~/theme";
+import uploadFile from "~/utils/transferFile";
 function CreateHealth() {
     const navigate = useNavigate()
     const theme = useTheme({ isDashboard: false });
@@ -296,7 +292,15 @@ function CreateHealth() {
                                     )}
                                 </FormControl>
                             </Box>
-                            <Box display="flex" justifyContent="end" mt="20px">
+                            <Box display="flex" justifyContent="end" mt="20px" sx={{ justifyContent: 'space-between' }}>
+                                <Button
+                                    type="button"
+                                    color="secondary"
+                                    variant="contained"
+                                    onClick={() => navigate('/home/animals/health')}
+                                >
+                                    VIEW All NEWS
+                                </Button>
                                 <Button type="submit" color="secondary" variant="contained">
                                     CREATE NEW HEALTH CARE
                                 </Button>

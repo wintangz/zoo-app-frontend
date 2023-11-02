@@ -31,7 +31,7 @@ export const updateDiets = async (id, values) => {
         console.log(values)
 
         const res = await axiosClient.put(`diets/${id}`, values);
-        return res.data;
+        return res;
     } catch (error) {
         console.log(error)
     }

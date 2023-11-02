@@ -17,7 +17,7 @@ function ViewHealth() {
             setHealthCare(result)
         })
     }, [])
-
+    console.log(healthCare)
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
