@@ -2,6 +2,7 @@ import { useAppContext } from '~/context/Context';
 import RecommendCard from '~/pages/News/RecommendCard/recommendcard';
 import styles from './News.module.scss';
 import Pagination from './Pagination/Pagination';
+import Loader from "~/component/Layout/components/Loader/Loader"
 import React, { useState } from 'react';
 
 function News() {
@@ -12,11 +13,10 @@ function News() {
     const [selectedCategory, setSelectedCategory] = useState('Latest'); // Initialize with 'Latest'
 
     // Extract unique types from the newsResult
-    if (!newsResult) {
+    if (!newsResult || !recommendResult) {
         return (
-            <div className={styles.container_error}>
-                <div className={styles.loader}></div>
-            </div>);
+            <Loader />
+        );
     }
 
     // Extract unique types from the newsResult

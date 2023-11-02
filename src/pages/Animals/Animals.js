@@ -5,6 +5,7 @@ import AnimalBackground from './Components/AnimalBackground/AnimalBackground'
 import Sidebar from './Components/Sidebar/Sidebar';
 import AnimalWrapper from './Components/AnimalWrapper/AnimalWrapper';
 import AnimalProfile from './Components/AnimalProfile/AnimalProfile';
+import Loader from "~/component/Layout/components/Loader/Loader"
 import * as animalsService from '~/api/animalsService';
 
 function Animals() {
@@ -37,6 +38,12 @@ function Animals() {
 
     const memorizedAnimals = useMemo(() => animals, [animals]);
     const memorizedHabitats = useMemo(() => habitats, [habitats]);
+
+    if (!habitats && !animals) {
+        return (
+            <Loader />
+        );
+    }
 
     return (
         <div className={styles.container}>

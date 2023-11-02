@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./HabitatZone.module.scss";
 import Gallery from "../Gallery/Gallery";
 import classNames from "classnames/bind";
-import hoverImg from "~/assets/hover/PNG_image.png"
+import Loader from "~/component/Layout/components/Loader/Loader"
 import { Link, useParams } from "react-router-dom";
 
 import { getHabitats, getHabitatById } from '~/api/animalsService';
@@ -52,9 +52,8 @@ function HabitatZone() {
 
     if (!habitats) {
         return (
-            <div className={styles.container_error}>
-                <div className={styles.loader}></div>
-            </div>);
+            <Loader />
+        );
     }
 
     return (
