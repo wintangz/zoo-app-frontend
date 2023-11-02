@@ -106,7 +106,7 @@ function CreateTicket() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="CREATE TICKET" subtitle="CREATE NEW TICKET" />
+                <AdminHeader title="Create Ticket" subtitle="Create a new Ticket" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
