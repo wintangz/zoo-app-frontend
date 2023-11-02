@@ -130,7 +130,7 @@ function CreateHabitat() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="CREATE HABITAT" subtitle="Create a new habitat" />
+                <AdminHeader title="Create Habitat" subtitle="Create a new habitat" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>

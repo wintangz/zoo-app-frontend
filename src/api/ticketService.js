@@ -25,6 +25,15 @@ export const deleteTicket = async (id) => {
         return error.response;
     }
 }
+
+export const updateTicket = async (id, values) => {
+    try {
+        const res = await axiosClient.put(`tickets/${id}`, values);
+        return res;
+    } catch (error) {
+        return error.response;
+    }
+}
 export const checkTicketByQr = async (text) => {
     try {
         const res = await axiosClient.get(`orders/verification${text}`);

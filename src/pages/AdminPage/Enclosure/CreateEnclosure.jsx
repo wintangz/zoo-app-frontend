@@ -125,7 +125,7 @@ function CreateEnclosure() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="CREATE ENCLOSURE" subtitle="Create a new Enclosure" />
+                <AdminHeader title="Create Enclosure" subtitle="Create a new Enclosure" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>

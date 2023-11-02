@@ -1,27 +1,17 @@
-import {
-    Box,
-    Button,
-    FormControl,
-    FormControlLabel,
-    Input,
-    Radio,
-    RadioGroup,
-    TextField,
-    Typography,
-    useTheme,
-} from '@mui/material';
+import { useTheme } from "@emotion/react";
+import { Box, Button, FormControl, FormControlLabel, Input, Modal, Radio, RadioGroup, TextField, Typography, useMediaQuery } from "@mui/material";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { updateTicket } from "~/api/ticketService";
+import { tokens } from "~/theme";
+import uploadFile from "~/utils/transferFile";
+import * as yup from "yup";
+import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
+import { Formik } from "formik";
 import MenuItem from '@mui/material/MenuItem';
-import Modal from '@mui/material/Modal';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { Formik } from 'formik';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { createTicket } from '~/api/ticketService';
-import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
-import { tokens } from '~/theme';
-import uploadFile from '~/utils/transferFile';
-function CreateTicket() {
+
+function UpdateTicket() {
+    const location = useLocation()
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
@@ -43,16 +33,17 @@ function CreateTicket() {
         px: 4,
         pb: 3,
     };
-    // -------------------------------- Generate unique name for file    ------------------------------------------------//
 
     const handleFormSubmit = async (values, { resetForm }) => {
         try {
-            const imgURL = await uploadFile(values.imgUrl, 'tickets'); // Wait for the file upload to complete
-            values.imgUrl = imgURL;
+            if (values.imgUrl instanceof File) {
+                const imgURL = await uploadFile(values.imgUrl, 'tickets');
+                values.imgUrl = imgURL;
+            }
             console.log(values);
 
-            const res = await createTicket(values);
-            if (res.status === 'Ok') {
+            const res = await updateTicket(location.state.id, values);
+            if (res.status === 200) {
                 setOpen(true);
             }
             // Optionally, you can display a success message or perform other actions here
@@ -61,16 +52,18 @@ function CreateTicket() {
             // Handle errors if needed
         }
     };
+    console.log(location.state)
 
     const isNonMobile = useMediaQuery('(min-width: 600px)');
     const initialValues = {
-        name: '',
-        price: '',
-        type: 'Children',
-        description: '',
-        imgUrl: '',
-        status: '',
+        name: location.state.name,
+        price: location.state.price,
+        type: location.state.type,
+        description: location.state.description,
+        imgUrl: location.state.imgUrl,
+        status: location.state.status,
     };
+
     const FILE_SIZE = 1920 * 1080;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const ticketType = [{ label: 'Children' }, { label: 'Adult' }, { label: 'Elder' }];
@@ -81,9 +74,20 @@ function CreateTicket() {
         description: yup.string().required('required'),
         imgUrl: yup
             .mixed()
-            .required('A file is required')
-            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
-            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+            .notRequired()
+            .nullable()
+            .test('is-file', 'Invalid file', function (value) {
+                if (typeof value === 'string') {
+                    return true;
+                }
+                if (value === null || value === undefined) {
+                    return true;
+                }
+                if (value instanceof File) {
+                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+                }
+                return false;
+            }),
         status: yup.string().required('required'),
     });
 
@@ -97,8 +101,8 @@ function CreateTicket() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Create new ticket successfully!</h2>
-                        <p id="parent-modal-description">New ticket have been add to DataBase!</p>
+                        <h2 id="parent-modal-title">Update ticket successfully!</h2>
+                        <p id="parent-modal-description">Ticket have been update to DataBase!</p>
                         <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
@@ -154,7 +158,7 @@ function CreateTicket() {
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     name="type"
-                                    defaultValue="Children"
+                                    defaultValue={location.state.type}
                                     sx={{
                                         gridColumn: 'span 2',
                                     }}
@@ -245,7 +249,7 @@ function CreateTicket() {
                                     VIEW ALL TICKET
                                 </Button>
                                 <Button type="submit" color="secondary" variant="contained">
-                                    CREATE NEW TICKET
+                                    UPDATE TICKET
                                 </Button>
                             </Box>
                         </form>
@@ -256,4 +260,4 @@ function CreateTicket() {
     );
 }
 
-export default CreateTicket;
+export default UpdateTicket;

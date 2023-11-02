@@ -118,7 +118,7 @@ function UpdateHabitat() {
                     </Box>
                 </Modal>
             </div>
-            <Box>
+            <Box m="20px">
                 <AdminHeader title="Update Habitat" subtitle="Update your Habitat" />
             </Box>
 
@@ -231,7 +231,7 @@ function UpdateHabitat() {
                                         </Typography>
                                         <Input
                                             type="file"
-                                            label="imgUrl"
+                                            label="Img Url"
                                             onBlur={handleBlur}
                                             onChange={(e) => {
                                                 setFieldValue('imgUrl', e.currentTarget.files[0]);
@@ -246,7 +246,7 @@ function UpdateHabitat() {
                                         </Typography>
                                         <Input
                                             type="file"
-                                            label="bannerUrl"
+                                            label="Banner Url"
                                             onBlur={handleBlur}
                                             onChange={(e) => {
                                                 setFieldValue('bannerUrl', e.currentTarget.files[0]);
