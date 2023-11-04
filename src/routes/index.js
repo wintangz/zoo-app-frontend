@@ -25,6 +25,7 @@ import BannerLayout from '~/component/Layout/BannerLayout/BannerLayout';
 import ViewAnimals from '~/pages/AdminPage/Animal';
 import AssignAnimal from '~/pages/AdminPage/Animal/AssignAnimal';
 import CreateAnimal from '~/pages/AdminPage/Animal/CreateAnimal';
+import UnassignAnimal from '~/pages/AdminPage/Animal/UnassignAnimal';
 import History from '~/pages/AdminPage/Animal/history';
 import UpdateAnimal from '~/pages/AdminPage/Animal/update';
 import Calendar from '~/pages/AdminPage/Calendar';
@@ -49,6 +50,7 @@ import CreateHealth from '~/pages/AdminPage/HealthCare/createHealth';
 import UpdateHealth from '~/pages/AdminPage/HealthCare/updateHealth';
 import ViewHealth from '~/pages/AdminPage/HealthCare/viewHealth';
 import NewsPostForm from '~/pages/AdminPage/New/CreateNews';
+import SingleNewsView from '~/pages/AdminPage/New/EachNews';
 import ViewNews from '~/pages/AdminPage/New/News';
 import UpdateNews from '~/pages/AdminPage/New/UpdateNews';
 import ViewOrdersTickets from '~/pages/AdminPage/Order/ViewAllPurchasedTickets';
@@ -64,12 +66,11 @@ import EditProfile from '~/pages/AdminPage/Team/EditProfile';
 import UpdateStaff from "~/pages/AdminPage/Team/UpdateStaff";
 import Team from '~/pages/AdminPage/Team/ViewUser';
 import { default as ViewTicket } from '~/pages/AdminPage/Ticket';
+import CreateTicket from '~/pages/AdminPage/Ticket/CreateTicket';
+import UpdateTicket from '~/pages/AdminPage/Ticket/updateTicket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import Order from '~/pages/Order/Order';
 import ThankYouPage from '~/pages/Ticket/Thanks';
-import UnassignAnimal from '~/pages/AdminPage/Animal/UnassignAnimal';
-import CreateTicket from '~/pages/AdminPage/Ticket/CreateTicket';
-import UpdateTicket from '~/pages/AdminPage/Ticket/updateTicket';
 
 
 const publicRoutes = [
@@ -108,6 +109,7 @@ const publicRoutes = [
     { path: 'home/customers/create', component: CreateCustomer, layout: AdminMainPage, name: 'CreateCustomer', Authen: "private" },
 
     { path: 'home/news', component: ViewNews, layout: AdminMainPage, name: 'ViewNews', Authen: "private" },
+    { path: 'home/news/:homeNewsId', component: SingleNewsView, layout: AdminMainPage, name: 'SingleNewsView', Authen: "private" },
     { path: 'home/news/create', component: NewsPostForm, layout: AdminMainPage, name: 'CreateNews', Authen: "private" },
     { path: 'home/news/update/:newsId', component: UpdateNews, layout: AdminMainPage, name: 'UpdateNews', Authen: "private" },
 

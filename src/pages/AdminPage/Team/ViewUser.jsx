@@ -10,7 +10,6 @@ import * as mockData from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
-import { formatDate } from '~/utils/dateTimeFormat';
 import { getUsersWithRoles } from '~/utils/getUserByRole';
 import Actions from './actions';
 
@@ -18,6 +17,15 @@ function Team() {
     const navigate = useNavigate();
 
     const [users, setUsers] = useState(null);
+    function formatDate(originalDate) {
+        const date = new Date(originalDate);
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        const formattedDate = `${day}/${month}/${year}`;
+
+        return formattedDate;
+    }
     const fetchapi = async () => {
         const result = await mockData.getUser();
         result.map((element) => {
@@ -35,9 +43,13 @@ function Team() {
 
     const getZooTrainer = async () => {
         const result = await mockData.getZooTrainer();
-        console.log(result);
+        result.map((element) => {
+            const formattedDate = formatDate(element.dateOfBirth);
+            return element.dateOfBirth = formattedDate;
+        });
         const mdata = getUsersWithRoles(result, ['ZOO_TRAINER']);
         setUsers(mdata);
+
     };
     const [remove, setRemove] = useState(null);
 

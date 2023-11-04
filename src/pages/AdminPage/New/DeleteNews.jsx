@@ -1,12 +1,11 @@
 import { Delete, Edit } from '@mui/icons-material';
 import { Box, Button, IconButton, Modal, Tooltip, useTheme } from '@mui/material';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { deleteNews } from '~/api/newsService';
 import { tokens } from '~/theme';
 
 const Actions = ({ params, setRemove }) => {
-    let navigate = useNavigate();
     const [message, setMessage] = useState(false);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
