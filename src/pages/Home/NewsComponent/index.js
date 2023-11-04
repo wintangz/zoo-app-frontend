@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { getNews } from '~/api/newsService';
 import ImageSlider from './imageSlider.js';
 import styles from './styles.module.scss';
+import { formatDateTime } from '~/utils/dateTimeFormat.js';
 const cx = classNames.bind(styles);
 function News() {
     const [post, setPost] = useState()
@@ -31,8 +32,8 @@ function News() {
                 posts.push({
                     id: post.id,
                     name: post.title,
-                    date: post.createdDate,
-                    path: post.id,
+                    date: formatDateTime(new Date(post.createdDate)),
+                    path: `/news/${post.id}/${post.title}`,
                 })
             }
         })

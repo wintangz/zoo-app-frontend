@@ -92,6 +92,7 @@ function EditProfile() {
         } else if (values.sex === 'female') {
             values.sex = false;
         }
+        console.log(values);
         const res = updateUser(userId, values);
         res.then((result) => {
             const status = result.status;
@@ -112,7 +113,9 @@ function EditProfile() {
         nationality: users?.nationality || '',
         phone: users?.phone || '',
         email: users?.email || '',
+        status: users?.status || false,
     };
+    console.log(users);
 
     //****************************** VALIDATION ********************************
     const phoneRegExp = /^\s*(?:\+?(\d{1,3}))?[- (]*(\d{3})[- )]*(\d{3})[- ]*(\d{4})(?: *[x/#]{1}(\d+))?\s*$/;
@@ -125,6 +128,7 @@ function EditProfile() {
         nationality: yup.string().required('required'),
         phone: yup.string().matches(phoneRegExp, 'Phone numbers is not valid').required('required'),
         email: yup.string().email('Invalid email').required('required'),
+        status: yup.string().required('required'),
     });
 
     //------------------ROLE------------------------------
@@ -297,6 +301,48 @@ function EditProfile() {
                                                 }}
                                             />
                                         </LocalizationProvider>
+                                    </FormControl>
+
+                                    <FormControl
+                                        component="fieldset"
+                                        width="75%"
+                                        sx={{
+                                            gridColumn: 'span 1',
+                                        }}
+                                        label="Status"
+                                    >
+                                        <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
+                                            Status
+                                        </Typography>
+                                        <RadioGroup
+                                            aria-label="Status"
+                                            name="status"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            defaultValue=" "
+                                            value={values.status}
+                                            sx={{ display: 'inline-block' }}
+                                            label="Status"
+                                        >
+                                            <FormControlLabel
+                                                value={true}
+                                                control={
+                                                    <Radio
+                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                    />
+                                                }
+                                                label="True"
+                                            />
+                                            <FormControlLabel
+                                                value={false}
+                                                control={
+                                                    <Radio
+                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                    />
+                                                }
+                                                label="False"
+                                            />
+                                        </RadioGroup>
                                     </FormControl>
 
                                     <TextField
