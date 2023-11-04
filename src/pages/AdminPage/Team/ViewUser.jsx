@@ -37,8 +37,10 @@ function Team() {
             const formattedDate = formatDate(element.dateOfBirth);
             return element.dateOfBirth = formattedDate;
         });
-        setUsers(result);
-        console.log(users);
+        const filterResult = result.filter((element) => {
+            return element.id !== Number.parseInt(decode(localStorage.getItem('token')).sub)
+        })
+        setUsers(filterResult);
     };
 
     const getZooTrainer = async () => {
@@ -75,7 +77,7 @@ function Team() {
     if (userRole === 'ADMIN') {
         title = 'User Management';
         subtitle = 'Table of User';
-        button = 'Create New Staff';
+        button = 'Create New User';
     } else if (userRole === 'STAFF') {
         title = 'Zoo Trainer Management';
         subtitle = 'Table of Zoo Trainer Account';
@@ -154,6 +156,11 @@ function Team() {
                     </Box>
                 );
             },
+        },
+        {
+            field: 'status',
+            headerName: 'Status',
+            valueGetter: (params) => { return params.row.status ? "True" : "False" }
         },
         {
             field: 'actions',
