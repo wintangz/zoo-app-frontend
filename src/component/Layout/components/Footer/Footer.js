@@ -105,7 +105,7 @@ function Footer() {
                             })}>
                                 <div className={cx('recent-posts-img')} style={{ background: `url(${post.thumbnailUrl}) no-repeat`, backgroundSize: 'cover' }}></div>
                                 <div className={cx('recent-content')}>
-                                    <a className="recent-title" href="google.com">
+                                    <a className="recent-title" href={`/news/${post.id}/${post.title}`}>
                                         {post.title}
                                     </a>
                                     <p className="recent-date">
@@ -134,13 +134,13 @@ function Footer() {
                         </div>
                         <div className="footer-right">
                             <div className="copy-right-text ">
-                                <a href="google.com">About Us</a> <div className="copy-button" />
+                                <Link to="/about">About Us</Link> <div className="copy-button" />
                             </div>
                             <div className="copy-right-text ">
-                                <a href="google.com">Gallery</a> <div className="copy-button" />
+                                <Link to="/habitats">Gallery</Link> <div className="copy-button" />
                             </div>
                             <div className="copy-right-text ">
-                                <a href="google.com">Contact Us</a>
+                                <Link to="/about">Contact Us</Link>
                             </div>
                         </div>
                     </div>

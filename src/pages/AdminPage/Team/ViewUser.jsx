@@ -63,7 +63,7 @@ function Team() {
     if (userRole === 'ADMIN') {
         title = 'User Management';
         subtitle = 'Table of User';
-        button = 'Create New Staff';
+        button = 'Create New User';
     } else if (userRole === 'STAFF') {
         title = 'Zoo Trainer Management';
         subtitle = 'Table of Zoo Trainer Account';

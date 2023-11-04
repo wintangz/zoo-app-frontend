@@ -67,15 +67,31 @@ function Form() {
             values.sex = false;
         }
         if (userRole === 'ADMIN') {
-            const response = await createStaff(values);
-            if (response) {
-                const status = response.status;
-                console.log(response);
-                if (status === 200) {
-                    setOpen(true);
-                } else if (status === 400) {
-                    response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
-                        : document.getElementById('error-message').innerHTML = response.data.serverError
+            if (values.role === "STAFF") {
+                delete values.role;
+                const response = await createStaff(values);
+                if (response) {
+                    const status = response.status;
+                    console.log(response);
+                    if (status === 200) {
+                        setOpen(true);
+                    } else if (status === 400) {
+                        response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
+                            : document.getElementById('error-message').innerHTML = response.data.serverError
+                    }
+                }
+            } else if (values.role === 'ZOO_TRAINER') {
+                delete values.role;
+                const response = await createZooTrainer(values);
+                if (response) {
+                    const status = response.status;
+                    console.log(response)
+                    if (status === 200) {
+                        setOpen(true);
+                    } else if (status === 400) {
+                        response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
+                            : document.getElementById('error-message').innerHTML = response.data.serverError
+                    }
                 }
             }
         }
@@ -86,6 +102,9 @@ function Form() {
                 console.log(response)
                 if (status === 200) {
                     setOpen(true);
+                } else if (status === 400) {
+                    response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
+                        : document.getElementById('error-message').innerHTML = response.data.serverError
                 }
             }
         }
@@ -103,7 +122,7 @@ function Form() {
     if (userRole === 'ADMIN') {
         modalTitle = 'Create new staff successfully!';
         description = 'New staff have been add to DataBase!';
-        button = 'CREATE NEW STAFF';
+        button = 'CREATE NEW USER';
         button1 = 'VIEW ALL USER';
         title = 'Create User';
         subtitle = 'Create a New User Profile';
@@ -126,6 +145,7 @@ function Form() {
         nationality: '',
         phone: '',
         email: '',
+        role: 'STAFF',
     };
 
     const userSchema = yup.object().shape({
@@ -148,10 +168,11 @@ function Form() {
             .required('Phone Number is required')
             .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/, 'Invalid phone number format'),
         email: yup.string().email('Invalid email address').required('Email is required'),
+        role: yup.string().required('Role is required')
     });
 
     const handleClose = () => {
-        navigate('/home/home');
+        navigate('/home');
     };
     return (
         <>
@@ -182,6 +203,50 @@ function Form() {
                                     '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
                                 }}
                             >
+                                <FormControl
+                                    component="fieldset"
+                                    width="75%"
+                                    sx={{
+                                        gridColumn: 'span 4',
+                                    }}
+                                    label="Gender"
+                                >
+                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
+                                        Role
+                                    </Typography>
+                                    <RadioGroup
+                                        aria-label="role"
+                                        name="role"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.role}
+                                        sx={{ display: 'inline-block' }}
+                                        label="Role"
+                                    >
+                                        <FormControlLabel
+                                            value="STAFF"
+                                            control={
+                                                <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
+                                            }
+                                            label="Staff"
+                                        />
+                                        <FormControlLabel
+                                            value="ZOO_TRAINER"
+                                            control={
+                                                <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
+                                            }
+                                            label="Zoo trainer"
+                                        />
+                                        <FormControlLabel
+                                            value="CUSTOMER"
+                                            control={
+                                                <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
+                                            }
+                                            label="Customer"
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
+
                                 <TextField
                                     fullWidth
                                     variant="filled"
