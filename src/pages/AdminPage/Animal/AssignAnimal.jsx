@@ -74,7 +74,7 @@ function AssignAnimal(props) {
                     </Box>
                 </Modal>
             </div>
-            <Box>
+            <Box m="28px">
                 <AdminHeader title="ASSIGN ANIMAL" subtitle="Assign animal to zoo trainer" />
             </Box>
             <Box display="flex" sx={{ justifyContent: 'space-around' }} >

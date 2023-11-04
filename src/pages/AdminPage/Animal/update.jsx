@@ -128,7 +128,7 @@ function UpdateAnimal() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Update Animal" />
+                <AdminHeader title="Update Animal" subtitle="Update animal to database" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>

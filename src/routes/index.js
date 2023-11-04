@@ -69,6 +69,7 @@ import Order from '~/pages/Order/Order';
 import ThankYouPage from '~/pages/Ticket/Thanks';
 import UnassignAnimal from '~/pages/AdminPage/Animal/UnassignAnimal';
 import CreateTicket from '~/pages/AdminPage/Ticket/CreateTicket';
+import UpdateTicket from '~/pages/AdminPage/Ticket/updateTicket';
 
 
 const publicRoutes = [
@@ -101,6 +102,7 @@ const publicRoutes = [
     { path: 'home/settings/profile', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/tickets', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
     { path: 'home/tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
+    { path: 'home/tickets/update', component: UpdateTicket, layout: AdminMainPage, name: 'updateticket', Authen: "private" },
 
     { path: 'home/customers', component: ViewCustomers, layout: AdminMainPage, name: 'ViewCustomers', Authen: "private" },
     { path: 'home/customers/create', component: CreateCustomer, layout: AdminMainPage, name: 'CreateCustomer', Authen: "private" },

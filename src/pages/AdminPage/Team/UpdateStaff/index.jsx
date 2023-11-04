@@ -145,8 +145,8 @@ function EditProfile() {
                     </Box>
                 </Modal>
             </div>
-            <Box>
-                <AdminHeader title="Update Zoo Trainer" />
+            <Box m="20px">
+                <AdminHeader title="Update User" subtitle="Update user to database" />
             </Box>
 
             <>

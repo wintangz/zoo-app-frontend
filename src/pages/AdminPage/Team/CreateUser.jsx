@@ -105,7 +105,7 @@ function Form() {
         description = 'New staff have been add to DataBase!';
         button = 'CREATE NEW STAFF';
         button1 = 'VIEW ALL USER';
-        title = 'CREATE USER';
+        title = 'Create User';
         subtitle = 'Create a New User Profile';
     } else if (userRole === 'STAFF') {
         modalTitle = 'Create new Zoo Trainer successfully!';

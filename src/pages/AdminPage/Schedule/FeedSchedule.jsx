@@ -94,7 +94,7 @@ function FeedSchedule() {
                     </Box>
                 </Modal>
             </div>
-            <Box>
+            <Box m="30px">
                 <AdminHeader title="Create Feeding Schedule" subtitle="Create a new Feeding Schedule" />
             </Box>
             <Box display="flex" sx={{ justifyContent: 'space-around' }}>
@@ -178,7 +178,7 @@ function FeedSchedule() {
                     </Box>
                 </Box>
                 <Box sx={{ width: "45%" }}>
-                    <Typography variant="h4" color={colors.primary[200]} sx={{ width: '100%' }}>
+                    <Typography variant="h4" color={colors.grey[100]} sx={{ width: '100%' }}>
                         Feeding Schedule for Animal
                     </Typography>
                     <FormControl style={{ width: '100%', paddingTop: '12px', paddingBottom: '32px' }}>
