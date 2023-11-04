@@ -20,7 +20,10 @@ function ViewNews() {
     useEffect(() => {
         fetchApi();
     }, [remove]);
-
+    const handleRowDoubleClick = (params) => {
+        const homeNewsId = params.row.id;
+        navigate(`/home/news/${homeNewsId}`);
+    };
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [
@@ -136,7 +139,7 @@ function ViewNews() {
                         columns={columns}
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}
-                    // checkboxSelection
+                        onRowDoubleClick={handleRowDoubleClick}
                     />
                 )}
             </Box>
