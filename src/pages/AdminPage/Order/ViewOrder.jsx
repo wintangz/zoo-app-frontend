@@ -7,8 +7,21 @@ import { tokens } from '~/theme';
 
 function ViewOrders() {
     const [ordersResult, setOrdersResult] = useState(null);
+    function formatDate(originalDate) {
+        const date = new Date(originalDate);
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        const formattedDate = `${day}/${month}/${year}`;
+
+        return formattedDate;
+    }
     const fetchApi = async () => {
         const resultTitle = await getOrders();
+        resultTitle.map((element) => {
+            const formattedDate = formatDate(element.createdDate);
+            return element.createdDate = formattedDate;
+        });
         console.log(resultTitle);
         setOrdersResult(resultTitle);
     };

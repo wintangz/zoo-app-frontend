@@ -28,19 +28,35 @@ function ViewOrdersTickets() {
         },
         {
             field: 'ticket',
-            headerName: 'Ticket',
+            headerName: 'Ticket Type',
             headerAlign: 'left',
             align: 'left',
-            flex: 1,
+            flex: 0.5,
             valueGetter: (params) => `${params.row.ticket?.name}`
         },
         {
-            field: 'order',
+            field: 'customer',
             headerName: 'Customer',
             headerAlign: 'left',
             align: 'left',
-            flex: 1,
-            valueGetter: (params) => `${params.row.order.customer.username}`,
+            flex: 0.5,
+            valueGetter: (params) => `${params.row.order.customer.lastname} ${params.row.order.customer.firstname}`,
+        },
+        {
+            field: 'order',
+            headerName: 'Order ID',
+            headerAlign: 'left',
+            align: 'left',
+            flex: 0.3,
+            valueGetter: (params) => `${params.row.order.id}`,
+        },
+        {
+            field: 'createDate',
+            headerName: 'Date',
+            headerAlign: 'left',
+            align: 'left',
+            flex: 0.3,
+            valueGetter: (params) => `${params.row.order.createdDate}`,
         },
         {
             field: 'checkedBy',
@@ -48,7 +64,10 @@ function ViewOrdersTickets() {
             headerAlign: 'left',
             align: 'left',
             flex: 0.5,
-            valueGetter: (params) => `${params.row.checkedBy?.username}`,
+            valueGetter: (params) => {
+                const username = params.row.checkedBy?.username;
+                return username !== undefined ? username : "Not checked yet";
+            }
         },
         {
             field: 'checked',
@@ -56,6 +75,10 @@ function ViewOrdersTickets() {
             headerAlign: 'left',
             align: 'left',
             flex: 0.5,
+            valueGetter: (params) => {
+                const checked = params.row.checked;
+                return checked ? "Checked" : "Not checked";
+            }
         },
     ];
     return (

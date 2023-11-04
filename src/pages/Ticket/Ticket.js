@@ -62,12 +62,10 @@ function Ticket() {
         setShowForgotPassword(false);
     };
     const handleIncreaseQuantity = (price) => {
-        // console.log(price)
         setTotalQuantity(prev => prev + 1)
         setTotalPrice(prev => prev + Number(price))
     }
     const handleReduceQuantity = (price) => {
-        // console.log(totalQuantity)
         setTotalQuantity(prev => prev - 1)
         setTotalPrice(prev => prev - Number(price))
     }
@@ -108,7 +106,7 @@ function Ticket() {
                                 />
                             );
                         }
-                        return null; // or any other content you want when status is false
+                        return null;
                     })}
 
                     <tr className={`${styles.table_row} ${styles.total}`}>
@@ -122,7 +120,7 @@ function Ticket() {
                 {/* {auth ? <Link to="/summary" className={styles.btn}>Checkout</Link>
                     : <Link onClick={() => setOpen(true)} className={styles.btn}>Checkout</Link>
                 } */}
-                <Link to={localStorage.getItem("token") ? "/summary" : undefined} onClick={localStorage.getItem("token") ? undefined : (event) => handleLoginFormClick(event)} className={styles.btn}>
+                <Link to={localStorage.getItem("token") && totalPrice != null && totalPrice !== 0 ? "/summary" : undefined} onClick={localStorage.getItem("token") ? undefined : (event) => handleLoginFormClick(event)} className={styles.btn}>
                     Check Out
                 </Link>
                 {showLogin && <LoginForm

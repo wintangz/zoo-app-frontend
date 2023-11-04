@@ -1,20 +1,19 @@
-import { Avatar, Box, Dialog, DialogContent, FormControl, IconButton, Input, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Dialog, DialogContent, FormControl, Input, Typography, useTheme } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { Menu, MenuItem, ProSidebar } from 'react-pro-sidebar';
 
+import BookOnlineIcon from '@mui/icons-material/BookOnline';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ForestIcon from '@mui/icons-material/Forest';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HouseSidingIcon from '@mui/icons-material/HouseSiding';
-import BookOnlineIcon from '@mui/icons-material/BookOnline';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import PetsIcon from '@mui/icons-material/Pets';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -281,7 +280,7 @@ const Sidebar = () => {
                                 <Item
                                     title="Customers"
                                     to="/home/customers"
-                                    icon={<AccountCircleIcon />}
+                                    icon={<PeopleOutlinedIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
@@ -300,7 +299,7 @@ const Sidebar = () => {
                                     setSelected={setSelected}
                                 />
                                 <Item
-                                    title="View Purchased Tickets"
+                                    title="Purchased Tickets"
                                     to="/home/purchased_tickets"
                                     icon={<BookOnlineIcon />}
                                     selected={selected}
