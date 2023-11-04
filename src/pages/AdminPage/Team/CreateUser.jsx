@@ -18,7 +18,7 @@ import moment from 'moment/moment';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { createStaff, createZooTrainer } from '~/api/userService';
+import { createCustomer, createStaff, createZooTrainer } from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
@@ -93,6 +93,19 @@ function Form() {
                             : document.getElementById('error-message').innerHTML = response.data.serverError
                     }
                 }
+            } else if (values.role === 'CUSTOMER') {
+                delete values.role;
+                const response = await createCustomer(values);
+                if (response) {
+                    const status = response.status;
+                    console.log(response)
+                    if (status === 200) {
+                        setOpen(true);
+                    } else if (status === 400) {
+                        response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
+                            : document.getElementById('error-message').innerHTML = response.data.serverError
+                    }
+                }
             }
         }
         if (userRole === 'STAFF') {
@@ -120,8 +133,8 @@ function Form() {
     let subtitle = '';
 
     if (userRole === 'ADMIN') {
-        modalTitle = 'Create new staff successfully!';
-        description = 'New staff have been add to DataBase!';
+        modalTitle = 'Create new user successfully!';
+        description = 'New user have been add to DataBase!';
         button = 'CREATE NEW USER';
         button1 = 'VIEW ALL USER';
         title = 'Create User';
@@ -203,7 +216,7 @@ function Form() {
                                     '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
                                 }}
                             >
-                                <FormControl
+                                {userRole === "ADMIN" && <FormControl
                                     component="fieldset"
                                     width="75%"
                                     sx={{
@@ -245,7 +258,7 @@ function Form() {
                                             label="Customer"
                                         />
                                     </RadioGroup>
-                                </FormControl>
+                                </FormControl>}
 
                                 <TextField
                                     fullWidth

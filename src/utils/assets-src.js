@@ -20,5 +20,6 @@ export const icon3 = "https://zoowebstorage.blob.core.windows.net/animals/assets
 export const icon4 = "https://zoowebstorage.blob.core.windows.net/animals/assets/icon/ele.png";
 export const icon5 = "https://zoowebstorage.blob.core.windows.net/animals/assets/icon/zebra.png";
 
+export const About = "https://zoowebstorage.blob.core.windows.net/animals/img/5642829.jpg"
 // Home page end -------------------------------------------------------------
 

@@ -273,9 +273,17 @@ function AssignAnimal(props) {
 
                 </Box>
             </Box>
-            <Button type="submit" color="secondary" variant="contained" sx={{ float: "right", margin: "20px 30px 0 20px" }} onClick={handleSubmit}>
-                EDIT ACCOUNT
-            </Button>
+            <Box display="flex" sx={{ justifyContent: "space-between" }}>
+                <Button onClick={() => {
+                    navigate("/home/animals")
+                }} color="secondary" variant="contained" sx={{ float: "right", margin: "20px 30px 0 20px" }}>
+                    VIEW ANIMALS
+                </Button>
+                <Button type="submit" color="secondary" variant="contained" sx={{ float: "right", margin: "20px 30px 0 20px" }} onClick={handleSubmit}>
+                    ASSIGN
+                </Button>
+
+            </Box>
         </>
     );
 }

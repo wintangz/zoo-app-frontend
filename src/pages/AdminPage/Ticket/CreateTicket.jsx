@@ -76,7 +76,7 @@ function CreateTicket() {
     const ticketType = [{ label: 'Children' }, { label: 'Adult' }, { label: 'Elder' }];
     const userSchema = yup.object().shape({
         name: yup.string().required('required'),
-        price: yup.string().required('required'),
+        price: yup.number().required('Price is required'),
         type: yup.string().required('required'),
         description: yup.string().required('required'),
         imgUrl: yup
