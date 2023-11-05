@@ -1,25 +1,15 @@
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import styles from './About.module.scss';
 import { About as AboutImg } from '~/utils/assets-src';
+import RegisterForm from '~/component/Layout/components/RegisterForm/RegisterForm';
+import { useState } from 'react';
 
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import { FaMapLocationDot } from 'react-icons/fa6';
 import { IoIosMailUnread } from 'react-icons/io';
-import { HandleOpenClose } from '~/component/Layout/components/HandleOpenClose';
 function About() {
-    const {
-        showLogin,
-        showRegister,
-        showForgotPassword,
 
-        handleLoginFormClick,
-        handleRegisterFormClick,
-        handleForgotPasswordFormClick,
-
-        handleCloseLogin,
-        handleCloseRegister,
-        handleCloseForgotPassword,
-    } = HandleOpenClose();
+    const [showRegisterForm, setShowRegisterForm] = useState(false);
     return (
 
         <>
@@ -87,7 +77,7 @@ function About() {
                                     justifyContent: "center",
                                     alignItems: "center",
                                     ttransition: "all 0.2s linear",
-                                }} onClick={(event) => { handleLoginFormClick(event) }}>Sign up for free</div>
+                                }} onClick={() => setShowRegisterForm(true)}>Sign up for free</div>
                             </div>
                             <div style={{
                                 background: `url(${AboutImg})`, backgroundSize: "cover",
@@ -136,18 +126,28 @@ function About() {
                         }}
                     >
                         <div className={styles.map} style={{ marginTop: '16vh' }}>
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.609941530488!2d106.80730807465963!3d10.841132857997609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752731176b07b1%3A0xb752b24b379bae5e!2sFPT%20University%20HCMC!5e0!3m2!1sen!2s!4v1696353690697!5m2!1sen!2s"
+                            {/* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.609941530488!2d106.80730807465963!3d10.841132857997609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752731176b07b1%3A0xb752b24b379bae5e!2sFPT%20University%20HCMC!5e0!3m2!1sen!2s!4v1696353690697!5m2!1sen!2s"
                                 width="100%"
                                 height="610"
                                 allowfullscreen=""
                                 loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade">
 
+                            </iframe> */}
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2771.371028601427!2d106.70411434408729!3d10.787514219221812!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f4b3330bcc7%3A0x4db964d76bf6e18e!2sSaigon%20Zoo%20and%20Botanical%20Garden!5e0!3m2!1sen!2s!4v1699200797196!5m2!1sen!2s"
+                                width="100%"
+                                height="610"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
                             </iframe>
                         </div>
                     </div>
                 </div>
             </div>
+            {showRegisterForm && (
+                <RegisterForm onClose={() => setShowRegisterForm(false)} hideLoginLink={true} />
+            )}
         </>
     );
 }

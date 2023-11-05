@@ -109,6 +109,7 @@ function Profile() {
         phone: users?.phone || '',
         email: users?.email || '',
         avatarUrl: users?.avatarUrl || '',
+        status: true,
     };
 
     const userSchema = yup.object().shape({

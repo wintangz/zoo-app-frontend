@@ -113,6 +113,7 @@ function EditProfile() {
         nationality: users?.nationality || '',
         phone: users?.phone || '',
         email: users?.email || '',
+        status: true,
     };
 
     //****************************** VALIDATION ********************************
