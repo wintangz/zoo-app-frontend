@@ -32,7 +32,7 @@ const validationSchema = Yup.object().shape({
     nationality: Yup.string().required('Country is required'),
 });
 
-function RegisterForm({ onClose, onLoginClick }) {
+function RegisterForm({ onClose, onLoginClick, hideLoginLink }) {
 
     const [isLoading, setIsLoading] = useState(false);
     const registerFormRef = useRef(null);
@@ -217,7 +217,11 @@ function RegisterForm({ onClose, onLoginClick }) {
                                 )}
                             </button>
                             <div className={styles.linkBtn_warp}>
-                                <a onClick={onLoginClick} className={styles.linkBtn}>Already have an account?</a>
+                                {hideLoginLink ? (
+                                    null
+                                ) : (
+                                    <a onClick={onLoginClick} className={styles.linkBtn}>Already have an account?</a>
+                                )}
                             </div>
                         </Form>
                     </Formik>
