@@ -121,6 +121,10 @@ function UpdateEnclosure() {
     useEffect(() => {
         const res = getSpecies();
         res.then((result) => {
+            console.log(result);
+            const filter = result.filter(speice => {
+                return speice.status === true;
+            })
             setSpecies(result);
         });
     }, []);
@@ -128,7 +132,10 @@ function UpdateEnclosure() {
     useEffect(() => {
         const res = getHabitats();
         res.then((result) => {
-            setHabitats(result);
+            const filter = result.filter(habitats => {
+                return habitats.status === true;
+            })
+            setHabitats(filter);
         });
     }, []);
 
@@ -148,7 +155,7 @@ function UpdateEnclosure() {
                     </Box>
                 </Modal>
             </div>
-            <Box>
+            <Box m="30px">
                 <AdminHeader title="Update Enclosure" subtitle="Update your Enclosure" />
             </Box>
 

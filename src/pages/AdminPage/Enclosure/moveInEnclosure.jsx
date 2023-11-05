@@ -34,8 +34,10 @@ function MoveInEnclosure() {
     useEffect(() => {
         const res = getEnclosures();
         res.then(result => {
-            setEnclosures(result);
-
+            const filter = result.filter(enclosures => {
+                return enclosures.status === true;
+            })
+            setEnclosures(filter);
         })
     }, [])
     const handleClose = () => {

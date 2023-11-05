@@ -19,10 +19,11 @@ function ViewSchedule() {
     useEffect(() => {
         const res = getAllSchedule();
         res.then((result) => {
-            const filter = result.filter(schedule => {
-                return schedule.zooTrainerId === userId
-            });
+
             if (userRole === "ZOO_TRAINER") {
+                const filter = result.filter(schedule => {
+                    return schedule.zooTrainerId === userId
+                });
                 setSchedule(filter)
             } else if (userRole === "STAFF") {
                 setSchedule(result)

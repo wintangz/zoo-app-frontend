@@ -10,6 +10,7 @@ import { logo } from '~/utils/assets-src';
 import { useEffect } from 'react';
 import { getNews } from '~/api/newsService';
 import { useState } from 'react';
+import { formatDateTime } from '~/utils/dateTimeFormat';
 function Footer() {
     const [posts, setPosts] = useState()
     const cx = classNames.bind(styles);
@@ -112,7 +113,7 @@ function Footer() {
                                         <span>
                                             <FontAwesomeIcon icon={faCalendar} />
                                         </span>
-                                        {post.createdDate}
+                                        {formatDateTime(new Date(post.createdDate))}
                                     </p>
                                 </div>
                             </div>
@@ -120,17 +121,12 @@ function Footer() {
                     </div>
                 </div>
                 <div className="viewmap">
-                    <Link className="viewmapbutton" to={"/maps"}>
-                        View Maps!
-                        <span>
-                            <FontAwesomeIcon icon={faMap} />
-                        </span>
-                    </Link>
+
                 </div>
                 <div className="authorize">
                     <div className="copy-right">
                         <div className="copy-right-text footer-left">
-                            Copyright © 2023 <a href="google.com">ValtSaiGon</a> Theme. All rights reserved.
+                            Copyright © 2023 <Link to="/">ValtSaiGon</Link> Theme. All rights reserved.
                         </div>
                         <div className="footer-right">
                             <div className="copy-right-text ">

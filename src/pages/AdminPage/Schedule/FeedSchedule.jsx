@@ -43,7 +43,11 @@ function FeedSchedule() {
         })
         const dietRes = getAllDiet();
         dietRes.then((result) => {
-            Setdiet(result);
+            const filter = result.filter(diet => {
+                return diet.status === true;
+            })
+
+            Setdiet(filter);
         })
     }, [])
     const handleSubmit = () => {

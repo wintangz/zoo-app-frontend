@@ -31,9 +31,11 @@ function AssignAnimal(props) {
     useEffect(() => {
         const res = getZooTrainer();
         res.then((result) => {
-
             const filteredTrainers = result.filter((trainer) => {
-                return !location.state.trainers.some((existingTrainer) => existingTrainer.id === trainer.id);
+                return (
+                    !location.state.trainers.some((existingTrainer) => existingTrainer.id === trainer.id) &&
+                    trainer.status === true
+                );
             });
             setTrainers(filteredTrainers);
         })
