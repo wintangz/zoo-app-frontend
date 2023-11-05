@@ -105,8 +105,6 @@ const SidebarUser = () => {
                 if (status === 200) {
                     setIsImageModalOpen(false);
                     setAvatarUpdated(initialValues.avatarUrl);
-
-
                 } else {
                     console.log(result);
                 }
@@ -121,6 +119,7 @@ const SidebarUser = () => {
         lastname: users?.lastname || '',
         firstname: users?.firstname || '',
         avatarUrl: users?.avatarUrl || '',
+        status: true,
     };
 
     return (
@@ -150,7 +149,6 @@ const SidebarUser = () => {
         >
             <ProSidebar collapsed={isCollapsed} sx={{ height: '10vh', zIndex: -100000 }}>
                 <Menu iconShape="square" initialValues={initialValues}>
-                    {/* LOGO AND MENU ICON */}
                     <MenuItem
                         onClick={() => setIsCollapsed(!isCollapsed)}
                         icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
@@ -179,7 +177,6 @@ const SidebarUser = () => {
                                     sx={{ width: 120, height: 120, cursor: 'pointer' }}
                                     onClick={handleAvatarClick}
                                 />
-
                             </Box>
                             <Box textAlign="center">
                                 <Typography variant="h5" color='rgb(248, 191, 2)' fontWeight='bold'>
@@ -220,7 +217,7 @@ const SidebarUser = () => {
                         <Button
                             variant="contained"
                             sx={{
-                                color: 'white', // Text color
+                                color: 'white',
                                 backgroundColor: 'rgb(248, 191, 2)',
                                 width: '70%',
                                 marginTop: '6vh',

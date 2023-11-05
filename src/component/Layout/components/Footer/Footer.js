@@ -5,13 +5,13 @@ import { faFacebookF, faInstagram, faPinterestP } from '@fortawesome/free-brands
 import { faCalendar, faMap } from '@fortawesome/free-regular-svg-icons';
 import { } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
-import { logo } from '~/utils/assets-src';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { getNews } from '~/api/newsService';
-import { useState } from 'react';
+import { logo } from '~/utils/assets-src';
 function Footer() {
-    const [posts, setPosts] = useState()
+    const [posts, setPosts] = useState();
+    const navigate = useNavigate();
     const cx = classNames.bind(styles);
     useEffect(() => {
         const res = getNews();
@@ -20,6 +20,13 @@ function Footer() {
         })
 
     }, [])
+    const formatTitleForURL = (title) => {
+        return title.toLowerCase().replace(/,/g, '-').replace(/ /g, '-');
+    };
+    const handlePostClick = (postId, postTitle) => {
+        const formattedTitle = formatTitleForURL(postTitle);
+        navigate(`/news/${postId}/${formattedTitle}`);
+    };
     return (
         <footer className="footer text-white">
             {/* <div className="background-img">
@@ -95,7 +102,6 @@ function Footer() {
 
                         </ul>
                     </div>
-
                     <div className="col-md-4 column">
                         <h2 className="column-title">Recent Posts</h2>
                         {posts && posts.slice(-2).map((post, index) => (
@@ -103,11 +109,12 @@ function Footer() {
                                 [`${cx('recent-posts1')}`]: index === 0,
                                 [`${cx('recent-posts')}`]: true,
                             })}>
-                                <div className={cx('recent-posts-img')} style={{ background: `url(${post.thumbnailUrl}) no-repeat`, backgroundSize: 'cover' }}></div>
+                                <div className={cx('recent-posts-img')} style={{ background: `url(${post.thumbnailUrl}) no-repeat`, backgroundSize: 'cover' }} onClick={() => handlePostClick(post.id, post.title)}
+                                ></div>
                                 <div className={cx('recent-content')}>
-                                    <a className="recent-title" href="google.com">
+                                    <Link to={`/news/${post.id}/${formatTitleForURL(post.title)}`} className="recent-title">
                                         {post.title}
-                                    </a>
+                                    </Link>
                                     <p className="recent-date">
                                         <span>
                                             <FontAwesomeIcon icon={faCalendar} />

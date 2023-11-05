@@ -84,6 +84,7 @@ function CreateCustomer() {
         nationality: '',
         phone: '',
         email: '',
+        status: true,
     };
 
     const userSchema = yup.object().shape({
