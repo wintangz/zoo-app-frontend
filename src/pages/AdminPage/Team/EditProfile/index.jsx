@@ -137,13 +137,13 @@ function EditProfile() {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Update User Successfully!</h2>
-                        <p id="parent-modal-description">User have been update to DataBase!</p>
+                        <h2 id="parent-modal-title">Update Profile Successfully!</h2>
+                        <p id="parent-modal-description">Your Profile have been update to DataBase!</p>
                         <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>
-            <Box>
+            <Box m="20px">
                 <AdminHeader title="Edit Profile" subtitle="Edit you profile" />
             </Box>
 

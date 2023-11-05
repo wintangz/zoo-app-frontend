@@ -96,6 +96,7 @@ const SidebarUser = () => {
             if (values.avatarUrl instanceof File) {
                 const avatarURL = await uploadFile(selectedFile, 'update-avataruser');
                 values.avatarUrl = avatarURL;
+                values.status = true;
             }
             console.log(values)
             const res = updateUser(id.sub, values);

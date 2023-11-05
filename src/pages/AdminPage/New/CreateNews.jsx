@@ -44,6 +44,7 @@ function NewsPostForm() {
         imgUrl: '',
         thumbnailUrl: '',
         status: true,
+        content: "",
     };
     const FILE_SIZE = 1920 * 1080;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
@@ -67,13 +68,10 @@ function NewsPostForm() {
 
     const handleFormSubmit = async (values) => {
         try {
-            const submitValue = { ...values, content: editorContent };
-            const imgURL = await uploadFile(submitValue.imgUrl, 'create-news');
-            const thumbnailUrl = await uploadFile(submitValue.thumbnailUrl, 'create-news');
-            submitValue.imgUrl = imgURL;
-            submitValue.thumbnailUrl = thumbnailUrl;
-            console.log(submitValue);
-            const response = await createNews(submitValue);
+            console.log(values);
+            values.imgUrl = await uploadFile(values.imgUrl, 'create-news');
+            values.thumbnailUrl = await uploadFile(values.thumbnailUrl, 'create-news');
+            const response = await createNews(values);
             if (response.data.status === "Ok") {
                 setOpen(true);
             }
@@ -167,8 +165,12 @@ function NewsPostForm() {
                                         <CustomToolbar />
                                         <ReactQuill
                                             theme="snow"
-                                            value={editorContent}
-                                            onChange={handleEditorChange}
+                                            // value={editorContent}
+                                            // onChange={handleEditorChange}
+                                            value={values.content}
+                                            onChange={(e) => {
+                                                setFieldValue('content', e);
+                                            }}
                                             modules={modules}
                                             formats={formats}
                                             style={{ height: '25vh' }}

@@ -52,7 +52,6 @@ function UpdateTicket() {
             // Handle errors if needed
         }
     };
-    console.log(location.state)
 
     const isNonMobile = useMediaQuery('(min-width: 600px)');
     const initialValues = {
@@ -69,7 +68,7 @@ function UpdateTicket() {
     const ticketType = [{ label: 'Children' }, { label: 'Adult' }, { label: 'Elder' }];
     const userSchema = yup.object().shape({
         name: yup.string().required('required'),
-        price: yup.string().required('required'),
+        price: yup.number().required('Price is required'),
         type: yup.string().required('required'),
         description: yup.string().required('required'),
         imgUrl: yup
@@ -108,7 +107,7 @@ function UpdateTicket() {
                 </Modal>
             </div>
             <Box m="20px">
-                <AdminHeader title="Create Ticket" subtitle="Create new ticket" />
+                <AdminHeader title="Update Ticket" subtitle="Update ticket to Database" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>

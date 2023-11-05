@@ -30,13 +30,11 @@ function LoginForm({ onClose, onRegisterClick, onForgotPasswordClick }) {
         try {
             setIsLoading(true);
             const response = await loginUser(values);
-            localStorage.setItem('token', response.data.accessToken);
             var token = response.data.accessToken;
             var tokendecode = decode(token);
-            // Close the modal or perform other actions
-            console.log(response)
+            localStorage.setItem('token', response.data.accessToken);
+
             if (response.status === "Ok") {
-                // const {data} = await getInfo(token)
                 setAuth(true)
                 for (let index = 0; index < tokendecode.roles.length; index++) {
                     if (tokendecode.roles[index] === 'ADMIN') {

@@ -11,14 +11,16 @@ import {
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Formik } from 'formik';
+import moment from 'moment/moment';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createCustomer } from '~/api/userService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
+import { formatDateTimeSubmit } from '~/utils/dateTimeFormat';
 
 function CreateCustomer() {
     const navigate = useNavigate();
@@ -40,22 +42,23 @@ function CreateCustomer() {
         pb: 3,
     };
     const handleFormSubmit = async (values) => {
-        const inputDate = new Date(values.dateOfBirth);
+        // const inputDate = new Date(values.dateOfBirth);
 
-        const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-        // Get the time zone offset and convert it to the "hh:mm" format
-        const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-        const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-        const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-            .toString()
-            .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
+        // const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
+        //     .toString()
+        //     .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
+        // // Get the time zone offset and convert it to the "hh:mm" format
+        // const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
+        // const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
+        // const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
+        //     .toString()
+        //     .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
 
-        // Combine the date and time zone offset to get the final formatted string
-        const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
+        // // Combine the date and time zone offset to get the final formatted string
+        // const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
 
-        values.dateOfBirth = formattedDateTime;
+        console.log(values);
+
         if (values.sex === 'male') {
             values.sex = true;
         } else if (values.sex === 'female') {
@@ -65,7 +68,6 @@ function CreateCustomer() {
         const response = await createCustomer(values);
         if (response) {
             const status = response.status;
-            console.log(status);
             if (status === 200) {
                 setOpen(true);
             }
@@ -244,11 +246,11 @@ function CreateCustomer() {
                                         gridColumn: 'span 1',
                                     }}
                                 >
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <LocalizationProvider dateAdapter={AdapterMoment}>
                                         <DatePicker
                                             value={values.dateOfBirth}
                                             onChange={(date) => {
-                                                handleChange({ target: { name: 'dateOfBirth', value: date } });
+                                                handleChange({ target: { name: 'dateOfBirth', value: moment(date) } });
                                             }}
                                             textField={(params) => (
                                                 <TextField

@@ -19,10 +19,11 @@ function ViewSchedule() {
     useEffect(() => {
         const res = getAllSchedule();
         res.then((result) => {
-            const filter = result.filter(schedule => {
-                return schedule.zooTrainerId === userId
-            });
+
             if (userRole === "ZOO_TRAINER") {
+                const filter = result.filter(schedule => {
+                    return schedule.zooTrainerId === userId
+                });
                 setSchedule(filter)
             } else if (userRole === "STAFF") {
                 setSchedule(result)
@@ -52,9 +53,11 @@ function ViewSchedule() {
         {
             field: 'img',
             headerName: 'Image',
-            width: 120,
+            headerAlign: 'left',
+            align: 'left',
+            width: 200,
             // valueGetter: (params) => { console.log(params.row) },
-            renderCell: (params) => (<img src={params.row.confirmationImgUrl} />)
+            renderCell: (params) => (<div style={{ background: `url("${params.row.confirmationImgUrl}") no-repeat`, backgroundSize: "cover", height: "100px", width: "100px" }}></div>)
         },
         {
             field: 'fed', // Keep the field as 'firstname'
@@ -63,7 +66,6 @@ function ViewSchedule() {
             align: 'center',
             valueGetter: (params) => { return params.row.fed ? "Đã cho ăn" : "Not yet"; },
         },
-
         {
             field: 'feederId',
             headerName: 'Feeder ID',
@@ -147,6 +149,7 @@ function ViewSchedule() {
                         getRowId={(row) => row.id}
                         components={{ Toolbar: GridToolbar }}
                         checkboxSelection
+                        rowHeight={100}
                     />
                 )}
             </Box>

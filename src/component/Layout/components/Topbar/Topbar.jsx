@@ -13,12 +13,8 @@ import { ColorModeContext, tokens } from '~/theme';
 const Topbar = () => {
     const handleLogout = () => {
         const res = logout(localStorage.getItem('token'));
-        res.then((result) => {
-            if (result.status === 200) {
-                localStorage.removeItem('token');
-                window.location = '/';
-            }
-        });
+        localStorage.removeItem('token');
+        window.location = '/';
     };
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -46,9 +42,7 @@ const Topbar = () => {
                 <IconButton onClick={colorMode.toggleColorMode}>
                     {theme.palette.mode === 'dark' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                 </IconButton>
-                <IconButton>
-                    <SettingsOutlinedIcon />
-                </IconButton>
+
                 <div>
                     <Button
                         id="basic-button"

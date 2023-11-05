@@ -88,7 +88,7 @@
                         .tab--list--name::after {
                             position: absolute;
                             left: 0;
-                            bottom: -13px;
+                            bottom: -19px;
                             display: block;
                             content: '';
                             width: 100%;
@@ -109,13 +109,16 @@
                             list-style: none;
                             float: left;
                             border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+                            width: 100%;
 
                             a {
                                 text-decoration: none;
                                 color: white;
                                 display: flex;
                                 align-items: center;
+                                justify-content: space-between;
                                 height: 50px;
+                                width: 100%;
 
                                 .news-name {
                                     width: 480px;
@@ -127,8 +130,8 @@
                                     overflow: hidden;
                                     text-overflow: ellipsis;
                                     white-space: nowrap;
-                                    min-width: 385px;
-                                    max-width: 385px;
+                                    min-width: 450px;
+                                    max-width: 450px;
                                 }
 
                                 .news-date {

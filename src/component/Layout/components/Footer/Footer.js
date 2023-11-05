@@ -2,13 +2,14 @@ import classNames from 'classnames/bind';
 import styles from './Footer.css';
 
 import { faFacebookF, faInstagram, faPinterestP } from '@fortawesome/free-brands-svg-icons';
-import { faCalendar, faMap } from '@fortawesome/free-regular-svg-icons';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 import { } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getNews } from '~/api/newsService';
 import { logo } from '~/utils/assets-src';
+import { formatDateTime } from '~/utils/dateTimeFormat';
 function Footer() {
     const [posts, setPosts] = useState();
     const navigate = useNavigate();
@@ -119,7 +120,7 @@ function Footer() {
                                         <span>
                                             <FontAwesomeIcon icon={faCalendar} />
                                         </span>
-                                        {post.createdDate}
+                                        {formatDateTime(new Date(post.createdDate))}
                                     </p>
                                 </div>
                             </div>
@@ -127,27 +128,22 @@ function Footer() {
                     </div>
                 </div>
                 <div className="viewmap">
-                    <Link className="viewmapbutton" to={"/maps"}>
-                        View Maps!
-                        <span>
-                            <FontAwesomeIcon icon={faMap} />
-                        </span>
-                    </Link>
+
                 </div>
                 <div className="authorize">
                     <div className="copy-right">
                         <div className="copy-right-text footer-left">
-                            Copyright © 2023 <a href="google.com">ValtSaiGon</a> Theme. All rights reserved.
+                            Copyright © 2023 <Link to="/">ValtSaiGon</Link> Theme. All rights reserved.
                         </div>
                         <div className="footer-right">
                             <div className="copy-right-text ">
-                                <a href="google.com">About Us</a> <div className="copy-button" />
+                                <Link to="/about">About Us</Link> <div className="copy-button" />
                             </div>
                             <div className="copy-right-text ">
-                                <a href="google.com">Gallery</a> <div className="copy-button" />
+                                <Link to="/habitats">Gallery</Link> <div className="copy-button" />
                             </div>
                             <div className="copy-right-text ">
-                                <a href="google.com">Contact Us</a>
+                                <Link to="/about">Contact Us</Link>
                             </div>
                         </div>
                     </div>

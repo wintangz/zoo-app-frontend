@@ -14,7 +14,6 @@ function AssignAnimal(props) {
     const location = useLocation()
     const [trainers, setTrainers] = useState(null);
     const [currentTrainer, setCurrentTrainer] = useState(null);
-    console.log(currentTrainer)
     const style = {
         position: 'absolute',
         top: '50%',
@@ -32,7 +31,13 @@ function AssignAnimal(props) {
     useEffect(() => {
         const res = getZooTrainer();
         res.then((result) => {
-            setTrainers(result);
+            const filteredTrainers = result.filter((trainer) => {
+                return (
+                    !location.state.trainers.some((existingTrainer) => existingTrainer.id === trainer.id) &&
+                    trainer.status === true
+                );
+            });
+            setTrainers(filteredTrainers);
         })
     }, [])
     const handleSubmit = () => {
@@ -52,7 +57,6 @@ function AssignAnimal(props) {
 
         })
     }
-    console.log(location.state)
     return (
         <>
             <div>
@@ -273,9 +277,17 @@ function AssignAnimal(props) {
 
                 </Box>
             </Box>
-            <Button type="submit" color="secondary" variant="contained" sx={{ float: "right", margin: "20px 30px 0 20px" }} onClick={handleSubmit}>
-                EDIT ACCOUNT
-            </Button>
+            <Box display="flex" sx={{ justifyContent: "space-between" }}>
+                <Button onClick={() => {
+                    navigate("/home/animals")
+                }} color="secondary" variant="contained" sx={{ float: "right", margin: "20px 30px 0 20px" }}>
+                    VIEW ANIMALS
+                </Button>
+                <Button type="submit" color="secondary" variant="contained" sx={{ float: "right", margin: "20px 30px 0 20px" }} onClick={handleSubmit}>
+                    ASSIGN
+                </Button>
+
+            </Box>
         </>
     );
 }
