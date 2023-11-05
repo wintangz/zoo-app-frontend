@@ -53,7 +53,7 @@ function CreateHealth() {
         weight: yup.number().required('required'),
         height: yup.number().required('required'),
         length: yup.number().required('required'),
-        temperature: yup.number.required('required'),
+        temperature: yup.number().required('required'),
         lifeStage: yup.string().required('required'),
         diagnosis: yup.string().required('required'),
         animalId: yup.string().required('required'),
