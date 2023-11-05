@@ -55,7 +55,10 @@ function UpdateSchedule() {
         })
         const dietRes = getAllDiet();
         dietRes.then((result) => {
-            Setdiet(result);
+            const filter = result.filter(diet => {
+                return diet.status === true;
+            })
+            Setdiet(filter);
             result.map((diet) => {
                 if (diet.id === location.state.dietId) {
                     setCurrentDiet(diet);

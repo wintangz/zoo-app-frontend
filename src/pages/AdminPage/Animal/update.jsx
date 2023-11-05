@@ -56,7 +56,7 @@ function UpdateAnimal() {
         origin: location.state.origin,
         species: location.state.species,
         status: location.state.status,
-        dateOfDeath: null,
+        dateOfDeath: location.state.dateOfDeath ? location.state.dateOfDeath : moment().format(),
     };
     const userSchema = yup.object().shape({
         name: yup.string().required('required'),
@@ -90,7 +90,7 @@ function UpdateAnimal() {
         values.dateOfBirth = formatDateTimeSubmit(values.dateOfBirth)
         if (values.status === "true") {
             values.dateOfDeath = null;
-        } else {
+        } else if (values.status === "false") {
             if (values.dateOfDeath) {
                 values.dateOfDeath = formatDateTimeSubmit(values.dateOfDeath)
             }

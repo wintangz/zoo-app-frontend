@@ -299,10 +299,10 @@ function CreateHealth() {
                                     variant="contained"
                                     onClick={() => navigate('/home/animals/health')}
                                 >
-                                    VIEW All NEWS
+                                    VIEW All HEALTH RECORD
                                 </Button>
                                 <Button type="submit" color="secondary" variant="contained">
-                                    CREATE NEW HEALTH CARE
+                                    CREATE NEW HEALTH RECORD
                                 </Button>
                             </Box>
                         </form>
