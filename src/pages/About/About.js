@@ -102,8 +102,8 @@ function About() {
                                 </div>
                                 <div className={styles.text}>
                                     <h1>Our Address</h1>
-                                    <p>123 King Street,Melbourne</p>
-                                    <p>Victoria 5000,New York</p>
+                                    <p>2 Nguyễn Bỉnh Khiêm</p>
+                                    <p>Bến Nghé Quận 1, Hồ Chí Minh</p>
                                 </div>
                             </div>
                             <div className={styles.content2}>
@@ -112,8 +112,8 @@ function About() {
                                 </div>
                                 <div className={styles.text}>
                                     <h1>Email Address</h1>
-                                    <p>themetechmount@gmail.com</p>
-                                    <p>example@evenex.com</p>
+                                    <p>cskh.kdttsaigonzoo@gmail.com</p>
+                                    <p>cskh.kdttsaigonzoo@gmail.com</p>
                                 </div>
                             </div>
                             <div className={styles.content3}>
@@ -122,8 +122,8 @@ function About() {
                                 </div>
                                 <div className={styles.text}>
                                     <h1>Call Us</h1>
-                                    <p>+1800-200-543211</p>
-                                    <p>+123 456 7890</p>
+                                    <p>+028 38291425</p>
+                                    <p>+028 38291425</p>
                                 </div>
                             </div>
                         </div>

@@ -18,10 +18,10 @@ export const components = [
                 name: 'Habitats',
                 path: '/habitats'
             },
-            {
-                name: 'ZooMap',
-                path: '/map',
-            },
+            // {
+            //     name: 'ZooMap',
+            //     path: '/map',
+            // },
 
         ]
     },
