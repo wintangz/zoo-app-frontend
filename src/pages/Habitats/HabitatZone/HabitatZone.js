@@ -57,6 +57,7 @@ function HabitatZone() {
     }
 
     return (
+
         <div className={styles.btnList}>
             {habitatZone.map((zone) => (
                 <div key={zone} className={cx("zone")} >
