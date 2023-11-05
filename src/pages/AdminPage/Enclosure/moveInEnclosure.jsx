@@ -73,7 +73,7 @@ function MoveInEnclosure() {
                     </Box>
                 </Modal>
             </div>
-            <Box>
+            <Box m="30px">
                 <AdminHeader title="Move In Enclosure" subtitle="Move In Animal to Enclosure" />
             </Box>
             <Box display="flex" sx={{ justifyContent: 'space-around' }} >
