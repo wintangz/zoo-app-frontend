@@ -72,7 +72,7 @@ function UnassignAnimal(props) {
                     </Box>
                 </Modal>
             </div>
-            <Box>
+            <Box m="30px">
                 <AdminHeader title="UNASSIGN ANIMAL" subtitle="Unassign animal to zoo trainer" />
             </Box>
             <Box display="flex" sx={{ justifyContent: 'space-around' }} >

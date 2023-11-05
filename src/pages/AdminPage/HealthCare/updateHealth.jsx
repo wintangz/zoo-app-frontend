@@ -42,10 +42,10 @@ function UpdateHealth() {
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const userSchema = yup.object().shape({
         animalId: yup.string().required('required'),
-        weight: yup.string().required('required'),
-        height: yup.string().required('required'),
-        length: yup.string().required('required'),
-        temperature: yup.string().required('required'),
+        weight: yup.number().required('required'),
+        height: yup.number().required('required'),
+        length: yup.number().required('required'),
+        temperature: yup.number().required('required'),
         lifeStage: yup.string().required('required'),
         diagnosis: yup.string().required('required'),
         imgUrl: yup

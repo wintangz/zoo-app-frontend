@@ -54,8 +54,7 @@ function ViewSchedule() {
             headerName: 'Image',
             headerAlign: 'left',
             align: 'left',
-            flex: 1,
-            height: 100,
+            width: 200,
             // valueGetter: (params) => { console.log(params.row) },
             renderCell: (params) => (<div style={{ background: `url("${params.row.confirmationImgUrl}") no-repeat`, backgroundSize: "cover", height: "100px", width: "100px" }}></div>)
         },

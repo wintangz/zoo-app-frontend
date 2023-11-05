@@ -103,7 +103,7 @@ function UpdateSchedule() {
                 </Box>
             </Modal>
         </div>
-        <Box>
+        <Box m="30px">
             <AdminHeader title="Update Feeding Schedule" subtitle="Update feeding schedule" />
         </Box>
         <Box display="flex" sx={{ justifyContent: 'space-around' }}>
@@ -264,9 +264,14 @@ function UpdateSchedule() {
                 </Box>
             </Box>
         </Box>
-        <Button onClick={handleSubmit} color="secondary" variant="contained" sx={{ float: "right", marginRight: '20px' }} >
-            EDIT SCHEDULE
-        </Button>
+        <Box display="flex" sx={{ justifyContent: "space-between", margin: '30px' }}>
+            <Button onClick={() => navigate("/home/animals/schedule")} color="secondary" variant="contained" >
+                VIEW SCHEDULE
+            </Button>
+            <Button onClick={handleSubmit} color="secondary" variant="contained"  >
+                EDIT SCHEDULE
+            </Button>
+        </Box>
     </>);
 }
 

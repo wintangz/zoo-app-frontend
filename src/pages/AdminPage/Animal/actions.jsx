@@ -101,8 +101,8 @@ const Actions = ({ params, setRemove, accept }) => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Delete User Successfully!</h2>
-                        <p id="parent-modal-description">User have been delete from DataBase!</p>
+                        <h2 id="parent-modal-title">Delete Animal Successfully!</h2>
+                        <p id="parent-modal-description">Animal have been delete from DataBase!</p>
                         <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
                             onClick={() => {
                                 handleMessage(params.row.id);

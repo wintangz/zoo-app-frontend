@@ -14,7 +14,6 @@ function AssignAnimal(props) {
     const location = useLocation()
     const [trainers, setTrainers] = useState(null);
     const [currentTrainer, setCurrentTrainer] = useState(null);
-    console.log(currentTrainer)
     const style = {
         position: 'absolute',
         top: '50%',
@@ -32,7 +31,11 @@ function AssignAnimal(props) {
     useEffect(() => {
         const res = getZooTrainer();
         res.then((result) => {
-            setTrainers(result);
+
+            const filteredTrainers = result.filter((trainer) => {
+                return !location.state.trainers.some((existingTrainer) => existingTrainer.id === trainer.id);
+            });
+            setTrainers(filteredTrainers);
         })
     }, [])
     const handleSubmit = () => {
@@ -52,7 +55,6 @@ function AssignAnimal(props) {
 
         })
     }
-    console.log(location.state)
     return (
         <>
             <div>
