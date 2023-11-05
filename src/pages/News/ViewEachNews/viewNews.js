@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useParams } from 'react-router-dom';
 import { getNewsById } from '~/api/newsService';
+import Loader from "~/component/Layout/components/Loader/Loader"
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import styles from './View.module.scss';
 
@@ -28,7 +29,9 @@ function ViewEachNews() {
 
 
     if (!selectedNews) {
-        return <div>Loading...</div>;
+        return (
+            <Loader />
+        )
     }
 
     const originalDateStr = selectedNews.createdDate; // Assuming it's in the format '2023-10-31T15:34:0000'

@@ -53,6 +53,13 @@ function ViewDiet() {
             valueGetter: (params) => `${params.row.creator.username}`,
         },
         {
+            field: 'status',
+            headerName: 'Status',
+            headerAlign: 'left',
+            align: 'left',
+            flex: 0.5,
+        },
+        {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',

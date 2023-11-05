@@ -1,4 +1,4 @@
-import { Box, Button, TextField, useTheme } from '@mui/material';
+import { Box, Button, FormControl, FormControlLabel, Radio, RadioGroup, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
@@ -23,7 +23,7 @@ function UpdateFood() {
         res.then((result) => {
             setFood(result);
         });
-    }, []);
+    }, [food]);
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
@@ -44,6 +44,7 @@ function UpdateFood() {
     const initialValues = {
         name: food?.name || '',
         type: food?.type || '',
+        status: food?.status ? 'True' : 'False',
     };
 
     const userSchema = yup.object().shape({
@@ -56,6 +57,7 @@ function UpdateFood() {
             const submitValue = { ...values, };
             const response = await updateFoods(foodId, submitValue);
             console.log(submitValue);
+            console.log(response);
             if (response?.status === 200) {
                 setOpen(true);
             }
@@ -114,6 +116,47 @@ function UpdateFood() {
                                     error={!!touched.type && !!errors.type}
                                     helperText={touched.type && errors.type}
                                 />
+                                <FormControl
+                                    component="fieldset"
+                                    width="75%"
+                                    sx={{
+                                        gridColumn: 'span 1', paddingLeft: "10px"
+                                    }}
+                                    label="Status"
+                                >
+                                    <Typography variant="h6" color={colors.grey[300]} style={{ margin: '0.8vw' }}>
+                                        Status
+                                    </Typography>
+                                    <RadioGroup
+                                        aria-label="Status"
+                                        name="status"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        defaultValue=" "
+                                        value={values.status}
+                                        sx={{ display: 'inline-block' }}
+                                        label="Status"
+                                    >
+                                        <FormControlLabel
+                                            value="True"
+                                            control={
+                                                <Radio
+                                                    sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                />
+                                            }
+                                            label="True"
+                                        />
+                                        <FormControlLabel
+                                            value="False"
+                                            control={
+                                                <Radio
+                                                    sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                />
+                                            }
+                                            label="False"
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
                             </Box>
 
                             <Box display="flex" justifyContent="space-between" mt="20px">

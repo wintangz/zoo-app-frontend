@@ -46,6 +46,7 @@ function CreateDiet() {
     const initialValues = {
         type: '',
         foodListIds: '',
+        status: true,
     };
 
     const userSchema = yup.object().shape({
@@ -53,7 +54,7 @@ function CreateDiet() {
         foodListIds: yup.array(yup.string())
     });
 
-    const handleFormSubmit = async (values, { resetForm }) => {
+    const handleFormSubmit = async (values) => {
         console.log(values);
         try {
             const submitValue = {
@@ -77,7 +78,8 @@ function CreateDiet() {
     };
     const fetchApi = async () => {
         const result = await getFood();
-        setFoods(result);
+        const foodsWithTrueStatus = result.filter((food) => food.status === true);
+        setFoods(foodsWithTrueStatus);
     };
 
     useEffect(() => {
