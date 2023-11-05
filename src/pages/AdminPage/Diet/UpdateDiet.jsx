@@ -67,6 +67,7 @@ function UpdateDiets() {
             const submitValue = {
                 type: values.type,
                 foodListIds: foodListId,
+                status: values.status,
             };
             const response = await updateDiets(dietsId, submitValue);
             console.log(submitValue);

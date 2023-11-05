@@ -111,6 +111,7 @@ function UpdateNews() {
                 submitValue.thumbnailUrl = thumbnailURL;
             }
             const response = updateNews(newsId, submitValue);
+            console.log(submitValue);
             response.then((result) => {
                 if (result.data.status === "Ok") {
                     setOpen(true);

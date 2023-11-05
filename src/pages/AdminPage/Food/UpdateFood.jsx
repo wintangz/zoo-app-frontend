@@ -23,7 +23,7 @@ function UpdateFood() {
         res.then((result) => {
             setFood(result);
         });
-    }, [food]);
+    }, []);
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ function UpdateFood() {
     const initialValues = {
         name: food?.name || '',
         type: food?.type || '',
-        status: food?.status ? 'True' : 'False',
+        status: food?.status ? 'true' : 'false',
     };
 
     const userSchema = yup.object().shape({
@@ -54,9 +54,8 @@ function UpdateFood() {
 
     const handleFormSubmit = async (values) => {
         try {
-            const submitValue = { ...values, };
-            const response = await updateFoods(foodId, submitValue);
-            console.log(submitValue);
+            const response = await updateFoods(foodId, values);
+            console.log(values);
             console.log(response);
             if (response?.status === 200) {
                 setOpen(true);
@@ -138,7 +137,7 @@ function UpdateFood() {
                                         label="Status"
                                     >
                                         <FormControlLabel
-                                            value="True"
+                                            value="true"
                                             control={
                                                 <Radio
                                                     sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
@@ -147,7 +146,7 @@ function UpdateFood() {
                                             label="True"
                                         />
                                         <FormControlLabel
-                                            value="False"
+                                            value="false"
                                             control={
                                                 <Radio
                                                     sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
