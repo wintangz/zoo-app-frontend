@@ -65,33 +65,11 @@ function App() {
                                             </NamePageContext.Provider>
                                         }
                                     />
-                                    <Route
-                                        path='/animals/:habitat/:animalId'
-                                        element={
-                                            <AnimalLayout>
-                                                <Animals></Animals>
-                                            </AnimalLayout>
-                                        }
-                                    />
+
                                 </>
 
                             )
                         }
-                        // return (
-                        //     <Route
-                        //         key={index}
-                        //         path={route.path}
-                        //         element={
-                        //             <NamePageContext.Provider value={route.name}>
-                        //                 <BannerPageContext.Provider value={route.bannerImage}>
-                        //                     <Layout>
-                        //                         <Page />
-                        //                     </Layout>
-                        //                 </BannerPageContext.Provider>
-                        //             </NamePageContext.Provider>
-                        //         }
-                        //     />
-                        // );
                     })}
 
                 </Routes>

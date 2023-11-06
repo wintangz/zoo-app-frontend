@@ -120,7 +120,7 @@ function ViewAnimals() {
                         m="0"
                         p="5px"
                         display="flex"
-                        justifyContent="center"
+                        justifyContent="flex-start"
                         borderRadius="4px"
                     >
                         <Typography color="white" sx={{ ml: '5px' }}>
@@ -180,6 +180,7 @@ function ViewAnimals() {
                 m="40px 0 0 0"
                 height="75vh"
                 sx={{
+
                     '& .MuiDataGrid-root': {
                         border: 'none',
                         marginLeft: '0px',
@@ -207,6 +208,9 @@ function ViewAnimals() {
                     '& .MuiDataGrid-toolbarContainer .MuiButton-text': {
                         color: `${colors.grey[100]} !important`,
                     },
+                    '& .MuiBox-root': {
+                        justifyContent: "flex-start !important",
+                    }
                 }}
             >
                 {open && <DataGrid

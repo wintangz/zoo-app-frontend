@@ -110,9 +110,9 @@ function Footer() {
                                 [`${cx('recent-posts1')}`]: index === 0,
                                 [`${cx('recent-posts')}`]: true,
                             })}>
-                                <div className={cx('recent-posts-img')} style={{ background: `url(${post.thumbnailUrl}) no-repeat`, backgroundSize: 'cover' }} onClick={() => handlePostClick(post.id, post.title)}
+                                <div className={cx('recent-posts-img')} style={{ background: `url(${post.thumbnailUrl}) no-repeat`, backgroundSize: 'cover', width: "100px", height: "100px" }} onClick={() => handlePostClick(post.id, post.title)}
                                 ></div>
-                                <div className={cx('recent-content')}>
+                                <div className={cx('recent-content')} style={{ maxWidth: "272px" }}>
                                     <Link to={`/news/${post.id}/${formatTitleForURL(post.title)}`} className="recent-title">
                                         {post.title}
                                     </Link>

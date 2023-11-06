@@ -91,6 +91,7 @@ const publicRoutes = [
     { path: 'verify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: 'public' },
     { path: 'inputnewpassword', component: InputNewPassword, layout: NormalLayout, name: 'InputNewPassword', Authen: "public" },
     { path: 'orders', component: Order, layout: BannerLayout, name: 'Order', Authen: "public" },
+    { path: '/animals/:habitat/:animalId', component: Animals, layout: AnimalLayout, name: 'Animal', Authen: "public" },
 
 
     // Admin routes
