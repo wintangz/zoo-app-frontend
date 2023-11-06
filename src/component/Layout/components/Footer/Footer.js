@@ -70,12 +70,12 @@ function Footer() {
                                 </li>
                                 <div className="line" />
                             </div>
-                            <div className="footer-list">
+                            {/* <div className="footer-list">
                                 <li className="footer-list-text">
                                     <Link to="/map">ZooMap</Link>
                                 </li>
                                 <div className="line" />
-                            </div>
+                            </div> */}
 
                         </ul>
                     </div>

@@ -1,4 +1,4 @@
-import { Box, Button, useTheme } from '@mui/material';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { tokens } from '~/theme';
 import Actions from './actions';
 import DateTimeFormatComponent, { formatDate } from '~/utils/dateTimeFormat';
 import { decode } from '~/utils/axiosClient';
+import { Female, Male } from '@mui/icons-material';
 
 function ViewAnimals() {
     const navigate = useNavigate()
@@ -109,9 +110,27 @@ function ViewAnimals() {
 
         {
             field: 'sex',
-            headerName: 'Sex',
-            headerAlign: 'left',
-            width: 80,
+            headerName: 'Gender',
+            valueGetter: (params) => params.row.sex ? "Male" : "Female",
+            renderCell: ({ row }) => {
+                const gender = row.sex;
+                return (
+                    <Box
+                        width="75%"
+                        m="0"
+                        p="5px"
+                        display="flex"
+                        justifyContent="center"
+                        borderRadius="4px"
+                    >
+                        <Typography color="white" sx={{ ml: '5px' }}>
+                            {gender ? "Male" : "Female"}
+                        </Typography>
+                        {gender ? <Male /> : <Female />}
+
+                    </Box>
+                );
+            },
         },
 
         {
@@ -138,7 +157,7 @@ function ViewAnimals() {
             field: 'actions',
             headerName: 'Actions',
             type: 'actions',
-            float: 'left',
+            align: 'left',
             renderCell: (params) => animals && (<Actions {...{ params }} setRemove={setRemove} accept={accept} />),
             flex: 1,
         },
@@ -200,8 +219,8 @@ function ViewAnimals() {
                         pagination: { paginationModel: { pageSize: 15 } },
                     }}
 
-                    // checkboxSelection
                     pageSizeOptions={[15, 30, 50]}
+                    disableRowSelectionOnClick
                 />}
             </Box>
         </Box>

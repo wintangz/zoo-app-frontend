@@ -69,6 +69,7 @@ const Actions = ({ params, setRemove, accept }) => {
             }
         })
     }
+    console.log(params.row)
     return (
         <>
             <div>
@@ -133,6 +134,22 @@ const Actions = ({ params, setRemove, accept }) => {
                 </Modal>
             </div>
             <Box>
+                <Tooltip title="History Move">
+                    <Link to="/home/animals/enclosures_history" state={params.row}>
+                        <IconButton
+                        >
+                            <ManageSearchOutlinedIcon />
+                        </IconButton  >
+                    </Link>
+                </Tooltip>
+                {userRole === "STAFF" && <Tooltip title="Unassign trainer">
+                    <Link to="/home/animals/unassign" state={params.row}>
+                        <IconButton
+                        >
+                            <OutputIcon />
+                        </IconButton  >
+                    </Link>
+                </Tooltip>}
                 {userRole === "ZOO_TRAINER" && params.row.trainers?.some(element => element.id === userID) && <Tooltip title="Delete">
                     <IconButton
                         onClick={() => {
@@ -171,7 +188,7 @@ const Actions = ({ params, setRemove, accept }) => {
                         </Link>
                     </Tooltip>}
 
-                {userRole === "STAFF" && <Tooltip title="Assign trainer">
+                {userRole === "STAFF" && params.row.status === true && <Tooltip title="Assign trainer">
                     <Link to="/home/animals/assign" state={params.row}>
                         <IconButton
                         >
@@ -180,23 +197,9 @@ const Actions = ({ params, setRemove, accept }) => {
                     </Link>
                 </Tooltip>}
 
-                {userRole === "STAFF" && <Tooltip title="Unassign trainer">
-                    <Link to="/home/animals/unassign" state={params.row}>
-                        <IconButton
-                        >
-                            <OutputIcon />
-                        </IconButton  >
-                    </Link>
-                </Tooltip>}
 
-                <Tooltip title="History Move">
-                    <Link to="/home/animals/enclosures_history" state={params.row}>
-                        <IconButton
-                        >
-                            <ManageSearchOutlinedIcon />
-                        </IconButton  >
-                    </Link>
-                </Tooltip>
+
+
             </Box>
         </>
     );

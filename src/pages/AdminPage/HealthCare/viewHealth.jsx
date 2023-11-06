@@ -7,6 +7,7 @@ import { getHealthCare } from "~/api/healService";
 import AdminHeader from "~/component/Layout/components/AdminHeader/AdminHeader";
 import { tokens } from "~/theme";
 import Actions from "./actions";
+import { formatDateTime } from "~/utils/dateTimeFormat";
 
 function ViewHealth() {
     const [healthCare, setHealthCare] = useState(null)
@@ -74,6 +75,7 @@ function ViewHealth() {
             headerName: 'Recorded Date Time',
             headerAlign: 'left',
             width: 150,
+            valueGetter: (params) => formatDateTime(new Date(params.row.recordedDateTime))
         },
         {
             field: 'actions',

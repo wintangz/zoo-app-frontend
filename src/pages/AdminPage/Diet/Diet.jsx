@@ -6,6 +6,7 @@ import * as dietService from '~/api/dietService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './DeleteDiet';
+import { formatDate, formatDateTime } from '~/utils/dateTimeFormat';
 // import Actions from './DeleteFoods';
 
 function ViewDiet() {
@@ -43,6 +44,7 @@ function ViewDiet() {
             headerAlign: 'left',
             align: 'left',
             flex: 1,
+            valueGetter: (params) => formatDate(params.row.createdDate)
         },
         {
             field: 'creator',

@@ -30,6 +30,7 @@ import { getUserById, logout, updateUser } from '~/api/userService';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import uploadFile from '~/utils/transferFile';
+import { MonitorHeartOutlined, RestaurantMenuOutlined } from '@mui/icons-material';
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -338,57 +339,28 @@ const Sidebar = () => {
 
                         {userRole === 'ZOO_TRAINER' && (
                             <>
-                                <List
-                                    sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent', margin: 0 }}
-                                    component="nav"
-                                    aria-labelledby="animal"
-                                >
-                                    <ListItemButton
-                                        onClick={handleAnimal}
-                                        sx={{ padding: '8px 4px 8px 0', marginRight: '16px' }}
-                                    >
-                                        <ListItemIcon sx={{ paddingLeft: '10px', justifyContent: ' space-around' }}>
-                                            <InboxIcon />
-                                        </ListItemIcon>
-                                        {!isCollapsed && <ListItemText primary="Manage Animals" sx={{ paddingLeft: '4px' }} />}
-                                        {openAnimal ? <ExpandLess /> : <ExpandMore />}
-                                    </ListItemButton>
-                                    <Collapse in={openAnimal} timeout="auto" unmountOnExit>
-                                        <List component="div" disablePadding>
+                                <Item
+                                    title="Animals"
+                                    to="/home/animals"
+                                    icon={<GiElephant />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="Feed Schedules"
+                                    to="/home/animals/schedule"
+                                    icon={<RestaurantMenuOutlined />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="Health Records"
+                                    to="/home/animals/health"
+                                    icon={<MonitorHeartOutlined />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
 
-                                            <ListItemButton>
-                                                <Item
-                                                    title="Animals"
-                                                    to="/home/animals"
-                                                    icon={<GiElephant />}
-                                                    selected={selected}
-                                                    setSelected={setSelected}
-                                                />
-                                            </ListItemButton>
-
-
-                                            <ListItemButton>
-                                                <Item
-                                                    title="Feed Schedules"
-                                                    to="/home/animals/schedule"
-                                                    icon={<PetsIcon />}
-                                                    selected={selected}
-                                                    setSelected={setSelected}
-                                                />
-                                            </ListItemButton>
-                                            <ListItemButton>
-                                                <Item
-                                                    title="Health Records"
-                                                    to="/home/animals/health"
-                                                    icon={<PersonOutlinedIcon />}
-                                                    selected={selected}
-                                                    setSelected={setSelected}
-                                                />
-                                            </ListItemButton>
-
-                                        </List>
-                                    </Collapse>
-                                </List>
 
                                 <Item
                                     title="Foods"
@@ -407,7 +379,7 @@ const Sidebar = () => {
                                 <Item
                                     title="Species"
                                     to="/home/species"
-                                    icon={<GiCage />}
+                                    icon={<PetsIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />

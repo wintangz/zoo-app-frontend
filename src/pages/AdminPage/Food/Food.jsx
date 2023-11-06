@@ -6,6 +6,7 @@ import * as foodService from '~/api/foodService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import Actions from './DeleteFoods';
+import { formatDate } from '~/utils/dateTimeFormat';
 
 function ViewFood() {
     const navigate = useNavigate();
@@ -49,6 +50,7 @@ function ViewFood() {
             headerAlign: 'left',
             align: 'left',
             flex: 1,
+            valueGetter: (params) => formatDate(params.row.createdDate)
         },
         {
             field: 'creator',

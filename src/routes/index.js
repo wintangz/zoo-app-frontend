@@ -63,6 +63,7 @@ import ViewSpecies from '~/pages/AdminPage/Species/Species';
 import UpdateSpecies from '~/pages/AdminPage/Species/UpdateSpecies';
 import Form from '~/pages/AdminPage/Team/CreateUser';
 import EditProfile from '~/pages/AdminPage/Team/EditProfile';
+import SecurityProfile from '~/pages/AdminPage/Team/EditProfile/Security';
 import UpdateStaff from "~/pages/AdminPage/Team/UpdateStaff";
 import Team from '~/pages/AdminPage/Team/ViewUser';
 import { default as ViewTicket } from '~/pages/AdminPage/Ticket';
@@ -101,6 +102,7 @@ const publicRoutes = [
     { path: 'home/zootrainer/update/:userId', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/customer/update/:userId', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/settings/profile', component: EditProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
+    { path: 'home/settings/security', component: SecurityProfile, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/tickets', component: ViewTicket, layout: AdminMainPage, name: 'viewTicket', Authen: "private" },
     { path: 'home/tickets/create', component: CreateTicket, layout: AdminMainPage, name: 'createTicket', Authen: "private" },
     { path: 'home/tickets/update', component: UpdateTicket, layout: AdminMainPage, name: 'updateticket', Authen: "private" },

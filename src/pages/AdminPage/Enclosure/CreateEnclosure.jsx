@@ -49,7 +49,10 @@ function CreateEnclosure() {
     useEffect(() => {
         const res = getHabitats();
         res.then((result) => {
-            setHabitats(result);
+            const filter = result.filter(habitats => {
+                return habitats.status === true;
+            })
+            setHabitats(filter);
         });
     }, []);
 

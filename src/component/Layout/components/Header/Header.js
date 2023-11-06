@@ -187,7 +187,7 @@ function Header() {
                 <div className={styles.login}>
                     {localStorage.getItem('token') ? (
                         <div className={styles.loginUser}>
-                            <p>Hello {sub}</p>
+                            <p style={{ margin: "0" }}>Hello {sub}</p>
                             <ul>
                                 <li><Link to="/settings/profile">Profile</Link></li>
                                 <li><Link to="/orders">Order</Link></li>
