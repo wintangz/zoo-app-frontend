@@ -12,6 +12,7 @@ import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import { getUsersWithRoles } from '~/utils/getUserByRole';
 import Actions from './actions';
+import { Female, Male } from '@mui/icons-material';
 
 function Team() {
     const navigate = useNavigate();
@@ -126,12 +127,42 @@ function Team() {
             flex: 1,
         },
         {
+            field: 'sex',
+            headerName: 'Gender',
+            valueGetter: (params) => params.row.sex ? "Male" : "Female",
+            renderCell: ({ row }) => {
+                const gender = row.sex;
+                console.log(gender)
+                return (
+                    <Box
+                        width="75%"
+                        m="0"
+                        p="5px"
+                        display="flex"
+                        justifyContent="center"
+                        borderRadius="4px"
+                    >
+                        <Typography color="white" sx={{ ml: '5px' }}>
+                            {gender ? "Male" : "Female"}
+                        </Typography>
+                        {gender ? <Male /> : <Female />}
+
+                    </Box>
+                );
+            },
+        },
+        {
             field: 'roles',
             headerName: 'Access Level',
             flex: 1,
             valueGetter: (params) => {
                 // Assuming 'roles' is an array of objects with 'name' property
-                const roleNames = params.row.roles.map((role) => role.name).join(', ');
+                const roleNames = params.row.roles.map((role) => {
+                    if (role.name === "ZOO_TRAINER") {
+                        return role.name = "TRAINER"
+                    }
+                    return role.name
+                }).join(', ');
                 return roleNames;
             },
             renderCell: ({ row }) => {
@@ -146,10 +177,6 @@ function Team() {
                         backgroundColor={roles[0].name === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
                         borderRadius="4px"
                     >
-                        {roles[0].name === 'ADMIN' && <AdminPanelSettingsOutlinedIcon />}
-                        {roles[0].name === 'STAFF' && <SecurityOutlinedIcon />}
-                        {roles[0].name === 'TRAINER' && <PetsOutlinedIcon />}
-                        {roles[0].name === 'CUSTOMER' && <AccountCircleOutlinedIcon />}
                         <Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
                             {roles[0].name}
                         </Typography>
@@ -160,7 +187,25 @@ function Team() {
         {
             field: 'status',
             headerName: 'Status',
-            valueGetter: (params) => { return params.row.status ? "True" : "False" }
+            valueGetter: (params) => { return params.row.status ? "True" : "False" },
+            renderCell: ({ row }) => {
+                const status = row.status;
+                return (
+                    <Box
+                        width="75%"
+                        m="0"
+                        p="5px"
+                        display="flex"
+                        justifyContent="center"
+                        backgroundColor={status ? "green" : "red"}
+                        borderRadius="4px"
+                    >
+                        <Typography color="white" sx={{ ml: '5px' }}>
+                            {status ? "True" : "False"}
+                        </Typography>
+                    </Box>
+                );
+            },
         },
         {
             field: 'actions',
