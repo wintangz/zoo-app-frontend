@@ -139,7 +139,7 @@ function Team() {
                         m="0"
                         p="5px"
                         display="flex"
-                        justifyContent="center"
+                        justifyContent="flex-start"
                         borderRadius="4px"
                     >
                         <Typography color="white" sx={{ ml: '5px' }}>

@@ -145,10 +145,11 @@
     width: 15%;
     background-color: orange;
     font-weight: bold;
-    letter-spacing: 4px;
     display: flex;
     justify-content: center;
     align-items: center;
+    letter-spacing: 0.5px;
+    font-size: 1.1rem;
 
     .loginUser {
         width: 100%;
@@ -157,7 +158,6 @@
         align-items: center;
         justify-content: center;
         position: relative;
-        letter-spacing: 2px;
 
         ul {
             position: absolute;

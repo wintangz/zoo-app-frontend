@@ -13,7 +13,10 @@ function News() {
     useEffect(() => {
         const res = getNews();
         res.then(result => {
-            setPost(result);
+            const filter = result.filter(filterpost => {
+                return filterpost.status === true
+            })
+            setPost(filter);
         })
 
     }, [])

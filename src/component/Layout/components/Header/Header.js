@@ -11,7 +11,7 @@ import RegisterForm from '../RegisterForm/RegisterForm';
 import styles from './Header.module.scss';
 import { components } from './components.js';
 
-import { logout } from '~/api/userService';
+import { getUserById, logout } from '~/api/userService';
 import LoginForm from '~/component/Layout/components/LoginForm/Loginform';
 import { useAppContext } from '~/context/Context';
 import { decode } from '~/utils/axiosClient';
@@ -21,7 +21,7 @@ function Header() {
     const lineRef = useRef(null);
     const [user, setUser] = useState(null);
     const { auth } = useAppContext();
-
+    const [name, setName] = useState(null);
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -133,7 +133,12 @@ function Header() {
             window.location = '/'
         }
     }
-
+    if (localStorage.getItem('token')) {
+        const res = getUserById(decode(localStorage.getItem('token')).sub)
+        res.then(result => {
+            result && setName(result.username);
+        })
+    }
     return (
         <>
             <header className={styles.container}>
@@ -185,20 +190,21 @@ function Header() {
                     </div>
                 </div>
                 <div className={styles.login}>
-                    {localStorage.getItem('token') ? (
-                        <div className={styles.loginUser}>
-                            <p style={{ margin: "0" }}>Hello {sub}</p>
-                            <ul>
-                                <li><Link to="/settings/profile">Profile</Link></li>
-                                <li><Link to="/orders">Order</Link></li>
-                                <li onClick={handleLogout}>Logout</li>
-                            </ul>
-                        </div>
-                    ) : (
-                        <Link onClick={(event) => handleLoginFormClick(event)} className={`${styles.loginitem} ${styles.js_open}`}>
-                            Log In
-                        </Link>
-                    )}
+                    {localStorage.getItem('token') ?
+                        (
+                            <div className={styles.loginUser}>
+                                <p style={{ margin: "0" }}>{name}</p>
+                                <ul>
+                                    <li><Link to="/settings/profile">Profile</Link></li>
+                                    <li><Link to="/orders">Order</Link></li>
+                                    <li onClick={handleLogout}>Logout</li>
+                                </ul>
+                            </div>
+                        ) : (
+                            <Link onClick={(event) => handleLoginFormClick(event)} className={`${styles.loginitem} ${styles.js_open}`}>
+                                Log In
+                            </Link>
+                        )}
                 </div>
             </header >
 

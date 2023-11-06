@@ -125,7 +125,7 @@ function ViewCustomers() {
                         m="0"
                         p="5px"
                         display="flex"
-                        justifyContent="center"
+                        justifyContent="flex-start"
                         backgroundColor={roles[0].name === 'ADMIN' ? colors.greenAccent[600] : colors.greenAccent[700]}
                         borderRadius="4px"
                     >
