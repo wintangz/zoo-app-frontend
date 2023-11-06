@@ -88,6 +88,7 @@ function Ticket() {
                     <div className={styles.welcome_description}>Get Zoo Ticket Now!!!</div>
                 </div>
             </div>
+            <div style={{ textAlign: "center", fontSize: "1.5rem", paddingBottom: "2rem" }}>* Ticket is available for 30 days after purchase.  </div>
             <div className={styles.table_container}>
                 <table className={styles.table}>
                     <tr className={styles.table_row}>

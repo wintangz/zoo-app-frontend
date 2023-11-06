@@ -10,20 +10,24 @@ import { useAppContext } from '~/context/Context';
 import styles from './Summary.module.scss';
 import ConfirmTickets from './confirmTickets';
 import Information from './information';
+import { useNavigate } from 'react-router-dom';
 
 function Summary() {
-
+    const navigate = useNavigate()
     const { cart, totalPrice, totalQuantity } = useAppContext();
+
+    if (totalPrice === 0) {
+        navigate("/ticket")
+    }
+
     const handleSubmitBuy = async () => {
         try {
             const result = await confirmTicketPurchase(cart, totalPrice, totalQuantity);
-            // alert('Purchase successful');
             localStorage.removeItem('thankYouPageShown');
             console.log(result.data);
             window.location.href = result.data;
         } catch (error) {
             console.error(error.message);
-            // alert('Purchase failed');
         }
     };
 
