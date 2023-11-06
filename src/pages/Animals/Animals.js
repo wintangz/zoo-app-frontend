@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styles from './Animals.module.scss';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import 'swiper/css';
-import AnimalBackground from './Components/AnimalBackground/AnimalBackground'
-import Sidebar from './Components/Sidebar/Sidebar';
-import AnimalWrapper from './Components/AnimalWrapper/AnimalWrapper';
-import AnimalProfile from './Components/AnimalProfile/AnimalProfile';
-import Loader from "~/component/Layout/components/Loader/Loader"
 import * as animalsService from '~/api/animalsService';
+import Loader from "~/component/Layout/components/Loader/Loader";
+import styles from './Animals.module.scss';
+import AnimalBackground from './Components/AnimalBackground/AnimalBackground';
+import AnimalProfile from './Components/AnimalProfile/AnimalProfile';
+import AnimalWrapper from './Components/AnimalWrapper/AnimalWrapper';
+import Sidebar from './Components/Sidebar/Sidebar';
 
 function Animals() {
 
@@ -16,12 +16,14 @@ function Animals() {
 
     const fetchApi1 = useCallback(async () => {
         const result = await animalsService.getAnimals();
-        setAnimals(result);
+        const animalsWithTrueStatus = result.filter((animals) => animals.status === true);
+        setAnimals(animalsWithTrueStatus);
     }, []);
 
     const fetchApi2 = useCallback(async () => {
         const result = await animalsService.getHabitats();
-        setHabitats(result);
+        const habitatsWithTrueStatus = result.filter((habitats) => habitats.status === true);
+        setHabitats(habitatsWithTrueStatus);
     }, []);
 
     useEffect(() => {

@@ -13,7 +13,6 @@ function ViewNews() {
     const [newsResult, setNewsResult] = useState(null);
     const fetchApi = async () => {
         const resultTitle = await newsService.getNews();
-        console.log(resultTitle);
         setNewsResult(resultTitle);
     };
 
