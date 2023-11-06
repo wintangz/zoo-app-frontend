@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { sentEmail } from '~/api/authService';
 
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Field, Form, Formik } from 'formik';
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from './ForgotPassword.module.scss';
 
 function ForgotPassword({ onClose, onLoginClick }) {
@@ -58,7 +58,7 @@ function ForgotPassword({ onClose, onLoginClick }) {
     return (
         <>
             <div className={styles.overlay}>
-                <div className={styles.container} /*ref={forgotpasswordFormRef}*/>
+                <div className={styles.container}>
                     <div className={styles.close} onClick={onClose}>
                         <FontAwesomeIcon icon={faClose} />
                     </div>

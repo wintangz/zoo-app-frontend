@@ -2,12 +2,13 @@ import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import * as yup from 'yup';
-import { tokens } from '~/theme';
-// import { updatePassword } from '~/api/data/mockData'; // Assuming there's a function for updating the password
 import { Security } from '~/api/authService';
+import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
+import { tokens } from '~/theme';
 
-function SecurityUser() {
+function SecurityProfile() {
     //****************---------------------- Config Color Theme ****************************/
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
@@ -31,7 +32,6 @@ function SecurityUser() {
     const handleClose = () => {
         setOpen(false);
         localStorage.removeItem('token');
-        // history.push('/');
         window.location = ('/');
     };
 
@@ -76,20 +76,15 @@ function SecurityUser() {
                     <Box sx={{ ...style, width: 400 }}>
                         <h2 id="parent-modal-title">Change Password Successful!</h2>
                         <p id="parent-modal-description">Your password has been updated.</p>
-                        <Button onClick={handleClose}>Close</Button>
+                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
                     </Box>
                 </Modal>
             </div>
             <>
 
-                <Box m="35px" width={"150%"} >
-                    <Box mb="60px" mt="30px" ml="20px">
-                        <Typography color="rgb(248, 191, 2)" variant="h3" fontWeight="bold" sx={{ m: '0 0 5px 0' }}>
-                            Change Password
-                        </Typography>
-                        <Typography variant="h6">
-                            Change your Password
-                        </Typography>
+                <Box m="20px">
+                    <Box>
+                        <AdminHeader title="Change Password" subtitle="Change your Password" />
                     </Box>
                     <Formik
                         onSubmit={handleFormSubmit}
@@ -145,14 +140,13 @@ function SecurityUser() {
                                     style={{ marginBottom: '20px' }}
                                 />
                                 <Box display="flex" justifyContent="space-between" mt={2}>
-                                    <Button type="submit" variant="contained"
-                                        sx={{
-                                            color: 'white', // Text color
-                                            backgroundColor: 'rgb(248, 191, 2)',
-                                            '&:hover': {
-                                                backgroundColor: 'rgb(218, 161, 2)',
-                                            },
-                                        }}>
+                                    <Link to="/home/settings/profile">
+                                        <Button type="button" variant="contained" color="secondary">
+                                            BACK
+                                        </Button>
+                                    </Link>
+
+                                    <Button type="button" variant="contained" color="secondary">
                                         CHANGE PASSWORD
                                     </Button>
                                 </Box>
@@ -165,4 +159,4 @@ function SecurityUser() {
     );
 }
 
-export default SecurityUser;
+export default SecurityProfile;

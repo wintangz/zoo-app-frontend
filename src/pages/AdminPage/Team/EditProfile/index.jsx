@@ -354,7 +354,7 @@ function EditProfile() {
                                     />
                                 </Box>
                                 <Box display="flex" justifyContent="space-between" mt="20px">
-                                    <Link to="/home/edit/security">
+                                    <Link to="/home/settings/security">
                                         <Button
                                             onClick={handleSercurity}
                                             type="submit"
