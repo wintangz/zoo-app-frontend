@@ -69,7 +69,20 @@ const ThankYouPage = () => {
                 </>
             ) : (
                 // <p className={`waiting-text ${styles.waitingText}`}>Waiting...</p>
-                <div className={styles.loader}></div>
+                <>
+                    <h1 className={styles.thanks}>Warning</h1>
+                    <h2 className={styles.mail}>You haven't paid for your order yet.</h2>
+                    <div className={styles.check}>
+                        <AttachEmailIcon />
+                        <p><i>An email receipt including the details about your order has been <br /> sent to the email address provided. Please keep it for your records.</i></p>
+                    </div>
+                    <div className={styles.button}>
+                        <button onClick={() => navigate('/')} className={styles.backToHomeButton}>
+                            Back to Home
+                        </button>
+                    </div>
+
+                </>
             )}
 
         </div>
