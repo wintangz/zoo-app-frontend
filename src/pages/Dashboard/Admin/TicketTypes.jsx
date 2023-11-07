@@ -8,11 +8,13 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { useNavigate } from 'react-router-dom';
 
 const TicketTypes = () => {
 
     const [deleteModal, openDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(0);
+    const navigate = useNavigate(null)
     const toast = useRef(null);
 
     const labels = {
@@ -36,7 +38,7 @@ const TicketTypes = () => {
 
     const actionBody = (item) => {
         return <div className='space-x-2'>
-            <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined />
+            <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined onClick={() => navigate('/dashboard/tickets/update')} />
             <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} />
         </div>
     }
