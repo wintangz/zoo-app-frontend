@@ -73,7 +73,7 @@ const Animals = () => {
     );
     const actionBody = (item) => {
         return <div className='space-x-2'>
-            <Link to="/home/animals/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link>
+            <Link to="/dashboard/animals/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link>
             <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} />
         </div>
     }
@@ -114,7 +114,7 @@ const Animals = () => {
     const renderHeader = () => {
         return (
             <div className="flex justify-content-between">
-                <Link to="/home/animals/create"><Button label='Create' /></Link>
+                <Link to="/dashboard/animals/create"><Button label='Create' severity='success' /></Link>
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
