@@ -41,6 +41,7 @@
         "normalize.css": "^8.0.1",
         "otp-input-react": "^0.3.0",
         "react": "^18.2.0",
+        "react-big-calendar": "^1.8.5",
         "react-bootstrap": "^2.9.0",
         "react-dom": "^18.2.0",
         "react-hook-form": "^7.47.0",
