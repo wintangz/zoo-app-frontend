@@ -87,6 +87,7 @@ import FeedingSchedules from '~/pages/Dashboard/ZooTrainer/FeedingSchedules';
 import HealthRecords from '~/pages/Dashboard/ZooTrainer/HealthRecords';
 import Foods from '~/pages/Dashboard/ZooTrainer/Foods';
 import TicketChecking from '~/pages/Dashboard/Staff/TicketChecking';
+import Dashboard from '~/pages/Dashboard/Dashboard';
 
 
 const publicRoutes = [
@@ -170,6 +171,8 @@ const publicRoutes = [
     { path: 'home/animals/health', component: ViewHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
     { path: 'home/animals/health/create', component: CreateHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
     { path: 'home/animals/health/update', component: UpdateHealth, layout: AdminMainPage, name: 'UpdateHealth;', Authen: "private" },
+
+    { path: 'dashboard', component: Dashboard, layout: DashboardLayout, name: 'AllDashboard', Authen: "private" },
 
     //ADMIN
     { path: 'dashboard/users', component: Users, layout: DashboardLayout, name: 'AdminUsers', Authen: "private" },

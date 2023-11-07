@@ -1,36 +1,16 @@
 import { Avatar, Box, Dialog, DialogContent, FormControl, Input, Typography, useTheme } from '@mui/material';
-import Button from '@mui/material/Button';
+import { Button } from 'primereact/button';
 import { useState } from 'react';
 import { Menu, MenuItem, ProSidebar } from 'react-pro-sidebar';
-
-import BookOnlineIcon from '@mui/icons-material/BookOnline';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import ForestIcon from '@mui/icons-material/Forest';
-import HouseSidingIcon from '@mui/icons-material/HouseSiding';
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import PetsIcon from '@mui/icons-material/Pets';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import Collapse from '@mui/material/Collapse';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import { useEffect } from 'react';
-import { BsFillTicketPerforatedFill, BsNewspaper, BsQrCodeScan } from 'react-icons/bs';
-import { FaBalanceScale } from 'react-icons/fa';
-import { GiCage, GiElephant } from 'react-icons/gi';
-import { TbMeat } from 'react-icons/tb';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Link } from 'react-router-dom';
 import { getUserById, logout, updateUser } from '~/api/userService';
 import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 import uploadFile from '~/utils/transferFile';
-import { MonitorHeartOutlined, RestaurantMenuOutlined } from '@mui/icons-material';
+import { GiLion } from 'react-icons/gi'
+import { CalendarMonthOutlined, ConfirmationNumberOutlined, ForestOutlined, FoundationOutlined, InsightsOutlined, LocalDiningOutlined, MonitorHeartOutlined, NewspaperOutlined, PeopleAltOutlined, PetsOutlined, QrCodeScannerOutlined, RestaurantMenuOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -162,18 +142,9 @@ const Sidebar = () => {
         lastname: users?.lastname || '',
         firstname: users?.firstname || '',
     };
-    const userRole = decode(localStorage.getItem('token')).roles[0];
-    let titleData = '';
-    let titleNews = '';
 
-    if (userRole === 'ADMIN') {
-        titleData = 'Users';
-    } else if (userRole === 'STAFF') {
-        titleData = 'Zoo Trainers';
-        titleNews = 'News';
-    }
-    else if (userRole === 'ZOO_TRAINER') {
-    }
+    const userRoles = decode(localStorage.getItem('token')).roles;
+
     return (
         <Box
             sx={{
@@ -221,10 +192,11 @@ const Sidebar = () => {
                                 color={colors.grey[100]}
                                 fontWeight="bold"
                                 sx={{ m: '10px 0 0 0' }}
+                                className='text-2xl'
                             >
                                 {initialValues.lastname} {initialValues.firstname}
                             </Typography>
-                            <Typography variant="h5" color={colors.greenAccent[500]}>
+                            <Typography className='text-amber-400 font-bold text-xl'>
                                 {role}
                             </Typography>
                         </Box>
@@ -262,100 +234,120 @@ const Sidebar = () => {
                             </Button>
                         </Dialog>
 
-                        {userRole !== 'ZOO_TRAINER' && (
+                        <Item
+                            title='Dashboard'
+                            to="/dashboard"
+                            icon={<InsightsOutlined />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+
+                        {userRoles.includes('ADMIN') &&
                             <>
-                                <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
-                                    Data
-                                </Typography>
                                 <Item
-                                    title={titleData}
-                                    to="/home"
-                                    icon={<PeopleOutlinedIcon />}
+                                    title='Users'
+                                    to="/dashboard/users"
+                                    icon={<PeopleAltOutlined />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="Ticket types"
+                                    to="/dashboard/tickets"
+                                    icon={<ConfirmationNumberOutlined />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
                             </>
-                        )}
+                        }
 
-                        {userRole === 'STAFF' && (
+                        {userRoles.includes('STAFF') && !userRoles.includes('ADMIN') &&
                             <>
                                 <Item
                                     title="Customers"
-                                    to="/home/customers"
-                                    icon={<PeopleOutlinedIcon />}
+                                    to="/dashboard/customers"
+                                    icon={<PeopleAltOutlined />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
                                 <Item
-                                    title={titleNews}
-                                    to="/home/news"
-                                    icon={<BsNewspaper />}
+                                    title="Zoo Trainers"
+                                    to="/dashboard/zoo_trainers"
+                                    icon={<PeopleAltOutlined />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                            </>
+                        }
+                        {userRoles.includes('STAFF') &&
+                            <>
+                                <Item
+                                    title='News'
+                                    to="/dashboard/news"
+                                    icon={<NewspaperOutlined />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
                                 <Item
                                     title="Orders"
-                                    to="/home/orders"
-                                    icon={<ShoppingCartIcon />}
+                                    to="/dashboard/orders"
+                                    icon={<ShoppingCartOutlined />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
-                                <Item
+                                {/* <Item
                                     title="Purchased Tickets"
                                     to="/home/purchased_tickets"
                                     icon={<BookOnlineIcon />}
                                     selected={selected}
                                     setSelected={setSelected}
-                                />
+                                /> */}
                                 <Item
                                     title="Check ticket"
-                                    to="/home/check_ticket"
-                                    icon={<BsQrCodeScan />}
+                                    to="/dashboard/ticket_check"
+                                    icon={<QrCodeScannerOutlined />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
                             </>
-                        )}
-                        {userRole === 'ADMIN' && (
-                            <>
-
-                                <Item
-                                    title="Ticket types"
-                                    to="/home/tickets"
-                                    icon={<BsFillTicketPerforatedFill />}
-                                    selected={selected}
-                                    setSelected={setSelected}
-                                />
-
-                            </>
-                        )}
-                        {userRole === "STAFF" && <Item
-                            title="Animals"
-                            to="/home/animals"
-                            icon={<GiElephant />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />}
-
-                        {userRole === 'ZOO_TRAINER' && (
+                        }
+                        {(userRoles.includes('STAFF') || userRoles.includes('ZOO_TRAINER')) &&
                             <>
                                 <Item
                                     title="Animals"
-                                    to="/home/animals"
-                                    icon={<GiElephant />}
+                                    to="/dashboard/animals"
+                                    icon={<GiLion className='w-9 h-9' />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
                                 <Item
+                                    title="Enclosures"
+                                    to="/dashboard/enclosures"
+                                    icon={<FoundationOutlined />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                                <Item
+                                    title="Habitats"
+                                    to="/dashboard/habitats"
+                                    icon={<ForestOutlined />}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                />
+                            </>}
+
+                        {userRoles.includes('ZOO_TRAINER') && (
+                            <>
+                                <Item
                                     title="Feed Schedules"
-                                    to="/home/animals/schedule"
-                                    icon={<RestaurantMenuOutlined />}
+                                    to="/dashboard/animals/feeding"
+                                    icon={<CalendarMonthOutlined />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
                                 <Item
                                     title="Health Records"
-                                    to="/home/animals/health"
+                                    to="/dashboard/animals/health"
                                     icon={<MonitorHeartOutlined />}
                                     selected={selected}
                                     setSelected={setSelected}
@@ -364,70 +356,35 @@ const Sidebar = () => {
 
                                 <Item
                                     title="Foods"
-                                    to="/home/foods"
-                                    icon={<TbMeat />}
+                                    to="/dashboard/foods"
+                                    icon={<LocalDiningOutlined />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
-                                <Item
+                                {/* <Item
                                     title="Diets"
                                     to="/home/diets"
                                     icon={<FaBalanceScale />}
                                     selected={selected}
                                     setSelected={setSelected}
-                                />
+                                /> */}
                                 <Item
                                     title="Species"
-                                    to="/home/species"
-                                    icon={<PetsIcon />}
+                                    to="/dashboard/species"
+                                    icon={<PetsOutlined />}
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
-                            </>
-                        )}
-                        {userRole === "ZOO_TRAINER" && (
-                            <>
-                                <Item
-                                    title="Enclosure"
-                                    to="/home/enclosures"
-                                    icon={<HouseSidingIcon />}
-                                    selected={selected}
-                                    setSelected={setSelected}
-                                />
-                                <Item
-                                    title="Habitat"
-                                    to="/home/habitats"
-                                    icon={<ForestIcon />}
-                                    selected={selected}
-                                    setSelected={setSelected}
-                                />
-                            </>
-                        )}
-                        {userRole === "STAFF" && (
-                            <>
-                                <Item
-                                    title="Enclosure"
-                                    to="/home/enclosures"
-                                    icon={<HouseSidingIcon />}
-                                    selected={selected}
-                                    setSelected={setSelected}
-                                />
-                                <Item
-                                    title="Habitat"
-                                    to="/home/habitats"
-                                    icon={<ForestIcon />}
-                                    selected={selected}
-                                    setSelected={setSelected}
-                                />
+
                             </>
                         )}
                         <Button
-                            variant="contained"
-                            sx={{ width: '70%', marginTop: '2vh', marginBottom: '4vh' }}
                             onClick={handleLogout}
-                        >
-                            <LogoutOutlinedIcon /> {!isCollapsed && <div>Logout</div>}
-                        </Button>
+                            className='ml-4 bg-amber-400 border-0 my-5 px-6'
+                            label='Log out'
+                            icon="pi pi-sign-out"
+                            size='small'
+                        />
                     </Box>
                 </Menu>
             </ProSidebar>
