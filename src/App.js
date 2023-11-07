@@ -2,10 +2,10 @@ import { Fragment, createContext, useEffect } from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { DefaultLayout } from '~/component/Layout';
 import { publicRoutes } from '~/routes';
-import AnimalLayout from './component/Layout/AnimalLayout/AnimalLayout';
 import ScrollToTop from './component/ScrollToTop';
-import Animals from './pages/Animals/Animals';
-import { decode } from './utils/axiosClient';
+import 'primeflex/primeflex.css';                                   // css utility
+import 'primeicons/primeicons.css';
+
 export const NamePageContext = createContext();
 export const BannerPageContext = createContext();
 function App() {
@@ -67,6 +67,7 @@ function App() {
                                     />
 
                                 </>
+
                             )
                         }
                     })}

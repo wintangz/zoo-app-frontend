@@ -4,7 +4,7 @@ import styles from './Banner.module.scss';
 import classNames from 'classnames/bind';
 import { Carousel } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
-import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import * as assets from '~/utils/assets-src.js';

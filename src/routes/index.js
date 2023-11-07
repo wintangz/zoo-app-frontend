@@ -72,6 +72,8 @@ import UpdateTicket from '~/pages/AdminPage/Ticket/updateTicket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import Order from '~/pages/Order/Order';
 import ThankYouPage from '~/pages/Ticket/Thanks';
+import Users from '~/pages/Dashboard/Users';
+import DashboardLayout from '~/component/Layout/DashboardLayout';
 
 
 const publicRoutes = [
@@ -156,6 +158,7 @@ const publicRoutes = [
     { path: 'home/animals/health/create', component: CreateHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
     { path: 'home/animals/health/update', component: UpdateHealth, layout: AdminMainPage, name: 'UpdateHealth;', Authen: "private" },
 
+    { path: 'dashboard/users', component: Users, layout: DashboardLayout, name: 'Users', Authen: "private" },
 
 ];
 
