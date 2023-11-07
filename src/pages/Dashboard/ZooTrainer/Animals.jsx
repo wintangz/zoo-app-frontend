@@ -145,7 +145,8 @@ const Animals = () => {
             {data &&
                 <div className='mt-5'>
                     <DataTable value={data.data} loading={isLoading} showGridlines scrollHeight="77vh" scrollable style={{ width: "77vw" }}
-                        filters={filters} filterDisplay="row" paginator rows={10}
+                        filters={filters}
+                        paginator rows={10}
                         globalFilterFields={['id', 'name', 'origin', 'species']} header={header} emptyMessage="No customers found."
                     >
                         {columns.map((col) => (
