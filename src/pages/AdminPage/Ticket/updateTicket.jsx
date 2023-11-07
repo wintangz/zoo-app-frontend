@@ -13,7 +13,6 @@ import MenuItem from '@mui/material/MenuItem';
 function UpdateTicket() {
     const location = useLocation()
     const theme = useTheme({ isDashboard: false });
-    const colors = tokens(theme.palette.mode);
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const handleClose = () => {
