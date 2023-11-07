@@ -2,7 +2,7 @@ import React from 'react'
 import useSWR from 'swr'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { get } from './AxiosClient'
+import { get } from '../AxiosClient'
 import { Tag } from 'primereact/tag';
 import { BsGenderFemale, BsGenderMale } from 'react-icons/bs'
 

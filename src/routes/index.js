@@ -72,8 +72,21 @@ import UpdateTicket from '~/pages/AdminPage/Ticket/updateTicket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import Order from '~/pages/Order/Order';
 import ThankYouPage from '~/pages/Ticket/Thanks';
-import Users from '~/pages/Dashboard/Users';
+
+//import for dashboard pages
+import Users from '~/pages/Dashboard/Admin/Users';
 import DashboardLayout from '~/component/Layout/DashboardLayout';
+import TicketTypes from '~/pages/Dashboard/Admin/TicketTypes';
+import Customers from '~/pages/Dashboard/Staff/Customers';
+import ZooTrainers from '~/pages/Dashboard/Staff/ZooTrainers';
+import Orders from '~/pages/Dashboard/Staff/Orders';
+import Enclosures from '~/pages/Dashboard/Staff/Enclosures';
+import HabitatsDB from '~/pages/Dashboard/Staff/Habitats';
+import AnimalsDB from '~/pages/Dashboard/ZooTrainer/Animals';
+import FeedingSchedules from '~/pages/Dashboard/ZooTrainer/FeedingSchedules';
+import HealthRecords from '~/pages/Dashboard/ZooTrainer/HealthRecords';
+import Foods from '~/pages/Dashboard/ZooTrainer/Foods';
+import TicketChecking from '~/pages/Dashboard/Staff/TicketChecking';
 
 
 const publicRoutes = [
@@ -158,7 +171,25 @@ const publicRoutes = [
     { path: 'home/animals/health/create', component: CreateHealth, layout: AdminMainPage, name: 'viewHealth;', Authen: "private" },
     { path: 'home/animals/health/update', component: UpdateHealth, layout: AdminMainPage, name: 'UpdateHealth;', Authen: "private" },
 
-    { path: 'dashboard/users', component: Users, layout: DashboardLayout, name: 'Users', Authen: "private" },
+    //ADMIN
+    { path: 'dashboard/users', component: Users, layout: DashboardLayout, name: 'AdminUsers', Authen: "private" },
+    { path: 'dashboard/tickets', component: TicketTypes, layout: DashboardLayout, name: 'AdminTicketTypes', Authen: "private" },
+
+    //STAFF
+    { path: 'dashboard/customers', component: Customers, layout: DashboardLayout, name: 'StaffCustomers', Authen: "private" },
+    { path: 'dashboard/zoo_trainers', component: ZooTrainers, layout: DashboardLayout, name: 'StaffZooTrainers', Authen: "private" },
+    { path: 'dashboard/news', component: Users, layout: DashboardLayout, name: 'StaffNews', Authen: "private" },
+    { path: 'dashboard/orders', component: Orders, layout: DashboardLayout, name: 'StaffOrders', Authen: "private" },
+    { path: 'dashboard/enclosures', component: Enclosures, layout: DashboardLayout, name: 'StaffEnclosures', Authen: "private" },
+    { path: 'dashboard/habitats', component: HabitatsDB, layout: DashboardLayout, name: 'StaffHabitats', Authen: "private" },
+    { path: 'dashboard/ticket_check', component: TicketChecking, layout: DashboardLayout, name: 'StaffCheckTickets', Authen: "private" },
+
+    //ZOO TRAINER
+    { path: 'dashboard/animals', component: AnimalsDB, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
+    { path: 'dashboard/animals/feeding', component: FeedingSchedules, layout: DashboardLayout, name: 'ZTFeeding', Authen: "private" },
+    { path: 'dashboard/animals/health', component: HealthRecords, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
+    { path: 'dashboard/foods', component: Foods, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
+    { path: 'dashboard/species', component: HealthRecords, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
 
 ];
 
