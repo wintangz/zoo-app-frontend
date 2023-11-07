@@ -23,10 +23,12 @@ export default function Context({ children }) {
         setCart(convertTicketToCart(result));
 
         const resultRecommend = await getRecommend();
-        setRecommendResult(resultRecommend);
+        const recommendWithTrueStatus = resultRecommend.filter((recommend) => recommend.status === true);
+        setRecommendResult(recommendWithTrueStatus);
 
         const resultTitle = await getNews();
-        setNewsResult(resultTitle);
+        const newsWithTrueStatus = resultTitle.filter((news) => news.status === true);
+        setNewsResult(newsWithTrueStatus);
     }
 
     useEffect(() => {
