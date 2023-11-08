@@ -8,24 +8,6 @@ import { useAppContext } from '~/context/Context';
 import styles from './Ticket.module.scss';
 import TicketDetail from './TicketDetail';
 
-// import { Link } from 'react-router-dom';
-
-function formatPrice(totalPrice) {
-
-    if (totalPrice === 0)
-        return;
-
-    let totalPriceString = totalPrice.toString();
-
-    // Calculate the position to insert the dot
-    let dotPosition = totalPriceString.length - 3;
-
-    // Insert the dot at the calculated position
-    let formattedPrice = totalPriceString.slice(0, dotPosition) + '.' + totalPriceString.slice(dotPosition);
-
-    // Return the formatted price
-    return formattedPrice;
-}
 
 export const TicketContext = createContext();
 function Ticket() {
@@ -69,13 +51,6 @@ function Ticket() {
         setTotalQuantity(prev => prev - 1)
         setTotalPrice(prev => prev - Number(price))
     }
-
-    // useEffect(() => {
-    //     if (totalQuantity == 0) {
-    //         setTotalPrice(0)
-    //     }
-    //     console.log(totalQuantity)
-    // }, [totalQuantity])
     console.log(tickets);
     return (
         <>
@@ -88,7 +63,7 @@ function Ticket() {
                     <div className={styles.welcome_description}>Get Zoo Ticket Now!!!</div>
                 </div>
             </div>
-            <div style={{ textAlign: "center", fontSize: "1.5rem", paddingBottom: "2rem" }}>* Ticket is available for 30 days after purchase.  </div>
+            <div style={{ textAlign: "center", fontSize: "1.5rem", paddingBottom: "2rem", color: "red" }}>* Ticket is available for 30 days after purchase.  </div>
             <div className={styles.table_container}>
                 <table className={styles.table}>
                     <tr className={styles.table_row}>
@@ -101,7 +76,6 @@ function Ticket() {
                             return (
                                 <TicketDetail
                                     ticket={ticket}
-                                    // key={ticket.id} (optional but recommended)
                                     increaseQuantity={(price) => handleIncreaseQuantity(price)}
                                     reduceQuantity={(price) => handleReduceQuantity(price)}
                                 />
@@ -112,7 +86,7 @@ function Ticket() {
 
                     <tr className={`${styles.table_row} ${styles.total}`}>
                         <td colSpan='4' className={styles.table_data}>
-                            <b>Total Price: {formatPrice(totalPrice)} VND</b>
+                            <b>Total Price: {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND</b>
                         </td>
                     </tr>
                 </table>

@@ -1,28 +1,22 @@
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { Dialog } from 'primereact/dialog';
 import { Tag } from 'primereact/tag';
-import { Toast } from 'primereact/toast';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
 import { get } from '~/utils/axiosClient';
-import { remove } from '../AxiosClient';
 
 export default function ViewNews() {
 
     const navigate = useNavigate();
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
-    const [deleteId, setDeleteId] = useState(0);
-    const toast = useRef(null);
 
     const labels = {
         title: 'View News',
         subtitle: 'Table of News',
         apiPath: '/news'
     }
-    const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
+    const { data, error, isLoading } = useSWR(labels.apiPath, get)
 
     // const handleRowDoubleClick = (selectedNews) => {
     //     // const selectedNews = params.data;
@@ -65,7 +59,7 @@ export default function ViewNews() {
         return (
             <React.Fragment>
                 <Button icon="pi pi-pencil" rounded outlined className="mr-2" onClick={() => editNews(rowData)} />
-                <Button icon="pi pi-trash" rounded outlined severity="danger" onClick={() => handleDeleteClick(rowData)} />
+                <Button icon="pi pi-trash" rounded outlined severity="danger" onClick={() => confirmDeleteSelected(rowData)} />
             </React.Fragment>
         );
     };
@@ -74,32 +68,9 @@ export default function ViewNews() {
         const NewsId = news.id;
         navigate(`/home/news/update/${NewsId}`);
     };
-
-    const handleDeleteClick = (rowData) => {
-        setDeleteProductDialog(true)
-        setDeleteId(rowData.id)
-    }
-
     const confirmDeleteSelected = () => {
-        remove(`${labels.apiPath}/${deleteId}`)
-            .then((response) => {
-                if (response.status === 200) {
-                    setDeleteProductDialog(false)
-                    mutate({ ...data })
-                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Delete Successfully', life: 3000 });
-                }
-            })
-            .catch((error) => {
-                toast.current.show({ severity: 'error', summary: 'Error', detail: 'An error has occurred', life: 3000 });
-                console.error('DELETE request failed:', error);
-            });
+        // setDeleteProductsDialog(true);
     };
-    const deleteProductDialogFooter = (
-        <React.Fragment>
-            <Button label="No" icon="pi pi-times" outlined onClick={() => setDeleteProductDialog(true)} />
-            <Button label="Yes" icon="pi pi-check" severity="danger" onClick={confirmDeleteSelected} />
-        </React.Fragment>
-    );
     const truncateText = (text, limit) => {
         if (text.length > limit) {
             return text.slice(0, limit) + '...';
@@ -133,17 +104,6 @@ export default function ViewNews() {
                     </DataTable>
                 </div>
             }
-            <Dialog visible={deleteProductDialog} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={() => setDeleteProductDialog(false)}>
-                <div className="confirmation-content">
-                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                    {data && (
-                        <span>
-                            Are you sure you want to delete <b>{data.id}</b>?
-                        </span>
-                    )}
-                </div>
-            </Dialog>
-            <Toast ref={toast} />
         </div>
     );
 }

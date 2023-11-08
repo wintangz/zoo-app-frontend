@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import styles from "./HabitatZone.module.scss";
-import Gallery from "../Gallery/Gallery";
 import classNames from "classnames/bind";
-import Loader from "~/component/Layout/components/Loader/Loader"
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import Loader from "~/component/Layout/components/Loader/Loader";
+import Gallery from "../Gallery/Gallery";
+import styles from "./HabitatZone.module.scss";
 
-import { getHabitats, getHabitatById } from '~/api/animalsService';
+import { getHabitatById, getHabitats } from '~/api/animalsService';
 import { getSpecies } from '~/api/speciesService';
 
 const cx = classNames.bind(styles);
@@ -21,13 +21,14 @@ function HabitatZone() {
 
     const fetchApi = async () => {
         const resultAnimal = await getSpecies();
-        setAnimals(resultAnimal);
+        const animalsWithTrueStatus = resultAnimal.filter((animals) => animals.status === true);
+        setAnimals(animalsWithTrueStatus);
 
         const resultHabitat = await getHabitats();
-        setHabitats(resultHabitat);
+        const habitatsWithTrueStatus = resultHabitat.filter((habitats) => habitats.status === true);
+        setHabitats(habitatsWithTrueStatus);
 
         const resultHabitatById = await getHabitatById(id);
-
         setHabitatsId(resultHabitatById);
 
 
@@ -88,7 +89,6 @@ function HabitatZone() {
                                 </div>
                             </Link>
                         ))}
-                    {/* Add Gallery component for each zone */}
                     {selectedZone === zone && (
                         <div key={`gallery-${zone}`} className={styles.galleryWrapper}>
                             <Gallery item={animals.filter((item) => item.habitat.name === zone)} />

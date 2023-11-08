@@ -3,23 +3,6 @@ import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { useAppContext } from '~/context/Context';
 import styles from './Ticket.module.scss';
 
-function formatPrice(totalPrice) {
-
-    if (totalPrice === 0)
-        return;
-
-    let totalPriceString = totalPrice.toString();
-
-    // Calculate the position to insert the dot
-    let dotPosition = totalPriceString.length - 3;
-
-    // Insert the dot at the calculated position
-    let formattedPrice = totalPriceString.slice(0, dotPosition) + '.' + totalPriceString.slice(dotPosition);
-
-    // Return the formatted price
-    return formattedPrice;
-}
-
 export default function TicketDetail(props) {
     const { setCart, cart } = useAppContext()
 
@@ -71,7 +54,7 @@ export default function TicketDetail(props) {
                 <br />
                 {props.ticket.description}
             </td>
-            <td className={`${styles.table_data} ${styles.price}`}>{formatPrice(props.ticket.price)} VND</td>
+            <td className={`${styles.table_data} ${styles.price}`}>{props.ticket.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND</td>
             <td className={styles.table_data}>
                 <div className={styles.input}>
                     <div className={styles.btn} onClick={MinPrice}>
