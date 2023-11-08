@@ -12,45 +12,54 @@ import { tokens } from '~/theme';
 import './index.css'
 import moment from 'moment';
 import { formatDateTime } from '~/utils/dateTimeFormat';
+import { Button as PrimeButton } from 'primereact/button';
+import { Link, useLocation } from 'react-router-dom';
 
 function Calendar() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const location = useLocation()
     const [schedule, setSchedule] = useState([]);
     const [allSchedule, setAllSchedule] = useState([]);
     const [currentSchedule, setCurrentSchedule] = useState([]); //set current schedule for on click on schedule 
     useEffect(() => {
         const res = getAllSchedule()
         const filterDate = [];
+
         res.then((schedules) => {
-            schedules.map((schedule) => {
-                const object = {
-                    id: schedule.id, title: "Feeding: " + schedule.animalId, start: schedule.feedingTime, color: schedule.fed ? "green" : "red",
-                }
-                filterDate.push(object);
-                setSchedule(filterDate)
-            })
-            setAllSchedule(schedules)
+            console.log(schedules)
+            if (location.state) {
+                const filter = schedules.filter(schedule => {
+                    return schedule.animalId.id === location.state.id;
+                })
+                filter.map((schedule) => {
+                    const object = {
+                        id: schedule.id,
+                        title: "Feeding: " + schedule.animalId.name + " Animal Id: " + schedule.animalId.id,
+                        start: schedule.feedingTime,
+                        color: schedule.fed ? "green" : "red",
+                    }
+                    filterDate.push(object);
+                    setSchedule(filterDate)
+                })
+                setAllSchedule(filter)
+            } else {
+                schedules.map((schedule) => {
+                    const object = {
+                        id: schedule.id,
+                        title: "Feeding: " + schedule.animalId.name + " Animal Id: " + schedule.animalId.id,
+                        start: schedule.feedingTime,
+                        color: schedule.fed ? "green" : "red",
+                    }
+                    filterDate.push(object);
+                    setSchedule(filterDate)
+                })
+                setAllSchedule(schedules)
+            }
         })
     }, [])
     const [currentEvents, setCurrentEvents] = useState([]);
-    // const handleDateClick = (selected) => {
-    //     console.log(selected);
-    //     const title = prompt('Please enter a new title for your event');
-    //     const calendarApi = selected.view.calendar;
-    //     calendarApi.unselect();
-    //     console.log(calendarApi);
-    //     console.log(selected);
-    //     if (title) {
-    //         calendarApi.addEvent({
-    //             id: `${selected.dateStr} - ${title}`,
-    //             title,
-    //             start: selected.startStr,
-    //             end: selected.endStr,
-    //             allDay: selected.allDay,
-    //         });
-    //     }
-    // };
+
     const [open, setOpen] = useState(null);
     const style = {
         position: 'absolute',
@@ -89,7 +98,7 @@ function Calendar() {
     for (let i = 0; i < elementContent.length; i++) {
         elementContent[i].style.paddingLeft = "0.5rem"
     }
-    console.log(currentSchedule)
+    console.log(location.state)
     return (
         <>
             <div>
@@ -101,23 +110,65 @@ function Calendar() {
                 >
                     <Box sx={{ ...style, width: 400 }}>
                         <Box display="flex" sx={{ justifyContent: "center", fontWeight: 700, }}>
-                            <h2 id="parent-modal-title" style={{ padding: "0.5rem", borderBottom: `1px solid ${colors.grey[100]}` }}>Schedule Detail</h2>
+                            <h2 id="parent-modal-title" style={{ padding: "0.5rem", borderBottom: `1px solid ${colors.grey[100]}`, fontSize: "1.5rem" }}>Schedule Detail</h2>
                         </Box>
-                        <Box display="flex" sx={{ height: "80%", fontSize: "1rem", flexDirection: 'column' }}>
-                            <div>Animal Id: {currentSchedule.map(curSchedule => curSchedule.animalId)}</div>
+                        <Box display="flex" sx={{ height: "80%", fontSize: "1rem", flexDirection: 'column', lineHeight: 2 }}>
+                            <div>Animal: {currentSchedule.map(curSchedule => `${curSchedule.animalId.name} - ${curSchedule.animalId.id}`)}</div>
                             <div>Schedule Id: {currentSchedule.map(curSchedule => curSchedule.id)}</div>
                             <div>Feeding Time: {currentSchedule.map(curSchedule => formatDateTime(new Date(curSchedule.feedingTime)))}</div>
-                            <div>Zootrainer Id: {currentSchedule.map(curSchedule => curSchedule.zooTrainerId)}</div>
+                            <div>Zootrainer: {currentSchedule.map(curSchedule => `${curSchedule.zooTrainerId.lastname} ${curSchedule.zooTrainerId.firstname} - ${curSchedule.zooTrainerId.id}`)}</div>
                             <div>Is Fed: <span style={{ background: currentSchedule.map(curSchedule => curSchedule.fed ? "green" : "red"), padding: "0.2rem", borderRadius: '5px', color: "white" }}>{currentSchedule.map(curSchedule => curSchedule.fed ? "Done" : "Not yet")}</span></div>
+                            <div className='schedule-detail-food'>
+                                <div style={{ textAlign: "center", fontSize: "1.2rem", fontWeight: "600" }}>Table of Food Detail</div>
+                                <table>
+                                    <tr>
+                                        <th>Food</th>
+                                        <th>Expected Quantity</th>
+                                        <th>Actual Quantity</th>
+                                    </tr>
+                                    {currentSchedule.map(curSchedule => {
+                                        return curSchedule.details.map(detail => {
+                                            return (
+                                                <tr>
+                                                    <td>{`${detail.food.name} - ${detail.food.type}`}</td>
+                                                    <td>{detail.expectedQuantity}</td>
+                                                    <td>{detail.actualQuantity}</td>
+                                                </tr>
+                                            )
+                                        })
+                                    })}
+                                </table>
+                            </div>
+
                         </Box>
                         <Box display="flex" sx={{ justifyContent: "center" }}>
-                            <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold', alignItems: 'flex-end' }} onClick={handleClose}>Close</Button>
+                            <Button
+                                color='secondary'
+                                sx={{
+                                    fontSize: '0.9rem',
+                                    fontWeight: 'bold',
+                                    alignItems: 'flex-end',
+                                    background: "#f8bf02",
+                                    color: "white",
+                                    transition: "background 0.3s ease", // Add a transition for the background color
+                                    '&:hover': {
+                                        background: "black", // Change background color on hover
+                                    }
+                                }}
+                                onClick={handleClose}
+                            >
+                                Close
+                            </Button>
                         </Box>
                     </Box>
                 </Modal>
             </div>
             <Box m="20px">
                 <AdminHeader title="CALENDAR" subtitle="Full Calendar Interative Page" />
+                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                    <Link to="/dashboard/animals/feeding" state={location.state}><PrimeButton label='View by Table' severity='success' /></Link>
+
+                </Box>
                 <Box display="flex" justifyContent="space-between" sx={{
                     maxHeight: "100%",
                     height: '75vh',
@@ -161,7 +212,6 @@ function Calendar() {
                             }}
                             initialView="timeGridWeek"
                             selectable={true}
-                            selectMirror={true}
                             dayMaxEvents={true}
                             eventClick={handleEventClick}
                             eventsSet={(event) => {

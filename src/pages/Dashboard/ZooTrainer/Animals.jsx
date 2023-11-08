@@ -47,6 +47,9 @@ const Animals = () => {
     const datetime = (item) => {
         return <span>{new Date(item.dateOfBirth).toLocaleString()}</span>
     }
+    const Arrivaldatetime = (item) => {
+        return <span>{new Date(item.arrivalDate).toLocaleString()}</span>
+    }
 
     const handleDeleteClick = (rowData) => {
         setDeleteId(rowData.id)
@@ -72,9 +75,10 @@ const Animals = () => {
         </React.Fragment>
     );
     const actionBody = (item) => {
-        return <div className='space-x-2'>
+        return <div className='space-x-2 flex'>
             <Link to="/dashboard/animals/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link>
             <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} />
+            <Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-bookmark" severity="secondary" aria-label="Bookmark" rounded outlined /></Link>
         </div>
     }
 
@@ -85,7 +89,7 @@ const Animals = () => {
         { field: 'name', header: 'Name', sortable: true, filterField: "name" },
         { field: 'origin', header: 'Origin', sortable: true, filterField: "origin" },
         { header: 'Image', body: avatarBody, sortable: false, filterField: false },
-        { header: 'Arrival Date', body: datetime, sortable: false, filterField: false },
+        { header: 'Arrival Date', body: Arrivaldatetime, sortable: false, filterField: false },
         { header: 'Date Of Birth', body: datetime, sortable: false, filterField: false },
         { header: 'Sex', body: sexBody, sortable: false, filterField: false },
         { field: 'species', header: 'Species', sortable: true, filterField: "species" },

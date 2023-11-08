@@ -112,7 +112,6 @@ const publicRoutes = [
 
     // Admin routes
     { path: 'home', component: Team, layout: AdminMainPage, name: 'Team', Authen: "private" },
-    { path: 'calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
     { path: 'home/staff/create', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'home/zootrainer/create', component: Form, layout: AdminMainPage, name: 'Form', Authen: "private" },
     { path: 'home/staff/update/:userId', component: UpdateStaff, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
@@ -215,6 +214,8 @@ const publicRoutes = [
     { path: 'dashboard/species', component: HealthRecords, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/create', component: HealthRecords, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/update', component: HealthRecords, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
+    { path: 'dashboard/animals/feeding/calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
+
 
 ];
 
