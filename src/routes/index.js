@@ -197,8 +197,8 @@ const publicRoutes = [
     { path: 'dashboard/enclosures/create', component: CreateEnclosure, layout: DashboardLayout, name: 'StaffEnclosures', Authen: "private" },
     { path: 'dashboard/enclosures/update', component: UpdateEnclosure, layout: DashboardLayout, name: 'StaffEnclosures', Authen: "private" },
     { path: 'dashboard/habitats', component: HabitatsDB, layout: DashboardLayout, name: 'StaffHabitats', Authen: "private" },
-    { path: 'dashboard/habitats', component: CreateHabitat, layout: DashboardLayout, name: 'StaffHabitats', Authen: "private" },
-    { path: 'dashboard/habitats', component: UpdateHabitat, layout: DashboardLayout, name: 'StaffHabitats', Authen: "private" },
+    { path: 'dashboard/habitats/create', component: CreateHabitat, layout: DashboardLayout, name: 'StaffHabitats', Authen: "private" },
+    { path: 'dashboard/habitats/update', component: UpdateHabitat, layout: DashboardLayout, name: 'StaffHabitats', Authen: "private" },
     { path: 'dashboard/ticket_check', component: TicketChecking, layout: DashboardLayout, name: 'StaffCheckTickets', Authen: "private" },
 
     //ZOO TRAINER
@@ -207,8 +207,8 @@ const publicRoutes = [
     { path: 'dashboard/animals/update', component: UpdateAnimal, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
     { path: 'dashboard/animals/feeding', component: FeedingSchedules, layout: DashboardLayout, name: 'ZTFeeding', Authen: "private" },
     { path: 'dashboard/animals/health', component: HealthRecords, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
-    { path: 'dashboard/animals/health/create', component: HealthRecords, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
-    { path: 'dashboard/animals/health/update', component: HealthRecords, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
+    { path: 'dashboard/animals/health/create', component: CreateHealth, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
+    { path: 'dashboard/animals/health/update', component: UpdateHealth, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
     { path: 'dashboard/foods', component: Foods, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
     { path: 'dashboard/foods/create', component: Foods, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
     { path: 'dashboard/foods/update', component: Foods, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },

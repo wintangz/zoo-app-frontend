@@ -109,7 +109,7 @@ function CreateEnclosure() {
         habitatId: yup.number(yup.string())
     });
     const handleClose = () => {
-        navigate('/home/enclosures');
+        navigate('/dashboard/enclosures');
     };
     return (
         <>
@@ -244,7 +244,7 @@ function CreateEnclosure() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/home/enclosures')}
+                                    onClick={() => navigate('/dashboard/enclosures')}
                                 >
                                     VIEW All ENCLOSURE
                                 </Button>

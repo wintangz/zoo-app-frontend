@@ -69,7 +69,7 @@ function UpdateHealth() {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        navigate('/home/animals/health')
+        navigate('/dashboard/animals/health')
     }
     const handleFormSubmit = async (values, { resetForm }) => {
         try {
@@ -254,7 +254,7 @@ function UpdateHealth() {
                             </Box>
                             <Box display="flex" justifyContent="space-between" mt="20px">
                                 <Button onClick={() => {
-                                    navigate("/home/animals/health")
+                                    navigate("/dashboard/animals/health")
                                 }} color="secondary" variant="contained">
                                     VIEW HEALTH RECORD
                                 </Button>

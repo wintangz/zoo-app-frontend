@@ -58,7 +58,7 @@ function UpdateHabitat() {
     };
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        navigate('/home/habitats');
+        navigate('/dashboard/habitats');
     };
 
     //---------------------------------------- Handle Submit----------------------------------/
