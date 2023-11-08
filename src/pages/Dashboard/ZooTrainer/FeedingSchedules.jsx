@@ -22,8 +22,8 @@ const FeedingSchedules = () => {
     const toast = useRef(null);
 
     const labels = {
-        title: 'Feed schedule Management',
-        subtitle: 'Table of feed schedule',
+        title: 'Feeding Schedule Management',
+        subtitle: 'Table of Feeding Schedules',
         apiPath: '/feeding_schedules',
     }
     const trainerId = parseInt(decode(localStorage.getItem('token')).sub);
@@ -87,7 +87,7 @@ const FeedingSchedules = () => {
     }
 
     const columns = [
-        { field: 'id', header: 'Schedule ID', sortable: true, filterField: "id" },
+        { field: 'id', header: 'ID', sortable: true, filterField: "id" },
         { header: 'Avatar', body: avatarBody, sortable: false, filterField: false },
         { field: 'animalId.name', header: 'Animal name', sortable: true, filterField: "animalId.name" },
         { field: 'animalId.species', header: 'Species', sortable: true, filterField: "animalId.species" },
@@ -97,7 +97,6 @@ const FeedingSchedules = () => {
         { header: 'Is Fed', body: isFed, sortable: true, filterField: false },
         { header: 'Actions', body: actionBody, sortable: false, filterField: false },
     ]
-
 
     // handle dropdown events
 
@@ -114,7 +113,7 @@ const FeedingSchedules = () => {
     const rowExpansionTemplate = (data) => {
         return (
             <div className="p-3">
-                <h5>Orders for: {data.animalId.name}</h5>
+                <h5>Foods for: {data.animalId.name}</h5>
                 <h5>Feeding time: {new Date(data.feedingTime).toLocaleString()}</h5>
                 <DataTable value={data.details}
                     filters={filters}
@@ -153,7 +152,7 @@ const FeedingSchedules = () => {
     const renderHeader = () => {
         return (
             <div className="flex justify-content-between">
-                <Link to="/dashboard/animals/feeding/calendar" state={location.state ? location.state : false}><Button label='View by Calendar' severity='success' /></Link>
+                <Link to="/dashboard/animals/feeding/calendar" state={location.state ? location.state : false}><Button label='View by Calendar' severity='primary' /></Link>
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />

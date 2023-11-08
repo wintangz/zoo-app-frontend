@@ -28,7 +28,6 @@ import CreateAnimal from '~/pages/AdminPage/Animal/CreateAnimal';
 import UnassignAnimal from '~/pages/AdminPage/Animal/UnassignAnimal';
 import History from '~/pages/AdminPage/Animal/history';
 import UpdateAnimal from '~/pages/AdminPage/Animal/update';
-import Calendar from '~/pages/AdminPage/Calendar';
 import TicketScanner from '~/pages/AdminPage/CheckTicket/checkTicket';
 import Confirm from '~/pages/AdminPage/Confirm/confirm';
 import CreateCustomer from '~/pages/AdminPage/Customer/CreateCustomer';
@@ -90,6 +89,7 @@ import AnimalsDB from '~/pages/Dashboard/ZooTrainer/Animals';
 import FeedingSchedules from '~/pages/Dashboard/ZooTrainer/FeedingSchedules';
 import Foods from '~/pages/Dashboard/ZooTrainer/Foods';
 import HealthRecords from '~/pages/Dashboard/ZooTrainer/HealthRecords';
+import Calendar from '~/pages/Dashboard/ZooTrainer/FeedingSchedulesCalendar';
 import Species from '~/pages/Dashboard/ZooTrainer/Species';
 
 
@@ -208,24 +208,16 @@ const publicRoutes = [
     { path: 'dashboard/animals/create', component: CreateAnimal, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
     { path: 'dashboard/animals/update', component: UpdateAnimal, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
     { path: 'dashboard/animals/feeding', component: FeedingSchedules, layout: DashboardLayout, name: 'ZTFeeding', Authen: "private" },
+    { path: 'dashboard/animals/feeding/calendar', component: Calendar, layout: DashboardLayout, name: 'Calendar', Authen: "private" },
     { path: 'dashboard/animals/health', component: HealthRecords, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
     { path: 'dashboard/animals/health/create', component: CreateHealth, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
     { path: 'dashboard/animals/health/update', component: UpdateHealth, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
     { path: 'dashboard/foods', component: Foods, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
     { path: 'dashboard/foods/create', component: Foods, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
     { path: 'dashboard/foods/update', component: Foods, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
-<<<<<<< Updated upstream
-    { path: 'dashboard/species', component: HealthRecords, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
-    { path: 'dashboard/species/create', component: HealthRecords, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
-    { path: 'dashboard/species/update', component: HealthRecords, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
-    { path: 'dashboard/animals/feeding/calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
-
-=======
     { path: 'dashboard/species', component: Species, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/create', component: CreateSpecies, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/update', component: UpdateSpecies, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
->>>>>>> Stashed changes
-
 ];
 
 // private routes dont login will redirect to login pages
