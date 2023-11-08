@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react'
 import useSWR from 'swr'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { get, remove } from '../AxiosClient'
+import { decode, get, remove } from '../AxiosClient'
 import { Tag } from 'primereact/tag';
 import { BsGenderFemale, BsGenderMale } from 'react-icons/bs'
 import { Button } from 'primereact/button';
@@ -15,7 +15,6 @@ import { FilterMatchMode } from 'primereact/api';
 import { useEffect } from 'react';
 const FeedingSchedules = () => {
     const location = useLocation();
-    console.log(location.state)
     const [expandedRows, setExpandedRows] = useState(true);
     const [deleteModal, openDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(0);
@@ -27,16 +26,23 @@ const FeedingSchedules = () => {
         subtitle: 'Table of feed schedule',
         apiPath: '/feeding_schedules',
     }
+    const trainerId = parseInt(decode(localStorage.getItem('token')).sub);
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
     useEffect(() => {
         if (data.data) {
             if (location.state) {
                 const filter = data.data.filter(schedule => {
-                    return schedule.animalId.id == location.state.id;
+                    return schedule.animalId.id === location.state.id;
                 })
                 setFilterData(filter)
             } else {
-                setFilterData(data.data)
+
+                const filter = data.data.filter(schedule => {
+                    return schedule.animalId.trainers.some(trainer => {
+                        return trainer.id === trainerId;
+                    });
+                });
+                setFilterData(filter)
             }
         }
     }, [])
@@ -92,7 +98,6 @@ const FeedingSchedules = () => {
         { header: 'Actions', body: actionBody, sortable: false, filterField: false },
     ]
 
-    data && console.log(data.data);
 
     // handle dropdown events
 

@@ -14,6 +14,8 @@ import moment from 'moment';
 import { formatDateTime } from '~/utils/dateTimeFormat';
 import { Button as PrimeButton } from 'primereact/button';
 import { Link, useLocation } from 'react-router-dom';
+import { decode } from '~/utils/axiosClient';
+import { Tag } from 'primereact/tag';
 
 function Calendar() {
     const theme = useTheme();
@@ -22,12 +24,12 @@ function Calendar() {
     const [schedule, setSchedule] = useState([]);
     const [allSchedule, setAllSchedule] = useState([]);
     const [currentSchedule, setCurrentSchedule] = useState([]); //set current schedule for on click on schedule 
+    const trainerId = parseInt(decode(localStorage.getItem('token')).sub);
     useEffect(() => {
         const res = getAllSchedule()
         const filterDate = [];
 
         res.then((schedules) => {
-            console.log(schedules)
             if (location.state) {
                 const filter = schedules.filter(schedule => {
                     return schedule.animalId.id === location.state.id;
@@ -44,6 +46,11 @@ function Calendar() {
                 })
                 setAllSchedule(filter)
             } else {
+                schedules = schedules.filter(schedule => {
+                    return schedule.animalId.trainers.some(trainer => {
+                        return trainer.id === trainerId;
+                    });
+                });
                 schedules.map((schedule) => {
                     const object = {
                         id: schedule.id,
@@ -98,7 +105,7 @@ function Calendar() {
     for (let i = 0; i < elementContent.length; i++) {
         elementContent[i].style.paddingLeft = "0.5rem"
     }
-    console.log(location.state)
+    console.log(currentSchedule)
     return (
         <>
             <div>
@@ -113,11 +120,19 @@ function Calendar() {
                             <h2 id="parent-modal-title" style={{ padding: "0.5rem", borderBottom: `1px solid ${colors.grey[100]}`, fontSize: "1.5rem" }}>Schedule Detail</h2>
                         </Box>
                         <Box display="flex" sx={{ height: "80%", fontSize: "1rem", flexDirection: 'column', lineHeight: 2 }}>
-                            <div>Animal: {currentSchedule.map(curSchedule => `${curSchedule.animalId.name} - ${curSchedule.animalId.id}`)}</div>
-                            <div>Schedule Id: {currentSchedule.map(curSchedule => curSchedule.id)}</div>
-                            <div>Feeding Time: {currentSchedule.map(curSchedule => formatDateTime(new Date(curSchedule.feedingTime)))}</div>
-                            <div>Zootrainer: {currentSchedule.map(curSchedule => `${curSchedule.zooTrainerId.lastname} ${curSchedule.zooTrainerId.firstname} - ${curSchedule.zooTrainerId.id}`)}</div>
-                            <div>Is Fed: <span style={{ background: currentSchedule.map(curSchedule => curSchedule.fed ? "green" : "red"), padding: "0.2rem", borderRadius: '5px', color: "white" }}>{currentSchedule.map(curSchedule => curSchedule.fed ? "Done" : "Not yet")}</span></div>
+                            <div><span style={{ fontWeight: "700" }}>Animal:</span> {currentSchedule.map(curSchedule => `${curSchedule.animalId.name} - ${curSchedule.animalId.id}`)}</div>
+                            <div><span style={{ fontWeight: "700" }}>Schedule Id:</span> {currentSchedule.map(curSchedule => curSchedule.id)}</div>
+                            <div><span style={{ fontWeight: "700" }}>Feeding Time:</span> {currentSchedule.map(curSchedule => formatDateTime(new Date(curSchedule.feedingTime)))}</div>
+                            <div><span style={{ fontWeight: "700" }}>Created by:</span> {currentSchedule.map(curSchedule => `${curSchedule.zooTrainerId.lastname} ${curSchedule.zooTrainerId.firstname} - ${curSchedule.zooTrainerId.id}`)}</div>
+                            <div><span style={{ fontWeight: "700" }}>Trainers:</span> {currentSchedule.map(curSche => {
+                                return curSche.animalId.trainers.map(trainer => {
+                                    return (<Tag style={{ marginRight: "2px" }} value={trainer.firstname}></Tag>)
+                                }
+                                )
+                            })}
+
+                            </div>
+                            <div><span style={{ fontWeight: "700" }}>Is Fed:</span> <span style={{ background: currentSchedule.map(curSchedule => curSchedule.fed ? "green" : "red"), padding: "0.2rem", borderRadius: '5px', color: "white" }}>{currentSchedule.map(curSchedule => curSchedule.fed ? "Done" : "Not yet")}</span></div>
                             <div className='schedule-detail-food'>
                                 <div style={{ textAlign: "center", fontSize: "1.2rem", fontWeight: "600" }}>Table of Food Detail</div>
                                 <table>
