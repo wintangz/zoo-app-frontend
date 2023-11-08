@@ -2,15 +2,39 @@ import React, { useRef, useState } from 'react'
 import useSWR from 'swr'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { get, remove } from '../AxiosClient'
 import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
+import { Calendar } from 'primereact/calendar';
+import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import { InputText } from 'primereact/inputtext';
-import { FilterMatchMode } from 'primereact/api';
 import { Link } from 'react-router-dom';
+
+const statusFilterTemplate = (options) => {
+    const filterValue = options.value;
+    const setStatus = options.filterCallback;
+
+    const onChangeStatus = (newStatus) => {
+        setStatus(newStatus);
+    };
+
+    return (
+        <div className="flex align-items-center gap-2">
+            <label htmlFor="verified-filter" className="font-bold">
+                Verified
+            </label>
+            <TriStateCheckbox
+                inputId="verified-filter"
+                value={filterValue}
+                onChange={(e) => onChangeStatus(e.value)}
+            />
+        </div>
+    );
+};
 
 const Enclosures = () => {
     const [deleteModal, openDeleteModal] = useState(false);
@@ -24,7 +48,7 @@ const Enclosures = () => {
     }
 
     const idBody = (item) => {
-        return <div className='flex justify-center items-center'>{item.id}</div>
+        return <div className='flex justify-center items-center font-bold'>{item.id}</div>
     }
 
     const imgBody = (item) => {
@@ -42,9 +66,22 @@ const Enclosures = () => {
             className={`${item.status ? 'bg-green-400' : 'bg-red-500'} p-2 text-[0.9rem]`} />
     }
 
-    const createdDateBody = (item) => {
+    // const formatDate = (value) => {
+    //     return (
+    //         value.toLocaleString('en-US', {
+    //             day: '2-digit',
+    //             month: '2-digit',
+    //             year: 'numeric'
+    //         }));
+    // };
+
+    // const createdDate = (item) => {
+    //     return formatDate(item.createdDate);
+    // };
+    const createdDate = (item) => {
         return <span>{new Date(item.createdDate).toLocaleString()}</span>
     }
+
 
     const actionBody = (item) => {
         return <div className='flex flex-row gap-x-2'>
@@ -53,18 +90,37 @@ const Enclosures = () => {
         </div>
     }
 
+    const dateFilterTemplate = (options) => {
+        return <Calendar value={options.value} onChange={(e) => options.filterCallback(e.value, options.index)} dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" mask="99/99/9999" />;
+    };
+
     const columns = [
-        { header: 'ID', body: idBody, sortable: true, filterField: "id" },
-        { field: 'name', header: 'Habitat Name', sortable: true, filterField: "name" },
+        { field: 'id', header: 'ID', body: idBody, sortable: true, filterField: "id" },
+        { field: 'name', header: 'Name', sortable: true, filterField: "name" },
+        { field: 'habitat.name', header: 'Habitat Name', sortable: true, filterField: "habitat.name" },
         { field: 'info', header: 'Infomation', sortable: true, filterField: "info" },
         { field: 'maxCapacity', header: 'Max Capacity', sortable: true, filterField: "maxCapacity" },
-        { header: 'Created Date', body: createdDateBody, sortable: false, filterField: false },
-        { header: 'Image', body: imgBody, sortable: false, filterField: false },
-        { header: 'Status', body: statusBody, sortable: false, filterField: false },
-        { header: 'Action', body: actionBody, sortable: false, filterField: false }
+        { field: "createdDate", header: 'Created Date', dataType: "date", body: createdDate, sortable: false, filterField: false, filterElement: dateFilterTemplate },
+        { header: 'Image', body: imgBody, sortable: false, showFilterMenu: false },
+        { field: "status", header: 'Status', dataType: "boolean", body: statusBody, sortable: false, filterField: false, filterElement: statusFilterTemplate },
+        { header: 'Action', body: actionBody, sortable: false, showFilterMenu: false }
     ]
 
-    const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
+    const { data, mutate, isLoading } = useSWR(labels.apiPath, () => {
+        const response = get(labels.apiPath); // Assuming get is an asynchronous function fetching the data
+        return response.then((data) => {
+            if (data && data.data) {
+                data.data = data.data.map(user => {
+                    return {
+                        ...user,
+                        createdDate: new Date(user.createdDate) // Convert dateOfBirth to a Date object
+                    };
+                });
+            }
+            return data;
+        });
+    });
+
 
     console.log(data);
 
@@ -96,8 +152,11 @@ const Enclosures = () => {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         id: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        'habitat.name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         info: { value: null, matchMode: FilterMatchMode.IN },
+        createdDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
         maxCapacity: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        status: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
 
     const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -122,6 +181,8 @@ const Enclosures = () => {
         );
     };
     const header = renderHeader();
+
+
 
     return (
         <div className='p-5'>
@@ -153,14 +214,26 @@ const Enclosures = () => {
                         style={{ width: "77vw" }}
                         filters={filters}
                         paginator rows={10}
-                        globalFilterFields={['id', 'name', 'info', 'maxCapacity']}
+                        globalFilterFields={['id', 'name', 'habitat.name', 'info', 'maxCapacity', 'createdDate', 'status']}
                         header={header}
                         emptyMessage="No Enclosure found."
                     >
 
                         {columns.map((col) => (
-                            <Column key={col.field} field={col.field} header={col.header} body={col.body}
-                                sortable={col.sortable} className='min-w-max' filterField={col.filterField} />
+                            <Column
+                                key={col.field}
+                                dataType={col.dataType}
+                                field={col.field}
+                                header={col.header}
+                                body={col.body}
+                                sortable={col.sortable}
+                                className='min-w-max'
+                                filter
+                                filterField={col.filterField}
+                                filterElement={col.filterElement}
+                                showFilterMenu={col.showFilterMenu}
+                            />
+
                         ))}
                     </DataTable>
                 </div>

@@ -20,7 +20,7 @@ const HealthRecords = () => {
     }
 
     const idBody = (item) => {
-        return <div className='flex justify-center items-center'>{item.id}</div>
+        return <div className='flex justify-center items-center font-bold '>{item.id}</div>
     }
 
     const imgBody = (item) => {
