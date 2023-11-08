@@ -1,12 +1,14 @@
+import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
+import { InputText } from 'primereact/inputtext';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Tag } from 'primereact/tag';
 import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
 import { get, remove } from '../AxiosClient';
 
@@ -28,20 +30,21 @@ const Species = () => {
     const imgBody = (item) => {
         return <img className='w-32 h-16 object-contain shadow-2 rounded-md' src={item.imgUrl} alt={item.id} />
     }
+
     const avatarBody = (item) => {
-        return <img className='w-32 h-16 object-contain shadow-2 rounded-md' src={item.avatarUrl} alt={item.id} />
+        return <img className='w-16 h-16 object-contain shadow-2 rounded-md' src={item.avatarUrl} alt={item.id} />
     }
 
     const statusBody = (item) => {
-        return <Tag value={item.conversationStatus ?
+        return <Tag value={item.status ?
             'True' :
             'False'}
-            className={`${item.conversationStatus ? 'bg-green-400' : 'bg-red-500'} p-2 text-[0.9rem]`} />
+            className={`${item.status ? 'bg-green-400' : 'bg-red-500'} p-2 text-[0.9rem]`} />
     }
 
     const actionBody = (item) => {
         return <div className='space-x-2'>
-            <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined onClick={() => navigate('/dashboard/species/update')} />
+            <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined onClick={() => navigate(`/dashboard/species/update/${(item.id)}`)} />
             <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} />
         </div>
     }
@@ -71,19 +74,52 @@ const Species = () => {
     );
 
     const columns = [
-        { field: 'id', header: 'ID' },
-        { field: 'name', header: 'Name' },
-        { field: 'species', header: 'Species' },
+        { field: 'id', header: 'ID', sortable: true, filterField: "id" },
+        { field: 'name', header: 'Name', sortable: true, filterField: "name" },
+        { field: 'species', header: 'Species', sortable: true, filterField: "species" },
         { header: 'Image', body: imgBody },
         { header: 'Avatar', body: avatarBody },
-        { field: 'genus', header: 'Genus' },
-        { field: 'family', header: 'Family' },
-        { field: 'habitat', header: 'Habitat' },
-        { field: 'diet', header: 'Diet' },
+        { field: 'genus', header: 'Genus', sortable: true, filterField: "genus" },
+        { field: 'family', header: 'Family', sortable: true, filterField: "family" },
+        { field: 'habitat.name', header: 'Habitat', sortable: true, filterField: "habitat" },
+        { field: 'diet', header: 'Diet', sortable: true, filterField: "diet" },
         { field: 'description', header: 'Description' },
-        { header: 'Conver Sation Status', body: statusBody },
+        { header: 'Status', body: statusBody },
         { header: 'Action', body: actionBody }
-    ]
+    ];
+    const [filters, setFilters] = useState({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        id: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        species: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        genus: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        family: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        habitat: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        diet: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        status: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    });
+    const [globalFilterValue, setGlobalFilterValue] = useState('');
+    const onGlobalFilterChange = (e) => {
+        const value = e.target.value;
+        let _filters = { ...filters };
+
+        _filters['global'].value = value;
+
+        setFilters(_filters);
+        setGlobalFilterValue(value);
+    };
+    const renderHeader = () => {
+        return (
+            <div className="flex justify-content-between">
+                <Link to="/dashboard/species/create"><Button label='Create' severity='success' /></Link>
+                <span className="p-input-icon-left">
+                    <i className="pi pi-search" />
+                    <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+                </span>
+            </div>
+        );
+    };
+    const header = renderHeader();
 
     return (
         <div className='p-5'>
@@ -100,16 +136,22 @@ const Species = () => {
                     </span>
                 </div>
             </Dialog>
-
             <div className=''>
                 <p className='text-3xl font-bold'>{labels.title}</p>
                 <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
             </div>
             {data &&
                 <div className='mt-5'>
-                    <DataTable value={data.data} loading={isLoading} showGridlines>
+                    <DataTable value={data.data} loading={isLoading} showGridlines scrollHeight="77vh" scrollable style={{ width: "77vw" }}
+                        filters={filters}
+                        paginator rows={10}
+                        globalFilterFields={['id', 'name', 'genus', 'diet', 'family', 'habitat', 'species', 'status']} header={header} emptyMessage="No customers found."
+                    >
                         {columns.map((col) => (
-                            <Column key={col.field} field={col.field} header={col.header} body={col.body} style={(col.header === 'Description' && { minWidth: '20rem' }) || (col.header === 'Name' && { minWidth: '15rem' })} />
+                            <Column key={col.field} field={col.field} header={col.header} body={col.body}
+                                sortable={col.sortable} filterField={col.filterField}
+                                style={(col.header === 'Description' && { minWidth: '20rem' }) || (col.header === 'Image' && { minWidth: '10rem' }) || (col.header === 'Avatar' && { minWidth: '6rem' }) || (col.header === 'Action' && { minWidth: '8.75rem' })}
+                            />
                         ))}
                     </DataTable>
                 </div>

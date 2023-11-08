@@ -81,6 +81,8 @@ import Dashboard from '~/pages/Dashboard/Dashboard';
 import Customers from '~/pages/Dashboard/Staff/Customers';
 import Enclosures from '~/pages/Dashboard/Staff/Enclosures';
 import HabitatsDB from '~/pages/Dashboard/Staff/Habitats';
+import ViewNews from '~/pages/Dashboard/Staff/News';
+import NewsUpdate from '~/pages/Dashboard/Staff/NewsUpdate';
 import Orders from '~/pages/Dashboard/Staff/Orders';
 import TicketChecking from '~/pages/Dashboard/Staff/TicketChecking';
 import ZooTrainers from '~/pages/Dashboard/Staff/ZooTrainers';
@@ -88,6 +90,7 @@ import AnimalsDB from '~/pages/Dashboard/ZooTrainer/Animals';
 import FeedingSchedules from '~/pages/Dashboard/ZooTrainer/FeedingSchedules';
 import Foods from '~/pages/Dashboard/ZooTrainer/Foods';
 import HealthRecords from '~/pages/Dashboard/ZooTrainer/HealthRecords';
+import Species from '~/pages/Dashboard/ZooTrainer/Species';
 
 
 const publicRoutes = [
@@ -188,9 +191,9 @@ const publicRoutes = [
     { path: 'dashboard/zoo_trainers', component: ZooTrainers, layout: DashboardLayout, name: 'StaffZooTrainers', Authen: "private" },
     { path: 'dashboard/zoo_trainers/create', component: Form, layout: DashboardLayout, name: 'StaffZooTrainers', Authen: "private" },
     { path: 'dashboard/zoo_trainers/update', component: UpdateStaff, layout: DashboardLayout, name: 'StaffZooTrainers', Authen: "private" },
-    { path: 'dashboard/news', component: Users, layout: DashboardLayout, name: 'StaffNews', Authen: "private" },
+    { path: 'dashboard/news', component: ViewNews, layout: DashboardLayout, name: 'StaffNews', Authen: "private" },
     { path: 'dashboard/news/create', component: NewsPostForm, layout: DashboardLayout, name: 'StaffNews', Authen: "private" },
-    { path: 'dashboard/news/update', component: UpdateNews, layout: DashboardLayout, name: 'StaffNews', Authen: "private" },
+    { path: 'dashboard/news/update/:newsId', component: NewsUpdate, layout: DashboardLayout, name: 'StaffNews', Authen: "private" },
     { path: 'dashboard/orders', component: Orders, layout: DashboardLayout, name: 'StaffOrders', Authen: "private" },
     { path: 'dashboard/enclosures', component: Enclosures, layout: DashboardLayout, name: 'StaffEnclosures', Authen: "private" },
     { path: 'dashboard/enclosures/create', component: CreateEnclosure, layout: DashboardLayout, name: 'StaffEnclosures', Authen: "private" },
@@ -211,11 +214,17 @@ const publicRoutes = [
     { path: 'dashboard/foods', component: Foods, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
     { path: 'dashboard/foods/create', component: Foods, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
     { path: 'dashboard/foods/update', component: Foods, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
+<<<<<<< Updated upstream
     { path: 'dashboard/species', component: HealthRecords, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/create', component: HealthRecords, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/update', component: HealthRecords, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/animals/feeding/calendar', component: Calendar, layout: AdminMainPage, name: 'Calendar', Authen: "private" },
 
+=======
+    { path: 'dashboard/species', component: Species, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
+    { path: 'dashboard/species/create', component: CreateSpecies, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
+    { path: 'dashboard/species/update', component: UpdateSpecies, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
+>>>>>>> Stashed changes
 
 ];
 
