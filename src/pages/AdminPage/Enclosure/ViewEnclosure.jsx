@@ -38,6 +38,8 @@ function ViewEnclosure() {
         }
     }, [remove])
 
+    console.log(enclosures)
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const columns = [

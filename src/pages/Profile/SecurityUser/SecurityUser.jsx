@@ -3,9 +3,8 @@ import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import * as yup from 'yup';
-import { tokens } from '~/theme';
-// import { updatePassword } from '~/api/data/mockData'; // Assuming there's a function for updating the password
 import { Security } from '~/api/authService';
+import { tokens } from '~/theme';
 
 function SecurityUser() {
     //****************---------------------- Config Color Theme ****************************/

@@ -4,12 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getNewsById } from '~/api/newsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 
-function stripHtmlTags(html) {
-    const tmp = document.createElement("div");
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || "";
-}
-
 function SingleNewsView() {
     const { homeNewsId } = useParams();
     const navigate = useNavigate();
@@ -40,22 +34,9 @@ function SingleNewsView() {
         year: 'numeric',
     });
 
-    const sentences = selectedNews.content.split('. ');
-    const paragraphs = sentences.map((sentence, index) => (
-        stripHtmlTags(sentence + (index < sentences.length - 1 ? '.' : ''))
-    ));
-
     return (
         <Box m="20px">
             <AdminHeader title="News Details" subtitle="View of each news" />
-
-
-            {/* <Box    >
-                <img src={selectedNews.thumbnailUrl} alt="Thumbnail" />
-                <Typography variant="h5">{selectedNews.shortDescription}</Typography>
-                <img src={selectedNews.imgUrl} alt="Image" />
-            </Box> */}
-
             <Box
                 style={{
                     display: 'flex',
@@ -93,11 +74,9 @@ function SingleNewsView() {
                     borderbottom: '2px solid orange',
                     padding: '5vh 0',
                 }}>
-                {paragraphs.map((paragraph, index) => (
-                    <Typography key={index} variant="body1" style={{ fontSize: '1.3rem', lineHeight: '1.4', marginBottom: '1.3em' }}>
-                        {paragraph}
-                    </Typography>
-                ))}
+                <Typography variant="body1" style={{ fontSize: '1.3rem', lineHeight: '1.4', marginBottom: '1.3em' }}
+                    dangerouslySetInnerHTML={{ __html: selectedNews.content }}>
+                </Typography>
             </Box>
             <Box>
                 <Typography variant="subtitle2" style={{ color: 'rgb(250, 144, 0)' }}>Date of Published: {formattedDateStr}</Typography>
