@@ -106,6 +106,7 @@ import FoodsCreate from '~/pages/Dashboard/ZooTrainer/FoodsCreate';
 import FoodsUpdate from '~/pages/Dashboard/ZooTrainer/FoodsUpdate';
 import SpeciesCreate from '~/pages/Dashboard/ZooTrainer/SpeciesCreate';
 import SpeciesUpdate from '~/pages/Dashboard/ZooTrainer/SpeciesUpdate';
+import AnimalsCreate from '~/pages/Dashboard/ZooTrainer/AnimalsCreate';
 
 
 const publicRoutes = [
@@ -220,7 +221,7 @@ const publicRoutes = [
 
     //ZOO TRAINER
     { path: 'dashboard/animals', component: AnimalsDB, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
-    { path: 'dashboard/animals/create', component: CreateAnimal, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
+    { path: 'dashboard/animals/create', component: AnimalsCreate, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
     { path: 'dashboard/animals/update', component: UpdateAnimal, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
     { path: 'dashboard/animals/feeding', component: FeedingSchedules, layout: DashboardLayout, name: 'ZTFeeding', Authen: "private" },
     { path: 'dashboard/animals/feeding/calendar', component: Calendar, layout: DashboardLayout, name: 'Calendar', Authen: "private" },

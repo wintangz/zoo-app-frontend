@@ -30,22 +30,17 @@ const FeedingSchedules = () => {
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
     useEffect(() => {
         if (data?.data) {
-            if (location.state) {
-                const filter = data.data.filter(schedule => {
-                    return schedule.animalId.id === location.state.id;
-                })
-                setFilterData(filter)
-            } else {
-
-                const filter = data.data.filter(schedule => {
-                    return schedule.animalId.trainers.some(trainer => {
-                        return trainer.id === trainerId;
-                    });
+            console.log(data.data)
+            const filter = data.data.filter(schedule => {
+                console.log(schedule)
+                return schedule.animalId.animalTrainerAssignors.some(trainer => {
+                    return trainer.id === trainerId;
                 });
-                setFilterData(filter)
-            }
+            });
+            console.log(filter)
+            setFilterData(filter)
         }
-    }, [])
+    }, [data])
     const avatarBody = (item) => {
         return <img className='w-16 h-16 object-contain shadow-2 rounded-md' src={item.animalId.imgUrl} alt={item.id} />
     }

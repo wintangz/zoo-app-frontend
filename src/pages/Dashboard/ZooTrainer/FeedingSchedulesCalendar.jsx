@@ -17,6 +17,7 @@ import { Panel } from 'primereact/panel';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Tag } from 'primereact/tag';
+import { decode } from '~/utils/axiosClient';
 
 function Calendar() {
     const theme = useTheme();
@@ -26,45 +27,32 @@ function Calendar() {
     const [pureSchedules, setPureSchedules] = useState([]);
     const [allSchedule, setAllSchedule] = useState([]);
     const [currentSchedule, setCurrentSchedule] = useState([]); //set current schedule for on click on schedule 
+    const trainerId = parseInt(decode(localStorage.getItem("token")).sub);
     useEffect(() => {
         const res = getAllSchedule()
         const filterDate = [];
-
         res.then((schedules) => {
             console.log(schedules)
-            setPureSchedules(schedules)
-            if (location.state) {
-                const filter = schedules.filter(schedule => {
-                    return schedule.animalId.id === location.state.id;
-                })
-                filter.map((schedule) => {
-                    const object = {
-                        className: 'text-[0.85rem] font-bold',
-                        id: schedule.id,
-                        start: schedule.feedingTime,
-                        title: schedule.animalId.name + " - " + schedule.animalId.id + "\n"
-                            + schedule.zooTrainerId.firstname,
-                        color: schedule.fed ? "green" : "red",
-                    }
-                    filterDate.push(object);
-                    setSchedule(filterDate)
-                })
-                setAllSchedule(filter)
-            } else {
-                schedules.map((schedule) => {
-                    const object = {
-                        className: 'text-lg font-bold',
-                        id: schedule.id,
-                        startTime: schedule.feedingTime,
-                        title: schedule.animalId.name + " - " + schedule.animalId.id + "\n"
-                            + schedule.zooTrainerId.firstname,
-                        color: schedule.fed ? "green" : "red",
-                    }
-                    filterDate.push(object);
-                    setSchedule(filterDate)
-                })
-                setAllSchedule(schedules)
-            }
+            schedules = schedules.filter(schedule => {
+                console.log(schedule)
+                return schedule.animalId.animalTrainerAssignors.some(trainer => {
+                    return trainer.id === trainerId;
+                });
+            })
+            schedules.map((schedule) => {
+                const object = {
+                    className: 'text-lg font-bold',
+                    id: schedule.id,
+                    startTime: schedule.feedingTime,
+                    title: schedule.animalId.name + " - " + schedule.animalId.id + "\n"
+                        + schedule.zooTrainerId.firstname,
+                    color: schedule.fed ? "green" : "red",
+                }
+                filterDate.push(object);
+                setSchedule(filterDate)
+            })
+            setPureSchedules(schedules);
+            setAllSchedule(schedules)
         })
     }, [])
     const [currentEvents, setCurrentEvents] = useState([]);
@@ -115,8 +103,8 @@ function Calendar() {
                             <Box display="flex" sx={{ height: "80%", fontSize: "1rem", flexDirection: 'column', lineHeight: 2 }}>
                                 <div className='font-bold'>ID: {currentSchedule.id}</div>
                                 <div><span className='font-bold'>Animal:</span> {`${currentSchedule.animalId?.name} - ${currentSchedule.animalId?.id}`}</div>
-                                <div><span className='font-bold'>Zoo Trainers:</span> {currentSchedule.animalId?.trainers.map((trainer) =>
-                                    <Tag severity='primary' className='mr-2' value={`${trainer.lastname} ${trainer.firstname} - ${trainer.id}`} />
+                                <div><span className='font-bold'>Zoo Trainers:</span> {currentSchedule.animalId?.animalTrainerAssignors.map((trainer) =>
+                                    <Tag severity='primary' className='mr-2' value={`${trainer.trainer.lastname} ${trainer.trainer.firstname} - ${trainer.trainer.id}`} />
                                 )}</div>
                                 <div><span className='font-bold'>Time:</span> {formatDateTime(new Date(currentSchedule.feedingTime))}</div>
                                 <div><span className='font-bold'>Created by:</span> {`${currentSchedule.zooTrainerId?.lastname} ${currentSchedule.zooTrainerId?.firstname} - ${currentSchedule.zooTrainerId?.id}`}</div>

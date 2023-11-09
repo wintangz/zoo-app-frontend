@@ -14,6 +14,7 @@ import { FilterMatchMode } from 'primereact/api';
 import { Link, useNavigate } from 'react-router-dom';
 import 'tippy.js/dist/tippy.css';
 import Tippy from '@tippyjs/react';
+import { decode } from '~/utils/axiosClient';
 
 const Animals = () => {
 
@@ -85,6 +86,13 @@ const Animals = () => {
         </div>
     }
 
+    const currentEnclosureBody = (item) => {
+        return (
+            <>
+                {item.currentEnclosure ? item.currentEnclosure.enclosure.name : "No Enclosure"}
+            </>
+        )
+    }
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
 
     const columns = [
@@ -95,6 +103,7 @@ const Animals = () => {
         { header: 'Arrival Date', body: Arrivaldatetime, sortable: false, filterField: false },
         { header: 'Date Of Birth', body: datetime, sortable: false, filterField: false },
         { header: 'Sex', body: sexBody, sortable: false, filterField: false },
+        { header: 'Current Enclosure', body: currentEnclosureBody, sortable: true, filterField: "currentEnclosure.enclosure.name" },
         { field: 'species', header: 'Species', sortable: true, filterField: "species" },
         { header: 'Status', body: statusBody, sortable: true, filterField: false },
         { header: 'Actions', body: actionBody, sortable: false, filterField: false },
@@ -130,6 +139,8 @@ const Animals = () => {
     };
     const header = renderHeader();
 
+    const trainerId = parseInt(decode(localStorage.getItem('token')).sub);
+
     return (
         <div className='p-5'>
             {isLoading && <ProgressSpinner style={{ width: '50px', height: '50px' }} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />}
@@ -149,20 +160,20 @@ const Animals = () => {
                 <p className='text-3xl font-bold'>{labels.title}</p>
                 <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
             </div>
-            {data &&
-                <div className='mt-5'>
-                    <DataTable size='small' value={data.data} loading={isLoading} showGridlines scrollHeight="77vh" scrollable style={{ width: "77vw" }}
-                        filters={filters}
-                        paginator rows={10}
-                        globalFilterFields={['id', 'name', 'origin', 'species']} header={header} emptyMessage="No customers found."
-                    >
-                        {columns.map((col) => (
-                            <Column key={col.field} field={col.field} header={col.header} body={col.body}
-                                sortable={col.sortable} style={{ minWidth: '150px' }} filterField={col.filterField} />
-                        ))}
-                    </DataTable>
-                </div>
-            }
+            <div className='mt-5'>
+                <DataTable size='small' value={data?.data.filter(animal => {
+                    return animal.animalTrainerAssignors.some(trainer => trainer.trainer.id === trainerId)
+                })} loading={isLoading} showGridlines scrollHeight="77vh" scrollable style={{ width: "77vw" }}
+                    filters={filters}
+                    paginator rows={10}
+                    globalFilterFields={['id', 'name', 'origin', 'species', 'currentEnclosure.enclosure.name']} header={header} emptyMessage="No customers found."
+                >
+                    {columns.map((col) => (
+                        <Column key={col.field} field={col.field} header={col.header} body={col.body}
+                            sortable={col.sortable} style={{ minWidth: '150px' }} filterField={col.filterField} />
+                    ))}
+                </DataTable>
+            </div>
         </div>
     )
 }
