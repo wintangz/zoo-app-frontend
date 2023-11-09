@@ -207,6 +207,7 @@ const Enclosures = () => {
             {data &&
                 <div className='mt-5'>
                     <DataTable
+                        size='small'
                         value={data.data}
                         loading={isLoading}
                         showGridlines scrollHeight="77vh"

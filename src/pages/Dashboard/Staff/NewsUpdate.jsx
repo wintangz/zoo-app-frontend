@@ -174,7 +174,7 @@ const NewsUpdate = () => {
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema} enableReinitialize={true}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
-                            <Box>
+                            <Box className='space-y-8'>
                                 <div className="flex flex-column gap-2">
                                     <label>Title</label>
                                     <InputText
@@ -192,24 +192,25 @@ const NewsUpdate = () => {
                                     />
                                 </div>
 
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="ShortDescription"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    defaultValue=" "
-                                    value={values.shortDescription}
-                                    name="shortDescription"
-                                    error={!!touched.shortDescription && !!errors.shortDescription}
-                                    helperText={touched.shortDescription && errors.shortDescription}
-                                />
-                                <Box overflow="auto">
-                                    <Typography variant="h6" color={colors.grey[300]} style={{ margin: '0.8vw' }}>
-                                        Content
-                                    </Typography>
-                                    <Box border="1px solid #ced4da" borderRadius="4px">
+                                <div className='flex flex-column gap-2'>
+                                    <label>Description</label>
+                                    <InputText
+                                        fullWidth
+                                        variant="filled"
+                                        type="text"
+                                        label="ShortDescription"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        defaultValue=" "
+                                        value={values.shortDescription}
+                                        name="shortDescription"
+                                        error={!!touched.shortDescription && !!errors.shortDescription}
+                                        helperText={touched.shortDescription && errors.shortDescription}
+                                    />
+                                </div>
+                                <div className='flex flex-column gap-2'>
+                                    <label>Content</label>
+                                    <div border="1px solid #ced4da" borderRadius="4px">
                                         <CustomToolbar />
                                         <ReactQuill
                                             theme="snow"
@@ -221,11 +222,11 @@ const NewsUpdate = () => {
                                             error={!!touched.content && !!errors.content}
                                             helperText={touched.content && errors.content}
                                         />
-                                    </Box>
+                                    </div>
                                     {touched.content && errors.content && (
                                         <div style={{ color: 'red', marginTop: '0.5rem' }}>{errors.content}</div>
                                     )}
-                                </Box>
+                                </div>
                                 <FormControl fullWidth variant="filled">
                                     <InputLabel id="type-label">Type</InputLabel>
                                     <Select

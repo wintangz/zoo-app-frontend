@@ -100,7 +100,7 @@ const TicketTypes = () => {
             </div>
             {data &&
                 <div className='mt-5'>
-                    <DataTable value={data.data} loading={isLoading} showGridlines>
+                    <DataTable size='small' value={data.data} loading={isLoading} showGridlines>
                         {columns.map((col) => (
                             <Column key={col.field} field={col.field} header={col.header} body={col.body} style={(col.header === 'Description' && { minWidth: '20rem' }) || (col.header === 'Name' && { minWidth: '15rem' })} />
                         ))}

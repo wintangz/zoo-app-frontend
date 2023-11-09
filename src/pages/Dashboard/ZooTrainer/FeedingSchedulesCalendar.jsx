@@ -38,9 +38,11 @@ function Calendar() {
                 })
                 filter.map((schedule) => {
                     const object = {
+                        className: 'text-[0.85rem] font-bold',
                         id: schedule.id,
-                        title: "Feeding: " + schedule.animalId.name + " Animal Id: " + schedule.animalId.id,
                         start: schedule.feedingTime,
+                        title: schedule.animalId.name + " - " + schedule.animalId.id + "\n"
+                            + schedule.zooTrainerId.firstname,
                         color: schedule.fed ? "green" : "red",
                     }
                     filterDate.push(object);
@@ -50,9 +52,11 @@ function Calendar() {
             } else {
                 schedules.map((schedule) => {
                     const object = {
+                        className: 'text-lg font-bold',
                         id: schedule.id,
-                        title: "Feeding: " + schedule.animalId.name + " Animal Id: " + schedule.animalId.id,
-                        start: schedule.feedingTime,
+                        startTime: schedule.feedingTime,
+                        title: schedule.animalId.name + " - " + schedule.animalId.id + "\n"
+                            + schedule.zooTrainerId.firstname,
                         color: schedule.fed ? "green" : "red",
                     }
                     filterDate.push(object);
@@ -65,22 +69,7 @@ function Calendar() {
     const [currentEvents, setCurrentEvents] = useState([]);
 
     const [open, setOpen] = useState(null);
-    const style = {
-        position: 'absolute',
-        display: "flex",
-        right: '0',
-        width: 400,
-        height: '100%',
-        bgcolor: colors.grey[500],
-        border: '2px solid white',
-        color: colors.grey[100],
-        justifyContent: 'space-between',
-        flexDirection: 'column',
-        boxShadow: 24,
-        pt: 2,
-        px: 4,
-        pb: 3,
-    };
+
     const handleEventClick = (selected) => {
         setOpen(true)
         const current = pureSchedules.find((s) => s.id.toString() === selected.event.id)
@@ -167,7 +156,7 @@ function Calendar() {
             </div>
             <Box className='bg-[#f8f9fa] p-3 border mx-5 mb-5'>
                 <Box className='flex mb-3'>
-                    <Link to="/dashboard/animals/feeding" state={location.state}><PrimeButton label='View by Table' severity='primary' /></Link>
+                    <Link to="/dashboard/animals/feeding" state={location.state}><PrimeButton label='View by Table' severity='info' /></Link>
 
                 </Box>
                 <Box display="flex" justifyContent="space-between" sx={{
@@ -200,11 +189,11 @@ function Calendar() {
                             // eventTextColor='red'
                             // eventColor={schedule.map(curSche => curSche.isFed ? "red" : "green")}
                             height="75vh"
-                            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                            plugins={[dayGridPlugin, timeGridPlugin]}
                             headerToolbar={{
-                                left: 'prev, next, today',
+                                left: 'prev next today',
                                 center: 'title',
-                                right: 'timeGridWeek',
+                                right: 'timeGridDay timeGridWeek dayGridMonth',
                             }}
                             initialView="timeGridWeek"
                             selectable={true}
@@ -214,6 +203,7 @@ function Calendar() {
                                 setCurrentEvents(event);
                             }}
                             initialEvents={schedule}
+                            eventMinHeight={100}
                         />
                     </Box>}
                 </Box>

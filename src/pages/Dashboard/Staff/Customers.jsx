@@ -145,7 +145,7 @@ const Customers = () => {
             </div>
             {data &&
                 <div className='mt-5'>
-                    <DataTable value={data.data} loading={isLoading} showGridlines scrollHeight="77vh" scrollable style={{ width: "77vw" }}
+                    <DataTable size='small' value={data.data} loading={isLoading} showGridlines scrollHeight="77vh" scrollable style={{ width: "77vw" }}
                         filters={filters} filterDisplay="row"
                         globalFilterFields={['id', 'username', 'firstname', 'lastname']} header={header} emptyMessage="No customers found."
                     >

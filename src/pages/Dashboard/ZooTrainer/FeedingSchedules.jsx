@@ -29,7 +29,7 @@ const FeedingSchedules = () => {
     const trainerId = parseInt(decode(localStorage.getItem('token')).sub);
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
     useEffect(() => {
-        if (data.data) {
+        if (data?.data) {
             if (location.state) {
                 const filter = data.data.filter(schedule => {
                     return schedule.animalId.id === location.state.id;
@@ -86,15 +86,20 @@ const FeedingSchedules = () => {
         return item.actualQuantity;
     }
 
+    const feederBody = (item) => {
+        return <div>{item.feederId ? `${item.feederId?.lastname} ${item.feederId?.firstname} - ${item.feederId?.id}` : ''}</div>
+    }
+
     const columns = [
         { field: 'id', header: 'ID', sortable: true, filterField: "id" },
+        { header: 'Feeding time', body: feedingTimeBody, sortable: true, filterField: "feedingTime" },
+        { header: 'Is Fed', body: isFed, sortable: true, filterField: false },
+        { header: 'Feeder', body: feederBody, sortable: true, filterField: true },
         { header: 'Avatar', body: avatarBody, sortable: false, filterField: false },
         { field: 'animalId.name', header: 'Animal name', sortable: true, filterField: "animalId.name" },
         { field: 'animalId.species', header: 'Species', sortable: true, filterField: "animalId.species" },
         { field: 'animalId.origin', header: 'Origin', sortable: true, filterField: 'animalId.origin' },
         { header: 'Sex', body: sexBody, sortable: true, filterField: false },
-        { header: 'Feeding time', body: feedingTimeBody, sortable: true, filterField: "feedingTime" },
-        { header: 'Is Fed', body: isFed, sortable: true, filterField: false },
         { header: 'Actions', body: actionBody, sortable: false, filterField: false },
     ]
 
@@ -152,7 +157,7 @@ const FeedingSchedules = () => {
     const renderHeader = () => {
         return (
             <div className="flex justify-content-between">
-                <Link to="/dashboard/animals/feeding/calendar" state={location.state ? location.state : false}><Button label='View by Calendar' severity='primary' /></Link>
+                <Link to="/dashboard/animals/feeding/calendar" state={location.state ? location.state : false}><Button label='View by Calendar' severity='info' /></Link>
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
@@ -186,6 +191,7 @@ const FeedingSchedules = () => {
                 filterData &&
                 <div className='mt-5'>
                     <DataTable
+                        size='small'
                         value={filterData}
                         paginator rows={10}
                         filters={filters}
