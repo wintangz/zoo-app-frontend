@@ -13,6 +13,7 @@ import { Calendar } from 'primereact/calendar';
 import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import { InputText } from 'primereact/inputtext';
 import { Link } from 'react-router-dom';
+import Tippy from '@tippyjs/react';
 
 const statusFilterTemplate = (options) => {
     const filterValue = options.value;
@@ -84,9 +85,10 @@ const Enclosures = () => {
 
 
     const actionBody = (item) => {
-        return <div className='flex flex-row gap-x-2'>
-            <Link to="/dashboard/enclosures/update" state={item}> <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link>
-            <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} />
+        return <div className='space-x-2 flex'>
+            <Tippy content='Update' placement='bottom'><Link to="/dashboard/enclosures/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
+            <Tippy content='Delete' placement='bottom'><Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} /></Link></Tippy>
+            <Tippy content='Create Feeding Schedule' placement='bottom'><Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-calendar-plus" severity="secondary" aria-label="Bookmark" rounded outlined /></Link></Tippy>
         </div>
     }
 

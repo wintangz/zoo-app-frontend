@@ -11,6 +11,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode } from 'primereact/api';
 import { Link } from 'react-router-dom';
+import Tippy from '@tippyjs/react';
 
 const Habitats = () => {
     const [deleteModal, openDeleteModal] = useState(false);
@@ -55,9 +56,9 @@ const Habitats = () => {
     }
 
     const actionBody = (item) => {
-        return <div className='flex flex-row gap-x-2'>
-            <Link to="/dashboard/habitats/update" state={item}> <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link>
-            <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} />
+        return <div className='space-x-2 flex'>
+            <Tippy content='Update' placement='bottom'><Link to="/dashboard/habitats/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
+            <Tippy content='Delete' placement='bottom'><Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} /></Link></Tippy>
         </div>
     }
 

@@ -16,6 +16,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Panel } from 'primereact/panel';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Tag } from 'primereact/tag';
 
 function Calendar() {
     const theme = useTheme();
@@ -89,12 +90,14 @@ function Calendar() {
     for (let i = 0; i < elementContent.length; i++) {
         elementContent[i].style.paddingLeft = "0.5rem"
     }
-    console.log(location.state)
+
     const labels = {
         title: 'Feeding Schedule Management',
         subtitle: 'Calendar of Feeding Schedules',
         apiPath: '/feeding_schedules',
     }
+
+    console.log(currentSchedule)
     return (
         <div className='w-[81.5vw]'>
             <div>
@@ -111,14 +114,17 @@ function Calendar() {
                             </Box>
                             <Box display="flex" sx={{ height: "80%", fontSize: "1rem", flexDirection: 'column', lineHeight: 2 }}>
                                 <div className='font-bold'>ID: {currentSchedule.id}</div>
-                                <div>Animal: {`${currentSchedule.animalId?.name} - ${currentSchedule.animalId?.id}`}</div>
-                                <div>Time: {formatDateTime(new Date(currentSchedule.feedingTime))}</div>
-                                <div>Created by: {`${currentSchedule.zooTrainerId?.lastname} ${currentSchedule.zooTrainerId?.firstname} - ${currentSchedule.zooTrainerId?.id}`}</div>
-                                <div>Completed: <span className={`${currentSchedule.fed ? 'bg-green-500' : 'bg-red-500'} py-1 px-3 rounded text-white`}>{currentSchedule.fed ? "Yes" : "Not yet"}</span></div>
-                                <div>Completed by: {`${currentSchedule.feederId?.lastname} ${currentSchedule.feederId?.firstname} - ${currentSchedule.feederId?.id}`}</div>
+                                <div><span className='font-bold'>Animal:</span> {`${currentSchedule.animalId?.name} - ${currentSchedule.animalId?.id}`}</div>
+                                <div><span className='font-bold'>Zoo Trainers:</span> {currentSchedule.animalId?.trainers.map((trainer) =>
+                                    <Tag severity='primary' className='mr-2' value={`${trainer.lastname} ${trainer.firstname} - ${trainer.id}`} />
+                                )}</div>
+                                <div><span className='font-bold'>Time:</span> {formatDateTime(new Date(currentSchedule.feedingTime))}</div>
+                                <div><span className='font-bold'>Created by:</span> {`${currentSchedule.zooTrainerId?.lastname} ${currentSchedule.zooTrainerId?.firstname} - ${currentSchedule.zooTrainerId?.id}`}</div>
+                                <div><span className='font-bold'>Completed:</span> <span className={`${currentSchedule.fed ? 'bg-green-500' : 'bg-red-500'} py-1 px-3 rounded text-white`}>{currentSchedule.fed ? "Yes" : "Not yet"}</span></div>
+                                <div><span className='font-bold'>Completed by:</span> {currentSchedule.feederId ? `${currentSchedule?.feederId?.lastname} ${currentSchedule?.feederId?.firstname} - ${currentSchedule?.feederId?.id}` : ''}</div>
                                 <div className=''>
-                                    <div className='p-2 text-center font-bold text-xl'>Foods</div>
-                                    <DataTable value={currentSchedule.details} showGridlines className='text-sm'>
+                                    <div className='pb-2 text-center font-bold text-xl'>Foods</div>
+                                    <DataTable scrollable scrollHeight='25vh' value={currentSchedule.details} showGridlines className='text-sm border'>
                                         <Column header='Food' field='food.name' />
                                         <Column header='Type' field='food.type' />
                                         <Column header='Exp. Qty (kg)' field='expectedQuantity' />
@@ -154,10 +160,10 @@ function Calendar() {
                 <p className='text-3xl font-bold'>{labels.title}</p>
                 <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
             </div>
-            <Box className='bg-[#f8f9fa] p-3 border mx-5 mb-5'>
-                <Box className='flex mb-3'>
+            <Box className='bg-[#f8f9fa] p-2 border mx-5 mb-5'>
+                <Box className='flex mb-3 space-x-3'>
                     <Link to="/dashboard/animals/feeding" state={location.state}><PrimeButton label='View by Table' severity='info' /></Link>
-
+                    <Link to="/dashboard/animals/feeding/create"><PrimeButton label='Create' severity='success' /></Link>
                 </Box>
                 <Box display="flex" justifyContent="space-between" sx={{
                     maxHeight: "100%",

@@ -12,6 +12,9 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode } from 'primereact/api';
 import { Link, useNavigate } from 'react-router-dom';
+import 'tippy.js/dist/tippy.css';
+import Tippy from '@tippyjs/react';
+
 const Animals = () => {
 
     const [deleteModal, openDeleteModal] = useState(false);
@@ -76,9 +79,9 @@ const Animals = () => {
     );
     const actionBody = (item) => {
         return <div className='space-x-2 flex'>
-            <Link to="/dashboard/animals/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link>
-            <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} />
-            <Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-bookmark" severity="secondary" aria-label="Bookmark" rounded outlined /></Link>
+            <Tippy content='Update' placement='bottom'><Link to="/dashboard/animals/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
+            <Tippy content='Delete' placement='bottom'><Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} /></Link></Tippy>
+            <Tippy content='Create Feeding Schedule' placement='bottom'><Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-calendar-plus" severity="secondary" aria-label="Bookmark" rounded outlined /></Link></Tippy>
         </div>
     }
 
@@ -96,7 +99,6 @@ const Animals = () => {
         { header: 'Status', body: statusBody, sortable: true, filterField: false },
         { header: 'Actions', body: actionBody, sortable: false, filterField: false },
     ]
-
 
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -127,6 +129,7 @@ const Animals = () => {
         );
     };
     const header = renderHeader();
+
     return (
         <div className='p-5'>
             {isLoading && <ProgressSpinner style={{ width: '50px', height: '50px' }} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />}
