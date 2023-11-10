@@ -13,34 +13,23 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode } from 'primereact/api';
 import { useEffect } from 'react';
+import Tippy from '@tippyjs/react';
 const FeedingSchedules = () => {
     const location = useLocation();
     const [expandedRows, setExpandedRows] = useState(true);
     const [deleteModal, openDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(0);
-    const [filterData, setFilterData] = useState(null);
     const toast = useRef(null);
+    const trainerId = parseInt(decode(localStorage.getItem('token')).sub);
 
     const labels = {
         title: 'Feeding Schedule Management',
         subtitle: 'Table of Feeding Schedules',
-        apiPath: '/feeding_schedules',
+        apiPath: `/feeding_schedules/zoo-trainers/${trainerId}`,
     }
-    const trainerId = parseInt(decode(localStorage.getItem('token')).sub);
+
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
-    useEffect(() => {
-        if (data?.data) {
-            console.log(data.data)
-            const filter = data.data.filter(schedule => {
-                console.log(schedule)
-                return schedule.animalId.animalTrainerAssignors.some(trainer => {
-                    return trainer.id === trainerId;
-                });
-            });
-            console.log(filter)
-            setFilterData(filter)
-        }
-    }, [data])
+
     const avatarBody = (item) => {
         return <img className='w-16 h-16 object-contain shadow-2 rounded-md' src={item.animalId.imgUrl} alt={item.id} />
     }
@@ -64,8 +53,8 @@ const FeedingSchedules = () => {
 
     const actionBody = (item) => {
         return <div className='space-x-2'>
-            <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined />
-            <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined />
+            <Tippy content='Update' placement='bottom'><Link to='/dashboard/feeding_schedules/update'><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
+            <Tippy content='Delete' placement='bottom'><Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} /></Link></Tippy>
         </div>
     }
 
@@ -162,6 +151,30 @@ const FeedingSchedules = () => {
     };
     const header = renderHeader();
 
+    const handleDeleteClick = (rowData) => {
+        setDeleteId(rowData.id)
+        openDeleteModal(true)
+    }
+
+    const handleConfirmDelete = () => {
+        remove(`feeding_schedules/${deleteId}`).then((response) => {
+            if (response.status === 200) {
+                mutate({ ...data })
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Delete successfully', life: 3000 })
+            } else {
+                toast.current.show({ severity: 'error', summary: 'Error', detail: 'An error has occurred', life: 3000 })
+            }
+            openDeleteModal(false)
+        })
+    }
+
+    const deleteModalFooter = (
+        <React.Fragment>
+            <Button label="No" icon="pi pi-times" outlined onClick={() => openDeleteModal(false)} />
+            <Button label="Yes" icon="pi pi-check" severity="danger" onClick={handleConfirmDelete} />
+        </React.Fragment>
+    );
+
     return (
         <div className="p-5">
             {isLoading && <ProgressSpinner style={{ width: '50px', height: '50px' }} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />}
@@ -169,7 +182,7 @@ const FeedingSchedules = () => {
             <Dialog visible={deleteModal} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
                 header="Confirm"
                 onHide={() => openDeleteModal(false)}
-            // footer={deleteModalFooter}
+                footer={deleteModalFooter}
             >
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
@@ -183,11 +196,11 @@ const FeedingSchedules = () => {
                 <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
             </div>
             {
-                filterData &&
+                data &&
                 <div className='mt-5'>
                     <DataTable
                         size='small'
-                        value={filterData}
+                        value={data.data}
                         paginator rows={10}
                         filters={filters}
                         globalFilterFields={['id', 'animalId.name', 'animalId.species', 'animalId.origin',]} header={header} emptyMessage="No entity found."

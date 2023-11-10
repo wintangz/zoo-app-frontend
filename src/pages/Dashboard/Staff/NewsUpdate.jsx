@@ -1,6 +1,7 @@
 import { Box, Button, FormControl, FormControlLabel, Input, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography, useTheme } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
+import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
@@ -227,24 +228,17 @@ const NewsUpdate = () => {
                                         <div style={{ color: 'red', marginTop: '0.5rem' }}>{errors.content}</div>
                                     )}
                                 </div>
-                                <FormControl fullWidth variant="filled">
-                                    <InputLabel id="type-label">Type</InputLabel>
-                                    <Select
-                                        labelId="type-label"
+                                <div className='flex flex-column gap-2' fullWidth variant="filled">
+                                    <label>Type</label>
+                                    <Dropdown
                                         id="type"
                                         value={values.type}
                                         onChange={handleChange}
-                                        onBlur={handleBlur}
                                         label="Type"
                                         name="type"
-                                    >
-                                        {typeOptions.map((type) => (
-                                            <MenuItem key={type} value={type}>
-                                                {type}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                        options={typeOptions}
+                                    />
+                                </div>
                                 <FormControl component="fieldset" >
                                     <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
                                         imgUrl

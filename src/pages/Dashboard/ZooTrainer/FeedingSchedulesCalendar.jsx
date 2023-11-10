@@ -18,6 +18,8 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Tag } from 'primereact/tag';
 import { decode } from '~/utils/axiosClient';
+import { get } from '../AxiosClient';
+import useSWR from 'swr';
 
 function Calendar() {
     const theme = useTheme();
@@ -28,40 +30,22 @@ function Calendar() {
     const [allSchedule, setAllSchedule] = useState([]);
     const [currentSchedule, setCurrentSchedule] = useState([]); //set current schedule for on click on schedule 
     const trainerId = parseInt(decode(localStorage.getItem("token")).sub);
-    useEffect(() => {
-        const res = getAllSchedule()
-        const filterDate = [];
-        res.then((schedules) => {
-            console.log(schedules)
-            schedules = schedules.filter(schedule => {
-                console.log(schedule)
-                return schedule.animalId.animalTrainerAssignors.some(trainer => {
-                    return trainer.id === trainerId;
-                });
-            })
-            schedules.map((schedule) => {
-                const object = {
-                    className: 'text-lg font-bold',
-                    id: schedule.id,
-                    startTime: schedule.feedingTime,
-                    title: schedule.animalId.name + " - " + schedule.animalId.id + "\n"
-                        + schedule.zooTrainerId.firstname,
-                    color: schedule.fed ? "green" : "red",
-                }
-                filterDate.push(object);
-                setSchedule(filterDate)
-            })
-            setPureSchedules(schedules);
-            setAllSchedule(schedules)
-        })
-    }, [])
     const [currentEvents, setCurrentEvents] = useState([]);
+    const [events, setEvents] = useState(null);
 
     const [open, setOpen] = useState(null);
 
+    const labels = {
+        title: 'Feeding Schedule Management',
+        subtitle: 'Calendar of Feeding Schedules',
+        apiPath: `/feeding_schedules/zoo-trainers/${trainerId}`,
+    }
+
+    const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
+
     const handleEventClick = (selected) => {
         setOpen(true)
-        const current = pureSchedules.find((s) => s.id.toString() === selected.event.id)
+        const current = schedule.find((s) => s.id.toString() === selected.event.id)
         setCurrentSchedule(current)
     };
     const handleClose = () => {
@@ -79,13 +63,24 @@ function Calendar() {
         elementContent[i].style.paddingLeft = "0.5rem"
     }
 
-    const labels = {
-        title: 'Feeding Schedule Management',
-        subtitle: 'Calendar of Feeding Schedules',
-        apiPath: '/feeding_schedules',
-    }
-
-    console.log(currentSchedule)
+    useEffect(() => {
+        const filterDate = [];
+        data?.data.map((schedule) => {
+            const object = {
+                //className: 'text-lg font-bold',
+                id: schedule.id,
+                start: schedule.feedingTime,
+                title: schedule.animalId.name + " - " + schedule.animalId.id + "\n"
+                    + schedule.zooTrainerId.firstname,
+                color: schedule.fed ? "green" : "red",
+            }
+            filterDate.push(object);
+        })
+        if (filterDate.length > 0) {
+            setEvents(filterDate)
+        }
+    }, [data])
+    console.log(events);
     return (
         <div className='w-[81.5vw]'>
             <div>
@@ -159,26 +154,27 @@ function Calendar() {
                     overflow: 'hidden'
                 }}>
                     {/* CALENDAR SIDEBAR */}
-                    <Box flex="1 1 20%" backgroundColor={colors.primary[400]} p="15px" borderRadius="4px">
-                        <Typography variant="h5" className='text-lg font-bold text-center'>Upcoming</Typography>
-                        <List sx={{ maxHeight: '100%', overflow: 'auto' }}>
-                            {console.log(schedule)}
-                            {pureSchedules.filter((s) => !s.fed).map((s) => (
-                                <Panel header={`${s.id} - ${s.animalId.name}`}
-                                    className='text-sm my-1'
-                                    onClick={
-                                        () => {
-                                            setCurrentSchedule(s);
-                                            setOpen(true);
-                                        }
-                                    }>
-                                    <p>{s.feedingTime.replace("T", " ")}</p>
-                                    <p>{`Creator: ${s.zooTrainerId.firstname}`}</p>
-                                </Panel>
-                            ))}
-                        </List>
-                    </Box>
-                    {schedule.length !== 0 && <Box flex="1 1 100%" ml="15px">
+                    {data &&
+                        <Box flex="1 1 20%" backgroundColor={colors.primary[400]} p="15px" borderRadius="4px">
+                            <Typography variant="h5" className='text-lg font-bold text-center'>Upcoming</Typography>
+                            <List sx={{ maxHeight: '100%', overflow: 'auto' }}>
+                                {data.data.map((s) => (
+                                    <Panel header={`${s.id} - ${s.animalId.name}`}
+                                        className='text-sm my-1'
+                                        onClick={
+                                            () => {
+                                                setCurrentSchedule(s);
+                                                setOpen(true);
+                                            }
+                                        }>
+                                        <p>{s.feedingTime.replace("T", " ")}</p>
+                                        <p>{`Creator: ${s.zooTrainerId.firstname}`}</p>
+                                    </Panel>
+                                ))}
+                            </List>
+                        </Box>}
+                    {console.log(events)}
+                    {events != null && data && <Box flex="1 1 100%" ml="15px">
                         <FullCalendar
                             // eventTextColor='red'
                             // eventColor={schedule.map(curSche => curSche.isFed ? "red" : "green")}
@@ -196,7 +192,7 @@ function Calendar() {
                             eventsSet={(event) => {
                                 setCurrentEvents(event);
                             }}
-                            initialEvents={schedule}
+                            initialEvents={events}
                             eventMinHeight={100}
                         />
                     </Box>}
