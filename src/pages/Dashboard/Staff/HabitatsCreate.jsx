@@ -165,7 +165,7 @@ function HabitatsCreate() {
                                         helperText={touched.info && errors.info}
                                     />
                                 </div>
-                                <div className="flex flex-row space-x-20 mt-5">
+                                <div className="flex flex-row gap-20 mt-5">
                                     <FormControl component="fieldset" >
                                         <label className="font-bold block">Image Url</label>
                                         <Input

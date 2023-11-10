@@ -263,8 +263,9 @@ function UpdateEnclosure() {
                                             }}
                                             name="imgUrl"
                                         />
+                                        <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
                                     </FormControl>
-                                    <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
+
 
 
                                     <FormControl

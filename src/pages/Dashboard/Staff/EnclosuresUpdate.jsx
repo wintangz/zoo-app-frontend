@@ -1,39 +1,51 @@
-import { Box, Button, FormControl, FormControlLabel, Input, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography, useTheme } from '@mui/material';
+import {
+    Box,
+    Button,
+    FormControl,
+    FormControlLabel,
+    Input,
+    MenuItem,
+    Radio,
+    RadioGroup,
+    TextField,
+    Typography,
+    useTheme
+} from '@mui/material';
+
+import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from 'primereact/inputtextarea';
+
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
-import { InputText } from 'primereact/inputtext';
 import { useEffect, useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import { getNewsById, updateNews } from '~/api/newsService';
+import { getHabitats, updateEnclosures } from '~/api/animalsService';
+import { getSpecies } from '~/api/speciesService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
-import CustomToolbar from '~/pages/AdminPage/New/QuillEditor/CustomToolbar';
 import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
-import Enclosures from './Enclosures';
 
-const EnclosuresUpdate = () => {
-    const { newsId } = useParams();
-    const [news, setNews] = useState({});
+function EnclosuresUpdate() {
+    //--------------- Call API GET USER ---------------------------------//'
+    const location = useLocation()
+    const { enclosureId } = useParams();
+    const [enclosure, setEnclosure] = useState({});
     const navigate = useNavigate();
+    const [species, setSpecies] = useState([]);
+    const [habitats, setHabitats] = useState([]);
 
-    const fetchapi = async (id) => {
-        const result = await getNewsById(id);
-        return result;
-    };
+
     useEffect(() => {
-        const res = fetchapi(newsId);
-        res.then((result) => {
-            setNews(result);
-            setEditorContent(result.content || '');
-
-        });
+        console.log(location.state);
+        setEnclosure(location.state);
     }, []);
+
+    //****************---------------------- Config Color Theme ****************************/
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
-    const [open, setOpen] = useState(false);
+
+    // ******************************** MODAL FUCTION ********************************/
     const style = {
         position: 'absolute',
         top: '50%',
@@ -48,41 +60,51 @@ const EnclosuresUpdate = () => {
         px: 4,
         pb: 3,
     };
-    const [editorContent, setEditorContent] = useState('');
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        navigate('/dashboard/enclosures');
+    };
 
-    const handleEditorChange = (content) => {
-        setEditorContent(content);
+    //---------------------------------------- Handle Submit----------------------------------/
+
+    const handleFormSubmit = async (values) => {
+        if (values.imgUrl instanceof File) {
+            const imgURL = await uploadFile(values.imgUrl, 'update-news');
+            values.imgUrl = imgURL;
+        }
+        console.log(location.state)
+        console.log(values)
+        const res = updateEnclosures(location.state.id, values);
+        console.log(res)
+        res.then((result) => {
+            const status = result.status;
+            if (status === 200) {
+                setOpen(true);
+            }
+        });
     };
+
+    //********************************** INITIAL VALUE*********************************** */
     const initialValues = {
-        title: news?.title || '',
-        shortDescription: news?.shortDescription || '',
-        content: '',
-        type: news?.type || '',
-        imgUrl: news?.imgUrl || '',
-        thumbnailUrl: news?.thumbnailUrl || '',
-        status: news?.status ? 'True' : 'False'
+        name: enclosure?.name || '',
+        maxCapacity: enclosure?.maxCapacity || '',
+        info: enclosure?.info || '',
+        imgUrl: enclosure?.imgUrl || '',
+        status: enclosure?.status ? 'True' : 'False',
+
     };
+    const habitatId = location.state?.habitat?.id;
+
+    //****************************** VALIDATION ********************************
     const FILE_SIZE = 1920 * 1080;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
-    const typeOptions = ['Event', 'Info'];
     const userSchema = yup.object().shape({
+        maxCapacity: yup
+            .number()
+            .typeError('Max Capacity must be a number')
+            .min(1, 'Max Capacity must be greater than 0')
+            .required('Max Capacity cannot be empty'),
         imgUrl: yup
-            .mixed()
-            .notRequired()
-            .nullable()
-            .test('is-file', 'Invalid file', function (value) {
-                if (typeof value === 'string') {
-                    return true;
-                }
-                if (value === null || value === undefined) {
-                    return true;
-                }
-                if (value instanceof File) {
-                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
-                }
-                return false;
-            }),
-        thumbnailUrl: yup
             .mixed()
             .notRequired()
             .nullable()
@@ -100,60 +122,27 @@ const EnclosuresUpdate = () => {
             }),
     });
 
+    useEffect(() => {
+        const res = getSpecies();
+        res.then((result) => {
+            console.log(result);
+            const filter = result.filter(speice => {
+                return speice.status === true;
+            })
+            setSpecies(result);
+        });
+    }, []);
 
-    const handleFormSubmit = async (values) => {
-        try {
-            const submitValue = { ...values, content: editorContent };
-            if (values.imgUrl instanceof File) {
-                const imgURL = await uploadFile(submitValue.imgUrl, 'update-news');
-                submitValue.imgUrl = imgURL;
-            }
-            if (values.thumbnailUrl instanceof File) {
-                const thumbnailURL = await uploadFile(submitValue.thumbnailUrl, 'update-news');
-                submitValue.thumbnailUrl = thumbnailURL;
-            }
-            const response = updateNews(newsId, submitValue);
-            console.log(submitValue);
-            response.then((result) => {
-                if (result.data.status === "Ok") {
-                    setOpen(true);
-                }
-            });
-        } catch (error) {
-            console.error('Error submitting form:', error.message);
-        }
-    };
+    useEffect(() => {
+        const res = getHabitats();
+        res.then((result) => {
+            const filter = result.filter(habitats => {
+                return habitats.status === true;
+            })
+            setHabitats(filter);
+        });
+    }, []);
 
-    const handleClose = () => {
-        navigate('/home/news');
-    };
-    const modules = {
-        toolbar: {
-            container: '#toolbar',
-        },
-    };
-    const formats = [
-        'font',
-        'size',
-        'bold',
-        'italic',
-        'underline',
-        'strike',
-        'color',
-        'background',
-        'script',
-        'header',
-        'blockquote',
-        'code-block',
-        'indent',
-        'list',
-        'direction',
-        'align',
-        'link',
-        'image',
-        'video',
-        'formula',
-    ];
     return (
         <>
             <div>
@@ -164,179 +153,177 @@ const EnclosuresUpdate = () => {
                     aria-describedby="parent-modal-description"
                 >
                     <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Update News Successfully!</h2>
-                        <p id="parent-modal-description">New News have been update to DataBase!</p>
-                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
+                        <h2 id="parent-modal-title">Update Enclosure Successfully!</h2>
+                        <p id="parent-modal-description">Enclosure have been update to DataBase!</p>
+                        <Button onClick={handleClose} color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Close</Button>
                     </Box>
                 </Modal>
             </div>
-            <Box m="20px">
-                <AdminHeader title="Update News" subtitle="Update news content" />
-                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema} enableReinitialize={true}>
-                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
-                        <form onSubmit={handleSubmit}>
-                            <Box className='space-y-8'>
-                                <div className="flex flex-column gap-2">
-                                    <label>Title</label>
-                                    <InputText
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="Title"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.title}
-                                        name="title"
-                                        error={!!touched.title && !!errors.title}
-                                        helperText={touched.title && errors.title}
-                                    />
-                                </div>
+            <Box m="30px">
+                <AdminHeader title="Update Enclosure" subtitle="Update your Enclosure" />
+            </Box>
 
-                                <div className='flex flex-column gap-2'>
-                                    <label>Description</label>
-                                    <InputText
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="ShortDescription"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.shortDescription}
-                                        name="shortDescription"
-                                        error={!!touched.shortDescription && !!errors.shortDescription}
-                                        helperText={touched.shortDescription && errors.shortDescription}
-                                    />
-                                </div>
-                                <div className='flex flex-column gap-2'>
-                                    <label>Content</label>
-                                    <div border="1px solid #ced4da" borderRadius="4px">
-                                        <CustomToolbar />
-                                        <ReactQuill
-                                            theme="snow"
-                                            value={editorContent}
-                                            onChange={handleEditorChange}
-                                            modules={modules}
-                                            formats={formats}
-                                            style={{ height: '25vh' }}
-                                            error={!!touched.content && !!errors.content}
-                                            helperText={touched.content && errors.content}
+            <>
+                <Box m="20px">
+                    <Formik
+                        onSubmit={handleFormSubmit}
+                        initialValues={initialValues}
+                        validationSchema={userSchema}
+                        enableReinitialize={true}
+                    >
+                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
+                            <form onSubmit={handleSubmit}>
+                                <Box className=''>
+                                    <div className="flex flex-row space-x-10">
+                                        <div className="">
+                                            <label className="font-bold block mb-2">Name</label>
+                                            <InputText
+                                                type="text"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.name}
+                                                name="name"
+                                                error={!!touched.name && !!errors.name}
+                                                helperText={touched.name && errors.name}
+                                                className='w-96'
+                                            />
+                                        </div>
+                                        <div className="">
+                                            <label className="font-bold block mb-2">Max Capacity</label>
+                                            <InputText
+                                                type="text"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.maxCapacity}
+                                                name="maxCapacity"
+                                                error={!!touched.maxCapacity && !!errors.maxCapacity}
+                                                helperText={touched.maxCapacity && errors.maxCapacity}
+                                                className='w-96'
+                                            />
+                                        </div>
+                                        <div >
+                                            <label className="font-bold block mb-2" >Habitat</label>
+                                            <TextField
+                                                sx={{ width: '340px' }}
+                                                select
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                value={values.habitatId}
+                                                name="habitatId"
+                                                defaultValue={habitatId}
+                                                SelectProps={{
+                                                    PopperProps: {
+                                                        anchorEl: null,
+                                                        placement: 'bottom-start',
+                                                    },
+                                                }}
+                                            >
+                                                {habitats.map((option) => {
+                                                    return (
+                                                        <MenuItem key={option.id} value={option.id}>
+                                                            {option.name}
+                                                        </MenuItem>
+                                                    )
+                                                })}
+                                            </TextField>
+                                        </div>
+                                    </div>
+                                    {/* Information */}
+                                    <div className='mt-10'>
+                                        <label className="font-bold block mb-2" >Infomation</label>
+                                        <InputTextarea
+                                            rows={5}
+                                            cols={130}
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            value={values.info}
+                                            name="info"
+                                            error={!!touched.info && !!errors.info}
+                                            helperText={touched.info && errors.info}
                                         />
                                     </div>
-                                    {touched.content && errors.content && (
-                                        <div style={{ color: 'red', marginTop: '0.5rem' }}>{errors.content}</div>
-                                    )}
-                                </div>
-                                <FormControl fullWidth variant="filled">
-                                    <InputLabel id="type-label">Type</InputLabel>
-                                    <Select
-                                        labelId="type-label"
-                                        id="type"
-                                        value={values.type}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        label="Type"
-                                        name="type"
-                                    >
-                                        {typeOptions.map((type) => (
-                                            <MenuItem key={type} value={type}>
-                                                {type}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                                <FormControl component="fieldset" >
-                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
-                                        imgUrl
-                                    </Typography>
-                                    <Input
-                                        type="file"
-                                        label="imgUrl"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                        }}
-                                        name="imgUrl"
-                                    />
-                                </FormControl>
-                                <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
+                                    <div className="flex flex-row mt-5 ">
+                                        <FormControl component="fieldset" >
+                                            <label className="font-bold block">Image Url</label>
+                                            <Input
+                                                type="file"
+                                                label="imgUrl"
+                                                onBlur={handleBlur}
+                                                onChange={(e) => {
+                                                    setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                                }}
+                                                name="imgUrl"
+                                                error={!!touched.imgUrl && !!errors.imgUrl}
+                                            />
+                                            {touched.imgUrl && errors.imgUrl && (
+                                                <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                            )}
+                                            <img src={values.imgUrl} className='w-40 h-20' />
+                                        </FormControl>
 
-                                <FormControl component="fieldset" sx={{ paddingLeft: "10px" }}>
-                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px", paddingLeft: "10px" }}>
-                                        thumbnailUrls
-                                    </Typography>
-                                    <Input
-                                        type="file"
-                                        label="thumbnailUrl"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            setFieldValue('thumbnailUrl', e.currentTarget.files[0]);
-                                        }}
-                                        name="thumbnailUrl"
-                                    />
-                                </FormControl>
-                                <img src={values.thumbnailUrl} alt='' style={{ width: "150px", height: "70px" }} />
-                                <FormControl
-                                    component="fieldset"
-                                    width="75%"
-                                    sx={{
-                                        gridColumn: 'span 1', paddingLeft: "10px"
-                                    }}
-                                    label="Status"
-                                >
-                                    <Typography variant="h6" color={colors.grey[300]} style={{ margin: '0.8vw' }}>
-                                        Status
-                                    </Typography>
-                                    <RadioGroup
-                                        aria-label="Status"
-                                        name="status"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.status}
-                                        sx={{ display: 'inline-block' }}
-                                        label="Status"
-                                    >
-                                        <FormControlLabel
-                                            value="True"
-                                            control={
-                                                <Radio
-                                                    sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                />
-                                            }
-                                            label="True"
-                                        />
-                                        <FormControlLabel
-                                            value="False"
-                                            control={
-                                                <Radio
-                                                    sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                />
-                                            }
-                                            label="False"
-                                        />
-                                    </RadioGroup>
-                                </FormControl>
-                            </Box>
 
-                            <Box display="flex" justifyContent="space-between" mt="20px">
-                                <Button
-                                    type="button"
-                                    color="secondary"
-                                    variant="contained"
-                                    onClick={() => navigate('/home/news')}
-                                >
-                                    VIEW NEWS
-                                </Button>
-                                <Button type="submit" color="secondary" variant="contained">
-                                    UPDATE NEWS
-                                </Button>
-                            </Box>
-                        </form>
-                    )}
-                </Formik>
-            </Box>
+                                        <FormControl
+                                            component="fieldset"
+                                            // width="75%"
+                                            // sx={{
+                                            //     gridColumn: 'span 1',
+                                            // }}
+                                            // label="Status"
+                                            style={{ marginLeft: '200px' }}
+                                        >
+                                            <label className="font-bold block mb-2">Status</label>
+                                            <RadioGroup
+                                                aria-label="Status"
+                                                name="status"
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                defaultValue=" "
+                                                value={values.status}
+                                                sx={{ display: 'inline-block', fontSize: '1.3rem' }}
+                                                label="Status"
+                                            >
+                                                <FormControlLabel
+                                                    value="True"
+                                                    control={
+                                                        <Radio
+                                                            sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                        />
+                                                    }
+                                                    label="True"
+                                                />
+                                                <FormControlLabel
+                                                    value="False"
+                                                    control={
+                                                        <Radio
+                                                            sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
+                                                        />
+                                                    }
+                                                    label="False"
+                                                />
+                                            </RadioGroup>
+                                        </FormControl>
+                                    </div>
+
+                                </Box>
+                                <Box display="flex" justifyContent="space-between" mt="50px" >
+                                    <Button
+                                        type="button"
+                                        color="secondary"
+                                        variant="contained"
+                                        onClick={() => navigate('/dashboard/enclosures')}
+                                    >
+                                        VIEW ENCLOSUREs
+                                    </Button>
+
+                                    <Button type="submit" color="secondary" variant="contained">
+                                        UPDATE ENCLOSURE
+                                    </Button>
+                                </Box>
+                            </form>
+                        )}
+                    </Formik>
+                </Box>
+            </>
         </>
     );
 }
