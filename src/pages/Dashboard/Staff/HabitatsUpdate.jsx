@@ -13,10 +13,11 @@ import {
 
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { Toast } from 'primereact/toast';
 
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/animalsService';
@@ -27,6 +28,7 @@ import uploadFile from '~/utils/transferFile';
 function HabitatsUpdate() {
     //--------------- Call API GET USER ---------------------------------//'
     const { habitatId } = useParams();
+    const toast = useRef(null);
     const [habitat, setHabitat] = useState({});
     const navigate = useNavigate();
     const location = useLocation()
@@ -44,22 +46,6 @@ function HabitatsUpdate() {
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
 
-    // ******************************** MODAL FUCTION ********************************/
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: colors.grey[500],
-        border: '2px solid #000',
-        color: colors.grey[100],
-        boxShadow: 24,
-        pt: 2,
-        px: 4,
-        pb: 3,
-    };
-    const [open, setOpen] = useState(false);
     const handleClose = () => {
         navigate('/dashboard/habitats');
     };
@@ -79,9 +65,12 @@ function HabitatsUpdate() {
             const res = mockData.updateHabitats(location.state.id, values);
             console.log(res)
             res.then((result) => {
+                console.log(result);
                 const status = result.status;
                 if (status === 200) {
-                    setOpen(true);
+                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Habitat Successfully', life: 3000 })
+                } else {
+                    toast.current.show({ severity: 'error', summary: 'Error ' + result.status, detail: result.data.error, life: 3000 });
                 }
             });
         } catch (error) {
@@ -109,20 +98,7 @@ function HabitatsUpdate() {
 
     return (
         <>
-            <div>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="parent-modal-title"
-                    aria-describedby="parent-modal-description"
-                >
-                    <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Update Habitat Successfully!</h2>
-                        <p id="parent-modal-description">Habitat have been update to DataBase!</p>
-                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
-                    </Box>
-                </Modal>
-            </div>
+            <Toast ref={toast} />
             <Box m="20px">
                 <AdminHeader title="Update Habitat" subtitle="Update your Habitat" />
             </Box>

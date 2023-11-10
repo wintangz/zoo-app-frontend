@@ -10,11 +10,12 @@ import {
 
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { Toast } from 'primereact/toast';
 
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createHabitats } from '~/api/animalsService';
@@ -24,28 +25,13 @@ import uploadFile from '~/utils/transferFile';
 // import { DataGridPro } from '@mui/x-data-grid-pro';
 function HabitatsCreate() {
     const navigate = useNavigate();
+    const toast = useRef(null);
     const FILE_SIZE = 160 * 1024;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
-    const [open, setOpen] = useState(false);
 
 
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: colors.grey[500],
-        border: '2px solid #000',
-        color: colors.grey[100],
-        boxShadow: 24,
-        pt: 2,
-        px: 4,
-        pb: 3,
-    };
-    const isNonMobile = useMediaQuery('(min-width: 600px)');
 
     const handleFormSubmit = async (values) => {
         console.log(values);
@@ -59,7 +45,9 @@ function HabitatsCreate() {
                 console.log(result);
                 const status = result.status;
                 if (status === 200) {
-                    setOpen(true);
+                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create Habitat Successfully', life: 3000 })
+                } else {
+                    toast.current.show({ severity: 'error', summary: 'Error ' + result.status, detail: result.data.error, life: 3000 });
                 }
             });
         } catch (error) {
@@ -113,25 +101,9 @@ function HabitatsCreate() {
             }),
 
     });
-    const handleClose = () => {
-        navigate('/dashboard/habitats');
-    };
     return (
         <>
-            <div>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="parent-modal-title"
-                    aria-describedby="parent-modal-description"
-                >
-                    <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Create Habitat successfully!</h2>
-                        <p id="parent-modal-description">New Habitat have been add to DataBase!</p>
-                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
-                    </Box>
-                </Modal>
-            </div>
+            <Toast ref={toast} />
             <Box m="20px">
                 <AdminHeader title="Create Habitat" subtitle="Create a new habitat" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>

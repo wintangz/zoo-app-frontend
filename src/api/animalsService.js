@@ -64,6 +64,7 @@ export const updateEnclosures = async (id, values) => {
         const res = await axiosClient.put(`enclosures/${id}`, values);
         return res;
     } catch (error) {
+        console.log(error);
         return error.response;
     }
 }

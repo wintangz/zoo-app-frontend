@@ -14,10 +14,11 @@ import {
 
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { Toast } from 'primereact/toast';
 
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { getHabitats, updateEnclosures } from '~/api/animalsService';
@@ -29,6 +30,7 @@ import uploadFile from '~/utils/transferFile';
 function EnclosuresUpdate() {
     //--------------- Call API GET USER ---------------------------------//'
     const location = useLocation()
+    const toast = useRef(null);
     const { enclosureId } = useParams();
     const [enclosure, setEnclosure] = useState({});
     const navigate = useNavigate();
@@ -45,26 +47,6 @@ function EnclosuresUpdate() {
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
 
-    // ******************************** MODAL FUCTION ********************************/
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: colors.grey[500],
-        border: '2px solid #000',
-        color: colors.grey[100],
-        boxShadow: 24,
-        pt: 2,
-        px: 4,
-        pb: 3,
-    };
-    const [open, setOpen] = useState(false);
-    const handleClose = () => {
-        navigate('/dashboard/enclosures');
-    };
-
     //---------------------------------------- Handle Submit----------------------------------/
 
     const handleFormSubmit = async (values) => {
@@ -77,9 +59,12 @@ function EnclosuresUpdate() {
         const res = updateEnclosures(location.state.id, values);
         console.log(res)
         res.then((result) => {
+            console.log(result);
             const status = result.status;
             if (status === 200) {
-                setOpen(true);
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Habitat Successfully', life: 3000 })
+            } else {
+                toast.current.show({ severity: 'error', summary: 'Error ' + result.status, detail: result.data.error, life: 3000 });
             }
         });
     };
@@ -145,20 +130,7 @@ function EnclosuresUpdate() {
 
     return (
         <>
-            <div>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="parent-modal-title"
-                    aria-describedby="parent-modal-description"
-                >
-                    <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Update Enclosure Successfully!</h2>
-                        <p id="parent-modal-description">Enclosure have been update to DataBase!</p>
-                        <Button onClick={handleClose} color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Close</Button>
-                    </Box>
-                </Modal>
-            </div>
+            <Toast ref={toast} />
             <Box m="30px">
                 <AdminHeader title="Update Enclosure" subtitle="Update your Enclosure" />
             </Box>

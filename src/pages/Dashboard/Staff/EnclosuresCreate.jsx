@@ -10,12 +10,12 @@ import {
 
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { FileUpload } from 'primereact/fileupload';
+import { Toast } from 'primereact/toast';
 
 import Modal from '@mui/material/Modal';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import * as yup from 'yup';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
@@ -26,27 +26,13 @@ import { createEnclousures, getHabitats } from '~/api/animalsService';
 import uploadFile from '~/utils/transferFile';
 
 
+
 function EnclosuresCreate() {
     const navigate = useNavigate();
+    const toast = useRef(null);
     const theme = useTheme({ isDashboard: false });
     const colors = tokens(theme.palette.mode);
-    const [open, setOpen] = useState(false);
     const [habitats, setHabitats] = useState([]);
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: colors.grey[500],
-        border: '2px solid #000',
-        color: colors.grey[100],
-        boxShadow: 24,
-        pt: 2,
-        px: 4,
-        pb: 3,
-    };
 
     useEffect(() => {
         const res = getHabitats();
@@ -78,7 +64,9 @@ function EnclosuresCreate() {
             console.log(response);
             if (response.data.status === "Ok") {
                 console.log(values);
-                setOpen(true);
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create Enclosure Successfully', life: 3000 })
+            } else if (response.status !== 200) {
+                toast.current.show({ severity: 'error', summary: 'Error ' + response.status, detail: response.data.error, life: 3000 });
             }
         } catch (error) {
             console.error(error);
@@ -110,25 +98,10 @@ function EnclosuresCreate() {
             .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
         habitatId: yup.number(yup.string())
     });
-    const handleClose = () => {
-        navigate('/dashboard/enclosures');
-    };
+
     return (
         <>
-            <div>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="parent-modal-title"
-                    aria-describedby="parent-modal-description"
-                >
-                    <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Create Enclosure successfully!</h2>
-                        <p id="parent-modal-description">New Enclosure have been add to DataBase!</p>
-                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
-                    </Box>
-                </Modal>
-            </div>
+            <Toast ref={toast} />
             <Box m="20px">
                 <AdminHeader title="Create Enclosure" subtitle="Create a new Enclosure" />
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
