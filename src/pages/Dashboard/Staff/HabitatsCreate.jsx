@@ -1,6 +1,5 @@
 import {
     Box,
-    Button,
     FormControl,
     Input,
     TextField,
@@ -8,6 +7,7 @@ import {
     useTheme
 } from '@mui/material';
 
+import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
@@ -67,38 +67,48 @@ function HabitatsCreate() {
     const userSchema = yup.object().shape({
         name: yup.string().required('Name is required!'),
         info: yup.string().required('Information is required!'),
+        // imgUrl: yup
+        //     .mixed()
+        //     .notRequired()
+        //     .nullable()
+        //     .test('is-file', 'Invalid file', function (value) {
+        //         if (typeof value === 'string') {
+        //             return true;
+        //         }
+        //         if (value === null || value === undefined) {
+        //             return true;
+        //         }
+        //         if (value instanceof File) {
+        //             return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+        //         }
+        //         return false;
+        //     }),
         imgUrl: yup
             .mixed()
-            .notRequired()
-            .nullable()
-            .test('is-file', 'Invalid file', function (value) {
-                if (typeof value === 'string') {
-                    return true;
-                }
-                if (value === null || value === undefined) {
-                    return true;
-                }
-                if (value instanceof File) {
-                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
-                }
-                return false;
-            }),
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+        // bannerUrl: yup
+        //     .mixed()
+        //     .notRequired()
+        //     .nullable()
+        //     .test('is-file', 'Invalid file', function (value) {
+        //         if (typeof value === 'string') {
+        //             return true;
+        //         }
+        //         if (value === null || value === undefined) {
+        //             return true;
+        //         }
+        //         if (value instanceof File) {
+        //             return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+        //         }
+        //         return false;
+        //     }),
         bannerUrl: yup
             .mixed()
-            .notRequired()
-            .nullable()
-            .test('is-file', 'Invalid file', function (value) {
-                if (typeof value === 'string') {
-                    return true;
-                }
-                if (value === null || value === undefined) {
-                    return true;
-                }
-                if (value instanceof File) {
-                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
-                }
-                return false;
-            }),
+            .required('A file is required')
+            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
+            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
 
     });
     return (
@@ -106,7 +116,20 @@ function HabitatsCreate() {
             <Toast ref={toast} />
             <Box m="20px">
                 <AdminHeader title="Create Habitat" subtitle="Create a new habitat" />
-                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
+                <Formik onSubmit={(values, { setValues }) => {
+                    // Trim all values before submitting
+                    const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
+                        acc[key] = typeof value === 'string' ? value.trim() : value;
+                        return acc;
+                    }, {});
+
+                    handleFormSubmit(trimmedValues);
+                    // Optionally, update the form state with trimmed values
+                    setValues(trimmedValues);
+                }}
+                    initialValues={initialValues}
+                    validationSchema={userSchema}
+                >
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box
@@ -119,10 +142,9 @@ function HabitatsCreate() {
                                         onChange={handleChange}
                                         value={values.name}
                                         name="name"
-                                        error={!!touched.name && !!errors.name}
-                                        helperText={touched.name && errors.name}
-                                        className='w-96'
+                                        className={`w-96 ${errors.name && touched.name ? 'p-invalid' : ''}`}
                                     />
+                                    {errors.name && touched.name && <div style={{ color: 'red' }}>{errors.name}</div>}
                                 </div>
                                 <div className='mt-10'>
                                     <label className="font-bold block mb-2" >Infomation</label>
@@ -133,9 +155,9 @@ function HabitatsCreate() {
                                         onChange={handleChange}
                                         value={values.info}
                                         name="info"
-                                        error={!!touched.info && !!errors.info}
-                                        helperText={touched.info && errors.info}
+                                        className={` ${errors.info && touched.info ? 'p-invalid' : ''}`}
                                     />
+                                    {errors.info && touched.info && <div style={{ color: 'red' }}>{errors.info}</div>}
                                 </div>
                                 <div className="flex flex-row gap-20 mt-5">
                                     <FormControl component="fieldset" >
@@ -178,15 +200,18 @@ function HabitatsCreate() {
                             <Box display="flex" justifyContent="space-between" mt="50px">
                                 <Button
                                     type="button"
-                                    color="secondary"
-                                    variant="contained"
+                                    label="View Habitats"
+                                    severity="info"
+                                    raised
                                     onClick={() => navigate('/dashboard/habitats')}
-                                >
-                                    VIEW HABITATS
-                                </Button>
-                                <Button type="submit" color="secondary" variant="contained">
-                                    CREATE HABITAT
-                                </Button>
+                                />
+
+                                <Button
+                                    type="submit"
+                                    label="Create Habitat"
+                                    severity="success"
+                                    raised
+                                />
                             </Box>
                         </form>
                     )}

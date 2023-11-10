@@ -1,6 +1,5 @@
 import {
     Box,
-    Button,
     FormControl,
     Input,
     TextField,
@@ -8,7 +7,9 @@ import {
     useTheme
 } from '@mui/material';
 
+import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
 
@@ -44,7 +45,9 @@ function EnclosuresCreate() {
         });
     }, []);
 
-    const [habitattId, setHabitatId] = useState([])
+
+
+    const [habitatId, setHabitatId] = useState([])
 
     const handleChangeHabitatId = (event) => {
         setHabitatId(event.target.value)
@@ -55,7 +58,7 @@ function EnclosuresCreate() {
         try {
             const submitValue = {
                 ...values,
-                habitatId: habitattId,
+                habitatId: habitatId,
             };
             const imgUrl = await uploadFile(submitValue.imgUrl, 'create-news');
             submitValue.imgUrl = imgUrl;
@@ -84,7 +87,7 @@ function EnclosuresCreate() {
     const FILE_SIZE = 1920 * 1080;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const userSchema = yup.object().shape({
-        name: yup.string().required('Name cannot be empty'),
+        name: yup.string().required('Name is required!'),
         maxCapacity: yup
             .number()
             .typeError('Max Capacity must be a number')
@@ -96,15 +99,30 @@ function EnclosuresCreate() {
             .required('A file is required')
             .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
             .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
-        habitatId: yup.number(yup.string())
+        habitatId: yup.number(yup.string()),
     });
+
+    console.log(habitatId);
 
     return (
         <>
             <Toast ref={toast} />
             <Box m="20px">
                 <AdminHeader title="Create Enclosure" subtitle="Create a new Enclosure" />
-                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
+                <Formik onSubmit={(values, { setValues }) => {
+                    // Trim all values before submitting
+                    const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
+                        acc[key] = typeof value === 'string' ? value.trim() : value;
+                        return acc;
+                    }, {});
+
+                    handleFormSubmit(trimmedValues);
+                    // Optionally, update the form state with trimmed values
+                    setValues(trimmedValues);
+                }}
+                    initialValues={initialValues}
+                    validationSchema={userSchema}
+                >
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
                             <Box className=''>
@@ -117,10 +135,9 @@ function EnclosuresCreate() {
                                             onChange={handleChange}
                                             value={values.name}
                                             name="name"
-                                            error={!!touched.name && !!errors.name}
-                                            helperText={touched.name && errors.name}
-                                            className='w-96'
+                                            className={`w-96 ${errors.name && touched.name ? 'p-invalid' : ''}`}
                                         />
+                                        {errors.name && touched.name && <div style={{ color: 'red' }}>{errors.name}</div>}
                                     </div>
                                     <div className="">
                                         <label className="font-bold block mb-2">Max Capacity</label>
@@ -130,35 +147,22 @@ function EnclosuresCreate() {
                                             onChange={handleChange}
                                             value={values.maxCapacity}
                                             name="maxCapacity"
-                                            error={!!touched.maxCapacity && !!errors.maxCapacity}
-                                            helperText={touched.maxCapacity && errors.maxCapacity}
-                                            className='w-96'
+                                            className={`w-96 ${errors.maxCapacity && touched.maxCapacity ? 'p-invalid' : ''}`}
                                         />
+                                        {errors.maxCapacity && touched.maxCapacity && <div style={{ color: 'red' }}>{errors.maxCapacity}</div>}
                                     </div>
                                     <div >
                                         <label className="font-bold block mb-2" >Habitat</label>
-                                        <TextField
-                                            sx={{ width: '340px' }}
-                                            select
+                                        <Dropdown
+                                            style={{ width: '340px' }}
+                                            // defaultValue={habitatId}
                                             onBlur={handleBlur}
-                                            onChange={handleChangeHabitatId}
-                                            name="habitat"
-                                            defaultValue={1}
-                                            SelectProps={{
-                                                PopperProps: {
-                                                    anchorEl: null,
-                                                    placement: 'bottom-start',
-                                                },
-                                            }}
-                                        >
-                                            {habitats.map((option) => {
-                                                return (
-                                                    <MenuItem key={option.id} value={option.id}>
-                                                        {option.name}
-                                                    </MenuItem>
-                                                )
-                                            })}
-                                        </TextField>
+                                            onChange={(e) => handleChangeHabitatId({ target: { value: e.value } })}
+                                            value={habitatId} // Assuming habitattId is the selected value
+                                            options={habitats.map((option) => ({ label: option.name, value: option.id }))}
+                                            placeholder="Select a Habitat"
+                                            showClear
+                                        />
                                     </div>
                                 </div>
 
@@ -175,14 +179,12 @@ function EnclosuresCreate() {
                                         onChange={handleChange}
                                         value={values.info}
                                         name="info"
-                                        error={!!touched.info && !!errors.info}
-                                        helperText={touched.info && errors.info}
+                                        className={` ${errors.info && touched.info ? 'p-invalid' : ''}`}
                                     />
+                                    {errors.info && touched.info && <div style={{ color: 'red' }}>{errors.info}</div>}
                                 </div>
-                                <FormControl component="fieldset" >
-                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px', marginTop: "10px" }}>
-                                        imgUrl
-                                    </Typography>
+                                <FormControl component="fieldset" className='mt-5' >
+                                    <label className="font-bold m-0 ">Image Url</label>
                                     <Input
                                         type="file"
                                         label="imgUrl"
@@ -192,6 +194,7 @@ function EnclosuresCreate() {
                                         }}
                                         name="imgUrl"
                                         error={!!touched.imgUrl && !!errors.imgUrl}
+                                        className='m-0'
                                     />
                                     {touched.imgUrl && errors.imgUrl && (
                                         <div style={{ color: 'red' }}>{errors.imgUrl}</div>
@@ -201,15 +204,18 @@ function EnclosuresCreate() {
                             <Box display="flex" justifyContent="space-between" mt="50px">
                                 <Button
                                     type="button"
-                                    color="secondary"
-                                    variant="contained"
+                                    label="View Enclosure"
+                                    severity="info"
+                                    raised
                                     onClick={() => navigate('/dashboard/enclosures')}
-                                >
-                                    VIEW All ENCLOSURE
-                                </Button>
-                                <Button type="submit" color="secondary" variant="contained">
-                                    CREATE ENCLOSURE
-                                </Button>
+                                />
+
+                                <Button
+                                    type="submit"
+                                    label="Create Enclosure"
+                                    severity="success"
+                                    raised
+                                />
                             </Box>
                         </form>
                     )}

@@ -1,6 +1,5 @@
 import {
     Box,
-    Button,
     FormControl,
     FormControlLabel,
     Input,
@@ -12,6 +11,9 @@ import {
     useTheme
 } from '@mui/material';
 
+import { RadioButton } from 'primereact/radiobutton';
+import { Dropdown } from 'primereact/dropdown';
+import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
@@ -62,7 +64,7 @@ function EnclosuresUpdate() {
             console.log(result);
             const status = result.status;
             if (status === 200) {
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Habitat Successfully', life: 3000 })
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Enclosure Successfully', life: 3000 })
             } else {
                 toast.current.show({ severity: 'error', summary: 'Error ' + result.status, detail: result.data.error, life: 3000 });
             }
@@ -127,7 +129,7 @@ function EnclosuresUpdate() {
             setHabitats(filter);
         });
     }, []);
-
+    console.log(habitatId);
     return (
         <>
             <Toast ref={toast} />
@@ -137,12 +139,23 @@ function EnclosuresUpdate() {
 
             <>
                 <Box m="20px">
-                    <Formik
-                        onSubmit={handleFormSubmit}
+                    <Formik onSubmit={(values, { setValues }) => {
+                        // Trim all values before submitting
+                        const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
+                            acc[key] = typeof value === 'string' ? value.trim() : value;
+                            return acc;
+                        }, {});
+
+                        handleFormSubmit(trimmedValues);
+                        // Optionally, update the form state with trimmed values
+                        setValues(trimmedValues);
+                    }}
                         initialValues={initialValues}
                         validationSchema={userSchema}
                         enableReinitialize={true}
                     >
+
+
                         {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                             <form onSubmit={handleSubmit}>
                                 <Box className=''>
@@ -155,10 +168,9 @@ function EnclosuresUpdate() {
                                                 onChange={handleChange}
                                                 value={values.name}
                                                 name="name"
-                                                error={!!touched.name && !!errors.name}
-                                                helperText={touched.name && errors.name}
-                                                className='w-96'
+                                                className={`w-96 ${errors.name && touched.name ? 'p-invalid' : ''}`}
                                             />
+                                            {errors.name && touched.name && <div style={{ color: 'red' }}>{errors.name}</div>}
                                         </div>
                                         <div className="">
                                             <label className="font-bold block mb-2">Max Capacity</label>
@@ -168,36 +180,22 @@ function EnclosuresUpdate() {
                                                 onChange={handleChange}
                                                 value={values.maxCapacity}
                                                 name="maxCapacity"
-                                                error={!!touched.maxCapacity && !!errors.maxCapacity}
-                                                helperText={touched.maxCapacity && errors.maxCapacity}
-                                                className='w-96'
+                                                className={`w-96 ${errors.maxCapacity && touched.maxCapacity ? 'p-invalid' : ''}`}
                                             />
+                                            {errors.maxCapacity && touched.maxCapacity && <div style={{ color: 'red' }}>{errors.maxCapacity}</div>}
                                         </div>
                                         <div >
                                             <label className="font-bold block mb-2" >Habitat</label>
-                                            <TextField
-                                                sx={{ width: '340px' }}
-                                                select
+                                            <Dropdown
+                                                style={{ width: '340px' }}
+                                                defaultValue={values.habitatId}
                                                 onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.habitatId}
-                                                name="habitatId"
-                                                defaultValue={habitatId}
-                                                SelectProps={{
-                                                    PopperProps: {
-                                                        anchorEl: null,
-                                                        placement: 'bottom-start',
-                                                    },
-                                                }}
-                                            >
-                                                {habitats.map((option) => {
-                                                    return (
-                                                        <MenuItem key={option.id} value={option.id}>
-                                                            {option.name}
-                                                        </MenuItem>
-                                                    )
-                                                })}
-                                            </TextField>
+                                                onChange={(e) => setFieldValue('habitatId', e.value)}
+                                                value={values.habitatId || habitatId}
+                                                options={habitats.map((option) => ({ label: option.name, value: option.id }))}
+                                                showClear
+                                            />
+
                                         </div>
                                     </div>
                                     {/* Information */}
@@ -210,14 +208,15 @@ function EnclosuresUpdate() {
                                             onChange={handleChange}
                                             value={values.info}
                                             name="info"
-                                            error={!!touched.info && !!errors.info}
-                                            helperText={touched.info && errors.info}
+                                            className={` ${errors.info && touched.info ? 'p-invalid' : ''}`}
                                         />
+                                        {errors.info && touched.info && <div style={{ color: 'red' }}>{errors.info}</div>}
                                     </div>
                                     <div className="flex flex-row mt-5 ">
                                         <FormControl component="fieldset" >
                                             <label className="font-bold block">Image Url</label>
                                             <Input
+                                                className='m-0'
                                                 type="file"
                                                 label="imgUrl"
                                                 onBlur={handleBlur}
@@ -234,62 +233,60 @@ function EnclosuresUpdate() {
                                         </FormControl>
 
 
-                                        <FormControl
-                                            component="fieldset"
-                                            // width="75%"
-                                            // sx={{
-                                            //     gridColumn: 'span 1',
-                                            // }}
-                                            // label="Status"
-                                            style={{ marginLeft: '200px' }}
-                                        >
-                                            <label className="font-bold block mb-2">Status</label>
-                                            <RadioGroup
-                                                aria-label="Status"
-                                                name="status"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                defaultValue=" "
-                                                value={values.status}
-                                                sx={{ display: 'inline-block', fontSize: '1.3rem' }}
-                                                label="Status"
-                                            >
-                                                <FormControlLabel
-                                                    value="True"
-                                                    control={
-                                                        <Radio
-                                                            sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                        />
-                                                    }
-                                                    label="True"
-                                                />
-                                                <FormControlLabel
-                                                    value="False"
-                                                    control={
-                                                        <Radio
-                                                            sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                        />
-                                                    }
-                                                    label="False"
-                                                />
-                                            </RadioGroup>
-                                        </FormControl>
+
                                     </div>
+                                    <FormControl
+                                        component="fieldset"
+                                    // width="75%"
+                                    // sx={{
+                                    //     gridColumn: 'span 1',
+                                    // }}
+                                    // label="Status"
+                                    // style={{ marginLeft: '50px' }}
+                                    >
+                                        <div className="mt-5">
+                                            <label className="font-bold block ">Status</label>
+                                            <div className='flex flex-wrap gap-5 mt-2'>
+                                                <div className="flex align-items-center">
+                                                    <RadioButton
+                                                        inputId="statusTrue"
+                                                        name="status"
+                                                        value="True"
+                                                        onChange={handleChange}
+                                                        checked={values.status === 'True'}
+                                                    />
+                                                    <label htmlFor="StatusTrue" className="ml-2">True</label>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <RadioButton
+                                                        inputId="statusFalse"
+                                                        name="status"
+                                                        value="False"
+                                                        onChange={handleChange}
+                                                        checked={values.status === 'False'}
+                                                    />
+                                                    <label htmlFor="StatusTrue" className="ml-2">False</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </FormControl>
 
                                 </Box>
                                 <Box display="flex" justifyContent="space-between" mt="50px" >
                                     <Button
                                         type="button"
-                                        color="secondary"
-                                        variant="contained"
+                                        label="View Enclosure"
+                                        severity="info"
+                                        raised
                                         onClick={() => navigate('/dashboard/enclosures')}
-                                    >
-                                        VIEW ENCLOSUREs
-                                    </Button>
+                                    />
 
-                                    <Button type="submit" color="secondary" variant="contained">
-                                        UPDATE ENCLOSURE
-                                    </Button>
+                                    <Button
+                                        type="submit"
+                                        label="Update Enclosure"
+                                        severity="warning"
+                                        raised
+                                    />
                                 </Box>
                             </form>
                         )}

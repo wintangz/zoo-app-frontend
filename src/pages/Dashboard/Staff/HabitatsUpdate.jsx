@@ -1,6 +1,5 @@
 import {
     Box,
-    Button,
     FormControl,
     FormControlLabel,
     Input,
@@ -11,9 +10,11 @@ import {
     useTheme
 } from '@mui/material';
 
+import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
+import { RadioButton } from 'primereact/radiobutton';
 
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
@@ -92,8 +93,8 @@ function HabitatsUpdate() {
     const userSchema = yup.object().shape({
         name: yup.string().required('Name is required!'),
         info: yup.string().required('Information is required!'),
-        imgUrl: yup.string().required('Image URL is required!'),
-        bannerUrl: yup.string().required('Banner URL is required!'),
+        imgUrl: yup.string().required('imgUrl is required!'),
+        bannerUrl: yup.string().required('bannerUrl is required!'),
     });
 
     return (
@@ -105,12 +106,22 @@ function HabitatsUpdate() {
 
             <>
                 <Box m="20px">
-                    <Formik
-                        onSubmit={handleFormSubmit}
+                    <Formik onSubmit={(values, { setValues }) => {
+                        // Trim all values before submitting
+                        const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
+                            acc[key] = typeof value === 'string' ? value.trim() : value;
+                            return acc;
+                        }, {});
+
+                        handleFormSubmit(trimmedValues);
+                        // Optionally, update the form state with trimmed values
+                        setValues(trimmedValues);
+                    }}
                         initialValues={initialValues}
                         validationSchema={userSchema}
                         enableReinitialize={true}
                     >
+
                         {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                             <form onSubmit={handleSubmit}>
                                 <Box
@@ -126,10 +137,9 @@ function HabitatsUpdate() {
                                             onChange={handleChange}
                                             value={values.name}
                                             name="name"
-                                            error={!!touched.name && !!errors.name}
-                                            helperText={touched.name && errors.name}
-                                            className='w-96'
+                                            className={`w-96 ${errors.name && touched.name ? 'p-invalid' : ''}`}
                                         />
+                                        {errors.name && touched.name && <div style={{ color: 'red' }}>{errors.name}</div>}
                                     </div>
                                     <div className='mt-10'>
                                         <label className="font-bold block mb-2" >Infomation</label>
@@ -140,9 +150,9 @@ function HabitatsUpdate() {
                                             onChange={handleChange}
                                             value={values.info}
                                             name="info"
-                                            error={!!touched.info && !!errors.info}
-                                            helperText={touched.info && errors.info}
+                                            className={` ${errors.info && touched.info ? 'p-invalid' : ''}`}
                                         />
+                                        {errors.info && touched.info && <div style={{ color: 'red' }}>{errors.info}</div>}
                                     </div>
                                     <div className="flex flex-row space-x-20 mt-5 gap-20">
                                         <FormControl component="fieldset" >
@@ -182,62 +192,60 @@ function HabitatsUpdate() {
                                             )}
                                             <img src={values.bannerUrl} className='w-40 h-20' />
                                         </FormControl>
-                                        <FormControl
-                                            component="fieldset"
-                                        // width="75%"
-                                        // sx={{
-                                        //     gridColumn: 'span 1',
-                                        // }}
-                                        // label="Status"
-                                        // style={{ marginLeft: '50px' }}
-                                        >
-                                            <label className="font-bold block ">Status</label>
-                                            <RadioGroup
-                                                aria-label="Status"
-                                                name="status"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                defaultValue=" "
-                                                value={values.status}
-                                                sx={{ display: 'inline-block', fontSize: '1.3rem' }}
-                                                label="Status"
-                                            >
-                                                <FormControlLabel
-                                                    value="True"
-                                                    control={
-                                                        <Radio
-                                                            sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                        />
-                                                    }
-                                                    label="True"
-                                                />
-                                                <FormControlLabel
-                                                    value="False"
-                                                    control={
-                                                        <Radio
-                                                            sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                        />
-                                                    }
-                                                    label="False"
-                                                />
-                                            </RadioGroup>
-                                        </FormControl>
+
                                     </div>
+                                    <FormControl
+                                        component="fieldset"
+                                    // width="75%"
+                                    // sx={{
+                                    //     gridColumn: 'span 1',
+                                    // }}
+                                    // label="Status"
+                                    // style={{ marginLeft: '50px' }}
+                                    >
+                                        <div className="mt-5">
+                                            <label className="font-bold block ">Status</label>
+                                            <div className='flex flex-wrap gap-5 mt-2'>
+                                                <div className="flex align-items-center">
+                                                    <RadioButton
+                                                        inputId="statusTrue"
+                                                        name="status"
+                                                        value="True"
+                                                        onChange={handleChange}
+                                                        checked={values.status === 'True'}
+                                                    />
+                                                    <label htmlFor="StatusTrue" className="ml-2">True</label>
+                                                </div>
+                                                <div className="flex items-center">
+                                                    <RadioButton
+                                                        inputId="statusFalse"
+                                                        name="status"
+                                                        value="False"
+                                                        onChange={handleChange}
+                                                        checked={values.status === 'False'}
+                                                    />
+                                                    <label htmlFor="StatusTrue" className="ml-2">False</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </FormControl>
 
                                 </Box>
-                                <Box display="flex" justifyContent="space-between" mt="20px">
+                                <Box display="flex" justifyContent="space-between" mt="50px">
                                     <Button
                                         type="button"
-                                        color="secondary"
-                                        variant="contained"
+                                        label="View Habitats"
+                                        severity="info"
+                                        raised
                                         onClick={handleClose}
-                                    >
-                                        VIEW habitats
-                                    </Button>
+                                    />
 
-                                    <Button type="submit" color="secondary" variant="contained">
-                                        Update Habitat
-                                    </Button>
+                                    <Button
+                                        type="submit"
+                                        label="Update Habitat"
+                                        severity="warning"
+                                        raised
+                                    />
                                 </Box>
                             </form>
                         )}
