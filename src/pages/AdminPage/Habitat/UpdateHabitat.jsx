@@ -13,7 +13,7 @@ import {
 import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/animalsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
@@ -25,6 +25,7 @@ function UpdateHabitat() {
     const { habitatId } = useParams();
     const [habitat, setHabitat] = useState({});
     const navigate = useNavigate();
+    const location = useLocation()
 
     const fetchapi = async (id) => {
         const result = await mockData.getHabitatById(id);
@@ -73,9 +74,11 @@ function UpdateHabitat() {
                 const bannerURL = await uploadFile(values.bannerUrl, 'update-habitats');
                 values.bannerUrl = bannerURL;
             }
-            const response = mockData.updateHabitats(habitatId, values);
-            response.then((result) => {
-                if (result.data.status === "Ok") {
+            const res = mockData.updateHabitats(location.state.id, values);
+            console.log(res)
+            res.then((result) => {
+                const status = result.status;
+                if (status === 200) {
                     setOpen(true);
                 }
             });

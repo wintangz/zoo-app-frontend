@@ -26,7 +26,7 @@ const statusFilterTemplate = (options) => {
     return (
         <div className="flex align-items-center gap-2">
             <label htmlFor="verified-filter" className="font-bold">
-                Verified
+                Status
             </label>
             <TriStateCheckbox
                 inputId="verified-filter"
@@ -52,6 +52,14 @@ const Enclosures = () => {
         return <div className='flex justify-center items-center font-bold'>{item.id}</div>
     }
 
+    const idHabitatName = (item) => {
+        return <div className='w-60'>{item.habitat.name}</div>
+    }
+
+    const infoBody = (item) => {
+        return <div className='w-60'>{item.info}</div>
+    }
+
     const imgBody = (item) => {
         return (
             <div className='w-32 h-16 shadow-2 rounded-md '>
@@ -61,10 +69,14 @@ const Enclosures = () => {
     }
 
     const statusBody = (item) => {
-        return <Tag value={item.status ?
-            'True' :
-            'False'}
-            className={`${item.status ? 'bg-green-400' : 'bg-red-500'} p-2 text-[0.9rem]`} />
+        return (
+            <div class="flex justify-center items-center">
+                <Tag value={item.status ?
+                    'True' :
+                    'False'}
+                    className={`${item.status ? 'bg-green-400' : 'bg-red-500'} p-2 text-[0.9rem]`} />
+            </div>
+        )
     }
 
     // const formatDate = (value) => {
@@ -99,8 +111,8 @@ const Enclosures = () => {
     const columns = [
         { field: 'id', header: 'ID', body: idBody, sortable: true, filterField: "id" },
         { field: 'name', header: 'Name', sortable: true, filterField: "name" },
-        { field: 'habitat.name', header: 'Habitat Name', sortable: true, filterField: "habitat.name" },
-        { field: 'info', header: 'Infomation', sortable: true, filterField: "info" },
+        { field: 'habitat.name', header: 'Habitat Name', body: idHabitatName, sortable: true, filterField: "habitat.name" },
+        { field: 'info', header: 'Infomation', body: infoBody, sortable: true, filterField: "info" },
         { field: 'maxCapacity', header: 'Max Capacity', sortable: true, filterField: "maxCapacity" },
         { field: "createdDate", header: 'Created Date', dataType: "date", body: createdDate, sortable: false, filterField: false, filterElement: dateFilterTemplate },
         { header: 'Image', body: imgBody, sortable: false, showFilterMenu: false },
@@ -155,7 +167,7 @@ const Enclosures = () => {
         id: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         'habitat.name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        info: { value: null, matchMode: FilterMatchMode.IN },
+        info: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         createdDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
         maxCapacity: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         status: { value: null, matchMode: FilterMatchMode.EQUALS },

@@ -3,15 +3,39 @@ import useSWR from 'swr'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { get, remove } from '../AxiosClient'
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { FilterMatchMode } from 'primereact/api';
+import { Calendar } from 'primereact/calendar';
+import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import { Link } from 'react-router-dom';
 import Tippy from '@tippyjs/react';
+
+const statusFilterTemplate = (options) => {
+    const filterValue = options.value;
+    const setStatus = options.filterCallback;
+
+    const onChangeStatus = (newStatus) => {
+        setStatus(newStatus);
+    };
+
+    return (
+        <div className="flex align-items-center gap-2">
+            <label htmlFor="verified-filter" className="font-bold">
+                Status
+            </label>
+            <TriStateCheckbox
+                inputId="verified-filter"
+                value={filterValue}
+                onChange={(e) => onChangeStatus(e.value)}
+            />
+        </div>
+    );
+};
 
 const Habitats = () => {
     const [deleteModal, openDeleteModal] = useState(false);
@@ -45,10 +69,14 @@ const Habitats = () => {
     }
 
     const statusBody = (item) => {
-        return <Tag value={item.status ?
-            'True' :
-            'False'}
-            className={`${item.status ? 'bg-green-400' : 'bg-red-500'} p-2 text-[0.9rem]`} />
+        return (
+            <div class="flex justify-center items-center">
+                <Tag value={item.status ?
+                    'True' :
+                    'False'}
+                    className={`${item.status ? 'bg-green-400' : 'bg-red-500'} p-2 text-[0.9rem]`} />
+            </div>
+        )
     }
 
     const createdDate = (item) => {
@@ -62,18 +90,36 @@ const Habitats = () => {
         </div>
     }
 
+    const dateFilterTemplate = (options) => {
+        return <Calendar value={options.value} onChange={(e) => options.filterCallback(e.value, options.index)} dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" mask="99/99/9999" />;
+    };
+
     const columns = [
-        { header: 'ID', body: idBody, sortable: true, filterField: "id" },
-        { field: 'name', header: 'Habitat Name', sortable: true, filterField: "name" },
+        { field: 'id', header: 'ID', body: idBody, sortable: true, filterField: "id" },
+        { field: 'name', header: 'Name', sortable: true, filterField: "name" },
         { field: 'info', header: 'Infomation', sortable: true, filterField: "info" },
-        { header: 'Created Date', body: createdDate, sortable: false, filterField: false },
-        { header: 'Image', body: imgBody, sortable: false, filterField: false },
-        { header: 'Banner Image', body: imgBannerBody, sortable: false, filterField: false },
-        { header: 'Status', body: statusBody, sortable: false, filterField: false },
-        { header: 'Action', body: actionBody, sortable: false, filterField: false }
+        { field: "createdDate", header: 'Created Date', dataType: "date", body: createdDate, sortable: false, filterField: false, filterElement: dateFilterTemplate },
+        { header: 'Image', body: imgBody, sortable: false, filterField: false, showFilterMenu: false },
+        { header: 'Banner Image', body: imgBannerBody, sortable: false, filterField: false, showFilterMenu: false },
+        { field: "status", header: 'Status', dataType: "boolean", body: statusBody, sortable: false, filterField: false, filterElement: statusFilterTemplate },
+        { header: 'Action', body: actionBody, sortable: false, filterField: false, showFilterMenu: false }
     ]
 
-    const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
+    const { data, mutate, isLoading } = useSWR(labels.apiPath, () => {
+        const response = get(labels.apiPath); // Assuming get is an asynchronous function fetching the data
+        return response.then((data) => {
+            if (data && data.data) {
+                data.data = data.data.map(user => {
+                    return {
+                        ...user,
+                        createdDate: new Date(user.createdDate) // Convert dateOfBirth to a Date object
+                    };
+                });
+            }
+            return data;
+        });
+    });
+
 
     console.log(data);
 
@@ -105,7 +151,9 @@ const Habitats = () => {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         id: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        info: { value: null, matchMode: FilterMatchMode.IN },
+        info: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        createdDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+        status: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
 
     const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -162,12 +210,22 @@ const Habitats = () => {
                         style={{ width: "77vw" }}
                         filters={filters}
                         paginator rows={10}
-                        globalFilterFields={['id', 'name', 'info']}
+                        globalFilterFields={['id', 'name', 'info', 'createdDate', 'status']}
                         header={header}
-                        emptyMessage="No Habitat found.">
+                        emptyMessage="No Habitat found."
+                    >
                         {columns.map((col) => (
-                            <Column key={col.field} field={col.field} header={col.header} body={col.body}
-                                sortable={col.sortable} className='min-w-max' filterField={col.filterField} />
+                            <Column kkey={col.field}
+                                dataType={col.dataType}
+                                field={col.field}
+                                header={col.header}
+                                body={col.body}
+                                sortable={col.sortable}
+                                className='min-w-max'
+                                filter
+                                filterField={col.filterField}
+                                filterElement={col.filterElement}
+                                showFilterMenu={col.showFilterMenu} />
                         ))}
                     </DataTable>
                 </div>
