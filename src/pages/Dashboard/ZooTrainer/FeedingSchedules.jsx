@@ -141,7 +141,11 @@ const FeedingSchedules = () => {
     const renderHeader = () => {
         return (
             <div className="flex justify-content-between">
-                <Link to="/dashboard/animals/feeding/calendar" state={location.state ? location.state : false}><Button label='View by Calendar' severity='info' /></Link>
+                <div className=' mb-3 space-x-3'>
+                    <Link to="/dashboard/animals/feeding/calendar" state={location.state ? location.state : false}><Button label='View by Calendar' severity='info' /></Link>
+                    <Link to="/dashboard/animals/feeding/create" ><Button label='Create' severity='success' /></Link>
+                </div>
+
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
