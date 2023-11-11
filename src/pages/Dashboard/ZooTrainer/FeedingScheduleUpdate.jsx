@@ -140,15 +140,29 @@ function FeedingScheduleUpdate() {
                 }
             });
             productSubmit.push({ foodId: _product.foodId, expectedQuantity: _product.expectedQuantity });
-
+            console.log(location.state)
             const submit = {
                 animalId: location.state.animalId.id,
                 details: productSubmit,
                 feedingTime: moment(new Date(selectedDate)).format("YYYY-MM-DDTHH:mm:ss")
             }
+            console.log(submit)
             setSubmittedValue(submit);
             _products.push(_product);
-            location.state.details.push(_product)
+            console.log(_product)
+            const locateFilter = location.state.details.filter(food => {
+                return food.food.id === _product.foodId
+            })
+            console.log(locateFilter.length);
+            if (locateFilter.length !== 0) {
+                location.state.details.map(food => {
+                    if (food.food.id === _product.foodId) {
+                        return food.expectedQuantity += _product.expectedQuantity
+                    }
+                })
+            } else {
+                location.state.details.push(_product)
+            }
             // // toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
 
             setProducts(_products);
@@ -178,8 +192,6 @@ function FeedingScheduleUpdate() {
 
     const handleUpdate = () => {
         submittedValue.feedingTime = moment(selectedDate).format('YYYY-MM-DDTHH:mm:ss');
-
-        console.log(location.state)
         const res = updateSchedule(location.state.id, submittedValue)
         res.then((result) => {
             console.log(result);

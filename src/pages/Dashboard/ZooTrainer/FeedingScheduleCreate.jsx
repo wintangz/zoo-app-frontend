@@ -64,15 +64,6 @@ function FeedingSchedulesCreate() {
         onSubmit: async (values, { resetForm }) => {
 
             try {
-                // values.expectedQuantity = parseInt(values.expectedQuantity);
-                // const response = await createFeedingSchedule({ ...values });
-                // if (response.status === 200) {
-                //     setFoods(true);
-                //     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create food successfully', life: 3000 })
-                //     resetForm();
-                // } else {
-                //     toast.current.show({ severity: 'error', summary: 'Error', detail: 'An error has occurred', life: 3000 })
-                // }
                 values.animalId = selectedAnimal
                 values.details = foodDetails;
                 delete values.expectedQuantity;
@@ -123,20 +114,6 @@ function FeedingSchedulesCreate() {
     return (
         <div className="p-5 w-[80vw]">
             <Toast ref={toast} />
-            {/* <Dialog
-                header="Create Food Successfully!"
-                visible={foods}
-                style={{ width: '400px' }}
-                onHide={handleClose}
-            >
-                <p>New food has been added to the Database!</p>
-                <Button
-                    label="Close"
-                    icon="pi pi-times"
-                    onClick={handleClose}
-                />
-            </Dialog> */}
-
             <div className="p-m-5 w-[100%]">
                 <div >
                     <p className='text-3xl font-bold'>{labels.title}</p>
