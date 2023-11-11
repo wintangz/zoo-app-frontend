@@ -108,6 +108,7 @@ import SpeciesCreate from '~/pages/Dashboard/ZooTrainer/SpeciesCreate';
 import SpeciesUpdate from '~/pages/Dashboard/ZooTrainer/SpeciesUpdate';
 import AnimalsCreate from '~/pages/Dashboard/ZooTrainer/AnimalsCreate';
 import FeedingSchedulesCreate from '~/pages/Dashboard/ZooTrainer/FeedingScheduleCreate';
+import FeedingScheduleUpdate from '~/pages/Dashboard/ZooTrainer/FeedingScheduleUpdate';
 
 
 const publicRoutes = [
@@ -227,6 +228,7 @@ const publicRoutes = [
     { path: 'dashboard/animals/feeding', component: FeedingSchedules, layout: DashboardLayout, name: 'ZTFeeding', Authen: "private" },
     { path: 'dashboard/animals/feeding/calendar', component: Calendar, layout: DashboardLayout, name: 'Calendar', Authen: "private" },
     { path: 'dashboard/animals/feeding/create', component: FeedingSchedulesCreate, layout: DashboardLayout, name: 'ZTScheduleCreate', Authen: "private" },
+    { path: 'dashboard/animals/feeding/update', component: FeedingScheduleUpdate, layout: DashboardLayout, name: 'ZTScheduleUpdate', Authen: "private" },
     { path: 'dashboard/animals/health', component: HealthRecords, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
     { path: 'dashboard/animals/health/create', component: HealthRecordsCreate, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
     { path: 'dashboard/animals/health/update', component: HealthRecordsUpdate, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },

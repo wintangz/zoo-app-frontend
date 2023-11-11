@@ -15,6 +15,7 @@ import { createFood, getFood } from '~/api/foodService';
 import { decode, get, post } from '../AxiosClient';
 import { Dropdown } from 'primereact/dropdown';
 import Tippy from '@tippyjs/react';
+import { InputNumber } from 'primereact/inputnumber';
 
 function FeedingSchedulesCreate() {
     const trainerId = parseInt(decode(localStorage.getItem('token')).sub)
@@ -26,19 +27,20 @@ function FeedingSchedulesCreate() {
     const [foodDetails, setFoodDetails] = useState([]);
     const [dataFood, setDataFood] = useState(null);
     const [selectedFood, setSelectedFood] = useState(null);
-    const [selectedAnimal, setSelectedAnimal] = useState(0);
+    const [selectedAnimal, setSelectedAnimal] = useState(null);
     const [foodidRequired, setFoodidRequired] = useState(false);
-    const [quantityRequired, setQuantityRequired] = useState(false);
+    const [expectedQuantityRequired, setexpectedQuantityRequired] = useState(false);
     const initialValues = {
-        id: '',
+        animalId: '',
         foodId: '',
-        quantity: null,
-        status: true,
+        expectedQuantity: 0,
         feedingTime: "",
     };
 
     const userSchema = yup.object().shape({
-        id: yup.string().required('Name is required'),
+        foodId: yup.string().nullable(true),
+        // expectedQuantity: yup.string().nullable(true),
+        animalId: yup.string().nullable(true),
         feedingTime: yup.string((values) => console.log(values))
             .required("Feeding is required")
     });
@@ -60,10 +62,9 @@ function FeedingSchedulesCreate() {
         initialValues,
         validationSchema: userSchema,
         onSubmit: async (values, { resetForm }) => {
-            console.log(foodDetails);
-            console.log(values);
+
             try {
-                // values.quantity = parseInt(values.quantity);
+                // values.expectedQuantity = parseInt(values.expectedQuantity);
                 // const response = await createFeedingSchedule({ ...values });
                 // if (response.status === 200) {
                 //     setFoods(true);
@@ -72,7 +73,21 @@ function FeedingSchedulesCreate() {
                 // } else {
                 //     toast.current.show({ severity: 'error', summary: 'Error', detail: 'An error has occurred', life: 3000 })
                 // }
-
+                values.animalId = selectedAnimal
+                values.details = foodDetails;
+                delete values.expectedQuantity;
+                delete values.foodId;
+                const res = createFeedingSchedule(values)
+                res.then((result) => {
+                    if (result.status === 200) {
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create food successfully', life: 3000 })
+                        formik.resetForm();
+                        setSelectedAnimal(null);
+                        setFoodDetails([]);
+                    } else {
+                        toast.current.show({ severity: 'error', summary: 'Error', detail: 'An error has occurred', life: 3000 })
+                    }
+                })
             } catch (error) {
                 console.error('Error submitting form:', error.message);
             }
@@ -87,7 +102,7 @@ function FeedingSchedulesCreate() {
 
 
     const handleAddRow = () => {
-        setFoodDetails(prev => [...prev, { foodId: selectedFood, quantity: formik.values.quantity }]);
+        setFoodDetails(prev => [...prev, { foodId: selectedFood, expectedQuantity: formik.values.expectedQuantity }]);
         formik.resetForm();
     }
 
@@ -123,7 +138,7 @@ function FeedingSchedulesCreate() {
             </Dialog> */}
 
             <div className="p-m-5 w-[100%]">
-                <div className=''>
+                <div >
                     <p className='text-3xl font-bold'>{labels.title}</p>
                     <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
                 </div>
@@ -191,13 +206,13 @@ function FeedingSchedulesCreate() {
                                             )}
                                         </div>
                                         <div className="p-field flex w-[300px]">
-                                            <label htmlFor="quantity" className=' flex justify-center items-center mr-2 '>Quantity</label>
+                                            <label htmlFor="expectedQuantity" className=' flex justify-center items-center mr-2 '>Expected Quantity</label>
                                             <InputText
-                                                id="quantity"
-                                                name="quantity"
+                                                id="expectedQuantity"
+                                                name="expectedQuantity"
                                                 disabled={true}
 
-                                                value={foodDetail.quantity}
+                                                value={foodDetail.expectedQuantity}
                                             />
 
                                         </div>
@@ -222,17 +237,20 @@ function FeedingSchedulesCreate() {
                                     </small>}
                                 </div>
                                 <div className="p-field flex w-[300px]">
-                                    <label htmlFor="quantity" className=' flex justify-center items-center mr-2 '>Quantity</label>
-                                    <InputText
-                                        id="quantity"
-                                        name="quantity"
+                                    <label htmlFor="expectedQuantity" className=' flex justify-center items-center mr-2 '>Expected Quantity</label>
+                                    <InputNumber
+                                        id="expectedQuantity"
+                                        name="expectedQuantity"
                                         onBlur={formik.handleBlur}
-                                        onChange={formik.handleChange}
-                                        value={formik.values.quantity}
-                                        className={quantityRequired ? 'p-invalid' : ''}
+                                        // onChange={formik.handleChange}
+                                        onValueChange={(e) => {
+                                            formik.setFieldValue('expectedQuantity', e.value);
+                                        }}
+                                        value={formik.values.expectedQuantity}
+                                        className={expectedQuantityRequired ? 'p-invalid' : ''}
                                     />
-                                    {quantityRequired && <small className='text-red-500 font-bold'>
-                                        Quantity is required
+                                    {expectedQuantityRequired && <small className='text-red-500 font-bold'>
+                                        expectedQuantity is required
                                     </small>}
                                 </div>
                             </div>
@@ -244,20 +262,20 @@ function FeedingSchedulesCreate() {
                             type="button"
                             label="+ Add Food"
                             onClick={() => {
-                                if (selectedFood == null && formik.values.quantity == null) {
+                                if (selectedFood == null && formik.values.expectedQuantity == 0) {
                                     setFoodidRequired(true);
-                                    setQuantityRequired(true);
+                                    setexpectedQuantityRequired(true);
                                 }
                                 else if (selectedFood == null) {
                                     setFoodidRequired(true);
-                                } else if (formik.values.quantity == null) {
-                                    setQuantityRequired(true);
+                                } else if (formik.values.expectedQuantity == 0) {
+                                    setexpectedQuantityRequired(true);
                                 } else {
-                                    setFood({ foodId: selectedFood, quantity: formik.values.quantity });
+                                    setFood({ foodId: selectedFood, expectedQuantity: formik.values.expectedQuantity });
                                     handleAddRow()
                                     setSelectedFood(null);
                                     setFoodidRequired(false);
-                                    setQuantityRequired(false);
+                                    setexpectedQuantityRequired(false);
                                     formik.resetForm();
                                 }
                             }}

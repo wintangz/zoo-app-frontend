@@ -53,7 +53,7 @@ const FeedingSchedules = () => {
 
     const actionBody = (item) => {
         return <div className='space-x-2'>
-            <Tippy content='Update' placement='bottom'><Link to='/dashboard/feeding_schedules/update'><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
+            <Tippy content='Update' placement='bottom'><Link to='/dashboard/animals/feeding/update' state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
             <Tippy content='Delete' placement='bottom'><Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} /></Link></Tippy>
         </div>
     }
