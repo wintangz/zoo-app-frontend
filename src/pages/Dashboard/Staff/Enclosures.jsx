@@ -13,7 +13,6 @@ import { Calendar } from 'primereact/calendar';
 import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import { InputText } from 'primereact/inputtext';
 import { Link } from 'react-router-dom';
-import Tippy from '@tippyjs/react';
 
 const statusFilterTemplate = (options) => {
     const filterValue = options.value;
@@ -78,19 +77,6 @@ const Enclosures = () => {
             </div>
         )
     }
-
-    // const formatDate = (value) => {
-    //     return (
-    //         value.toLocaleString('en-US', {
-    //             day: '2-digit',
-    //             month: '2-digit',
-    //             year: 'numeric'
-    //         }));
-    // };
-
-    // const createdDate = (item) => {
-    //     return formatDate(item.createdDate);
-    // };
     const createdDate = (item) => {
         return <span>{new Date(item.createdDate).toLocaleString()}</span>
     }
@@ -98,9 +84,9 @@ const Enclosures = () => {
 
     const actionBody = (item) => {
         return <div className='space-x-2 flex'>
-            <Tippy content='Update' placement='bottom'><Link to="/dashboard/enclosures/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
-            <Tippy content='Delete' placement='bottom'><Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} /></Link></Tippy>
-            <Tippy content='Create Feeding Schedule' placement='bottom'><Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-calendar-plus" severity="secondary" aria-label="Bookmark" rounded outlined /></Link></Tippy>
+            <Link to="/dashboard/enclosures/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined tooltip="Update" tooltipOptions={{ position: 'bottom' }} /></Link>
+            <Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} tooltip="Delete" tooltipOptions={{ position: 'bottom' }} /></Link>
+            <Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-calendar-plus" severity="secondary" aria-label="Bookmark" rounded outlined tooltip="Create Feeding Schedule" tooltipOptions={{ position: 'left' }} /></Link>
         </div>
     }
 
@@ -224,7 +210,8 @@ const Enclosures = () => {
                         size='small'
                         value={data.data}
                         loading={isLoading}
-                        showGridlines scrollHeight="77vh"
+                        showGridlines
+                        scrollHeight="77vh"
                         scrollable
                         style={{ width: "77vw" }}
                         filters={filters}

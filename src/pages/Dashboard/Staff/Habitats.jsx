@@ -85,8 +85,8 @@ const Habitats = () => {
 
     const actionBody = (item) => {
         return <div className='space-x-2 flex'>
-            <Tippy content='Update' placement='bottom'><Link to="/dashboard/habitats/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
-            <Tippy content='Delete' placement='bottom'><Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} /></Link></Tippy>
+            <Link to="/dashboard/habitats/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined tooltip="Update" tooltipOptions={{ position: 'bottom' }} /></Link>
+            <Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} tooltip="Delete" tooltipOptions={{ position: 'bottom' }} /></Link>
         </div>
     }
 

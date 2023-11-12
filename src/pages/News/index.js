@@ -2,12 +2,26 @@ import { useAppContext } from '~/context/Context';
 import RecommendCard from '~/pages/News/RecommendCard/recommendcard';
 import styles from './News.module.scss';
 import Pagination from './Pagination/Pagination';
+import { getNews } from '~/api/newsService';
 import Loader from "~/component/Layout/components/Loader/Loader"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { CiSearch } from 'react-icons/ci';
 
 function News() {
+    const [news, setNews] = useState(null);
     const { newsResult, recommendResult } = useAppContext();
+    const [searchTerm, setSearchTerm] = useState('');
     const itemsPerPage = 5;
+
+    useEffect(() => {
+        const res = getNews();
+        res.then((result) => {
+            const filter = result.filter(news => {
+                return news.status === true;
+            })
+            setNews(filter);
+        });
+    }, []);
     // console.log(newsResult);
 
     const [selectedCategory, setSelectedCategory] = useState('Latest'); // Initialize with 'Latest'
@@ -23,7 +37,13 @@ function News() {
     const uniqueTypes = Array.from(new Set(newsResult.map(news => news.type)));
 
     // Filter the newsResult based on the selected category
-    const filteredNewsResult = selectedCategory === 'Latest' ? newsResult : newsResult.filter(news => news.type === selectedCategory);
+    const filteredNewsResult = selectedCategory === 'Latest'
+        ? newsResult.filter(news => news.title.toLowerCase().includes(searchTerm.toLowerCase()))
+        : newsResult
+            .filter(news => news.type === selectedCategory)
+            .filter(news => news.title.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    console.log(news);
 
     return (
         <div className={styles.news_container}>
@@ -63,7 +83,17 @@ function News() {
                             {type}
                         </div>
                     ))}
+                    <div className={styles.searchBar}>
+                        <CiSearch className={styles.searchIcon} />
+                        <input
+                            type="text"
+                            placeholder="Search News..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
                 </div>
+
             </div>
             <div>
                 <Pagination itemsPerPage={itemsPerPage} newsResult={filteredNewsResult} />

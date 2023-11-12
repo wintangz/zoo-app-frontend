@@ -94,7 +94,7 @@ const Animals = () => {
         )
     }
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
-
+    console.log(data)
     const columns = [
         { field: 'id', header: 'ID', sortable: true, filterField: "id" },
         { field: 'name', header: 'Name', sortable: true, filterField: "name" },

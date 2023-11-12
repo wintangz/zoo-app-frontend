@@ -4,6 +4,7 @@ import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
+import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import { InputText } from 'primereact/inputtext';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Tag } from 'primereact/tag';
@@ -12,6 +13,30 @@ import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
 import { get, remove } from '../AxiosClient';
+import Tippy from '@tippyjs/react';
+
+
+const statusFilterTemplate = (options) => {
+    const filterValue = options.value;
+    const setStatus = options.filterCallback;
+
+    const onChangeStatus = (newStatus) => {
+        setStatus(newStatus);
+    };
+
+    return (
+        <div className="flex align-items-center gap-2">
+            <label htmlFor="verified-filter" className="font-bold">
+                Status
+            </label>
+            <TriStateCheckbox
+                inputId="verified-filter"
+                value={filterValue}
+                onChange={(e) => onChangeStatus(e.value)}
+            />
+        </div>
+    );
+};
 
 const News = () => {
 
@@ -24,6 +49,10 @@ const News = () => {
         title: 'News Management',
         subtitle: 'Table of News',
         apiPath: '/news'
+    }
+
+    const idBody = (item) => {
+        return <div className='flex justify-center items-center font-bold'>{item.id}</div>
     }
 
     const { data, mutate, isLoading } = useSWR(labels.apiPath, () => {
@@ -52,11 +81,15 @@ const News = () => {
         return <>{(new Date(rowData.createdDate).toLocaleString())}</>;
     };
 
-    const status = (item) => {
-        return <Tag value={item.status ?
-            'True' :
-            'False'}
-            className={`${item.status ? 'bg-green-400' : 'bg-red-500'} p-2 text-[0.9rem]`} />
+    const statusBody = (item) => {
+        return (
+            <div class="flex justify-center items-center">
+                <Tag value={item.status ?
+                    'True' :
+                    'False'}
+                    className={`${item.status ? 'bg-green-400' : 'bg-red-500'} p-2 text-[0.9rem]`} />
+            </div>
+        )
     }
 
     const type = (item) => {
@@ -72,8 +105,8 @@ const News = () => {
 
     const actionBody = (item) => {
         return <div className='space-x-2'>
-            <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined onClick={() => navigate(`/dashboard/news/update/${(item.id)}`)} />
-            <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} />
+            <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined tooltip="Update" tooltipOptions={{ position: 'bottom' }} onClick={() => navigate(`/dashboard/news/update/${(item.id)}`)} />
+            <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined tooltip="Delete" tooltipOptions={{ position: 'bottom' }} onClick={() => handleDeleteClick(item)} />
         </div>
     }
 
@@ -114,16 +147,16 @@ const News = () => {
 
 
     const columns = [
-        { field: 'id', header: 'ID', sortable: true, filterField: "id" },
+        { field: 'id', header: 'ID', body: idBody, sortable: true, filterField: "id" },
         { field: 'title', header: 'Title', body: (rowData) => <span>{truncateText(rowData.title, 30)}</span>, sortable: true, filterField: "title" },
         { field: 'shortDescription', header: 'Short Description', body: (rowData) => <span>{truncateText(rowData.shortDescription, 200)}</span>, sortable: true, filterField: "shortDescription" },
         { field: 'content', header: 'Content', body: (rowData) => <span>{truncateText(rowData.shortDescription, 200)}</span>, sortable: true, filterField: "content" },
-        { header: 'ImgUrl', body: imgUrl },
-        { header: 'ThumbnailUrl', body: thumbnailUrl, filterField: false },
-        { field: 'type', header: 'Type', body: type, sortable: true, filterField: "type" },
-        { header: 'Created Date', body: createdDate, sortable: true, filterField: "createdDate", filterElement: dateFilterTemplate, dataType: 'date' },
-        { field: 'status', header: 'Status', body: status, sortable: true, filterField: false },
-        { header: 'Action', body: actionBody, filterField: false },
+        { header: 'ImgUrl', body: imgUrl, showFilterMenu: false },
+        { header: 'ThumbnailUrl', body: thumbnailUrl, filterField: false, showFilterMenu: false },
+        { field: 'type', header: 'Type', body: type, sortable: true, filterField: "type", showFilterMenu: false },
+        { header: 'Created Date', body: createdDate, sortable: false, filterField: "createdDate", filterElement: dateFilterTemplate, dataType: 'date' },
+        { field: "status", header: 'Status', dataType: "boolean", body: statusBody, sortable: false, filterField: false, filterElement: statusFilterTemplate },
+        { header: 'Action', body: actionBody, filterField: false, showFilterMenu: false },
     ];
 
     const [filters, setFilters] = useState({
@@ -133,7 +166,7 @@ const News = () => {
         shortDescription: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         content: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         createdDate: { value: null, matchMode: FilterMatchMode.DATE_IS },
-        status: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        status: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const onGlobalFilterChange = (e) => {
@@ -199,6 +232,7 @@ const News = () => {
                                 filterPlaceholder={`Search by ${col.header.toLowerCase()}`}
                                 filterElement={col.filterElement}
                                 dataType={col.dataType}
+                                showFilterMenu={col.showFilterMenu}
                             />
                         ))}
                     </DataTable>

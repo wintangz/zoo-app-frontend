@@ -43,13 +43,11 @@ function HabitatsUpdate() {
         setHabitat(location.state);
     }, []);
 
-    //****************---------------------- Config Color Theme ****************************/
-    const theme = useTheme({ isDashboard: false });
-    const colors = tokens(theme.palette.mode);
-
-    const handleClose = () => {
-        navigate('/dashboard/habitats');
-    };
+    const labels = {
+        title: 'Update Habitat',
+        subtitle: 'Update a Habitat',
+        apiPath: '/habitats/update'
+    }
 
     //---------------------------------------- Handle Submit----------------------------------/
 
@@ -97,161 +95,150 @@ function HabitatsUpdate() {
         bannerUrl: yup.string().required('bannerUrl is required!'),
     });
 
+    console.log(location.state)
     return (
         <>
             <Toast ref={toast} />
-            <Box m="20px">
-                <AdminHeader title="Update Habitat" subtitle="Update your Habitat" />
-            </Box>
+            <div className='p-5'>
+                <div className=''>
+                    <p className='text-3xl font-bold'>{labels.title}</p>
+                    <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
+                </div>
+                <Formik onSubmit={(values, { setValues }) => {
+                    // Trim all values before submitting
+                    const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
+                        acc[key] = typeof value === 'string' ? value.trim() : value;
+                        return acc;
+                    }, {});
 
-            <>
-                <Box m="20px">
-                    <Formik onSubmit={(values, { setValues }) => {
-                        // Trim all values before submitting
-                        const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
-                            acc[key] = typeof value === 'string' ? value.trim() : value;
-                            return acc;
-                        }, {});
+                    handleFormSubmit(trimmedValues);
+                    // Optionally, update the form state with trimmed values
+                    setValues(trimmedValues);
+                }}
+                    initialValues={initialValues}
+                    validationSchema={userSchema}
+                    enableReinitialize={true}
+                >
 
-                        handleFormSubmit(trimmedValues);
-                        // Optionally, update the form state with trimmed values
-                        setValues(trimmedValues);
-                    }}
-                        initialValues={initialValues}
-                        validationSchema={userSchema}
-                        enableReinitialize={true}
-                    >
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
+                        <form onSubmit={handleSubmit}>
 
-                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
-                            <form onSubmit={handleSubmit}>
-                                <Box
-                                // display="grid"
-                                // gap="30px"
-                                // gridTemplateColumns="repeat(4,minmax(0,1fr))"
-                                >
-                                    <div className="">
-                                        <label className="font-bold block mb-2">Name</label>
-                                        <InputText
-                                            type="text"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            value={values.name}
-                                            name="name"
-                                            className={`w-96 ${errors.name && touched.name ? 'p-invalid' : ''}`}
-                                        />
-                                        {errors.name && touched.name && <div style={{ color: 'red' }}>{errors.name}</div>}
-                                    </div>
-                                    <div className='mt-10'>
-                                        <label className="font-bold block mb-2" >Infomation</label>
-                                        <InputTextarea
-                                            rows={5}
-                                            cols={130}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            value={values.info}
-                                            name="info"
-                                            className={` ${errors.info && touched.info ? 'p-invalid' : ''}`}
-                                        />
-                                        {errors.info && touched.info && <div style={{ color: 'red' }}>{errors.info}</div>}
-                                    </div>
-                                    <div className="flex flex-row space-x-20 mt-5 gap-20">
-                                        <FormControl component="fieldset" >
-                                            <label className="font-bold block">Image Url</label>
-                                            <Input
-                                                className='m-0'
-                                                type="file"
-                                                label="imgUrl"
-                                                onBlur={handleBlur}
-                                                onChange={(e) => {
-                                                    setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                                }}
-                                                name="imgUrl"
-                                                error={!!touched.imgUrl && !!errors.imgUrl}
+                            <div className="">
+                                <label className="font-bold block mb-2 mt-5">Name</label>
+                                <InputText
+                                    type="text"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.name}
+                                    name="name"
+                                    className={`w-96 ${errors.name && touched.name ? 'p-invalid' : ''}`}
+                                />
+                                {errors.name && touched.name && <div style={{ color: 'red' }}>{errors.name}</div>}
+                            </div>
+                            <div className='mt-10'>
+                                <label className="font-bold block mb-2" >Infomation</label>
+                                <InputTextarea
+                                    rows={5}
+                                    cols={130}
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.info}
+                                    name="info"
+                                    className={` ${errors.info && touched.info ? 'p-invalid' : ''}`}
+                                />
+                                {errors.info && touched.info && <div style={{ color: 'red' }}>{errors.info}</div>}
+                            </div>
+                            <div className="flex flex-row space-x-20 mt-5 gap-20">
+                                <div>
+                                    <label className="font-bold block">Image Url</label>
+                                    <Input
+                                        className='m-0 w-96'
+                                        type="file"
+                                        label="imgUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                        }}
+                                        name="imgUrl"
+                                        error={!!touched.imgUrl && !!errors.imgUrl}
+                                    />
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                    <img src={values.imgUrl} className='w-96 h-44 mt-3 rounded-md' />
+                                </div>
+
+                                <div>
+                                    <label className="font-bold block ">Banner Url</label>
+                                    <Input
+                                        className='m-0 w-96'
+                                        type="file"
+                                        label="bannerUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('bannerUrl', e.currentTarget.files[0]);
+                                        }}
+                                        name="bannerUrl"
+                                        error={!!touched.bannerUrl && !!errors.bannerUrl}
+                                    />
+                                    {touched.bannerUrl && errors.bannerUrl && (
+                                        <div style={{ color: 'red' }}>{errors.bannerUrl}</div>
+                                    )}
+                                    <img src={values.bannerUrl} className='w-96 h-44 mt-3 rounded-md' />
+                                </div>
+
+                            </div>
+                            <div>
+                                <div className="mt-5">
+                                    <label className="font-bold block ">Status</label>
+                                    <div className='flex flex-wrap gap-5 mt-2'>
+                                        <div className="flex align-items-center">
+                                            <RadioButton
+                                                inputId="statusTrue"
+                                                name="status"
+                                                value="True"
+                                                onChange={handleChange}
+                                                checked={values.status === 'True'}
                                             />
-                                            {touched.imgUrl && errors.imgUrl && (
-                                                <div style={{ color: 'red' }}>{errors.imgUrl}</div>
-                                            )}
-                                            <img src={values.imgUrl} className='w-40 h-20' />
-                                        </FormControl>
-
-                                        <FormControl component="fieldset" >
-                                            <label className="font-bold block ">Banner Url</label>
-                                            <Input
-                                                className='m-0'
-                                                type="file"
-                                                label="bannerUrl"
-                                                onBlur={handleBlur}
-                                                onChange={(e) => {
-                                                    setFieldValue('bannerUrl', e.currentTarget.files[0]);
-                                                }}
-                                                name="bannerUrl"
-                                                error={!!touched.bannerUrl && !!errors.bannerUrl}
-                                            />
-                                            {touched.bannerUrl && errors.bannerUrl && (
-                                                <div style={{ color: 'red' }}>{errors.bannerUrl}</div>
-                                            )}
-                                            <img src={values.bannerUrl} className='w-40 h-20' />
-                                        </FormControl>
-
-                                    </div>
-                                    <FormControl
-                                        component="fieldset"
-                                    // width="75%"
-                                    // sx={{
-                                    //     gridColumn: 'span 1',
-                                    // }}
-                                    // label="Status"
-                                    // style={{ marginLeft: '50px' }}
-                                    >
-                                        <div className="mt-5">
-                                            <label className="font-bold block ">Status</label>
-                                            <div className='flex flex-wrap gap-5 mt-2'>
-                                                <div className="flex align-items-center">
-                                                    <RadioButton
-                                                        inputId="statusTrue"
-                                                        name="status"
-                                                        value="True"
-                                                        onChange={handleChange}
-                                                        checked={values.status === 'True'}
-                                                    />
-                                                    <label htmlFor="StatusTrue" className="ml-2">True</label>
-                                                </div>
-                                                <div className="flex items-center">
-                                                    <RadioButton
-                                                        inputId="statusFalse"
-                                                        name="status"
-                                                        value="False"
-                                                        onChange={handleChange}
-                                                        checked={values.status === 'False'}
-                                                    />
-                                                    <label htmlFor="StatusTrue" className="ml-2">False</label>
-                                                </div>
-                                            </div>
+                                            <label htmlFor="StatusTrue" className="ml-2">True</label>
                                         </div>
-                                    </FormControl>
+                                        <div className="flex items-center">
+                                            <RadioButton
+                                                inputId="statusFalse"
+                                                name="status"
+                                                value="False"
+                                                onChange={handleChange}
+                                                checked={values.status === 'False'}
+                                            />
+                                            <label htmlFor="StatusTrue" className="ml-2">False</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                </Box>
-                                <Box display="flex" justifyContent="space-between" mt="50px">
-                                    <Button
-                                        type="button"
-                                        label="View Habitats"
-                                        severity="info"
-                                        raised
-                                        onClick={handleClose}
-                                    />
-
-                                    <Button
-                                        type="submit"
-                                        label="Update Habitat"
-                                        severity="warning"
-                                        raised
-                                    />
-                                </Box>
-                            </form>
-                        )}
-                    </Formik>
-                </Box>
-            </>
+                            <div className='flex justify-between mt-12'>
+                                <Button
+                                    type="button"
+                                    label="Back"
+                                    severity="info"
+                                    icon="pi pi-eye"
+                                    raised
+                                    className='w-28 h-14'
+                                    onClick={() => navigate('/dashboard/habitats')}
+                                />
+                                <Button
+                                    type="submit"
+                                    label="Update"
+                                    icon="pi pi-check"
+                                    severity="warning"
+                                    className='w-32 h-14'
+                                    raised
+                                />
+                            </div>
+                        </form>
+                    )}
+                </Formik>
+            </div>
         </>
     );
 }
