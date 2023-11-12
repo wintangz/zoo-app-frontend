@@ -30,3 +30,22 @@ export default async function uploadFile(values, container) {
     const imgUrl = `https://${storageAccount}.blob.core.windows.net/${container}/${uniqueName}`;
     return imgUrl;
 }
+
+
+async function imageUrlToFile(imageUrl, fileName = 'image.jpg') {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    const file = new File([blob], fileName, { type: blob.type });
+
+    return file;
+}
+export async function urlToFile(imageUrl, fileName) {
+    imageUrlToFile(imageUrl, fileName)
+        .then((file) => {
+            console.log('File created:', file.name);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+

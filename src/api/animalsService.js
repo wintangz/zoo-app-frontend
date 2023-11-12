@@ -13,7 +13,7 @@ export const getAnimals = async () => {
 export const createAnimals = async (values) => {
     try {
         const res = await axiosClient.post('animals', values)
-        return res.data;
+        return res;
     } catch (error) {
         return error.response;
     }
