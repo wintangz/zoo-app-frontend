@@ -79,43 +79,47 @@ import TicketUpdate from '~/pages/Dashboard/Admin/TicketUpdate';
 import Users from '~/pages/Dashboard/Admin/Users';
 import Dashboard from '~/pages/Dashboard/Dashboard';
 import Customers from '~/pages/Dashboard/Staff/Customers';
+import CustomersCreate from '~/pages/Dashboard/Staff/CustomersCreate';
+import CustomersUpdate from '~/pages/Dashboard/Staff/CustomersUpdate';
 import Enclosures from '~/pages/Dashboard/Staff/Enclosures';
+import EnclosuresCreate from '~/pages/Dashboard/Staff/EnclosuresCreate';
+import EnclosuresUpdate from '~/pages/Dashboard/Staff/EnclosuresUpdate';
 import HabitatsDB from '~/pages/Dashboard/Staff/Habitats';
+import HabitatsCreate from '~/pages/Dashboard/Staff/HabitatsCreate';
+import HabitatsUpdate from '~/pages/Dashboard/Staff/HabitatsUpdate';
 import ViewNews from '~/pages/Dashboard/Staff/News';
+import NewsCreate from '~/pages/Dashboard/Staff/NewsCreate';
 import NewsUpdate from '~/pages/Dashboard/Staff/NewsUpdate';
 import Orders from '~/pages/Dashboard/Staff/Orders';
 import TicketChecking from '~/pages/Dashboard/Staff/TicketChecking';
 import ZooTrainers from '~/pages/Dashboard/Staff/ZooTrainers';
-import AnimalsDB from '~/pages/Dashboard/ZooTrainer/Animals';
-import FeedingSchedules from '~/pages/Dashboard/ZooTrainer/FeedingSchedules';
-import Foods from '~/pages/Dashboard/ZooTrainer/Foods';
-import HealthRecords from '~/pages/Dashboard/ZooTrainer/HealthRecords';
-import Calendar from '~/pages/Dashboard/ZooTrainer/FeedingSchedulesCalendar';
-import Species from '~/pages/Dashboard/ZooTrainer/Species';
-import CustomersCreate from '~/pages/Dashboard/Staff/CustomersCreate';
-import CustomersUpdate from '~/pages/Dashboard/Staff/CustomersUpdate';
 import ZooTrainersCreate from '~/pages/Dashboard/Staff/ZooTrainersCreate';
 import ZooTrainersUpdate from '~/pages/Dashboard/Staff/ZooTrainersUpdate';
-import NewsCreate from '~/pages/Dashboard/Staff/NewsCreate';
-import EnclosuresCreate from '~/pages/Dashboard/Staff/EnclosuresCreate';
-import EnclosuresUpdate from '~/pages/Dashboard/Staff/EnclosuresUpdate';
-import HabitatsCreate from '~/pages/Dashboard/Staff/HabitatsCreate';
-import HabitatsUpdate from '~/pages/Dashboard/Staff/HabitatsUpdate';
-import HealthRecordsCreate from '~/pages/Dashboard/ZooTrainer/HealthRecordsCreate';
-import HealthRecordsUpdate from '~/pages/Dashboard/ZooTrainer/HealthRecordsUpdate';
-import FoodsCreate from '~/pages/Dashboard/ZooTrainer/FoodsCreate';
-import FoodsUpdate from '~/pages/Dashboard/ZooTrainer/FoodsUpdate';
-import SpeciesCreate from '~/pages/Dashboard/ZooTrainer/SpeciesCreate';
-import SpeciesUpdate from '~/pages/Dashboard/ZooTrainer/SpeciesUpdate';
+import AnimalsDB from '~/pages/Dashboard/ZooTrainer/Animals';
 import AnimalsCreate from '~/pages/Dashboard/ZooTrainer/AnimalsCreate';
+import AnimalsUpdate from '~/pages/Dashboard/ZooTrainer/AnimalsUpdate';
 import FeedingSchedulesCreate from '~/pages/Dashboard/ZooTrainer/FeedingScheduleCreate';
 import FeedingScheduleUpdate from '~/pages/Dashboard/ZooTrainer/FeedingScheduleUpdate';
+<<<<<<< Updated upstream
 import AnimalsUpdate from '~/pages/Dashboard/ZooTrainer/AnimalsUpdate';
 <<<<<<< Updated upstream
 import MoveInAnimals from '~/pages/Dashboard/ZooTrainer/MoveIn';
 =======
 import { updateTicket } from '~/api/ticketService';
 import UpdateTicket from '~/pages/AdminPage/Ticket/updateTicket';
+>>>>>>> Stashed changes
+=======
+import FeedingSchedules from '~/pages/Dashboard/ZooTrainer/FeedingSchedules';
+import Calendar from '~/pages/Dashboard/ZooTrainer/FeedingSchedulesCalendar';
+import Foods from '~/pages/Dashboard/ZooTrainer/Foods';
+import FoodsCreate from '~/pages/Dashboard/ZooTrainer/FoodsCreate';
+import FoodsUpdate from '~/pages/Dashboard/ZooTrainer/FoodsUpdate';
+import HealthRecords from '~/pages/Dashboard/ZooTrainer/HealthRecords';
+import HealthRecordsCreate from '~/pages/Dashboard/ZooTrainer/HealthRecordsCreate';
+import HealthRecordsUpdate from '~/pages/Dashboard/ZooTrainer/HealthRecordsUpdate';
+import Species from '~/pages/Dashboard/ZooTrainer/Species';
+import SpeciesCreate from '~/pages/Dashboard/ZooTrainer/SpeciesCreate';
+import SpeciesUpdate from '~/pages/Dashboard/ZooTrainer/SpeciesUpdate';
 >>>>>>> Stashed changes
 
 
@@ -243,10 +247,10 @@ const publicRoutes = [
     { path: 'dashboard/animals/health/update', component: HealthRecordsUpdate, layout: DashboardLayout, name: 'ZTHealth', Authen: "private" },
     { path: 'dashboard/foods', component: Foods, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
     { path: 'dashboard/foods/create', component: FoodsCreate, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
-    { path: 'dashboard/foods/update', component: FoodsUpdate, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
+    { path: 'dashboard/foods/update/:foodId', component: FoodsUpdate, layout: DashboardLayout, name: 'ZTFoods', Authen: "private" },
     { path: 'dashboard/species', component: Species, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/create', component: SpeciesCreate, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
-    { path: 'dashboard/species/update', component: SpeciesUpdate, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
+    { path: 'dashboard/species/update/:id', component: SpeciesUpdate, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
 ];
 
 // private routes dont login will redirect to login pages
