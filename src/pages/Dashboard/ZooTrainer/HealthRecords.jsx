@@ -6,8 +6,10 @@ import { get } from '../AxiosClient'
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Toast } from 'primereact/toast';
+import { Calendar } from 'primereact/calendar';
 import { InputText } from 'primereact/inputtext';
-import { FilterMatchMode } from 'primereact/api';
+import Tippy from '@tippyjs/react';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { Link } from 'react-router-dom';
 
 const HealthRecords = () => {
@@ -23,6 +25,10 @@ const HealthRecords = () => {
         return <div className='flex justify-center items-center font-bold '>{item.id}</div>
     }
 
+    const idAnimalName = (item) => {
+        return <div className='w-60'>{item.animal.name}</div>
+    }
+
     const imgBody = (item) => {
         return (
             <div className='w-32 h-16 shadow-2 rounded-md '>
@@ -35,40 +41,58 @@ const HealthRecords = () => {
         return <span>{new Date(item.recordedDateTime).toLocaleString()}</span>
     }
 
+    const dateFilterTemplate = (options) => {
+        return <Calendar value={options.value} onChange={(e) => options.filterCallback(e.value, options.index)} dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" mask="99/99/9999" />;
+    };
+
     const actionBody = (item) => {
         return <div className='space-x-1 justify-center'>
-            <Link to="/dashboard/animals/health/update" state={item}> <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link>
+            <Tippy content='Update' placement='bottom'><Link to="/dashboard/animals/health/update" state={item}> <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
         </div>
     }
 
     const columns = [
-        { header: 'ID', body: idBody, sortable: true, filterField: "id" },
-        { field: 'animal.name', header: 'Animal Name', sortable: true, filterField: "animal.name" },
+        { field: 'id', header: 'ID', body: idBody, sortable: true, filterField: "id" },
+        { field: 'animal.name', header: 'Animal Name', body: idAnimalName, sortable: true, filterField: "animal.name" },
         { field: 'diagnosis', header: 'Diagnosis', sortable: true, filterField: "diagnosis" },
         { field: 'height', header: 'Height', sortable: true, filterField: "height" },
         { field: 'length', header: 'Length', sortable: true, filterField: "length" },
         { field: 'weight', header: 'Weight', sortable: true, filterField: "weight" },
         { field: 'temperature', header: 'Temperature', sortable: true, filterField: "temperature" },
         { field: 'lifeStage', header: 'Life Stage', sortable: true, filterField: "lifeStage" },
-        { header: 'Record Date', body: recordDateTimeBody, sortable: false, filterField: false },
-        { header: 'Image', body: imgBody, sortable: false, filterField: false },
-        { header: 'Action', body: actionBody, sortable: false, filterField: false },
+        { field: "recordedDateTime", header: 'Record Date', body: recordDateTimeBody, dataType: "date", sortable: false, filterField: false, filterElement: dateFilterTemplate },
+        { header: 'Image', body: imgBody, sortable: false, showFilterMenu: false },
+        { header: 'Action', body: actionBody, sortable: false, showFilterMenu: false },
     ]
 
-    const { data, isLoading } = useSWR(labels.apiPath, get)
+    const { data, isLoading } = useSWR(labels.apiPath, () => {
+        const response = get(labels.apiPath); // Assuming get is an asynchronous function fetching the data
+        return response.then((data) => {
+            if (data && data.data) {
+                data.data = data.data.map(user => {
+                    return {
+                        ...user,
+                        recordedDateTime: new Date(user.recordedDateTime) // Convert dateOfBirth to a Date object
+                    };
+                });
+            }
+            return data;
+        });
+    });
 
     console.log(data);
 
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         id: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        diagnosis: { value: null, matchMode: FilterMatchMode.IN },
+        'animal.name': { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        diagnosis: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         height: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         length: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         weight: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         temperature: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        lifeStage: { value: null, matchMode: FilterMatchMode.IN },
+        lifeStage: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        recordedDateTime: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
     });
 
     const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -112,13 +136,22 @@ const HealthRecords = () => {
                         style={{ width: "77vw" }}
                         filters={filters}
                         paginator rows={10}
-                        globalFilterFields={['id', 'animal.name', 'diagnosis', 'height', 'length', 'weight', 'temperature', 'lifeStage']}
+                        globalFilterFields={['id', 'animal.name', 'diagnosis', 'height', 'length', 'weight', 'temperature', 'lifeStage', 'recordedDateTime']}
                         header={header}
                         emptyMessage="No Health Record found."
                     >
                         {columns.map((col) => (
-                            <Column key={col.field} field={col.field} header={col.header} body={col.body}
-                                sortable={col.sortable} className='min-w-max' filterField={col.filterField} />
+                            <Column key={col.field}
+                                dataType={col.dataType}
+                                field={col.field}
+                                header={col.header}
+                                body={col.body}
+                                sortable={col.sortable}
+                                className='min-w-max'
+                                filter
+                                filterField={col.filterField}
+                                filterElement={col.filterElement}
+                                showFilterMenu={col.showFilterMenu} />
                         ))}
                     </DataTable>
                 </div>

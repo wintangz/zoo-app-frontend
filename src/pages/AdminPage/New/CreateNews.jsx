@@ -10,7 +10,7 @@ import { createNews } from '~/api/newsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
 import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
-import CustomToolbar from './QuillEditor/CustomToolbar';
+import CustomToolbar from '../../../component/Layout/components/QuillEditor/CustomToolbar';
 
 function NewsPostForm() {
     const navigate = useNavigate();

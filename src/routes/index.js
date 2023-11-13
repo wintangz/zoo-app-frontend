@@ -207,10 +207,10 @@ const publicRoutes = [
     //STAFF
     { path: 'dashboard/customers', component: Customers, layout: DashboardLayout, name: 'StaffCustomers', Authen: "private" },
     { path: 'dashboard/customers/create', component: CustomersCreate, layout: DashboardLayout, name: 'StaffCustomers', Authen: "private" },
-    { path: 'dashboard/customers/update', component: CustomersUpdate, layout: DashboardLayout, name: 'StaffCustomers', Authen: "private" },
+    { path: 'dashboard/customers/update/:userId', component: CustomersUpdate, layout: DashboardLayout, name: 'StaffCustomers', Authen: "private" },
     { path: 'dashboard/zoo_trainers', component: ZooTrainers, layout: DashboardLayout, name: 'StaffZooTrainers', Authen: "private" },
     { path: 'dashboard/zoo_trainers/create', component: ZooTrainersCreate, layout: DashboardLayout, name: 'StaffZooTrainers', Authen: "private" },
-    { path: 'dashboard/zoo_trainers/update', component: ZooTrainersUpdate, layout: DashboardLayout, name: 'StaffZooTrainers', Authen: "private" },
+    { path: 'dashboard/zoo_trainers/update/:userId', component: ZooTrainersUpdate, layout: DashboardLayout, name: 'StaffZooTrainers', Authen: "private" },
     { path: 'dashboard/news', component: ViewNews, layout: DashboardLayout, name: 'StaffNews', Authen: "private" },
     { path: 'dashboard/news/create', component: NewsCreate, layout: DashboardLayout, name: 'StaffNews', Authen: "private" },
     { path: 'dashboard/news/update/:newsId', component: NewsUpdate, layout: DashboardLayout, name: 'StaffNews', Authen: "private" },

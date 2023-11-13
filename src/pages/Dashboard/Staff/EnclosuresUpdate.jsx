@@ -1,14 +1,5 @@
 import {
-    Box,
-    FormControl,
-    FormControlLabel,
     Input,
-    MenuItem,
-    Radio,
-    RadioGroup,
-    TextField,
-    Typography,
-    useTheme
 } from '@mui/material';
 
 import { RadioButton } from 'primereact/radiobutton';
@@ -18,15 +9,12 @@ import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
 
-import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { getHabitats, updateEnclosures } from '~/api/animalsService';
 import { getSpecies } from '~/api/speciesService';
-import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
-import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
 
 function EnclosuresUpdate() {
@@ -44,10 +32,6 @@ function EnclosuresUpdate() {
         console.log(location.state);
         setEnclosure(location.state);
     }, []);
-
-    //****************---------------------- Config Color Theme ****************************/
-    const theme = useTheme({ isDashboard: false });
-    const colors = tokens(theme.palette.mode);
 
     //---------------------------------------- Handle Submit----------------------------------/
 
@@ -70,7 +54,7 @@ function EnclosuresUpdate() {
             }
         });
     };
-
+    console.log(location.state.id)
     //********************************** INITIAL VALUE*********************************** */
     const initialValues = {
         name: enclosure?.name || '',
@@ -109,6 +93,12 @@ function EnclosuresUpdate() {
             }),
     });
 
+    const labels = {
+        title: 'Update Enclosure',
+        subtitle: 'Update a Enclosure',
+        apiPath: '/enclosures/update'
+    }
+
     useEffect(() => {
         const res = getSpecies();
         res.then((result) => {
@@ -133,166 +123,152 @@ function EnclosuresUpdate() {
     return (
         <>
             <Toast ref={toast} />
-            <Box m="30px">
-                <AdminHeader title="Update Enclosure" subtitle="Update your Enclosure" />
-            </Box>
+            <div className='p-5'>
+                <div className=''>
+                    <p className='text-3xl font-bold'>{labels.title}</p>
+                    <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
+                </div>
+                <Formik onSubmit={(values, { setValues }) => {
+                    // Trim all values before submitting
+                    const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
+                        acc[key] = typeof value === 'string' ? value.trim() : value;
+                        return acc;
+                    }, {});
 
-            <>
-                <Box m="20px">
-                    <Formik onSubmit={(values, { setValues }) => {
-                        // Trim all values before submitting
-                        const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
-                            acc[key] = typeof value === 'string' ? value.trim() : value;
-                            return acc;
-                        }, {});
-
-                        handleFormSubmit(trimmedValues);
-                        // Optionally, update the form state with trimmed values
-                        setValues(trimmedValues);
-                    }}
-                        initialValues={initialValues}
-                        validationSchema={userSchema}
-                        enableReinitialize={true}
-                    >
-
-
-                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
-                            <form onSubmit={handleSubmit}>
-                                <Box className=''>
-                                    <div className="flex flex-row space-x-10">
-                                        <div className="">
-                                            <label className="font-bold block mb-2">Name</label>
-                                            <InputText
-                                                type="text"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.name}
-                                                name="name"
-                                                className={`w-96 ${errors.name && touched.name ? 'p-invalid' : ''}`}
-                                            />
-                                            {errors.name && touched.name && <div style={{ color: 'red' }}>{errors.name}</div>}
-                                        </div>
-                                        <div className="">
-                                            <label className="font-bold block mb-2">Max Capacity</label>
-                                            <InputText
-                                                type="text"
-                                                onBlur={handleBlur}
-                                                onChange={handleChange}
-                                                value={values.maxCapacity}
-                                                name="maxCapacity"
-                                                className={`w-96 ${errors.maxCapacity && touched.maxCapacity ? 'p-invalid' : ''}`}
-                                            />
-                                            {errors.maxCapacity && touched.maxCapacity && <div style={{ color: 'red' }}>{errors.maxCapacity}</div>}
-                                        </div>
-                                        <div >
-                                            <label className="font-bold block mb-2" >Habitat</label>
-                                            <Dropdown
-                                                style={{ width: '340px' }}
-                                                defaultValue={values.habitatId}
-                                                onBlur={handleBlur}
-                                                onChange={(e) => setFieldValue('habitatId', e.value)}
-                                                value={values.habitatId || habitatId}
-                                                options={habitats.map((option) => ({ label: option.name, value: option.id }))}
-                                                showClear
-                                            />
-
-                                        </div>
-                                    </div>
-                                    {/* Information */}
-                                    <div className='mt-10'>
-                                        <label className="font-bold block mb-2" >Infomation</label>
-                                        <InputTextarea
-                                            rows={5}
-                                            cols={130}
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            value={values.info}
-                                            name="info"
-                                            className={` ${errors.info && touched.info ? 'p-invalid' : ''}`}
-                                        />
-                                        {errors.info && touched.info && <div style={{ color: 'red' }}>{errors.info}</div>}
-                                    </div>
-                                    <div className="flex flex-row mt-5 ">
-                                        <FormControl component="fieldset" >
-                                            <label className="font-bold block">Image Url</label>
-                                            <Input
-                                                className='m-0'
-                                                type="file"
-                                                label="imgUrl"
-                                                onBlur={handleBlur}
-                                                onChange={(e) => {
-                                                    setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                                }}
-                                                name="imgUrl"
-                                                error={!!touched.imgUrl && !!errors.imgUrl}
-                                            />
-                                            {touched.imgUrl && errors.imgUrl && (
-                                                <div style={{ color: 'red' }}>{errors.imgUrl}</div>
-                                            )}
-                                            <img src={values.imgUrl} className='w-40 h-20' />
-                                        </FormControl>
-
-
-
-                                    </div>
-                                    <FormControl
-                                        component="fieldset"
-                                    // width="75%"
-                                    // sx={{
-                                    //     gridColumn: 'span 1',
-                                    // }}
-                                    // label="Status"
-                                    // style={{ marginLeft: '50px' }}
-                                    >
-                                        <div className="mt-5">
-                                            <label className="font-bold block ">Status</label>
-                                            <div className='flex flex-wrap gap-5 mt-2'>
-                                                <div className="flex align-items-center">
-                                                    <RadioButton
-                                                        inputId="statusTrue"
-                                                        name="status"
-                                                        value="True"
-                                                        onChange={handleChange}
-                                                        checked={values.status === 'True'}
-                                                    />
-                                                    <label htmlFor="StatusTrue" className="ml-2">True</label>
-                                                </div>
-                                                <div className="flex items-center">
-                                                    <RadioButton
-                                                        inputId="statusFalse"
-                                                        name="status"
-                                                        value="False"
-                                                        onChange={handleChange}
-                                                        checked={values.status === 'False'}
-                                                    />
-                                                    <label htmlFor="StatusTrue" className="ml-2">False</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </FormControl>
-
-                                </Box>
-                                <Box display="flex" justifyContent="space-between" mt="50px" >
-                                    <Button
-                                        type="button"
-                                        label="View Enclosure"
-                                        severity="info"
-                                        raised
-                                        onClick={() => navigate('/dashboard/enclosures')}
+                    handleFormSubmit(trimmedValues);
+                    // Optionally, update the form state with trimmed values
+                    setValues(trimmedValues);
+                }}
+                    initialValues={initialValues}
+                    validationSchema={userSchema}
+                    enableReinitialize={true}
+                >
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
+                        <form onSubmit={handleSubmit}>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="">
+                                    <label className="font-bold block mb-2">Name</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.name}
+                                        name="name"
+                                        className={`w-96 ${errors.name && touched.name ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.name && touched.name && <div style={{ color: 'red' }}>{errors.name}</div>}
+                                </div>
+                                <div className="">
+                                    <label className="font-bold block mb-2">Max Capacity</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.maxCapacity}
+                                        name="maxCapacity"
+                                        className={`w-96 ${errors.maxCapacity && touched.maxCapacity ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.maxCapacity && touched.maxCapacity && <div style={{ color: 'red' }}>{errors.maxCapacity}</div>}
+                                </div>
+                                <div >
+                                    <label className="font-bold block mb-2" >Habitat</label>
+                                    <Dropdown
+                                        style={{ width: '340px' }}
+                                        defaultValue={values.habitatId}
+                                        onBlur={handleBlur}
+                                        onChange={(e) => setFieldValue('habitatId', e.value)}
+                                        value={values.habitatId || habitatId}
+                                        options={habitats.map((option) => ({ label: option.name, value: option.id }))}
                                     />
 
-                                    <Button
-                                        type="submit"
-                                        label="Update Enclosure"
-                                        severity="warning"
-                                        raised
+                                </div>
+                            </div>
+                            {/* Information */}
+                            <div className='mt-10'>
+                                <label className="font-bold block mb-2" >Infomation</label>
+                                <InputTextarea
+                                    rows={5}
+                                    cols={130}
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    value={values.info}
+                                    name="info"
+                                    className={` ${errors.info && touched.info ? 'p-invalid' : ''}`}
+                                />
+                                {errors.info && touched.info && <div style={{ color: 'red' }}>{errors.info}</div>}
+                            </div>
+                            <div className="flex flex-row mt-5 ">
+                                <div>
+                                    <label className="font-bold block">Image Url</label>
+                                    <Input
+                                        className='m-0'
+                                        type="file"
+                                        label="imgUrl"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                        }}
+                                        name="imgUrl"
+                                        error={!!touched.imgUrl && !!errors.imgUrl}
                                     />
-                                </Box>
-                            </form>
-                        )}
-                    </Formik>
-                </Box>
-            </>
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                    <img src={values.imgUrl} className='w-40 h-20' />
+                                </div>
+                            </div>
+                            <div>
+                                <div className="mt-5">
+                                    <label className="font-bold block ">Status</label>
+                                    <div className='flex flex-wrap gap-5 mt-2'>
+                                        <div className="flex align-items-center">
+                                            <RadioButton
+                                                inputId="statusTrue"
+                                                name="status"
+                                                value="True"
+                                                onChange={handleChange}
+                                                checked={values.status === 'True'}
+                                            />
+                                            <label htmlFor="StatusTrue" className="ml-2">True</label>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <RadioButton
+                                                inputId="statusFalse"
+                                                name="status"
+                                                value="False"
+                                                onChange={handleChange}
+                                                checked={values.status === 'False'}
+                                            />
+                                            <label htmlFor="StatusTrue" className="ml-2">False</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className='flex justify-between mt-12'>
+                                <Button
+                                    type="button"
+                                    label="Back"
+                                    severity="info"
+                                    icon="pi pi-eye"
+                                    raised
+                                    className='w-28 h-14'
+                                    onClick={() => navigate('/dashboard/enclosures')}
+                                />
+
+                                <Button
+                                    type="submit"
+                                    label="Update"
+                                    icon="pi pi-check"
+                                    severity="warning"
+                                    className='w-32 h-14'
+                                    raised
+                                />
+                            </div>
+                        </form>
+                    )}
+                </Formik>
+            </div>
         </>
     );
 }
