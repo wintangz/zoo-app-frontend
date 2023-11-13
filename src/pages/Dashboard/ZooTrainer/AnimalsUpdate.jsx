@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import moment from 'moment/moment';
 import { InputText } from 'primereact/inputtext';
 import * as yup from 'yup';
-import { createAnimals } from '~/api/animalsService';
+import { createAnimals, updateAnimal } from '~/api/animalsService';
 import uploadFile, { urlToFile } from '~/utils/transferFile';
 import useSWR from 'swr'
 import { get } from '../AxiosClient'
@@ -14,12 +14,12 @@ import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 import { classNames } from 'primereact/utils';
 import { RadioButton } from 'primereact/radiobutton';
-import { FileUpload } from 'primereact/fileupload';
 import { Image } from 'primereact/image';
+import { useState } from 'react';
 const AnimalsUpdate = () => {
     const location = useLocation();
     const toast = useRef(null);
-
+    const [selectedFile, setSelectedFile] = useState(null);
     const labels = {
         title: 'Animal Management',
         subtitle: 'Create Animal',
@@ -57,36 +57,45 @@ const AnimalsUpdate = () => {
         sex: yup.string().required('Sex is required'),
         imgUrl: yup
             .mixed()
-            .required('A file is required')
-            .test('fileSize', 'File too large', (value) => {
-                return value && value.size <= FILE_SIZE
-            })
-            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+            .notRequired()
+            .nullable()
+            .test('is-file', 'Invalid file', function (value) {
+                if (typeof value === 'string') {
+                    return true;
+                }
+                if (value === null || value === undefined) {
+                    return true;
+                }
+                if (value instanceof File) {
+                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+                }
+                return false;
+            }),
         arrivalDate: yup.date().required('Arrival is required'),
         dateOfBirth: yup.date().required('Date of birth is required'),
         origin: yup.string().required('Origin is required'),
         species: yup.string().required('Species is required'),
         status: yup.string().required('required'),
     });
-
+    console.log(location.state)
     const formik = useFormik({
         initialValues,
         validationSchema: userSchema,
-        onSubmit: async (values, { resetForm }) => {
+        onSubmit: async (values) => {
             try {
-                // values.dateOfBirth = moment(values.dateOfBirth).format("YYYY-MM-DDThh:mm:ss")
-                // values.arrivalDate = moment(values.arrivalDate).format("YYYY-MM-DDThh:mm:ss")
-                // values.imgUrl = await uploadFile(values.imgUrl, 'animals-individual');
-
-                // const res = createAnimals(values)
-                // res.then((result) => {
-                //     if (result.status === 200) {
-                //         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create food successfully', life: 3000 })
-                //         resetForm();
-                //     }
-                // })
-
-                console.log(values);
+                values.dateOfBirth = moment(values.dateOfBirth).format("YYYY-MM-DDThh:mm:ss")
+                values.arrivalDate = moment(values.arrivalDate).format("YYYY-MM-DDThh:mm:ss")
+                if (values.imgUrl instanceof File) {
+                    const imgURL = await uploadFile(values.imgUrl, 'update-habitats');
+                    values.imgUrl = imgURL;
+                }
+                const res = updateAnimal(location.state.id, values)
+                res.then((result) => {
+                    console.log(result)
+                    if (result.status === 200) {
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update food successfully', life: 3000 })
+                    }
+                })
 
             } catch (error) {
                 console.error('Error submitting form:', error.message);
@@ -101,16 +110,27 @@ const AnimalsUpdate = () => {
     };
 
 
-    const handleFileUpload = (event) => {
-        formik.values.imgUrl = event.files[0];
-        console.log(event.files[0]);
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                setSelectedFile(e.target.result);
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            setSelectedFile(null);
+        }
     };
 
     const icon = (<i className="pi pi-check"></i>)
 
     return (
-
         <div className="p-5 w-[80vw]">
+            <Toast ref={toast} />
             <div className="p-m-5 w-[100%]">
                 <div >
                     <p className='text-3xl font-bold'>{labels.title}</p>
@@ -222,15 +242,19 @@ const AnimalsUpdate = () => {
                         )}
                     </div>
                     <div className="card mt-4 inline-flex flex-column ">
-                        <input type='file' onChange={formik.handleChange} name='imgUrl' id='imgUrl' />
+                        <input type='file'
+                            onChange={(e) => {
+                                handleFileChange(e)
+                                formik.setFieldValue('imgUrl', e.currentTarget.files[0]);
+                            }} name='imgUrl' id='imgUrl' />
                         {formik.errors.imgUrl && formik.touched.imgUrl && (
                             <small className='text-red-500 font-bold'>
                                 {formik.errors.imgUrl}
                             </small>
                         )}
-                        <Image className='inline' src={formik.values.imgUrl} indicatorIcon={icon} alt="Image" preview width="270" />
+                        <Image className='inline' src={formik.values.imgUrl === location.state.imgUrl ? formik.values.imgUrl : selectedFile} indicatorIcon={icon} alt="Image" preview width="270" />
                     </div>
-                    <Button className='mt-4' label='Create Animal' type="submit" />
+                    <Button className='mt-4' label='Update Animal' type="submit" />
                 </form>
             </div>
         </div>

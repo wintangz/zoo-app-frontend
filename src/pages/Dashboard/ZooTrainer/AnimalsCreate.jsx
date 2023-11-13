@@ -80,7 +80,7 @@ function AnimalsCreate() {
                 const res = createAnimals(values)
                 res.then((result) => {
                     if (result.status === 200) {
-                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create food successfully', life: 3000 })
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create animal successfully', life: 3000 })
                         resetForm();
                     }
                 })

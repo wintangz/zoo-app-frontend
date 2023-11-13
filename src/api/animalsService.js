@@ -173,7 +173,7 @@ export const conFirm = async (path, values) => {
 export const moveInEnclosure = async (path, path2) => {
     try {
         const res = await axiosClient.post(`animals/${path}/enclosures/${path2}`)
-        return res.data;
+        return res;
     } catch (error) {
         return error.response;
     }
@@ -182,7 +182,7 @@ export const moveInEnclosure = async (path, path2) => {
 export const moveOutEnclosure = async (path, path2) => {
     try {
         const res = await axiosClient.put(`animals/${path}/enclosures/${path2}`)
-        return res.data;
+        return res;
     } catch (error) {
         return error.response;
     }

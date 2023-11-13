@@ -15,11 +15,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import 'tippy.js/dist/tippy.css';
 import Tippy from '@tippyjs/react';
 import { decode } from '~/utils/axiosClient';
+import { moveOutEnclosure } from '~/api/animalsService';
 
 const Animals = () => {
 
     const [deleteModal, openDeleteModal] = useState(false);
+    const [moveout, setMoveout] = useState(false);
     const [deleteId, setDeleteId] = useState(0);
+    const [animalMoveout, setAnimalMoveout] = useState(0);
+    const [enclosureMoveout, setEnclosureMoveout] = useState(0)
     const toast = useRef(null);
 
     const labels = {
@@ -72,14 +76,44 @@ const Animals = () => {
         })
     }
 
+    const handleConfirmMoveout = () => {
+        console.log(animalMoveout)
+        console.log(enclosureMoveout);
+        const res = moveOutEnclosure(animalMoveout, enclosureMoveout)
+        res.then((response) => {
+            if (response.status === 200) {
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Delete successfully', life: 3000 })
+            } else {
+                toast.current.show({ severity: 'error', summary: 'Error', detail: 'An error has occurred', life: 3000 })
+            }
+            setMoveout(false);
+        })
+
+    }
+
     const deleteModalFooter = (
         <React.Fragment>
             <Button label="No" icon="pi pi-times" outlined onClick={() => openDeleteModal(false)} />
             <Button label="Yes" icon="pi pi-check" severity="danger" onClick={handleConfirmDelete} />
         </React.Fragment>
     );
+
+    const moveoutModalFooter = (
+        <React.Fragment>
+            <Button label="No" icon="pi pi-times" outlined onClick={() => setMoveout(false)} />
+            <Button label="Yes" icon="pi pi-check" severity="danger" onClick={handleConfirmMoveout} />
+        </React.Fragment>
+    );
+    const handleMoveOut = (item) => {
+        setAnimalMoveout(item.id);
+        setEnclosureMoveout(item.currentEnclosure.enclosure.id)
+        setMoveout(true)
+    }
     const actionBody = (item) => {
         return <div className='space-x-2 flex'>
+            {item.currentEnclosure ?
+                <Tippy content='Move Out' placement='bottom'><div><Button onClick={() => handleMoveOut(item)} icon='pi pi-directions-alt' className='border-amber-500 text-amber-500' rounded outlined /></div></Tippy>
+                : <Tippy content='Move In' placement='bottom'><Link to="/dashboard/animals/movein" state={item}><Button icon='pi pi-home' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>}
             <Tippy content='Update' placement='bottom'><Link to="/dashboard/animals/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
             <Tippy content='Delete' placement='bottom'><Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} /></Link></Tippy>
             <Tippy content='Create Feeding Schedule' placement='bottom'><Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-calendar-plus" severity="secondary" aria-label="Bookmark" rounded outlined /></Link></Tippy>
@@ -153,6 +187,18 @@ const Animals = () => {
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                     <span>
                         Are you sure you want to delete this?
+                    </span>
+                </div>
+            </Dialog>
+
+            <Dialog visible={moveout} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                header="Confirm"
+                onHide={() => setMoveout(false)}
+                footer={moveoutModalFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                    <span>
+                        Are you sure you want to move out this animal from cage?
                     </span>
                 </div>
             </Dialog>
