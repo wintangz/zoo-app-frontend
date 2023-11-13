@@ -62,9 +62,6 @@ function ZooTrainersUpdate() {
             .required('Username is required')
             .min(3, 'Username must be at least 3 characters')
             .max(20, 'Username must be at most 20 characters'),
-        password: yup.string()
-            .required('Password is required')
-            .min(8, 'Password must be at least 8 characters'),
         lastname: yup.string().required('Last Name is required'),
         firstname: yup.string().required('First Name is required'),
         sex: yup.string().required('required'),
@@ -97,7 +94,7 @@ function ZooTrainersUpdate() {
                 console.log(result);
                 const status = result.status;
                 if (status === 200) {
-                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Habitat Successfully', life: 3000 })
+                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Zoo Trainer Successfully', life: 3000 })
                 } else {
                     toast.current.show({ severity: 'error', summary: 'Error ' + result.status, detail: result.data.error, life: 3000 });
                 }

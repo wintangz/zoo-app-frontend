@@ -1,14 +1,4 @@
-import {
-    Box,
-    FormControl,
-    FormControlLabel,
-    Input,
-    Radio,
-    RadioGroup,
-    TextField,
-    Typography,
-    useTheme
-} from '@mui/material';
+
 
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
@@ -16,14 +6,11 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
 import { RadioButton } from 'primereact/radiobutton';
 
-import Modal from '@mui/material/Modal';
 import { Formik } from 'formik';
 import { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/animalsService';
-import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
-import { tokens } from '~/theme';
 import uploadFile from '~/utils/transferFile';
 
 function HabitatsUpdate() {
@@ -151,7 +138,7 @@ function HabitatsUpdate() {
                             <div className="flex flex-row space-x-20 mt-5 gap-20">
                                 <div>
                                     <label className="font-bold block">Image Url</label>
-                                    <Input
+                                    <input
                                         className='m-0 w-96'
                                         type="file"
                                         label="imgUrl"
@@ -170,17 +157,27 @@ function HabitatsUpdate() {
 
                                 <div>
                                     <label className="font-bold block ">Banner Url</label>
-                                    <Input
-                                        className='m-0 w-96'
-                                        type="file"
-                                        label="bannerUrl"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            setFieldValue('bannerUrl', e.currentTarget.files[0]);
-                                        }}
-                                        name="bannerUrl"
-                                        error={!!touched.bannerUrl && !!errors.bannerUrl}
-                                    />
+                                    <div className="relative">
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                                setFieldValue('bannerUrl', e.currentTarget.files[0]);
+                                            }}
+                                            onBlur={handleBlur}
+                                            name="bannerUrl"
+                                            id="bannerUrlInput"
+                                        />
+                                        <label
+                                            htmlFor="bannerUrlInput"
+                                            className="cursor-pointer bg-amber-400 hover:bg-amber-600 text-white py-2 px-4 rounded-md inline-block transition duration-300"
+                                        >
+                                            Choose File
+                                        </label>
+                                        <span className="ml-2" id="fileName">
+                                            {values.bannerUrl ? values.bannerUrl.name : 'No file chosen'}
+                                        </span>
+                                    </div>
                                     {touched.bannerUrl && errors.bannerUrl && (
                                         <div style={{ color: 'red' }}>{errors.bannerUrl}</div>
                                     )}

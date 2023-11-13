@@ -71,7 +71,6 @@ function CustomersCreate() {
             .min(8, 'Password must be at least 8 characters'),
         lastname: yup.string().required('Last Name is required'),
         firstname: yup.string().required('First Name is required'),
-        sex: yup.string().required('required'),
         dateOfBirth: yup.date()
             .required('Birth Date is required')
             .max(new Date(), 'Date of Birth cannot be in the future'),

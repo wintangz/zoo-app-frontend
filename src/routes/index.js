@@ -67,7 +67,6 @@ import UpdateStaff from "~/pages/AdminPage/Team/UpdateStaff";
 import Team from '~/pages/AdminPage/Team/ViewUser';
 import { default as ViewTicket } from '~/pages/AdminPage/Ticket';
 import CreateTicket from '~/pages/AdminPage/Ticket/CreateTicket';
-import UpdateTicket from '~/pages/AdminPage/Ticket/updateTicket';
 import ParentComponent from '~/pages/News/ViewEachNews/ParentComponent';
 import Order from '~/pages/Order/Order';
 import ThankYouPage from '~/pages/Ticket/Thanks';
@@ -75,6 +74,8 @@ import ThankYouPage from '~/pages/Ticket/Thanks';
 //import for dashboard pages
 import DashboardLayout from '~/component/Layout/DashboardLayout';
 import TicketTypes from '~/pages/Dashboard/Admin/TicketTypes';
+import TicketCreate from '~/pages/Dashboard/Admin/TicketCreate';
+import TicketUpdate from '~/pages/Dashboard/Admin/TicketUpdate';
 import Users from '~/pages/Dashboard/Admin/Users';
 import Dashboard from '~/pages/Dashboard/Dashboard';
 import Customers from '~/pages/Dashboard/Staff/Customers';
@@ -110,7 +111,12 @@ import AnimalsCreate from '~/pages/Dashboard/ZooTrainer/AnimalsCreate';
 import FeedingSchedulesCreate from '~/pages/Dashboard/ZooTrainer/FeedingScheduleCreate';
 import FeedingScheduleUpdate from '~/pages/Dashboard/ZooTrainer/FeedingScheduleUpdate';
 import AnimalsUpdate from '~/pages/Dashboard/ZooTrainer/AnimalsUpdate';
+<<<<<<< Updated upstream
 import MoveInAnimals from '~/pages/Dashboard/ZooTrainer/MoveIn';
+=======
+import { updateTicket } from '~/api/ticketService';
+import UpdateTicket from '~/pages/AdminPage/Ticket/updateTicket';
+>>>>>>> Stashed changes
 
 
 const publicRoutes = [
@@ -201,8 +207,8 @@ const publicRoutes = [
     { path: 'dashboard/users/create', component: Form, layout: DashboardLayout, name: 'AdminUsers', Authen: "private" },
     { path: 'dashboard/users/update', component: UpdateStaff, layout: DashboardLayout, name: 'AdminUsers', Authen: "private" },
     { path: 'dashboard/tickets', component: TicketTypes, layout: DashboardLayout, name: 'AdminTicketTypes', Authen: "private" },
-    { path: 'dashboard/tickets/create', component: CreateTicket, layout: DashboardLayout, name: 'AdminTicketTypes', Authen: "private" },
-    { path: 'dashboard/tickets/update', component: UpdateTicket, layout: DashboardLayout, name: 'AdminTicketTypes', Authen: "private" },
+    { path: 'dashboard/tickets/create', component: TicketCreate, layout: DashboardLayout, name: 'AdminTicketTypes', Authen: "private" },
+    { path: 'dashboard/tickets/update', component: TicketUpdate, layout: DashboardLayout, name: 'AdminTicketTypes', Authen: "private" },
 
     //STAFF
     { path: 'dashboard/customers', component: Customers, layout: DashboardLayout, name: 'StaffCustomers', Authen: "private" },
