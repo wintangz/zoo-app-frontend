@@ -145,7 +145,7 @@ const Animals = () => {
         { header: 'Date Of Birth', body: datetime, sortable: false, filterField: false },
         { header: 'Sex', body: sexBody, sortable: false, filterField: false },
         { header: 'Current Enclosure', body: currentEnclosureBody, sortable: true, filterField: "currentEnclosure.enclosure.name" },
-        { field: 'species', header: 'Species', sortable: true, filterField: "species" },
+        { field: 'species.name', header: 'Species', sortable: true, filterField: "species.name" },
         { header: 'Status', body: statusBody, sortable: true, filterField: false },
         { header: 'Actions', body: actionBody, sortable: false, filterField: false },
     ]

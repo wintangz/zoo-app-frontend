@@ -114,6 +114,7 @@ import UnAssignAnimal from '~/pages/Dashboard/Staff/UnAssignAnimal';
 import Species from '~/pages/Dashboard/ZooTrainer/Species';
 import SpeciesCreate from '~/pages/Dashboard/ZooTrainer/SpeciesCreate';
 import SpeciesUpdate from '~/pages/Dashboard/ZooTrainer/SpeciesUpdate';
+import AnimalHistory from '~/pages/Dashboard/ZooTrainer/AnimalHistory';
 
 
 const publicRoutes = [
@@ -246,6 +247,7 @@ const publicRoutes = [
     { path: 'dashboard/species/update', component: SpeciesUpdate, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/animals/assign', component: AssignAnimal, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/animals/unassign', component: UnAssignAnimal, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
+    { path: 'dashboard/animals/history', component: AnimalHistory, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/update/:id', component: SpeciesUpdate, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
 ];
 

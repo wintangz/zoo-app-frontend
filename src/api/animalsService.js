@@ -9,7 +9,14 @@ export const getAnimals = async () => {
         return error.response;
     }
 }
-
+export const getAnimalsById = async (path) => {
+    try {
+        const res = await axiosClient.get(`/animals/${path}`)
+        return res;
+    } catch (error) {
+        return error.response;
+    }
+}
 export const createAnimals = async (values) => {
     try {
         const res = await axiosClient.post('animals', values)

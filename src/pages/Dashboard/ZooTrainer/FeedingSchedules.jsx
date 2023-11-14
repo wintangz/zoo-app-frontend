@@ -80,7 +80,7 @@ const FeedingSchedules = () => {
         { header: 'Feeder', body: feederBody, sortable: true, filterField: true },
         { header: 'Avatar', body: avatarBody, sortable: false, filterField: false },
         { field: 'animalId.name', header: 'Animal name', sortable: true, filterField: "animalId.name" },
-        { field: 'animalId.species', header: 'Species', sortable: true, filterField: "animalId.species" },
+        { field: 'animalId.species.name', header: 'Species', sortable: true, filterField: "animalId.species.name" },
         { field: 'animalId.origin', header: 'Origin', sortable: true, filterField: 'animalId.origin' },
         { header: 'Sex', body: sexBody, sortable: true, filterField: false },
         { header: 'Actions', body: actionBody, sortable: false, filterField: false },

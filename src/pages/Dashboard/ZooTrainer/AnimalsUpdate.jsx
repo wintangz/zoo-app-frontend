@@ -39,6 +39,7 @@ const AnimalsUpdate = () => {
             inputId: 'sex',
         },
     ]
+    console.log(location.state)
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
     const initialValues = {
         name: location.state.name,
@@ -47,7 +48,7 @@ const AnimalsUpdate = () => {
         arrivalDate: new Date(location.state.arrivalDate),
         dateOfBirth: new Date(location.state.dateOfBirth),
         origin: location.state.origin,
-        species: location.state.species,
+        species: location.state.species.id,
         status: location.state.status,
     };
     const FILE_SIZE = 1920 * 1080;
@@ -74,7 +75,7 @@ const AnimalsUpdate = () => {
         arrivalDate: yup.date().required('Arrival is required'),
         dateOfBirth: yup.date().required('Date of birth is required'),
         origin: yup.string().required('Origin is required'),
-        species: yup.string().required('Species is required'),
+        species: yup.number().required('Species is required'),
         status: yup.string().required('required'),
     });
     console.log(location.state)
@@ -161,7 +162,7 @@ const AnimalsUpdate = () => {
                             value={formik.values.species}
                             options={data?.data}
                             optionLabel='name'
-                            optionValue='name'
+                            optionValue='id'
                             placeholder='Select species'
                             onChange={(e) => {
                                 formik.setFieldValue('species', e.value);

@@ -9,16 +9,24 @@ import { useRef } from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import { assignZooTrainerToAnimal, unassignZooTrainerToAnimal } from "~/api/animalsService";
+import { assignZooTrainerToAnimal, getAnimalsById, unassignZooTrainerToAnimal } from "~/api/animalsService";
 import { get } from "~/utils/axiosClient";
 import { decode } from "../AxiosClient";
 import { useEffect } from "react";
 function UnAssignAnimal() {
-    const [remove, setRemove] = useState(null);
+    const [change, setChange] = useState(null);
+    const [animals, setAnimals] = useState(null);
+    useEffect(() => {
+        const res = getAnimalsById(location.state.id);
+        res.then((result) => {
+            console.log(result.data)
+            setAnimals(result.data);
+        })
+    }, [change])
     const navigate = useNavigate()
     const toast = useRef(null);
     const location = useLocation()
-    const [selectedTrainer, setSelectedTrainer] = useState(location.state.animalTrainerAssignors[0].trainer);
+    const [selectedTrainer, setSelectedTrainer] = useState(animals && animals.animalTrainerAssignors[0] && animals.animalTrainerAssignors[0].trainer);
     console.log(selectedTrainer);
     console.log(location.state);
     const labels = {
@@ -44,7 +52,7 @@ function UnAssignAnimal() {
             if (result.status === 200) {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Unassign successfully', life: 3000 })
                 mutate({ ...data })
-                setRemove(result)
+                setChange(result)
             } else {
                 toast.current.show({ severity: 'error', summary: 'Error', detail: result.data.serverError ? result.data.serverError : "Having error when unassign", life: 3000 })
             }
@@ -63,7 +71,7 @@ function UnAssignAnimal() {
                         <label className='font-bold block mb-2' >Animal Name</label>
                         <InputText
                             disabled
-                            value={location.state.name}
+                            value={animals?.name}
                         />
                     </div>
 
@@ -71,7 +79,7 @@ function UnAssignAnimal() {
                         <label className='font-bold block mb-2' >Date of birth</label>
                         <InputText
                             disabled
-                            value={moment(location.state.dateOfBirth).format("YYYY/MM/DD hh:mm:ss")}
+                            value={moment(animals?.dateOfBirth).format("YYYY/MM/DD hh:mm:ss")}
                         />
                     </div>
 
@@ -79,7 +87,7 @@ function UnAssignAnimal() {
                         <label className='font-bold block mb-2' >Species</label>
                         <InputText
                             disabled
-                            value={location.state.species}
+                            value={animals?.species.name}
                         />
                     </div>
 
@@ -87,7 +95,7 @@ function UnAssignAnimal() {
                         <label className='font-bold block mb-2' >Origin</label>
                         <InputText
                             disabled
-                            value={location.state.origin}
+                            value={animals?.origin}
                         />
                     </div>
 
@@ -95,7 +103,7 @@ function UnAssignAnimal() {
                         <label className='font-bold block mb-2' >Assignor</label>
                         {/* <div className='p-field w-[100%] mt-2 flex flex-col border-2 rounded-lg h-[50px] flex justify-normal p-2'> */}
                         <div className="border-2 p-2 rounded-lg">
-                            {location.state.animalTrainerAssignors.map(trainer => (
+                            {animals?.animalTrainerAssignors.map(trainer => (
                                 <Tag className="mr-2" key={trainer.trainer.id} value={trainer.trainer.firstname} />
                             ))}
                         </div  >
@@ -103,7 +111,7 @@ function UnAssignAnimal() {
                     </div>
                     <div className='p-field w-[70%] mt-2 flex flex-col'>
                         <label className='font-bold block mb-2' >Animal Image</label>
-                        <Image className='inline w-[30%]' src={location.state.imgUrl} alt="Image" width="400" preview />
+                        <Image className='inline w-[30%]' src={animals?.imgUrl} alt="Image" width="400" preview />
                     </div>
 
                 </div>
@@ -115,7 +123,7 @@ function UnAssignAnimal() {
                             className="w-[100%]"
                             value={selectedTrainer}
                             filter
-                            options={location.state.animalTrainerAssignors.map(trainer => {
+                            options={animals?.animalTrainerAssignors.map(trainer => {
                                 trainer.trainer.fullname = `${trainer.trainer.lastname} ${trainer.trainer.firstname}`
                                 return trainer.trainer
                             })}

@@ -9,15 +9,18 @@ import { useRef } from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useSWR from "swr";
-import { assignZooTrainerToAnimal } from "~/api/animalsService";
+import { assignZooTrainerToAnimal, getAllAnimals, getAnimals, getAnimalsById } from "~/api/animalsService";
 import { get } from "~/utils/axiosClient";
 import { decode } from "../AxiosClient";
+import { useEffect } from "react";
 
 function AssignAnimal() {
     const navigate = useNavigate();
     const [selectedTrainer, setSelectedTrainer] = useState(null);
     const toast = useRef(null);
     const location = useLocation()
+    const [animals, setAnimals] = useState(null);
+    const [change, setChange] = useState(null);
     const labels = {
         title: 'Animal Management',
         subtitle: 'Assign Zoo trainer to animal',
@@ -25,8 +28,12 @@ function AssignAnimal() {
     }
 
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
-    const { data1, mutate1, isLoading1 } = useSWR(`/animals/${location.state.id}`, get)
-    console.log(data1);
+    useEffect(() => {
+        const res = getAnimalsById(location.state.id);
+        res.then((result) => {
+            setAnimals(result.data);
+        })
+    }, [change])
     const filteredTrainers = data?.data.filter((trainer) => {
         return (
             !location.state.animalTrainerAssignors.some((existingTrainer) => existingTrainer.trainer.id === trainer.id) &&
@@ -52,6 +59,7 @@ function AssignAnimal() {
                     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Assign successfully', life: 3000 })
                     setSelectedTrainer(null);
                     mutate({ ...data })
+                    setChange(result);
                 } else {
                     toast.current.show({ severity: 'error', summary: 'Error', detail: result.data.serverError, life: 3000 })
                 }
@@ -73,7 +81,7 @@ function AssignAnimal() {
                         <label className='font-bold block mb-2' >Animal Name</label>
                         <InputText
                             disabled
-                            value={location.state.name}
+                            value={animals?.name}
                         />
                     </div>
 
@@ -81,7 +89,7 @@ function AssignAnimal() {
                         <label className='font-bold block mb-2' >Date of birth</label>
                         <InputText
                             disabled
-                            value={moment(location.state.dateOfBirth).format("YYYY/MM/DD hh:mm:ss")}
+                            value={moment(animals?.dateOfBirth).format("YYYY/MM/DD hh:mm:ss")}
                         />
                     </div>
 
@@ -89,7 +97,7 @@ function AssignAnimal() {
                         <label className='font-bold block mb-2' >Species</label>
                         <InputText
                             disabled
-                            value={location.state.species}
+                            value={animals?.species.name}
                         />
                     </div>
 
@@ -97,7 +105,7 @@ function AssignAnimal() {
                         <label className='font-bold block mb-2' >Origin</label>
                         <InputText
                             disabled
-                            value={location.state.origin}
+                            value={animals?.origin}
                         />
                     </div>
 
@@ -105,7 +113,7 @@ function AssignAnimal() {
                         <label className='font-bold block mb-2' >Assignor</label>
                         {/* <div className='p-field w-[100%] mt-2 flex flex-col border-2 rounded-lg h-[50px] flex justify-normal p-2'> */}
                         <div className="border-2 p-2 rounded-lg">
-                            {location.state.animalTrainerAssignors.map(trainer => (
+                            {animals?.animalTrainerAssignors.map(trainer => (
                                 <Tag className="mr-2" key={trainer.trainer.id} value={trainer.trainer.firstname} />
                             ))}
                         </div  >
@@ -113,7 +121,7 @@ function AssignAnimal() {
                     </div>
                     <div className='p-field w-[70%] mt-2 flex flex-col'>
                         <label className='font-bold block mb-2' >Animal Image</label>
-                        <Image className='inline w-[30%]' src={location.state.imgUrl} alt="Image" width="400" preview />
+                        <Image className='inline w-[30%]' src={animals?.imgUrl} alt="Image" width="400" preview />
                     </div>
 
                 </div>
