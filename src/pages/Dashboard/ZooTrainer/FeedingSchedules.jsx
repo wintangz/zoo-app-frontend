@@ -91,6 +91,7 @@ const FeedingSchedules = () => {
 
 
     const allowExpansion = (rowData) => {
+        console.log(rowData)
         return rowData.details.length > 0;
     };
 

@@ -32,7 +32,6 @@ const Animals = () => {
         apiPath: '/animals'
     }
 
-
     const avatarBody = (item) => {
         return <img className='w-16 h-16 object-contain shadow-2 rounded-md' src={item.imgUrl} alt={item.id} />
     }
@@ -82,6 +81,7 @@ const Animals = () => {
         const res = moveOutEnclosure(animalMoveout, enclosureMoveout)
         res.then((response) => {
             if (response.status === 200) {
+                mutate({ ...data })
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Delete successfully', life: 3000 })
             } else {
                 toast.current.show({ severity: 'error', summary: 'Error', detail: 'An error has occurred', life: 3000 })
@@ -109,17 +109,24 @@ const Animals = () => {
         setEnclosureMoveout(item.currentEnclosure.enclosure.id)
         setMoveout(true)
     }
+    const role = decode(localStorage.getItem('token')).roles
+
+
+
     const actionBody = (item) => {
         return <div className='space-x-2 flex'>
-            {item.currentEnclosure ?
-                <Tippy content='Move Out' placement='bottom'><div><Button onClick={() => handleMoveOut(item)} icon='pi pi-directions-alt' className='border-amber-500 text-amber-500' rounded outlined /></div></Tippy>
-                : <Tippy content='Move In' placement='bottom'><Link to="/dashboard/animals/movein" state={item}><Button icon='pi pi-home' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>}
+
             <Tippy content='Update' placement='bottom'><Link to="/dashboard/animals/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
-            <Tippy content='Delete' placement='bottom'><Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} /></Link></Tippy>
-            <Tippy content='Create Feeding Schedule' placement='bottom'><Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-calendar-plus" severity="secondary" aria-label="Bookmark" rounded outlined /></Link></Tippy>
+            {role.includes("STAFF") && <Tippy content='Delete' placement='bottom'><Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} /></Link></Tippy>}
+            {role.includes("ZOO_TRAINER") && <Tippy content='Create Feeding Schedule' placement='bottom'><Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-calendar-plus" severity="secondary" aria-label="Bookmark" rounded outlined /></Link></Tippy>}
+            {item.currentEnclosure ?
+                <Tippy content='Move Out' placement='bottom'><div><Button onClick={() => handleMoveOut(item)} icon='pi pi-directions-alt' className='border-red-500 text-red-500' rounded outlined /></div></Tippy>
+                : <Tippy content='Move In' placement='bottom'><Link to="/dashboard/animals/movein" state={item}><Button icon='pi pi-home' className='border-green-500 text-green-500' rounded outlined /></Link></Tippy>}
+            {role.includes("STAFF") && <Tippy content='Assign' placement='bottom'><Link to="/dashboard/animals/assign" state={item}><Button icon='pi pi-user-edit' className='border-pink-500 text-pink-500' rounded outlined /></Link></Tippy>}
+            {role.includes("STAFF") && <Tippy content='Unassign' placement='bottom'><Link to="/dashboard/animals/unassign" state={item}><Button icon='pi pi-ban' className='border-pink-500 text-pink-500' rounded outlined /></Link></Tippy>}
+            <Tippy content='History Cage' placement='bottom'><Link to="/dashboard/animals/history" state={item}><Button icon='pi pi-history' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
         </div>
     }
-
     const currentEnclosureBody = (item) => {
         return (
             <>
@@ -207,12 +214,14 @@ const Animals = () => {
                 <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
             </div>
             <div className='mt-5'>
-                <DataTable size='small' value={data?.data.filter(animal => {
-                    return animal.animalTrainerAssignors.some(trainer => trainer.trainer.id === trainerId)
-                })} loading={isLoading} showGridlines scrollHeight="77vh" scrollable style={{ width: "77vw" }}
+                <DataTable size='small' value={decode(localStorage.getItem('token')).roles.includes("STAFF") ? data?.data :
+                    data?.data.filter(animal => {
+                        return animal.animalTrainerAssignors.some(trainer => trainer.trainer.id === trainerId)
+                    })
+                } loading={isLoading} showGridlines scrollHeight="77vh" scrollable style={{ width: "77vw" }}
                     filters={filters}
                     paginator rows={10}
-                    globalFilterFields={['id', 'name', 'origin', 'species', 'currentEnclosure.enclosure.name']} header={header} emptyMessage="No customers found."
+                    globalFilterFields={['id', 'name', 'origin', 'species', 'currentEnclosure.enclosure.name']} header={header} emptyMessage="No animal found."
                 >
                     {columns.map((col) => (
                         <Column key={col.field} field={col.field} header={col.header} body={col.body}

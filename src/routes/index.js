@@ -23,7 +23,6 @@ import Ticket from '~/pages/Ticket/Ticket';
 // import Bar from '~/pages/AdminPage/Bar/index';
 import BannerLayout from '~/component/Layout/BannerLayout/BannerLayout';
 import ViewAnimals from '~/pages/AdminPage/Animal';
-import AssignAnimal from '~/pages/AdminPage/Animal/AssignAnimal';
 import CreateAnimal from '~/pages/AdminPage/Animal/CreateAnimal';
 import UnassignAnimal from '~/pages/AdminPage/Animal/UnassignAnimal';
 import History from '~/pages/AdminPage/Animal/history';
@@ -111,6 +110,8 @@ import FeedingSchedulesCreate from '~/pages/Dashboard/ZooTrainer/FeedingSchedule
 import FeedingScheduleUpdate from '~/pages/Dashboard/ZooTrainer/FeedingScheduleUpdate';
 import AnimalsUpdate from '~/pages/Dashboard/ZooTrainer/AnimalsUpdate';
 import MoveInAnimals from '~/pages/Dashboard/ZooTrainer/MoveIn';
+import AssignAnimal from '~/pages/Dashboard/Staff/AssignAnimal';
+import UnAssignAnimal from '~/pages/Dashboard/Staff/UnAssignAnimal';
 
 
 const publicRoutes = [
@@ -241,6 +242,8 @@ const publicRoutes = [
     { path: 'dashboard/species', component: Species, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/create', component: SpeciesCreate, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/update', component: SpeciesUpdate, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
+    { path: 'dashboard/animals/assign', component: AssignAnimal, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
+    { path: 'dashboard/animals/unassign', component: UnAssignAnimal, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
 ];
 
 // private routes dont login will redirect to login pages

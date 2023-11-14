@@ -8,15 +8,21 @@ import useSWR from 'swr'
 import { get } from '../AxiosClient'
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 import { classNames } from 'primereact/utils';
 import { RadioButton } from 'primereact/radiobutton';
 import { FileUpload } from 'primereact/fileupload';
+import { Dialog } from 'primereact/dialog';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 function AnimalsCreate() {
     const toast = useRef(null);
-
+    const [deleteModal, openDeleteModal] = useState(false);
+    const navigate = useNavigate()
+    const [createdAnimal, setCreatedAnimal] = useState(null);
     const labels = {
         title: 'Animal Management',
         subtitle: 'Create Animal',
@@ -46,7 +52,7 @@ function AnimalsCreate() {
         arrivalDate: null,
         dateOfBirth: null,
         origin: '',
-        species: '',
+        species: null,
         status: true,
     };
     const FILE_SIZE = 1920 * 1080;
@@ -64,7 +70,7 @@ function AnimalsCreate() {
         arrivalDate: yup.date().required('Arrival is required'),
         dateOfBirth: yup.date().required('Date of birth is required'),
         origin: yup.string().required('Origin is required'),
-        species: yup.string().required('Species is required'),
+        species: yup.number().required('Species is required'),
         status: yup.string().required('required'),
     });
 
@@ -80,6 +86,8 @@ function AnimalsCreate() {
                 const res = createAnimals(values)
                 res.then((result) => {
                     if (result.status === 200) {
+                        setCreatedAnimal(result.data.data)
+                        openDeleteModal(true)
                         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create animal successfully', life: 3000 })
                         resetForm();
                     }
@@ -105,52 +113,75 @@ function AnimalsCreate() {
         console.log(event.files[0]);
     };
 
+    const deleteModalFooter = (
+        <div>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => openDeleteModal(false)} />
+        </div>
+    );
 
     return (
 
         <div className="p-5 w-[80vw]">
+
+            <Dialog visible={deleteModal} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                header="Actions"
+                onHide={() => openDeleteModal(false)}
+                footer={deleteModalFooter}>
+                <div className="confirmation-content">
+                    <span className=' flex items-center justify-evenly'>
+                        Do you want to move this animal to an enclosure?<Link to='/dashboard/animals/movein' state={createdAnimal}><Button icon='pi pi-home' className='border-green-500 text-green-500' rounded outlined /></Link>
+                    </span>
+                    <span className=' flex items-center justify-evenly mt-2'>
+                        Do you want to assign this animal to zoo trainer(s)?<Link to="/dashboard/animals/assign"><Button icon='pi pi-user-edit' className='border-pink-500 text-pink-500' rounded outlined />  </Link>
+                    </span>
+                </div>
+            </Dialog>
+
             <div className="p-m-5 w-[100%]">
                 <div >
                     <p className='text-3xl font-bold'>{labels.title}</p>
                     <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
                 </div>
                 <form onSubmit={formik.handleSubmit} className="p-fluid">
-                    <div className='p-field w-[30%]'>
-                        <label>Animal Name</label>
-                        <InputText
-                            className={formik.errors.name && formik.touched.name ? 'p-invalid' : ''}
-                            value={formik.values.name}
-                            id="name"
-                            name="name"
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange} />
-                        {formik.errors.name && formik.touched.name && (
-                            <small className='text-red-500 font-bold'>
-                                {formik.errors.name}
-                            </small>
-                        )}
+                    <div className='flex space-x-10 mt-5'>
+                        <div className='p-field w-[30%]'>
+                            <label className='font-bold block mb-2'>Animal Name</label>
+                            <InputText
+                                className={formik.errors.name && formik.touched.name ? 'p-invalid' : ''}
+                                value={formik.values.name}
+                                id="name"
+                                name="name"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange} />
+                            {formik.errors.name && formik.touched.name && (
+                                <small className='text-red-500 font-bold'>
+                                    {formik.errors.name}
+                                </small>
+                            )}
+                        </div>
+
+                        <div className='p-field w-[30%]'>
+                            <label className='font-bold block mb-2'>Species</label>
+                            <Dropdown
+                                filter
+                                inputId='species'
+                                name='species'
+                                value={formik.values.species ? formik.values.species : data?.data.filter(data => data.status === true)[0].id}
+                                options={data?.data.filter(data => data.status === true)}
+                                optionLabel='name'
+                                optionValue='id'
+                                placeholder='Select species'
+                                onChange={(e) => {
+                                    formik.setFieldValue('species', e.value);
+                                }}
+                            />
+                            {getFormErrorMessage('species')}
+                        </div>
                     </div>
 
-                    <div className='p-field w-[30%] mt-2'>
-                        <label>Species</label>
-                        <Dropdown
-                            inputId='species'
-                            name='species'
-                            value={formik.values.species}
-                            options={data?.data}
-                            optionLabel='name'
-                            optionValue='name'
-                            placeholder='Select species'
-                            onChange={(e) => {
-                                formik.setFieldValue('species', e.value);
-                            }}
-                        />
-                        {getFormErrorMessage('species')}
-                    </div>
-
-                    <div className='flex'>
-                        <div className='p-field w-[30%] mt-2 mr-4'>
-                            <label>Day Of Birth</label>
+                    <div className='flex space-x-10'>
+                        <div className='p-field w-[30%] mt-2'>
+                            <label className='font-bold block mb-2'>Day Of Birth</label>
                             <Calendar
                                 showTime hourFormat="24" showIcon
                                 inputId='dateOfBirth'
@@ -165,7 +196,7 @@ function AnimalsCreate() {
                         </div>
 
                         <div className='p-field w-[30%] mt-2'>
-                            <label>Arrival Date</label>
+                            <label className='font-bold block mb-2'>Arrival Date</label>
                             <Calendar
                                 showTime hourFormat="24" showIcon
                                 inputId='arrivalDate'
@@ -180,46 +211,52 @@ function AnimalsCreate() {
                         </div>
                     </div>
 
-                    <div className='p-field w-[30%] mt-2'>
-                        <label>Sex</label>
-                        <div className="flex mt-1">
-                            <Toast ref={toast} />
-                            {sexRadio.map((btn, i) => {
-                                return (
-                                    <div key={i} className="flex align-items-center mr-3">
-                                        <RadioButton
-                                            {...btn}
-                                            checked={formik.values.sex === btn.value}
-                                            onChange={(e) => {
-                                                formik.setFieldValue('sex', e.value);
-                                            }}
-                                        />
-                                        <label htmlFor={btn.inputId} className="ml-1">
-                                            {btn.name}
-                                        </label>
-                                    </div>
-                                );
-                            })}
+                    <div className='flex space-x-10 '>
+                        <div className='p-field w-[30%]'>
+                            <label className='font-bold block mb-2'>Origin</label>
+                            <InputText
+                                className={formik.errors.origin && formik.touched.origin ? 'p-invalid' : ''}
+                                value={formik.values.origin}
+                                id="origin"
+                                name="origin"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange} />
+                            {formik.errors.origin && formik.touched.origin && (
+                                <small className='text-red-500 font-bold'>
+                                    {formik.errors.origin}
+                                </small>
+                            )}
                         </div>
-                        {getFormErrorMessage('sex')}
+
+
+                        <div className='p-field w-[30%] mt-2'>
+                            <label className='font-bold block mb-2'>Sex</label>
+                            <div className="flex mt-1 items-center">
+                                <Toast ref={toast} />
+                                {sexRadio.map((btn, i) => {
+                                    return (
+                                        <div key={i} className="flex align-items-center mr-3">
+                                            <RadioButton
+                                                {...btn}
+                                                checked={formik.values.sex === btn.value}
+                                                onChange={(e) => {
+                                                    formik.setFieldValue('sex', e.value);
+                                                }}
+                                            />
+                                            <label className='block ml-1' htmlFor={btn.inputId}>
+                                                {btn.name}
+                                            </label>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                            {getFormErrorMessage('sex')}
+                        </div>
+
                     </div>
 
-                    <div className='p-field w-[30%]'>
-                        <label>Origin</label>
-                        <InputText
-                            className={formik.errors.origin && formik.touched.origin ? 'p-invalid' : ''}
-                            value={formik.values.origin}
-                            id="origin"
-                            name="origin"
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange} />
-                        {formik.errors.origin && formik.touched.origin && (
-                            <small className='text-red-500 font-bold'>
-                                {formik.errors.origin}
-                            </small>
-                        )}
-                    </div>
                     <div className="card mt-4">
+                        <label className='font-bold block mb-2'>Animal Image</label>
                         <FileUpload
                             name="imgUrl"
                             accept="image/*"
@@ -234,7 +271,25 @@ function AnimalsCreate() {
                             </small>
                         )}
                     </div>
-                    <Button className='mt-4' label='Create Animal' type="submit" />
+                    <div className='flex justify-between mt-12'>
+                        <Button
+                            type="button"
+                            label="Back"
+                            severity="info"
+                            icon="pi pi-eye"
+                            raised
+                            className='w-28 h-14'
+                            onClick={() => navigate('/dashboard/animals')}
+                        />
+                        <Button
+                            type="submit"
+                            label="Create"
+                            icon="pi pi-check"
+                            severity="success"
+                            className='w-32 h-14'
+                            raised
+                        />
+                    </div>
                 </form>
             </div>
         </div>

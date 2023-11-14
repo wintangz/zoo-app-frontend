@@ -74,34 +74,38 @@ function MoveInAnimals() {
                 <div className="p-m-5 w-[100%] flex justify-between">
                     <div className='w-[100%]'>
                         <div className='p-field w-[70%] mt-4 flex flex-col'>
-                            <label>Animal Name</label>
+                            <label className='font-bold block mb-2' >Animal Name</label>
                             <InputText
+                                disabled
                                 value={location.state.name}
                             />
                         </div>
 
                         <div className='p-field w-[70%] mt-2 flex flex-col'>
-                            <label>Date of birth</label>
+                            <label className='font-bold block mb-2' >Date of birth</label>
                             <InputText
+                                disabled
                                 value={moment(location.state.dateOfBirth).format("YYYY/MM/DD hh:mm:ss")}
                             />
                         </div>
 
                         <div className='p-field w-[70%] mt-2 flex flex-col'>
-                            <label>Species</label>
+                            <label className='font-bold block mb-2' >Species</label>
                             <InputText
-                                value={location.state.species}
+                                disabled
+                                value={location.state.species.name}
                             />
                         </div>
 
                         <div className='p-field w-[70%] mt-2 flex flex-col'>
-                            <label>Origin</label>
+                            <label className='font-bold block mb-2' >Origin</label>
                             <InputText
+                                disabled
                                 value={location.state.origin}
                             />
                         </div>
                         <div className='p-field w-[70%] mt-2 flex flex-col'>
-                            <label>Animal Image</label>
+                            <label className='font-bold block mb-2' >Animal Image</label>
                             <Image className='inline' src={location.state.imgUrl} alt="Image" width="400" preview />
                         </div>
                     </div>
@@ -109,9 +113,8 @@ function MoveInAnimals() {
 
                     <div className='w-[100%]'>
                         <div className='p-field w-[70%] mt-4 flex flex-col'>
-                            <label>Cage Name</label>
+                            <label className='font-bold block mb-2' >Enclosure Name</label>
                             <Dropdown
-
                                 value={selectedCage}
                                 options={data?.data.filter(cage => cage.status === true)}
                                 optionLabel='name'
@@ -123,21 +126,21 @@ function MoveInAnimals() {
                         </div>
 
                         <div className='p-field w-[70%] mt-2 flex flex-col'>
-                            <label>Cage Info</label>
+                            <label className='font-bold block mb-2' >Enclosure Info</label>
                             <InputText
                                 value={selectedCage && selectedCage.info}
                             />
                         </div>
 
                         <div className='p-field w-[70%] mt-2 flex flex-col'>
-                            <label>Capacity</label>
+                            <label className='font-bold block mb-2' >Capacity</label>
                             <InputText
                                 value={selectedCage && selectedCage.maxCapacity}
                             />
                         </div>
 
                         <div className='p-field w-[70%] mt-2 flex flex-col'>
-                            <label>Habitat</label>
+                            <label className='font-bold block mb-2' >Habitat</label>
                             <InputText
                                 value={selectedCage && selectedCage.habitat.name}
                             />
@@ -146,7 +149,7 @@ function MoveInAnimals() {
 
 
                         <div className='p-field w-[70%] mt-2 flex flex-col'>
-                            <label>Animal Image</label>
+                            <label className='font-bold block mb-2' >Enclosure Image</label>
                             <Image className='inline' src={selectedCage && selectedCage.imgUrl} alt="Image" height='300' width="400" preview />
                         </div>
                     </div>
