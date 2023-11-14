@@ -69,16 +69,24 @@ const News = () => {
         });
     });
 
-    const imgUrl = (rowData) => {
-        return <img className='w-32 h-16 object-contain shadow-2 rounded-md' src={rowData.imgUrl} alt={rowData.id} />
-    };
+    const imgUrl = (item) => {
+        return (
+            <div className='w-32 h-16 shadow-2 rounded-md '>
+                <img className="w-32 h-16 rounded-md object-cover" src={item.imgUrl} alt={item.name} />
+            </div>
+        )
+    }
 
-    const thumbnailUrl = (rowData) => {
-        return <img className='w-32 h-16 object-contain shadow-2 rounded-md' src={rowData.thumbnailUrl} alt={rowData.id} />
-    };
-    const createdDate = (rowData) => {
-        return <>{(new Date(rowData.createdDate).toLocaleString())}</>;
-    };
+    const thumbnailUrl = (item) => {
+        return (
+            <div className='w-32 h-16 shadow-2 rounded-md '>
+                <img className="w-32 h-16 rounded-md object-cover" src={item.imgUrl} alt={item.name} />
+            </div>
+        )
+    }
+    const createdDate = (item) => {
+        return <div className='w-52'>{new Date(item.createdDate).toLocaleString()}</div>
+    }
 
     const statusBody = (item) => {
         return (
@@ -103,7 +111,7 @@ const News = () => {
     };
 
     const actionBody = (item) => {
-        return <div className='space-x-2'>
+        return <div className='space-x-2 flex'>
             <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined tooltip="Update" tooltipOptions={{ position: 'bottom' }} onClick={() => navigate(`/dashboard/news/update/${(item.id)}`)} />
             <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined tooltip="Delete" tooltipOptions={{ position: 'bottom' }} onClick={() => handleDeleteClick(item)} />
         </div>
@@ -146,15 +154,15 @@ const News = () => {
 
 
     const columns = [
-        { field: 'id', header: 'ID', body: idBody, sortable: true, filterField: "id" },
-        { field: 'title', header: 'Title', body: (rowData) => <span>{truncateText(rowData.title, 30)}</span>, sortable: true, filterField: "title" },
-        { field: 'shortDescription', header: 'Short Description', body: (rowData) => <span>{truncateText(rowData.shortDescription, 200)}</span>, sortable: true, filterField: "shortDescription" },
-        { field: 'content', header: 'Content', body: (rowData) => <span>{truncateText(rowData.shortDescription, 200)}</span>, sortable: true, filterField: "content" },
+        { field: 'id', header: 'ID', body: idBody, sortable: true, filterField: "id", filter: true },
+        { field: 'title', header: 'Title', body: (rowData) => <span>{truncateText(rowData.title, 30)}</span>, sortable: true, filterField: "title", filter: true },
+        { field: 'shortDescription', header: 'Short Description', body: (rowData) => <span>{truncateText(rowData.shortDescription, 200)}</span>, sortable: true, filterField: "shortDescription", filter: true },
+        { field: 'content', header: 'Content', body: (rowData) => <span>{truncateText(rowData.shortDescription, 200)}</span>, sortable: true, filterField: "content", filter: true },
         { header: 'ImgUrl', body: imgUrl, showFilterMenu: false },
         { header: 'ThumbnailUrl', body: thumbnailUrl, filterField: false, showFilterMenu: false },
-        { field: 'type', header: 'Type', body: type, sortable: true, filterField: "type", showFilterMenu: false },
-        { header: 'Created Date', body: createdDate, sortable: false, filterField: "createdDate", filterElement: dateFilterTemplate, dataType: 'date' },
-        { field: "status", header: 'Status', dataType: "boolean", body: statusBody, sortable: false, filterField: false, filterElement: statusFilterTemplate },
+        { field: 'type', header: 'Type', body: type, sortable: true, filterField: "type", showFilterMenu: true, filter: true },
+        { header: 'Created Date', body: createdDate, sortable: false, filterField: "createdDate", filterElement: dateFilterTemplate, dataType: 'date', filter: true },
+        { field: "status", header: 'Status', dataType: "boolean", body: statusBody, sortable: false, filterField: false, filterElement: statusFilterTemplate, filter: true },
         { header: 'Action', body: actionBody, filterField: false, showFilterMenu: false },
     ];
 
@@ -164,6 +172,7 @@ const News = () => {
         title: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         shortDescription: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         content: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        type: { value: null, matchMode: FilterMatchMode.EQUALS },
         createdDate: { value: null, matchMode: FilterMatchMode.DATE_IS },
         status: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
@@ -201,7 +210,7 @@ const News = () => {
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                     <span>
-                        Are you sure you want to delete this?
+                        Are you sure you want to delete this News?
                     </span>
                 </div>
             </Dialog>
@@ -219,7 +228,11 @@ const News = () => {
                         emptyMessage="No news found."
                     >
                         {columns.map((col) => (
-                            <Column key={col.field} field={col.field} header={col.header} body={col.body}
+                            <Column
+                                key={col.field}
+                                field={col.field}
+                                header={col.header}
+                                body={col.body}
                                 sortable={col.sortable}
                                 style={(col.header === 'Content' && { minWidth: '20rem' }) ||
                                     (col.header === 'Short Description' && { minWidth: '20rem' }) ||

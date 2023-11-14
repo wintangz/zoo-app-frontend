@@ -82,11 +82,12 @@ const FoodsCreate = () => {
                     <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
                 </div>
                 <form onSubmit={formik.handleSubmit} className="p-fluid">
-                    <div className="p-field">
-                        <label htmlFor="name">Name</label>
+                    <div className="flex flex-col mt-5">
+                        <label className="font-bold block mb-2">Name</label>
                         <InputText
                             id="name"
                             name="name"
+                            style={{ width: "500px" }}
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
                             value={formik.values.name}
@@ -99,8 +100,8 @@ const FoodsCreate = () => {
                         )}
                     </div>
 
-                    <div className="p-field">
-                        <label htmlFor="type">Type</label>
+                    <div className="flex flex-col mt-5">
+                        <label className="font-bold block mb-2" htmlFor="type">Type</label>
                         <InputText
                             id="type"
                             name="type"
@@ -115,8 +116,8 @@ const FoodsCreate = () => {
                             </small>
                         )}
                     </div>
-                    <div className="p-field">
-                        <label htmlFor="quantity">Quantity</label>
+                    <div className="flex flex-col mt-5">
+                        <label className="font-bold block mb-2" htmlFor="quantity">Quantity</label>
                         <InputText
                             id="quantity"
                             name="quantity"
@@ -132,19 +133,23 @@ const FoodsCreate = () => {
                         )}
                     </div>
 
-                    <div className="p-field p-d-flex p-jc-space-between p-mt-4">
-                        <Link to="/dashboard/foods">
-                            <Button
-                                type="button"
-                                label="View Foods"
-                                icon="pi pi-eye"
-                            />
-                        </Link>
+                    <div className='flex justify-between mt-12'>
+                        <Button
+                            type="button"
+                            label="Back"
+                            severity="info"
+                            icon="pi pi-eye"
+                            raised
+                            className='w-28 h-14'
+                            onClick={() => navigate('/dashboard/foods')}
+                        />
                         <Button
                             type="submit"
-                            label="Create Food"
+                            label="Create"
                             icon="pi pi-check"
-                            className="p-button-success"
+                            severity="success"
+                            className='w-32 h-14'
+                            raised
                         />
                     </div>
                 </form>

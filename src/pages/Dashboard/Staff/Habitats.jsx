@@ -10,10 +10,10 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
+import { decode } from '~/utils/axiosClient';
 import { Calendar } from 'primereact/calendar';
 import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import { Link } from 'react-router-dom';
-import Tippy from '@tippyjs/react';
 
 const statusFilterTemplate = (options) => {
     const filterValue = options.value;
@@ -38,6 +38,7 @@ const statusFilterTemplate = (options) => {
 };
 
 const Habitats = () => {
+    const userRole = decode(localStorage.getItem('token')).roles[0];
     const [deleteModal, openDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(0);
     const toast = useRef(null);
@@ -80,7 +81,7 @@ const Habitats = () => {
     }
 
     const createdDate = (item) => {
-        return <span>{new Date(item.createdDate).toLocaleString()}</span>
+        return <div className='w-52'>{new Date(item.createdDate).toLocaleString()}</div>
     }
 
     const actionBody = (item) => {
@@ -102,7 +103,7 @@ const Habitats = () => {
         { header: 'Image', body: imgBody, sortable: false, filterField: false, showFilterMenu: false },
         { header: 'Banner Image', body: imgBannerBody, sortable: false, filterField: false, showFilterMenu: false },
         { field: "status", header: 'Status', dataType: "boolean", body: statusBody, sortable: false, filterField: false, filterElement: statusFilterTemplate },
-        { header: 'Action', body: actionBody, sortable: false, filterField: false, showFilterMenu: false }
+        userRole === 'STAFF' && { header: 'Action', body: actionBody, sortable: false, filterField: false, showFilterMenu: false }
     ]
 
     const { data, mutate, isLoading } = useSWR(labels.apiPath, () => {
@@ -169,7 +170,11 @@ const Habitats = () => {
     const renderHeader = () => {
         return (
             <div className="flex justify-content-between">
-                <Link to="/dashboard/habitats/create"><Button label='Create' severity='success' /></Link>
+                {userRole === 'STAFF' && (
+                    <Link to="/dashboard/habitats/create">
+                        <Button label='Create' severity='success' />
+                    </Link>
+                )}
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
