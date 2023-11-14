@@ -1,6 +1,5 @@
-import {
-    Input,
-} from '@mui/material';
+import { Dialog } from 'primereact/dialog';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { RadioButton } from 'primereact/radiobutton';
 import { Dropdown } from 'primereact/dropdown';
@@ -8,23 +7,20 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 
 import { Formik } from 'formik';
-import { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { getHabitats, updateEnclosures } from '~/api/animalsService';
-import { getSpecies } from '~/api/speciesService';
+// import { getSpecies } from '~/api/speciesService';
 import uploadFile from '~/utils/transferFile';
 
 function EnclosuresUpdate() {
-    //--------------- Call API GET USER ---------------------------------//'
     const location = useLocation()
     const toast = useRef(null);
-    const { enclosureId } = useParams();
     const [enclosure, setEnclosure] = useState({});
     const navigate = useNavigate();
-    const [species, setSpecies] = useState([]);
     const [habitats, setHabitats] = useState([]);
 
 
@@ -33,7 +29,6 @@ function EnclosuresUpdate() {
         setEnclosure(location.state);
     }, []);
 
-    //---------------------------------------- Handle Submit----------------------------------/
 
     const handleFormSubmit = async (values) => {
         if (values.imgUrl instanceof File) {
@@ -48,14 +43,14 @@ function EnclosuresUpdate() {
             console.log(result);
             const status = result.status;
             if (status === 200) {
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Enclosure Successfully', life: 3000 })
+                handleCloseClick();
+                // toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Enclosure Successfully', life: 3000 })
             } else {
                 toast.current.show({ severity: 'error', summary: 'Error ' + result.status, detail: result.data.error, life: 3000 });
             }
         });
     };
     console.log(location.state.id)
-    //********************************** INITIAL VALUE*********************************** */
     const initialValues = {
         name: enclosure?.name || '',
         maxCapacity: enclosure?.maxCapacity || '',
@@ -66,7 +61,6 @@ function EnclosuresUpdate() {
     };
     const habitatId = location.state?.habitat?.id;
 
-    //****************************** VALIDATION ********************************
     const FILE_SIZE = 1920 * 1080;
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
     const userSchema = yup.object().shape({
@@ -96,19 +90,19 @@ function EnclosuresUpdate() {
     const labels = {
         title: 'Update Enclosure',
         subtitle: 'Update a Enclosure',
-        apiPath: '/enclosures/update'
+        // apiPath: '/enclosures/update'
     }
 
-    useEffect(() => {
-        const res = getSpecies();
-        res.then((result) => {
-            console.log(result);
-            const filter = result.filter(speice => {
-                return speice.status === true;
-            })
-            setSpecies(result);
-        });
-    }, []);
+    // useEffect(() => {
+    //     const res = getSpecies();
+    //     res.then((result) => {
+    //         console.log(result);
+    //         const filter = result.filter(speice => {
+    //             return speice.status === true;
+    //         })
+    //         setSpecies(result);
+    //     });
+    // }, []);
 
     useEffect(() => {
         const res = getHabitats();
@@ -119,10 +113,32 @@ function EnclosuresUpdate() {
             setHabitats(filter);
         });
     }, []);
-    console.log(habitatId);
+    // console.log(habitatId);
+
+    const [close, setClose] = useState(false);
+    const closeFooter = (
+        <React.Fragment>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard/enclosures')} />
+        </React.Fragment>
+    );
+    const handleCloseClick = () => {
+        setClose(true)
+    }
+
     return (
         <>
             <Toast ref={toast} />
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
+            </Dialog>
             <div className='p-5'>
                 <div className=''>
                     <p className='text-3xl font-bold'>{labels.title}</p>
@@ -199,22 +215,33 @@ function EnclosuresUpdate() {
                             </div>
                             <div className="flex flex-row mt-5 ">
                                 <div>
-                                    <label className="font-bold block">Image Url</label>
-                                    <Input
-                                        className='m-0'
-                                        type="file"
-                                        label="imgUrl"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                        }}
-                                        name="imgUrl"
-                                        error={!!touched.imgUrl && !!errors.imgUrl}
-                                    />
+                                    <label className="font-bold block mb-2">Image Url</label>
+                                    <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                                setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                            }}
+                                            onBlur={handleBlur}
+                                            name="imgUrl"
+                                            id="imgUrlInput"
+                                        />
+                                        <label
+                                            htmlFor="imgUrlInput"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                        >
+                                            Upload
+                                        </label>
+                                        <span className={`ml-2 ${values.imgUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.imgUrl ? 'File Uploaded' : 'No File chosen'}
+                                        </span>
+                                    </div>
                                     {touched.imgUrl && errors.imgUrl && (
                                         <div style={{ color: 'red' }}>{errors.imgUrl}</div>
                                     )}
-                                    <img src={values.imgUrl} className='w-40 h-20' />
+                                    <img src={values.imgUrl} className='w-96 h-44 mt-3 rounded-md' />
                                 </div>
                             </div>
                             <div>

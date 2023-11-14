@@ -8,17 +8,41 @@ import { InputText } from 'primereact/inputtext';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Tag } from 'primereact/tag';
 import { Toast } from 'primereact/toast';
+import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import React, { useRef, useState } from 'react';
 import { BsGenderFemale, BsGenderMale } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
 import { get, remove } from '../AxiosClient';
+
+const statusFilterTemplate = (options) => {
+    const filterValue = options.value;
+    const setStatus = options.filterCallback;
+
+
+    const onChangeStatus = (newStatus) => {
+        setStatus(newStatus);
+    };
+
+    return (
+        <div className="flex align-items-center gap-2">
+            <label htmlFor="verified-filter" className="font-bold">
+                Status
+            </label>
+            <TriStateCheckbox
+                inputId="verified-filter"
+                value={filterValue}
+                onChange={(e) => onChangeStatus(e.value)}
+            />
+        </div>
+    );
+};
 
 const Users = () => {
     const [deleteModal, openDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(0);
     const toast = useRef(null);
-
+    const navigate = useNavigate(null)
     const labels = {
         title: 'User Management',
         subtitle: 'Table of Users',
@@ -50,6 +74,37 @@ const Users = () => {
             className={`{${item.sex ? 'bg-blue-400' : 'bg-pink-300'}} p-2 text-[0.9rem]`} />
     }
 
+    const roleBody = (item) => {
+        let tagValue, tagColor;
+
+        switch (item.roles[0].name) {
+            case "STAFF":
+                tagValue = <div className='flex items-center'>STAFF</div>;
+                tagColor = 'bg-red-500';
+                break;
+            case "ZOO_TRAINER":
+                tagValue = <div className='flex items-center'>ZOO_TRAINER</div>;
+                tagColor = 'bg-blue-400';
+                break;
+            case "CUSTOMER":
+                tagValue = <div className='flex items-center'>CUSTOMER</div>;
+                tagColor = 'bg-green-500';
+                break;
+            default:
+                tagValue = <div className='flex items-center'>ADMIN</div>;
+                tagColor = 'bg-yellow-400';
+                break;
+        }
+
+        return (
+            <Tag
+                value={tagValue}
+                className={`${tagColor} p-2 text-[0.9rem]`}
+            />
+        );
+    }
+
+
     const statusBody = (item) => {
         return <Tag value={item.status ?
             'True' :
@@ -63,8 +118,8 @@ const Users = () => {
 
     const actionBody = (item) => {
         return <div className='space-x-2'>
-            <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined />
-            <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} />
+            <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined onClick={() => navigate(`/dashboard/users/update/${(item.id)}`)} tooltip="Update" tooltipOptions={{ position: 'bottom' }} />
+            <Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} tooltip="Delete" tooltipOptions={{ position: 'bottom' }} />
         </div>
     }
 
@@ -120,7 +175,8 @@ const Users = () => {
         { field: 'phone', header: 'Phone', sortable: true, filterField: "phone" },
         { field: 'address', header: 'Address', sortable: true, filterField: "address" },
         { field: 'nationality', header: 'Nationality', sortable: true, filterField: "nationality", filter: true },
-        { header: 'Status', body: statusBody, filterField: "status", filter: true },
+        { field: 'roles[0].name', header: 'Role', body: roleBody, sortable: false, filterField: "roles[0].name", filter: true },
+        { header: 'Status', body: statusBody, dataType: "boolean", filterField: "status", filter: true, filterElement: statusFilterTemplate },
         { header: 'Actions', body: actionBody },
     ]
 
@@ -133,7 +189,8 @@ const Users = () => {
         email: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
         dateOfBirth: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
         nationality: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+        'roles[0].name': { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+        status: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const onGlobalFilterChange = (e) => {
@@ -158,6 +215,7 @@ const Users = () => {
     };
     const header = renderHeader();
 
+    console.log(data);
     return (
         <div className='p-5'>
             {isLoading && <ProgressSpinner style={{ width: '50px', height: '50px' }} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />}

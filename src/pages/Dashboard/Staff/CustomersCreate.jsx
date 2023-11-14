@@ -19,7 +19,7 @@ function CustomersCreate() {
     const labels = {
         title: 'Create Customer',
         subtitle: 'Create new Customer',
-        apiPath: '/customer/create'
+        // apiPath: '/customer/create'
     }
 
     const handleFormSubmit = async (values) => {

@@ -11,6 +11,29 @@ import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
 import { get, remove } from '../AxiosClient';
+import { TriStateCheckbox } from 'primereact/tristatecheckbox';
+
+const statusFilterTemplate = (options) => {
+    const filterValue = options.value;
+    const setStatus = options.filterCallback;
+
+    const onChangeStatus = (newStatus) => {
+        setStatus(newStatus);
+    };
+
+    return (
+        <div className="flex align-items-center gap-2">
+            <label htmlFor="verified-filter" className="font-bold">
+                Status
+            </label>
+            <TriStateCheckbox
+                inputId="verified-filter"
+                value={filterValue}
+                onChange={(e) => onChangeStatus(e.value)}
+            />
+        </div>
+    );
+};
 
 const Species = () => {
 
@@ -74,17 +97,17 @@ const Species = () => {
     );
 
     const columns = [
-        { field: 'id', header: 'ID', sortable: true, filterField: "id" },
-        { field: 'name', header: 'Name', sortable: true, filterField: "name" },
-        { field: 'species', header: 'Species', sortable: true, filterField: "species" },
+        { field: 'id', header: 'ID', sortable: true, filterField: "id", filter: true },
+        { field: 'name', header: 'Name', sortable: true, filterField: "name", filter: true },
+        { field: 'species', header: 'Species', sortable: true, filterField: "species", filter: true },
         { header: 'Image', body: imgBody },
         { header: 'Avatar', body: avatarBody },
-        { field: 'genus', header: 'Genus', sortable: true, filterField: "genus" },
-        { field: 'family', header: 'Family', sortable: true, filterField: "family" },
-        { field: 'habitat.name', header: 'Habitat', sortable: true, filterField: "habitat" },
-        { field: 'diet', header: 'Diet', sortable: true, filterField: "diet" },
-        { field: 'description', header: 'Description' },
-        { header: 'Status', body: statusBody },
+        { field: 'genus', header: 'Genus', sortable: true, filterField: "genus", filter: true },
+        { field: 'family', header: 'Family', sortable: true, filterField: "family", filter: true },
+        { field: 'habitat.name', header: 'Habitat', sortable: true, filterField: "habitat", filter: true },
+        { field: 'diet', header: 'Diet', sortable: true, filterField: "diet", filter: true },
+        { field: 'description', header: 'Description', sortable: true, filter: true },
+        { field: 'status', header: 'Status', dataType: "boolean", body: statusBody, sortable: true, filterField: false, filter: true, filterElement: statusFilterTemplate },
         { header: 'Action', body: actionBody }
     ];
     const [filters, setFilters] = useState({
@@ -95,8 +118,9 @@ const Species = () => {
         genus: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         family: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         habitat: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        description: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         diet: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        status: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+        status: { value: null, matchMode: FilterMatchMode.EQUALS },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const onGlobalFilterChange = (e) => {
@@ -148,8 +172,17 @@ const Species = () => {
                         globalFilterFields={['id', 'name', 'genus', 'diet', 'family', 'habitat', 'species', 'status']} header={header} emptyMessage="No customers found."
                     >
                         {columns.map((col) => (
-                            <Column key={col.field} field={col.field} header={col.header} body={col.body}
-                                sortable={col.sortable} filterField={col.filterField}
+                            <Column
+                                key={col.field}
+                                field={col.field}
+                                header={col.header}
+                                body={col.body}
+                                filter={col.filter}
+                                dataType={col.dataType}
+                                filterPlaceholder={`Search by ${col.header.toLowerCase()}`}
+                                sortable={col.sortable}
+                                filterField={col.filterField}
+                                filterElement={col.filterElement}
                                 style={(col.header === 'Description' && { minWidth: '20rem' }) || (col.header === 'Image' && { minWidth: '10rem' }) || (col.header === 'Avatar' && { minWidth: '6rem' }) || (col.header === 'Action' && { minWidth: '8.75rem' })}
                             />
                         ))}

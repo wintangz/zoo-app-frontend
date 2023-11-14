@@ -1,13 +1,12 @@
-import {
-    Input,
-} from '@mui/material';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
+
 
 import { Formik } from 'formik';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
-import { useRef, useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Dialog } from 'primereact/dialog';
+import React, { useEffect, useState, useRef } from 'react'; import { Link, useNavigate, useLocation } from 'react-router-dom';
 import * as yup from 'yup';
 import uploadFile from "~/utils/transferFile";
 import { updateHealthCare } from '~/api/healService';
@@ -15,7 +14,7 @@ import { updateHealthCare } from '~/api/healService';
 const HealthRecordsUpdate = () => {
     const navigate = useNavigate();
     const location = useLocation()
-    const [formKey, setFormKey] = useState(0);
+    // const [formKey, setFormKey] = useState(0);
     const [health, setHealth] = useState(null);
     const toast = useRef(null);
 
@@ -62,8 +61,9 @@ const HealthRecordsUpdate = () => {
             console.log(response);
             if (response.data.status === "Ok") {
                 console.log(values);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Health Record Successfully', life: 3000 })
-                setFormKey((prevKey) => prevKey + 1);
+                handleCloseClick();
+                // toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Health Record Successfully', life: 3000 })
+                // setFormKey((prevKey) => prevKey + 1);
             } else if (response.status !== 200) {
                 toast.current.show({ severity: 'error', summary: 'Error ' + response.status, detail: response.data.error, life: 3000 });
             }
@@ -80,16 +80,35 @@ const HealthRecordsUpdate = () => {
         setHealth(location.state);
     }, []);
 
-    console.log(health);
+    const [close, setClose] = useState(false);
+    const closeFooter = (
+        <React.Fragment>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard/animals/health')} />
+        </React.Fragment>
+    );
+    const handleCloseClick = () => {
+        setClose(true)
+    }
     return (
         <>
             <Toast ref={toast} />
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
+            </Dialog>
             <div className="p-5">
                 <div className=''>
                     <p className='text-3xl font-bold'>{labels.title}</p>
                     <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
                 </div>
-                <Formik key={formKey} // Add key to trigger re-render
+                <Formik // Add key to trigger re-render
                     onSubmit={(values, { setValues }) => {
                         console.log("Form submitted");
                         // Trim all values before submitting
@@ -210,25 +229,33 @@ const HealthRecordsUpdate = () => {
                                     {errors.diagnosis && touched.diagnosis && <div style={{ color: 'red' }}>{errors.diagnosis}</div>}
                                 </div>
                                 <div>
-                                    <div className="">
-                                        <label className="font-bold block">Image Url</label>
-                                        <Input
-                                            className='m-0 w-96'
+                                    <label className="font-bold block mb-2">Image Url</label>
+                                    <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                        <input
                                             type="file"
-                                            label="imgUrl"
-                                            onBlur={handleBlur}
+                                            className="hidden"
                                             onChange={(e) => {
                                                 setFieldValue('imgUrl', e.currentTarget.files[0]);
                                             }}
+                                            onBlur={handleBlur}
                                             name="imgUrl"
-                                            error={!!touched.imgUrl && !!errors.imgUrl}
+                                            id="imgUrlInput"
                                         />
-                                        {touched.imgUrl && errors.imgUrl && (
-                                            <div style={{ color: 'red' }}>{errors.imgUrl}</div>
-                                        )}
-                                        <img src={values.imgUrl} className='w-96 h-44 mt-3 rounded-md' />
-
+                                        <label
+                                            htmlFor="imgUrlInput"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                        >
+                                            Upload
+                                        </label>
+                                        <span className={`ml-2 ${values.imgUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.imgUrl ? 'File Uploaded' : 'No File chosen'}
+                                        </span>
                                     </div>
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                    <img src={values.imgUrl} className='w-96 h-44 mt-3 rounded-md' />
                                 </div>
 
                             </div>

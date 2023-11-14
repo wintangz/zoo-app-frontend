@@ -4,19 +4,21 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
+import { Dialog } from 'primereact/dialog';
 import { RadioButton } from 'primereact/radiobutton';
 
 import { Formik } from 'formik';
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/animalsService';
 import uploadFile from '~/utils/transferFile';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 
 function HabitatsUpdate() {
-    //--------------- Call API GET USER ---------------------------------//'
     const { habitatId } = useParams();
     const toast = useRef(null);
+
     const [habitat, setHabitat] = useState({});
     const navigate = useNavigate();
     const location = useLocation()
@@ -36,8 +38,16 @@ function HabitatsUpdate() {
         apiPath: '/habitats/update'
     }
 
-    //---------------------------------------- Handle Submit----------------------------------/
 
+    const [close, setClose] = useState(false);
+    const closeFooter = (
+        <React.Fragment>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard/habitats')} />
+        </React.Fragment>
+    );
+    const handleCloseClick = () => {
+        setClose(true)
+    }
     const handleFormSubmit = async (values) => {
         try {
             if (values.imgUrl instanceof File) {
@@ -54,7 +64,8 @@ function HabitatsUpdate() {
                 console.log(result);
                 const status = result.status;
                 if (status === 200) {
-                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Habitat Successfully', life: 3000 })
+                    // toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Habitat Successfully', life: 3000 })
+                    handleCloseClick();
                 } else {
                     toast.current.show({ severity: 'error', summary: 'Error ' + result.status, detail: result.data.error, life: 3000 });
                 }
@@ -64,7 +75,6 @@ function HabitatsUpdate() {
         }
     };
 
-    //********************************** INITIAL VALUE*********************************** */
     const initialValues = {
         name: habitat?.name || '',
         info: habitat?.info || '',
@@ -73,7 +83,6 @@ function HabitatsUpdate() {
         status: habitat?.status ? 'True' : 'False',
     };
 
-    //****************************** VALIDATION ********************************
 
     const userSchema = yup.object().shape({
         name: yup.string().required('Name is required!'),
@@ -82,10 +91,23 @@ function HabitatsUpdate() {
         bannerUrl: yup.string().required('bannerUrl is required!'),
     });
 
+
+
     console.log(location.state)
     return (
         <>
             <Toast ref={toast} />
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
+            </Dialog>
             <div className='p-5'>
                 <div className=''>
                     <p className='text-3xl font-bold'>{labels.title}</p>
@@ -137,18 +159,29 @@ function HabitatsUpdate() {
                             </div>
                             <div className="flex flex-row space-x-20 mt-5 gap-20">
                                 <div>
-                                    <label className="font-bold block">Image Url</label>
-                                    <input
-                                        className='m-0 w-96'
-                                        type="file"
-                                        label="imgUrl"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                        }}
-                                        name="imgUrl"
-                                        error={!!touched.imgUrl && !!errors.imgUrl}
-                                    />
+                                    <label className="font-bold block mb-2">Image Url</label>
+                                    <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                                setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                            }}
+                                            onBlur={handleBlur}
+                                            name="imgUrl"
+                                            id="imgUrlInput"
+                                        />
+                                        <label
+                                            htmlFor="imgUrlInput"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                        >
+                                            Upload
+                                        </label>
+                                        <span className={`ml-2 ${values.imgUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.imgUrl ? 'File Uploaded' : 'No File chosen'}
+                                        </span>
+                                    </div>
                                     {touched.imgUrl && errors.imgUrl && (
                                         <div style={{ color: 'red' }}>{errors.imgUrl}</div>
                                     )}
@@ -156,8 +189,9 @@ function HabitatsUpdate() {
                                 </div>
 
                                 <div>
-                                    <label className="font-bold block ">Banner Url</label>
+                                    <label className="font-bold block mb-2">Banner Url</label>
                                     <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
                                         <input
                                             type="file"
                                             className="hidden"
@@ -170,12 +204,12 @@ function HabitatsUpdate() {
                                         />
                                         <label
                                             htmlFor="bannerUrlInput"
-                                            className="cursor-pointer bg-amber-400 hover:bg-amber-600 text-white py-2 px-4 rounded-md inline-block transition duration-300"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
                                         >
-                                            Choose File
+                                            Upload
                                         </label>
-                                        <span className="ml-2" id="fileName">
-                                            {values.bannerUrl ? values.bannerUrl.name : 'No file chosen'}
+                                        <span className={`ml-2 ${values.bannerUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.bannerUrl ? 'File Uploaded' : 'No File chosen'}
                                         </span>
                                     </div>
                                     {touched.bannerUrl && errors.bannerUrl && (
@@ -183,7 +217,6 @@ function HabitatsUpdate() {
                                     )}
                                     <img src={values.bannerUrl} className='w-96 h-44 mt-3 rounded-md' />
                                 </div>
-
                             </div>
                             <div>
                                 <div className="mt-5">

@@ -2,9 +2,10 @@ import { useFormik } from 'formik';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { InputText } from 'primereact/inputtext';
 import { RadioButton } from 'primereact/radiobutton';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { getHabitats } from '~/api/animalsService';
@@ -18,7 +19,6 @@ const SpeciesUpdate = () => {
     const navigate = useNavigate();
     const [habitats, setHabitats] = useState([]);
     const [habitattId, setHabitatId] = useState('');
-    const [open, setOpen] = useState(false);
 
     const fetchapi = async (id) => {
         const result = await getSpeciesById(id);
@@ -151,7 +151,7 @@ const SpeciesUpdate = () => {
                 const response = updateSpecies(speciesId, { ...submitValue });
                 response.then((result) => {
                     if (result.data.status === 'Ok') {
-                        setOpen(true);
+                        handleCloseClick();
                     }
                 });
             } catch (error) {
@@ -160,38 +160,40 @@ const SpeciesUpdate = () => {
         },
     });
 
-    const handleClose = () => {
-        setOpen(false);
-        navigate('/dashboard/species');
-    };
+    const [close, setClose] = useState(false);
+    const closeFooter = (
+        <React.Fragment>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard/species')} />
+        </React.Fragment>
+    );
+    const handleCloseClick = () => {
+        setClose(true)
+    }
 
     return (
         <>
-            <div>
-                <Dialog
-                    header="Update Species Successfully!"
-                    visible={open}
-                    style={{ width: '400px' }}
-                    onHide={handleClose}
-                >
-                    <p>New species have been updated to the Database!</p>
-                    <Button
-                        label="Close"
-                        icon="pi pi-times"
-                        onClick={handleClose}
-                    />
-                </Dialog>
-            </div>
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
+            </Dialog>
             <div className="p-5">
                 <div className=''>
                     <p className='text-3xl font-bold'>{labels.title}</p>
                     <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
                 </div>
                 <form onSubmit={formik.handleSubmit}>
-                    <div className="p-grid p-fluid">
-                        <div className="p-col-12 p-md-6">
-                            <label htmlFor="name">Name</label>
+                    <div className="flex flex-row space-x-10 mt-5">
+                        <div className="">
+                            <label className="font-bold block mb-2" htmlFor="name">Name</label>
                             <InputText
+                                style={{ width: '550px' }}
                                 id="name"
                                 name="name"
                                 onBlur={formik.handleBlur}
@@ -206,9 +208,10 @@ const SpeciesUpdate = () => {
                             )}
                         </div>
 
-                        <div className="p-col-12 p-md-6">
-                            <label htmlFor="species">Species</label>
+                        <div  >
+                            <label className="font-bold block mb-2" htmlFor="species">Species</label>
                             <InputText
+                                style={{ width: '550px' }}
                                 id="species"
                                 name="species"
                                 onBlur={formik.handleBlur}
@@ -222,9 +225,12 @@ const SpeciesUpdate = () => {
                                 </small>
                             )}
                         </div>
-                        <div className="p-col-6">
-                            <label htmlFor="genus">Genus</label>
+                    </div>
+                    <div className="flex flex-row space-x-10 mt-5">
+                        <div className="">
+                            <label className="font-bold block mb-2" htmlFor="genus">Genus</label>
                             <InputText
+                                style={{ width: '550px' }}
                                 id="genus"
                                 name="genus"
                                 onBlur={formik.handleBlur}
@@ -234,19 +240,21 @@ const SpeciesUpdate = () => {
                             />
                             {formik.errors.genus && formik.touched.genus && (
                                 <small className='text-red-500 font-bold'>
-                                    {formik.errors.name}
+                                    {formik.errors.genus}
                                 </small>
                             )}
                         </div>
 
-                        <div className="p-col-6">
-                            <label htmlFor="family">Family</label>
+                        <div  >
+                            <label className="font-bold block mb-2" htmlFor="family">Family</label>
                             <InputText
+                                style={{ width: '550px' }}
                                 id="family"
                                 name="family"
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
                                 value={formik.values.family}
+                                className={formik.errors.family && formik.touched.family ? 'p-invalid' : ''}
                             />
                             {formik.errors.family && formik.touched.family && (
                                 <small className='text-red-500 font-bold'>
@@ -254,18 +262,19 @@ const SpeciesUpdate = () => {
                                 </small>
                             )}
                         </div>
-
-                        <div className="p-col-12 p-md-6">
-                            <label htmlFor="habitatId">Habitat</label>
+                    </div>
+                    <div className="flex flex-row space-x-10 mt-5">
+                        <div className="flex flex-col">
+                            <label className="font-bold block mb-2" htmlFor="habitatId">Habitat</label>
                             <Dropdown
+                                style={{ width: '550px' }}
                                 id="habitatId"
                                 name="habitatId"
                                 onBlur={formik.handleBlur}
                                 onChange={handleChangeHabitatId}
                                 value={habitats.find(habitat => habitat.id === habitattId)}
-                                defaultValue={location.state.habitat.id}
-                                optionLabel="name"
                                 options={habitats}
+                                optionLabel="name"
                                 placeholder="Select a Habitat"
                                 className={formik.errors.habitatId && formik.touched.habitatId ? 'p-invalid' : ''}
                             />
@@ -275,14 +284,17 @@ const SpeciesUpdate = () => {
                                 </small>
                             )}
                         </div>
-                        <div className="p-col-6">
-                            <label htmlFor="diet">Diet</label>
+
+                        <div className="flex flex-col">
+                            <label className="font-bold block mb-2" htmlFor="diet">Diet</label>
                             <InputText
+                                style={{ width: '550px' }}
                                 id="diet"
                                 name="diet"
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
                                 value={formik.values.diet}
+                                className={formik.errors.diet && formik.touched.diet ? 'p-invalid' : ''}
                             />
                             {formik.errors.diet && formik.touched.diet && (
                                 <small className='text-red-500 font-bold'>
@@ -290,15 +302,18 @@ const SpeciesUpdate = () => {
                                 </small>
                             )}
                         </div>
-
-                        <div className="p-col-6">
-                            <label htmlFor="conversationStatus">Conservation Status</label>
+                    </div>
+                    <div className="flex flex-row space-x-10 mt-5">
+                        <div  >
+                            <label className="font-bold block mb-2" htmlFor="conversationStatus">Conservation Status</label>
                             <InputText
+                                style={{ width: '550px' }}
                                 id="conversationStatus"
                                 name="conversationStatus"
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
                                 value={formik.values.conversationStatus}
+                                className={formik.errors.conversationStatus && formik.touched.conversationStatus ? 'p-invalid' : ''}
                             />
                             {formik.errors.conversationStatus && formik.touched.conversationStatus && (
                                 <small className='text-red-500 font-bold'>
@@ -307,14 +322,16 @@ const SpeciesUpdate = () => {
                             )}
                         </div>
 
-                        <div className="p-col-6">
-                            <label htmlFor="description">Description</label>
+                        <div  >
+                            <label className="font-bold block mb-2" htmlFor="description">Description</label>
                             <InputText
+                                style={{ width: '550px' }}
                                 id="description"
                                 name="description"
                                 onBlur={formik.handleBlur}
                                 onChange={formik.handleChange}
                                 value={formik.values.description}
+                                className={formik.errors.description && formik.touched.description ? 'p-invalid' : ''}
                             />
                             {formik.errors.description && formik.touched.description && (
                                 <small className='text-red-500 font-bold'>
@@ -322,59 +339,74 @@ const SpeciesUpdate = () => {
                                 </small>
                             )}
                         </div>
-
-                        <div className="p-col-6">
-                            <label htmlFor="imgUrl">Image File</label>
-                            <input
-                                type="file"
-                                id="imgUrl"
-                                name="imgUrl"
-                                onBlur={formik.handleBlur}
-                                onChange={(e) => {
-                                    handleFileChange(e);
-                                    formik.setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                }}
-                            />
+                    </div>
+                    <div className="flex flex-row space-x-20 mt-5 gap-20">
+                        <div  >
+                            <label className="font-bold block mb-2" htmlFor="imgUrl">Image File</label>
+                            <div className="relative">
+                                <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                <input
+                                    type="file"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                        formik.setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                    }}
+                                    onBlur={formik.handleBlur}
+                                    name="imgUrl"
+                                    id="imgUrl"
+                                />
+                                <label
+                                    htmlFor="imgUrl"
+                                    className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                >
+                                    Upload
+                                </label>
+                                <span className={`ml-2 ${formik.values.imgUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                    {formik.values.imgUrl ? 'File Uploaded' : 'No File chosen'}
+                                </span>
+                            </div>
                             {formik.touched.imgUrl && formik.errors.imgUrl && (
                                 <div style={{ color: 'red' }}>{formik.errors.imgUrl}</div>
                             )}
-                            {(formik.values.imgUrl || selectedFile) && (
-                                <img
-                                    src={formik.values.imgUrl === species.imgUrl ? formik.values.imgUrl : selectedFile}
-                                    alt="Selected Image"
-                                    style={{ width: '150px', height: '70px', marginTop: '10px' }}
-                                />
-                            )}
+                            <img src={formik.values.imgUrl} className='w-96 h-44 mt-3 rounded-md' />
                         </div>
 
-                        <div className="p-col-6">
-                            <label htmlFor="avatarUrl">Avatar File</label>
-                            <input
-                                type="file"
-                                id="avatarUrl"
-                                name="avatarUrl"
-                                onBlur={formik.handleBlur}
-                                onChange={(e) => {
-                                    handleFileChange(e);
-                                    formik.setFieldValue('avatarUrl', e.currentTarget.files[0]);
-                                }}
-                            />
+                        <div  >
+                            <label className="font-bold block mb-2" htmlFor="imgUrl">Avatar File</label>
+                            <div className="relative">
+                                <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                <input
+                                    type="file"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                        formik.setFieldValue('avatarUrl', e.currentTarget.files[0]);
+                                    }}
+                                    onBlur={formik.handleBlur}
+                                    name="avatarUrl"
+                                    id="avatarUrl"
+                                />
+                                <label
+                                    htmlFor="avatarUrl"
+                                    className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                >
+                                    Upload
+                                </label>
+                                <span className={`ml-2 ${formik.values.avatarUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                    {formik.values.avatarUrl ? 'File Uploaded' : 'No File chosen'}
+                                </span>
+                            </div>
                             {formik.touched.avatarUrl && formik.errors.avatarUrl && (
                                 <div style={{ color: 'red' }}>{formik.errors.avatarUrl}</div>
                             )}
-                            {(formik.values.avatarUrl || selectedFile) && (
-                                <img
-                                    src={formik.values.avatarUrl === species.avatarUrl ? formik.values.avatarUrl : selectedFile}
-                                    alt="Selected Image"
-                                    style={{ width: '150px', height: '70px', marginTop: '10px' }}
-                                />
-                            )}
+                            <img src={formik.values.avatarUrl} className='w-96 h-44 mt-3 rounded-md' />
                         </div>
+                    </div>
 
-                        <div className="p-col-12 p-md-6">
-                            <label>Status</label>
-                            <div className="p-formgroup-inline">
-                                <div className="p-field-radiobutton">
+                    <div>
+                        <div className="mt-5">
+                            <label className="font-bold block ">Status</label>
+                            <div className='flex flex-wrap gap-5 mt-2'>
+                                <div className="flex align-items-center">
                                     <RadioButton
                                         inputId="statusTrue"
                                         name="status"
@@ -382,7 +414,7 @@ const SpeciesUpdate = () => {
                                         onChange={formik.handleChange}
                                         checked={formik.values.status === 'True'}
                                     />
-                                    <label htmlFor="statusTrue">True</label>
+                                    <label className="ml-2" htmlFor="statusTrue">True</label>
                                 </div>
                                 <div className="p-field-radiobutton">
                                     <RadioButton
@@ -392,26 +424,30 @@ const SpeciesUpdate = () => {
                                         onChange={formik.handleChange}
                                         checked={formik.values.status === 'False'}
                                     />
-                                    <label htmlFor="statusFalse">False</label>
+                                    <label className="ml-2" htmlFor="statusFalse">False</label>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="p-field p-d-flex p-jc-space-between p-mt-4">
-                            <Link to="/dashboard/species">
-                                <Button
-                                    type="button"
-                                    label="View Species"
-                                    icon="pi pi-eye"
-                                />
-                            </Link>
-                            <Button
-                                type="submit"
-                                label="Update Species"
-                                icon="pi pi-check"
-                                className="p-button-success"
-                            />
-                        </div>
+                    <div className='flex justify-between mt-12'>
+                        <Button
+                            type="button"
+                            label="Back"
+                            severity="info"
+                            icon="pi pi-eye"
+                            raised
+                            className='w-28 h-14'
+                            onClick={() => navigate('/dashboard/species')}
+                        />
+                        <Button
+                            type="submit"
+                            label="Update"
+                            icon="pi pi-check"
+                            severity="warning"
+                            className='w-32 h-14'
+                            raised
+                        />
                     </div>
                 </form>
             </div>

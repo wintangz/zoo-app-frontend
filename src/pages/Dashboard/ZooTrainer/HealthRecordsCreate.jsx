@@ -1,10 +1,9 @@
-import {
-    Input,
-} from '@mui/material';
 
 import { Formik } from 'formik';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
+
 import { Dropdown } from 'primereact/dropdown';
 import { Toast } from 'primereact/toast';
 import { useRef, useState, useEffect } from 'react';
@@ -231,18 +230,30 @@ const HealthRecordsCreate = () => {
                                     />
                                     {errors.diagnosis && touched.diagnosis && <div style={{ color: 'red' }}>{errors.diagnosis}</div>}
                                 </div>
-                                <div className="">
-                                    <label className="font-bold block">Image Url</label>
-                                    <Input
-                                        className='m-0'
-                                        type="file"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                        }}
-                                        name="imgUrl"
-                                        error={!!touched.imgUrl && !!errors.imgUrl}
-                                    />
+                                <div>
+                                    <label className="font-bold block mb-2">Image Url</label>
+                                    <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                                setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                            }}
+                                            onBlur={handleBlur}
+                                            name="imgUrl"
+                                            id="imgUrlInput"
+                                        />
+                                        <label
+                                            htmlFor="imgUrlInput"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                        >
+                                            Upload
+                                        </label>
+                                        <span className={`ml-2 ${values.imgUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.imgUrl ? 'File Uploaded' : 'No File chosen'}
+                                        </span>
+                                    </div>
                                     {touched.imgUrl && errors.imgUrl && (
                                         <div style={{ color: 'red' }}>{errors.imgUrl}</div>
                                     )}

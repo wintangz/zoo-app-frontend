@@ -2,7 +2,8 @@ import { useFormik } from 'formik';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { useEffect, useRef, useState } from 'react';
+import { Toast } from 'primereact/toast';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { getFoodById, updateFoods } from '~/api/foodService';
@@ -62,10 +63,12 @@ const FoodsUpdate = () => {
                 const response = await updateFoods(foodId, { ...values });
                 console.log(response);
                 if (response.status === 200) {
-                    setDialogVisible(true);
+                    handleCloseClick();
                     // toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create food successfully', life: 3000 })
                     // } else {
                     // toast.current.show({ severity: 'error', summary: 'Error', detail: 'An error has occurred', life: 3000 })
+                } else {
+                    toast.current.show({ severity: 'error', summary: 'Error ' + response.status, detail: response.data.error, life: 3000 });
                 }
             } catch (error) {
                 console.error('Error submitting form:', error.message);
@@ -73,28 +76,29 @@ const FoodsUpdate = () => {
         },
     });
 
-    const [isDialogVisible, setDialogVisible] = useState(false);
-
-    const handleClose = () => {
-        setDialogVisible(false);
-        navigate('/dashboard/foods');
-    };
+    const [close, setClose] = useState(false);
+    const closeFooter = (
+        <React.Fragment>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard/news')} />
+        </React.Fragment>
+    );
+    const handleCloseClick = () => {
+        setClose(true)
+    }
 
     return (
         <div className="p-5">
-            {/* <Toast ref={toast} /> */}
-            <Dialog
-                header="Update Food Successfully!"
-                visible={isDialogVisible}
-                style={{ width: '400px' }}
-                onHide={handleClose}
-            >
-                <p>New food has been updated to the Database!</p>
-                <Button
-                    label="Close"
-                    icon="pi pi-times"
-                    onClick={handleClose}
-                />
+            <Toast ref={toast} />
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
             </Dialog>
 
             <div className="p-m-5">
@@ -103,11 +107,12 @@ const FoodsUpdate = () => {
                     <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
                 </div>
                 <form onSubmit={formik.handleSubmit} className="p-fluid">
-                    <div className="p-field">
-                        <label htmlFor="name">Name</label>
+                    <div className="flex flex-col mt-5">
+                        <label className="font-bold block mb-2" htmlFor="name">Name</label>
                         <InputText
                             id="name"
                             name="name"
+                            style={{ width: "500px" }}
                             onBlur={formik.handleBlur}
                             onChange={formik.handleChange}
                             value={formik.values.name}
@@ -120,8 +125,8 @@ const FoodsUpdate = () => {
                         )}
                     </div>
 
-                    <div className="p-field">
-                        <label htmlFor="type">Type</label>
+                    <div className="flex flex-col mt-5">
+                        <label className="font-bold block mb-2" htmlFor="type">Type</label>
                         <InputText
                             id="type"
                             name="type"
@@ -136,8 +141,8 @@ const FoodsUpdate = () => {
                             </small>
                         )}
                     </div>
-                    <div className="p-field">
-                        <label htmlFor="quantity">Quantity</label>
+                    <div className="flex flex-col mt-5">
+                        <label className="font-bold block mb-2" htmlFor="quantity">Quantity</label>
                         <InputText
                             id="quantity"
                             name="quantity"
@@ -153,19 +158,23 @@ const FoodsUpdate = () => {
                         )}
                     </div>
 
-                    <div className="p-field p-d-flex p-jc-space-between p-mt-4">
-                        <Link to="/dashboard/foods">
-                            <Button
-                                type="button"
-                                label="View Foods"
-                                icon="pi pi-eye"
-                            />
-                        </Link>
+                    <div className='flex justify-between mt-12'>
+                        <Button
+                            type="button"
+                            label="Back"
+                            severity="info"
+                            icon="pi pi-eye"
+                            raised
+                            className='w-28 h-14'
+                            onClick={() => navigate('/dashboard/foods')}
+                        />
                         <Button
                             type="submit"
-                            label="Update Food"
+                            label="Update"
                             icon="pi pi-check"
-                            className="p-button-success"
+                            severity="warning"
+                            className='w-32 h-14'
+                            raised
                         />
                     </div>
                 </form>

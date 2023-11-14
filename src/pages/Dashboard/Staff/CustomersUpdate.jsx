@@ -1,3 +1,5 @@
+import { Dialog } from 'primereact/dialog';
+import React, { useEffect, useState, useRef } from 'react';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
@@ -7,7 +9,6 @@ import { Calendar } from 'primereact/calendar';
 import * as mockData from '~/api/userService';
 import { updateUser } from '~/api/userService';
 import { Formik } from 'formik';
-import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 
@@ -16,7 +17,6 @@ function CustomersUpdate() {
     const { userId } = useParams();
     const [users, setUsers] = useState({});
     const toast = useRef(null);
-    const [formKey, setFormKey] = useState(0);
 
     const fetchapi = async (id) => {
         const result = await mockData.getUserById(id);
@@ -59,13 +59,13 @@ function CustomersUpdate() {
 
 
     const userSchema = yup.object().shape({
-        username: yup.string()
-            .required('Username is required')
-            .min(3, 'Username must be at least 3 characters')
-            .max(20, 'Username must be at most 20 characters'),
+        // username: yup.string()
+        //     .required('Username is required')
+        //     .min(3, 'Username must be at least 3 characters')
+        //     .max(20, 'Username must be at most 20 characters'),
         // password: yup.string()
-        //     .required('Password is required'),
-        // .min(8, 'Password must be at least 8 characters'),
+        //     .required('Password is required')
+        //     .min(8, 'Password must be at least 8 characters'),
         lastname: yup.string().required('Last Name is required'),
         firstname: yup.string().required('First Name is required'),
         dateOfBirth: yup.date()
@@ -78,9 +78,9 @@ function CustomersUpdate() {
             .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/, 'Invalid phone number format'),
         email: yup.string().email('Invalid email address').required('Email is required'),
     });
-    console.log(userId);
-    console.log(users);
-    console.log(users.id);
+    // console.log(userId);
+    // console.log(users);
+    // console.log(users.id);
 
     const handleFormSubmit = async (values) => {
         try {
@@ -96,7 +96,8 @@ function CustomersUpdate() {
                 console.log(result);
                 const status = result.status;
                 if (status === 200) {
-                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Customer Successfully', life: 3000 })
+                    handleCloseClick();
+                    //toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Customer Successfully', life: 3000 })
                 } else {
                     toast.current.show({ severity: 'error', summary: 'Error ' + result.status, detail: result.data.error, life: 3000 });
                 }
@@ -106,9 +107,30 @@ function CustomersUpdate() {
         }
     };
 
+    const [close, setClose] = useState(false);
+    const closeFooter = (
+        <React.Fragment>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard/customers')} />
+        </React.Fragment>
+    );
+    const handleCloseClick = () => {
+        setClose(true)
+    }
+
     return (
         <>
             <Toast ref={toast} />
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
+            </Dialog>
             <div className='p-5'>
                 <div className=''>
                     <p className='text-3xl font-bold'>{labels.title}</p>

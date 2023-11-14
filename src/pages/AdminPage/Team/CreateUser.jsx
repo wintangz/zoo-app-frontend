@@ -1,6 +1,10 @@
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { Toast } from 'primereact/toast';
+import { RadioButton } from 'primereact/radiobutton';
+import { Calendar } from 'primereact/calendar';
+
 import {
-    Box,
-    Button,
     FormControl,
     FormControlLabel,
     Radio,
@@ -9,58 +13,28 @@ import {
     Typography,
     useTheme,
 } from '@mui/material';
-import Modal from '@mui/material/Modal';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+
 import { Formik } from 'formik';
-import moment from 'moment/moment';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createCustomer, createStaff, createZooTrainer } from '~/api/userService';
-import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
-import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
-import { formatDateTimeSubmit } from '~/utils/dateTimeFormat';
+import { blueGrey } from '@mui/material/colors';
 
 function Form() {
     const navigate = useNavigate();
-    const theme = useTheme({ isDashboard: false });
-    const colors = tokens(theme.palette.mode);
-    const [open, setOpen] = useState(false);
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: colors.grey[500],
-        border: '2px solid #000',
-        color: colors.grey[100],
-        boxShadow: 24,
-        pt: 2,
-        px: 4,
-        pb: 3,
-    };
-    const isNonMobile = useMediaQuery('(min-width: 600px)');
+    const toast = useRef(null);
+    const [formKey, setFormKey] = useState(0);
     const userRole = decode(localStorage.getItem('token')).roles[0];
+
+    const labels = {
+        title: 'Create User',
+        subtitle: 'Create new User',
+        // apiPath: '/customer/create'
+    }
+
     const handleFormSubmit = async (values) => {
-        const formattedDateTime = formatDateTimeSubmit(values.dateOfBirth)
-        // const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-        //     .toString()
-        //     .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-        // // Get the time zone offset and convert it to the "hh:mm" format
-        // const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-        // const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-        // const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-        //     .toString()
-        //     .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
-
-        // // Combine the date and time zone offset to get the final formatted string
-        // const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-
-        values.dateOfBirth = formattedDateTime;
         if (values.sex === 'male') {
             values.sex = true;
         } else if (values.sex === 'female') {
@@ -74,10 +48,13 @@ function Form() {
                     const status = response.status;
                     console.log(response);
                     if (status === 200) {
-                        setOpen(true);
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create Customer Successfully', life: 3000 })
+                        setFormKey((prevKey) => prevKey + 1);
                     } else if (status === 400) {
                         response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
                             : document.getElementById('error-message').innerHTML = response.data.serverError
+                    } else {
+                        toast.current.show({ severity: 'error', summary: 'Error ' + response.status, detail: response.data.error, life: 3000 });
                     }
                 }
             } else if (values.role === 'ZOO_TRAINER') {
@@ -87,10 +64,13 @@ function Form() {
                     const status = response.status;
                     console.log(response)
                     if (status === 200) {
-                        setOpen(true);
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create Customer Successfully', life: 3000 })
+                        setFormKey((prevKey) => prevKey + 1);
                     } else if (status === 400) {
                         response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
                             : document.getElementById('error-message').innerHTML = response.data.serverError
+                    } else {
+                        toast.current.show({ severity: 'error', summary: 'Error ' + response.status, detail: response.data.error, life: 3000 });
                     }
                 }
             } else if (values.role === 'CUSTOMER') {
@@ -100,53 +80,56 @@ function Form() {
                     const status = response.status;
                     console.log(response)
                     if (status === 200) {
-                        setOpen(true);
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create Customer Successfully', life: 3000 })
+                        setFormKey((prevKey) => prevKey + 1);
                     } else if (status === 400) {
                         response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
                             : document.getElementById('error-message').innerHTML = response.data.serverError
+                    } else {
+                        toast.current.show({ severity: 'error', summary: 'Error ' + response.status, detail: response.data.error, life: 3000 });
                     }
                 }
             }
         }
-        if (userRole === 'STAFF') {
-            const response = await createZooTrainer(values);
-            if (response) {
-                const status = response.status;
-                console.log(response)
-                if (status === 200) {
-                    setOpen(true);
-                } else if (status === 400) {
-                    response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
-                        : document.getElementById('error-message').innerHTML = response.data.serverError
-                }
-            }
-        }
+        // if (userRole === 'STAFF') {
+        //     const response = await createZooTrainer(values);
+        //     if (response) {
+        //         const status = response.status;
+        //         console.log(response)
+        //         if (status === 200) {
+        //             setOpen(true);
+        //         } else if (status === 400) {
+        //             response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
+        //                 : document.getElementById('error-message').innerHTML = response.data.serverError
+        //         }
+        //     }
+        // }
 
 
     };
 
-    let modalTitle = '';
-    let description = '';
-    let button = '';
-    let button1 = '';
-    let title = '';
-    let subtitle = '';
+    // let modalTitle = '';
+    // let description = '';
+    // let button = '';
+    // let button1 = '';
+    // let title = '';
+    // let subtitle = '';
 
-    if (userRole === 'ADMIN') {
-        modalTitle = 'Create new user successfully!';
-        description = 'New user have been add to DataBase!';
-        button = 'CREATE NEW USER';
-        button1 = 'VIEW ALL USER';
-        title = 'Create User';
-        subtitle = 'Create a New User Profile';
-    } else if (userRole === 'STAFF') {
-        modalTitle = 'Create new Zoo Trainer successfully!';
-        description = 'New zoo trainer have been add to DataBase!';
-        button = 'CREATE NEW ZOO TRAINER';
-        button1 = 'VIEW ALL ZOO TRAINER';
-        title = 'CREATE ZOO TRAINER';
-        subtitle = 'Create a New Zoo Trainer Profile';
-    }
+    // if (userRole === 'ADMIN') {
+    //     modalTitle = 'Create new user successfully!';
+    //     description = 'New user have been add to DataBase!';
+    //     button = 'CREATE NEW USER';
+    //     button1 = 'VIEW ALL USER';
+    //     title = 'Create User';
+    //     subtitle = 'Create a New User Profile';
+    // } else if (userRole === 'STAFF') {
+    //     modalTitle = 'Create new Zoo Trainer successfully!';
+    //     description = 'New zoo trainer have been add to DataBase!';
+    //     button = 'CREATE NEW ZOO TRAINER';
+    //     button1 = 'VIEW ALL ZOO TRAINER';
+    //     title = 'CREATE ZOO TRAINER';
+    //     subtitle = 'Create a New Zoo Trainer Profile';
+    // }
     const initialValues = {
         username: '',
         password: '',
@@ -184,38 +167,33 @@ function Form() {
         role: yup.string().required('Role is required')
     });
 
-    const handleClose = () => {
-        navigate('/home');
-    };
+
     return (
         <>
-            <div>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="parent-modal-title"
-                    aria-describedby="parent-modal-description"
+            <Toast ref={toast} />
+            <div className='p-5'>
+                <div className=''>
+                    <p className='text-3xl font-bold'>{labels.title}</p>
+                    <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
+                </div>
+                <Formik key={formKey} // Add key to trigger re-render
+                    onSubmit={(values, { setValues }) => {
+                        // Trim all values before submitting
+                        const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
+                            acc[key] = typeof value === 'string' ? value.trim() : value;
+                            return acc;
+                        }, {});
+
+                        handleFormSubmit(trimmedValues);
+                        // Optionally, update the form state with trimmed values
+                        setValues(trimmedValues);
+                    }}
+                    initialValues={initialValues}
+                    validationSchema={userSchema}
                 >
-                    <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">{modalTitle}</h2>
-                        <p id="parent-modal-description">{description}</p>
-                        <Button onClick={handleClose} color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Close</Button>
-                    </Box>
-                </Modal>
-            </div>
-            <Box m="20px">
-                <AdminHeader title={title} subtitle={subtitle} />
-                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
-                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
-                            <Box
-                                display="grid"
-                                gap="30px"
-                                gridTemplateColumns="repeat(4,minmax(0,1fr))"
-                                sx={{
-                                    '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
-                                }}
-                            >
+                            <div>
                                 {userRole === "ADMIN" && <FormControl
                                     component="fieldset"
                                     width="75%"
@@ -224,9 +202,7 @@ function Form() {
                                     }}
                                     label="Gender"
                                 >
-                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
-                                        Role
-                                    </Typography>
+                                    <label className="font-bold block mb-2">Role</label>
                                     <RadioGroup
                                         aria-label="role"
                                         name="role"
@@ -239,249 +215,204 @@ function Form() {
                                         <FormControlLabel
                                             value="STAFF"
                                             control={
-                                                <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
+                                                <Radio sx={{ '&.Mui-checked': { color: blueGrey } }} />
                                             }
                                             label="Staff"
                                         />
                                         <FormControlLabel
                                             value="ZOO_TRAINER"
                                             control={
-                                                <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
+                                                <Radio sx={{ '&.Mui-checked': { color: blueGrey } }} />
                                             }
                                             label="Zoo trainer"
                                         />
                                         <FormControlLabel
                                             value="CUSTOMER"
                                             control={
-                                                <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
+                                                <Radio sx={{ '&.Mui-checked': { color: blueGrey } }} />
                                             }
                                             label="Customer"
                                         />
                                     </RadioGroup>
                                 </FormControl>}
-
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Username"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.username}
-                                    name="username"
-                                    error={!!touched.username && !!errors.username}
-                                    helperText={touched.username && errors.username}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="password"
-                                    label="Password"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.password}
-                                    name="password"
-                                    error={!!touched.password && !!errors.password}
-                                    helperText={touched.password && errors.password}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Last Name"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.lastname}
-                                    name="lastname"
-                                    error={!!touched.lastname && !!errors.lastname}
-                                    helperText={touched.lastname && errors.lastname}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="First Name"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.firstname}
-                                    name="firstname"
-                                    error={!!touched.firstname && !!errors.firstname}
-                                    helperText={touched.firstname && errors.firstname}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                />
-
-                                <FormControl
-                                    component="fieldset"
-                                    width="75%"
-                                    sx={{
-                                        gridColumn: 'span 1',
-                                    }}
-                                    label="Gender"
-                                >
-                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
-                                        Gender
-                                    </Typography>
-                                    <RadioGroup
-                                        aria-label="Gender"
-                                        name="sex"
+                            </div>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="">
+                                    <label className="font-bold block mb-2">Username</label>
+                                    <InputText
+                                        type="text"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        value={values.sex}
-                                        sx={{ display: 'inline-block' }}
-                                        label="Gender"
-                                    >
-                                        <FormControlLabel
-                                            value="male"
-                                            control={
-                                                <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
-                                            }
-                                            label="Male"
-                                        />
-                                        <FormControlLabel
-                                            value="female"
-                                            control={
-                                                <Radio sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }} />
-                                            }
-                                            label="Female"
-                                        />
-                                    </RadioGroup>
-                                </FormControl>
-
-                                <FormControl
-                                    padding="0"
-                                    component="fieldset"
-                                    fullWidth
-                                    sx={{
-                                        gridColumn: 'span 1',
-                                    }}
-                                >
-                                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                                        <DatePicker
-                                            value={moment(values.dateOfBirth)}
-                                            onChange={(date) => {
-                                                handleChange({ target: { name: 'dateOfBirth', value: moment(date) } });
-                                            }}
-                                            textField={(params) => (
-                                                <TextField
-                                                    {...params}
-                                                    fullWidth
-                                                    variant="outlined"
-                                                    label="Date of Birth"
-                                                />
-                                            )}
-                                            name="dateOfBirth"
-                                            label="What is your date of birth?"
-                                            sx={{
-                                                width: 250,
-                                                '& .MuiOutlinedInput-root': {
-                                                    '& fieldset': {
-                                                        borderColor: colors.grey[100],
-                                                        color: colors.grey[100],
-                                                    },
-                                                    '&:hover fieldset': {
-                                                        borderColor: colors.grey[100],
-                                                        color: colors.grey[100],
-                                                    },
-                                                    '&.Mui-focused fieldset': {
-                                                        borderColor: colors.grey[100],
-                                                        color: colors.grey[100],
-                                                    },
-                                                },
-                                            }}
-                                        />
-                                    </LocalizationProvider>
-                                </FormControl>
-
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Address"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.address}
-                                    name="address"
-                                    error={!!touched.address && !!errors.address}
-                                    helperText={touched.address && errors.address}
-                                    sx={{
-                                        gridColumn: 'span 4',
-                                    }}
-                                />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="National"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.nationality}
-                                    name="nationality"
-                                    error={!!touched.nationality && !!errors.nationality}
-                                    helperText={touched.nationality && errors.nationality}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Contact"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.phone}
-                                    name="phone"
-                                    error={!!touched.phone && !!errors.phone}
-                                    helperText={touched.phone && errors.phone}
-                                    sx={{
-                                        gridColumn: 'span 2',
-                                    }}
-                                />
-                                <TextField
-                                    fullWidth
-                                    variant="filled"
-                                    type="text"
-                                    label="Email"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    value={values.email}
-                                    name="email"
-                                    error={!!touched.email && !!errors.email}
-                                    helperText={touched.email && errors.email}
-                                    sx={{
-                                        gridColumn: 'span 4',
-                                    }}
-                                />
-                                <p id='error-message' style={{ color: 'red', gridColumn: 'span 4', display: 'flex', flexDirection: 'row-reverse' }}></p>
-                            </Box>
-                            <Box display="flex" justifyContent="space-between" mt="20px">
+                                        value={values.username}
+                                        name="username"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.username && touched.username ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.username && touched.username && <div style={{ color: 'red' }}>{errors.username}</div>}
+                                </div>
+                                <div className="">
+                                    <label className="font-bold block mb-2">Password</label>
+                                    <InputText
+                                        type="password"
+                                        toggleMask
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.password}
+                                        name="password"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.password && touched.password ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.password && touched.password && <div style={{ color: 'red' }}>{errors.password}</div>}
+                                </div>
+                            </div>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="">
+                                    <label className="font-bold block mb-2">Last Name</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.lastname}
+                                        name="lastname"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.lastname && touched.lastname ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.lastname && touched.lastname && <div style={{ color: 'red' }}>{errors.lastname}</div>}
+                                </div>
+                                <div className="">
+                                    <label className="font-bold block mb-2">First Name</label>
+                                    <InputText
+                                        type="firstname"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.firstname}
+                                        name="firstname"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.firstname && touched.firstname ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.firstname && touched.firstname && <div style={{ color: 'red' }}>{errors.firstname}</div>}
+                                </div>
+                            </div>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="">
+                                    <label className="font-bold block mb-2">Email</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.email}
+                                        name="email"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.email && touched.email ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.email && touched.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+                                </div>
+                                <div className="">
+                                    <label className="font-bold block mb-2">Address</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.address}
+                                        name="address"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.address && touched.address ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.address && touched.address && <div style={{ color: 'red' }}>{errors.address}</div>}
+                                </div>
+                            </div>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="">
+                                    <label className="font-bold block mb-2">Phone Number</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.phone}
+                                        name="phone"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.phone && touched.phone ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.phone && touched.phone && <div style={{ color: 'red' }}>{errors.phone}</div>}
+                                </div>
+                                <div className="">
+                                    <label className="font-bold block mb-2">Nationality</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.nationality}
+                                        name="nationality"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.nationality && touched.nationality ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.nationality && touched.nationality && <div style={{ color: 'red' }}>{errors.nationality}</div>}
+                                </div>
+                            </div>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="p-field">
+                                    <label className="font-bold block mb-2">Date of Birth</label>
+                                    <Calendar
+                                        value={values.dateOfBirth}
+                                        onChange={(e) => setFieldValue('dateOfBirth', e.value)}
+                                        inputId="dateOfBirth"
+                                        showTime
+                                        hourFormat="24"
+                                        showIcon
+                                        style={{ width: '550px' }}
+                                        className={`${errors.dateOfBirth && touched.dateOfBirth ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.dateOfBirth && touched.dateOfBirth && <div style={{ color: 'red' }}>{errors.dateOfBirth}</div>}
+                                </div>
+                                <div>
+                                    <label className="font-bold block ">Gender</label>
+                                    <div className='flex flex-wrap gap-5 mt-2'>
+                                        <div className="flex align-items-center">
+                                            <RadioButton
+                                                inputId="male"
+                                                name="sex"
+                                                onBlur={handleBlur}
+                                                onChange={() => setFieldValue('sex', 'male')}
+                                                checked={values.sex === 'male'}
+                                            />
+                                            <label htmlFor="male" className="ml-2">Male</label>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <RadioButton
+                                                inputId="female"
+                                                name="sex"
+                                                onBlur={handleBlur}
+                                                onChange={() => setFieldValue('sex', 'female')}
+                                                checked={values.sex === 'female'}
+                                            />
+                                            <label htmlFor="female" className="ml-2">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex justify-between mt-12'>
                                 <Button
                                     type="button"
-                                    color="secondary"
-                                    variant="contained"
-                                    onClick={() => navigate('/home')}
-                                >
-                                    {button1}
-                                </Button>
-                                <Button type="submit" color="secondary" variant="contained">
-                                    {button}
-                                </Button>
-                            </Box>
+                                    label="Back"
+                                    severity="info"
+                                    icon="pi pi-eye"
+                                    raised
+                                    className='w-28 h-14'
+                                    onClick={() => navigate('/dashboard/users')}
+                                />
+                                <Button
+                                    type="submit"
+                                    label="Create"
+                                    icon="pi pi-check"
+                                    severity="success"
+                                    className='w-32 h-14'
+                                    raised
+                                />
+                            </div>
                         </form>
                     )}
                 </Formik>
-            </Box>
+            </div>
         </>
     );
 }

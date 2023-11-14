@@ -9,12 +9,36 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import { Tag } from 'primereact/tag';
 import { Toast } from 'primereact/toast';
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
 import 'tippy.js/dist/tippy.css';
 import { get, remove } from '../AxiosClient';
+import { TriStateCheckbox } from 'primereact/tristatecheckbox';
+
+const statusFilterTemplate = (options) => {
+    const filterValue = options.value;
+    const setStatus = options.filterCallback;
+
+    const onChangeStatus = (newStatus) => {
+        setStatus(newStatus);
+    };
+
+    return (
+        <div className="flex align-items-center gap-2">
+            <label htmlFor="verified-filter" className="font-bold">
+                Status
+            </label>
+            <TriStateCheckbox
+                inputId="verified-filter"
+                value={filterValue}
+                onChange={(e) => onChangeStatus(e.value)}
+            />
+        </div>
+    );
+};
 
 const Foods = () => {
+    const navigate = useNavigate(null)
 
     const [deleteModal, openDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(0);
@@ -55,7 +79,7 @@ const Foods = () => {
 
     const actionBody = (item) => {
         return <div className='space-x-2 flex'>
-            <Link to="/dashboard/foods/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined tooltip="Update" tooltipOptions={{ position: 'bottom' }} /></Link>
+            <Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined tooltip="Update" tooltipOptions={{ position: 'bottom' }} onClick={() => navigate(`/dashboard/foods/update/${(item.id)}`)} />
             <Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} tooltip="Delete" tooltipOptions={{ position: 'bottom' }} /></Link>
         </div>
     }
@@ -96,11 +120,11 @@ const Foods = () => {
     const columns = [
         { field: 'id', header: 'ID', sortable: true, filterField: "id", filter: true },
         { field: 'name', header: 'Name', sortable: true, filterField: "name", filter: true },
-        { field: 'type', header: 'Type', sortable: true, filterField: "Type", filter: true },
+        { field: 'type', header: 'Type', sortable: true, filterField: "Type", filter: false },
         { field: 'creator', header: 'Creator', body: creatorFullName, sortable: true, filterField: "creator", filter: true },
         { field: 'quantity', header: 'Quantity', sortable: true, filterField: "quantity", filter: true },
         { header: 'Created Date', body: createdDate, sortable: true, filterField: "createdDate", filterElement: dateFilterTemplate, dataType: 'date', filter: true },
-        { field: 'status', header: 'Status', body: status, sortable: true, filterField: false, filter: true },
+        { field: 'status', header: 'Status', dataType: "boolean", body: status, sortable: true, filterField: false, filter: true, filterElement: statusFilterTemplate },
         { header: 'Actions', body: actionBody, filterField: false },
     ];
 
@@ -109,9 +133,9 @@ const Foods = () => {
         id: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
         name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
         creator: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-        quantity: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+        quantity: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
         createdDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
-        status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+        status: { value: null, matchMode: FilterMatchMode.EQUALS },
         type: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState('');

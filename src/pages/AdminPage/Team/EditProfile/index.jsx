@@ -1,37 +1,32 @@
-import {
-    Box,
-    Button,
-    FormControl,
-    FormControlLabel,
-    Radio,
-    RadioGroup,
-    TextField,
-    Typography,
-    useTheme,
-} from '@mui/material';
-import Modal from '@mui/material/Modal';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+
+
+import { Dialog } from 'primereact/dialog';
+import React, { useEffect, useState, useRef } from 'react';
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { Toast } from 'primereact/toast';
+import { RadioButton } from 'primereact/radiobutton';
+import { Calendar } from 'primereact/calendar';
+
 import { Formik } from 'formik';
-import moment from 'moment/moment';
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import * as mockData from '~/api/userService';
 import { updateUser } from '~/api/userService';
-import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
-import { tokens } from '~/theme';
 import { decode } from '~/utils/axiosClient';
 
 function EditProfile() {
     //--------------- Call API GET USER ---------------------------------//
     const [users, setUsers] = useState({});
+    const navigate = useNavigate();
+    const toast = useRef(null);
     const fetchapi = async (id) => {
         const result = await mockData.getUserById(id);
         return result;
     };
+
     const newObj = decode(localStorage.getItem('token'));
+
     useEffect(() => {
         const res = fetchapi(newObj.sub);
         res.then((result) => {
@@ -39,67 +34,31 @@ function EditProfile() {
         });
     }, []);
 
-    const [openSercurity, setOpenSercurity] = useState(false);
-
-    const handleSercurity = () => {
-        setOpenSercurity(!openSercurity);
+    const labels = {
+        title: 'Edit Profile',
+        subtitle: 'Edit your Profile',
+        // apiPath: '/customer/update',
     };
 
-    //****************---------------------- Config Color Theme ****************************/
-    const theme = useTheme({ isDashboard: false });
-    const colors = tokens(theme.palette.mode);
-    const isNonMobile = useMediaQuery('(min-width: 600px)');
-
-    // ******************************** MODAL FUCTION ********************************/
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: colors.grey[500],
-        border: '2px solid #000',
-        color: colors.grey[100],
-        boxShadow: 24,
-        pt: 2,
-        px: 4,
-        pb: 3,
-    };
-    const [open, setOpen] = useState(false);
-    const navigate = useNavigate();
-    const handleClose = () => {
-        navigate('/home');
-    };
-
-    //---------------------------------------- Handle Submit----------------------------------/
-
-    const handleFormSubmit = async (values, { resetForm }) => {
-        const inputDate = new Date(values.dateOfBirth);
-        const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-        // Get the time zone offset and convert it to the "hh:mm" format
-        const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-        const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-        const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-            .toString()
-            .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
-
-        // Combine the date and time zone offset to get the final formatted string
-        const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-        values.dateOfBirth = formattedDateTime;
-        if (values.sex === 'male') {
-            values.sex = true;
-        } else if (values.sex === 'female') {
-            values.sex = false;
-        }
-        const res = updateUser(newObj.sub, values);
-        res.then((result) => {
-            const status = result.status;
-            if (status === 200) {
-                setOpen(true);
+    const handleFormSubmit = async (values) => {
+        try {
+            if (values.sex === 'male') {
+                values.sex = true;
+            } else if (values.sex === 'female') {
+                values.sex = false;
             }
-        });
+            const res = updateUser(newObj.sub, values);
+            res.then((result) => {
+                const status = result.status;
+                if (status === 200) {
+                    handleCloseClick();
+                } else {
+                    toast.current.show({ severity: 'error', summary: 'Error ' + result.status, detail: result.data.error, life: 3000 });
+                }
+            });
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
     };
 
     //********************************** INITIAL VALUE*********************************** */
@@ -108,7 +67,7 @@ function EditProfile() {
         lastname: users?.lastname || '',
         firstname: users?.firstname || '',
         sex: users?.sex ? 'male' : 'female',
-        dateOfBirth: moment(users?.dateOfBirth),
+        dateOfBirth: new Date(users.dateOfBirth),
         address: users?.address || '',
         nationality: users?.nationality || '',
         phone: users?.phone || '',
@@ -128,252 +87,202 @@ function EditProfile() {
         phone: yup.string().matches(phoneRegExp, 'Phone numbers is not valid').required('required'),
         email: yup.string().email('Invalid email').required('required'),
     });
+
+    const [close, setClose] = useState(false);
+    const closeFooter = (
+        <React.Fragment>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard')} />
+        </React.Fragment>
+    );
+    const handleCloseClick = () => {
+        setClose(true)
+    }
+
     return (
         <>
-            <div>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="parent-modal-title"
-                    aria-describedby="parent-modal-description"
-                >
-                    <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Update Profile Successfully!</h2>
-                        <p id="parent-modal-description">Your Profile have been update to DataBase!</p>
-                        <Button color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }} onClick={handleClose}>Close</Button>
-                    </Box>
-                </Modal>
-            </div>
-            <Box m="20px">
-                <AdminHeader title="Edit Profile" subtitle="Edit you profile" />
-            </Box>
+            <Toast ref={toast} />
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
+            </Dialog>
+            <div className='p-5'>
+                <div className=''>
+                    <p className='text-3xl font-bold'>{labels.title}</p>
+                    <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
+                </div>
+                <Formik // Add key to trigger re-render
+                    onSubmit={(values, { setValues }) => {
+                        // Trim all values before submitting
+                        const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
+                            acc[key] = typeof value === 'string' ? value.trim() : value;
+                            return acc;
+                        }, {});
 
-            <>
-                <Box m="20px">
-                    <Formik
-                        onSubmit={handleFormSubmit}
-                        initialValues={initialValues}
-                        validationSchema={userSchema}
-                        enableReinitialize={true}
-                    >
-                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
-                            <form onSubmit={handleSubmit}>
-                                <Box
-                                    display="grid"
-                                    gap="30px"
-                                    gridTemplateColumns="repeat(4,minmax(0,1fr))"
-                                    sx={{
-                                        '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
-                                    }}
-                                >
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
+                        handleFormSubmit(trimmedValues);
+                        // Optionally, update the form state with trimmed values
+                        setValues(trimmedValues);
+                    }}
+                    initialValues={initialValues}
+                    validationSchema={userSchema}
+                    enableReinitialize={true}
+                >
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
+                        <form onSubmit={handleSubmit}>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="">
+                                    <label className="font-bold block mb-2">Last Name</label>
+                                    <InputText
                                         type="text"
-                                        label="Last Name"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
                                         value={values.lastname}
                                         name="lastname"
-                                        error={!!touched.lastname && !!errors.lastname}
-                                        helperText={touched.lastname && errors.lastname}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
+                                        style={{ width: '550px' }}
+                                        className={`${errors.lastname && touched.lastname ? 'p-invalid' : ''}`}
                                     />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="First Name"
+                                    {errors.lastname && touched.lastname && <div style={{ color: 'red' }}>{errors.lastname}</div>}
+                                </div>
+                                <div className="">
+                                    <label className="font-bold block mb-2">First Name</label>
+                                    <InputText
+                                        type="firstname"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
                                         value={values.firstname}
                                         name="firstname"
-                                        error={!!touched.firstname && !!errors.firstname}
-                                        helperText={touched.firstname && errors.firstname}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
+                                        style={{ width: '550px' }}
+                                        className={`${errors.firstname && touched.firstname ? 'p-invalid' : ''}`}
                                     />
-
-                                    <FormControl
-                                        component="fieldset"
-                                        width="75%"
-                                        sx={{
-                                            gridColumn: 'span 1',
-                                        }}
-                                        label="Gender"
-                                    >
-                                        <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
-                                            Gender
-                                        </Typography>
-                                        <RadioGroup
-                                            aria-label="Gender"
-                                            name="sex"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            defaultValue=" "
-                                            value={values.sex}
-                                            sx={{ display: 'inline-block' }}
-                                            label="Gender"
-                                        >
-                                            <FormControlLabel
-                                                value="male"
-                                                control={
-                                                    <Radio
-                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                    />
-                                                }
-                                                label="Male"
-                                            />
-                                            <FormControlLabel
-                                                value="female"
-                                                control={
-                                                    <Radio
-                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                    />
-                                                }
-                                                label="Female"
-                                            />
-                                        </RadioGroup>
-                                    </FormControl>
-
-                                    <FormControl
-                                        padding="0"
-                                        component="fieldset"
-                                        fullWidth
-                                        sx={{
-                                            gridColumn: 'span 1',
-                                        }}
-                                    >
-                                        <LocalizationProvider dateAdapter={AdapterMoment}>
-                                            <DatePicker
-                                                value={moment(values.dateOfBirth)}
-                                                onChange={(date) => {
-                                                    handleChange({
-                                                        target: { name: 'dateOfBirth', value: moment(date) },
-                                                    });
-                                                }}
-                                                textField={(params) => (
-                                                    <TextField
-                                                        {...params}
-                                                        fullWidth
-                                                        variant="outlined"
-                                                        label="Date of Birth"
-                                                    />
-                                                )}
-                                                name="dateOfBirth"
-                                                label="What is your date of birth?"
-                                                sx={{
-                                                    width: 250,
-                                                    '& .MuiOutlinedInput-root': {
-                                                        '& fieldset': {
-                                                            borderColor: colors.grey[100],
-                                                            color: colors.grey[100],
-                                                        },
-                                                        '&:hover fieldset': {
-                                                            borderColor: colors.grey[100],
-                                                            color: colors.grey[100],
-                                                        },
-                                                        '&.Mui-focused fieldset': {
-                                                            borderColor: colors.grey[100],
-                                                            color: colors.grey[100],
-                                                        },
-                                                    },
-                                                }}
-                                            />
-                                        </LocalizationProvider>
-                                    </FormControl>
-
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
+                                    {errors.firstname && touched.firstname && <div style={{ color: 'red' }}>{errors.firstname}</div>}
+                                </div>
+                            </div>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="">
+                                    <label className="font-bold block mb-2">Email</label>
+                                    <InputText
                                         type="text"
-                                        label="Address"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.address}
-                                        name="address"
-                                        error={!!touched.address && !!errors.address}
-                                        helperText={touched.address && errors.address}
-                                        sx={{
-                                            gridColumn: 'span 4',
-                                        }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="National"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.nationality}
-                                        name="nationality"
-                                        error={!!touched.nationality && !!errors.nationality}
-                                        helperText={touched.nationality && errors.nationality}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="Contact"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.phone}
-                                        name="phone"
-                                        error={!!touched.phone && !!errors.phone}
-                                        helperText={touched.phone && errors.phone}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="Emai"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
                                         value={values.email}
                                         name="email"
-                                        error={!!touched.email && !!errors.email}
-                                        helperText={touched.email && errors.email}
-                                        sx={{
-                                            gridColumn: 'span 4',
-                                        }}
+                                        style={{ width: '550px' }}
+                                        className={`${errors.email && touched.email ? 'p-invalid' : ''}`}
                                     />
-                                </Box>
-                                <Box display="flex" justifyContent="space-between" mt="20px">
-                                    <Link to="/home/settings/security">
-                                        <Button
-                                            onClick={handleSercurity}
-                                            type="submit"
-                                            color="secondary"
-                                            variant="contained"
-                                        >
-                                            SECURITY
-                                        </Button>
-                                    </Link>
-
-                                    <Button type="submit" color="secondary" variant="contained">
-                                        EDIT ACCOUNT
-                                    </Button>
-                                </Box>
-                            </form>
-                        )}
-                    </Formik>
-                </Box>
-            </>
+                                    {errors.email && touched.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+                                </div>
+                                <div className="">
+                                    <label className="font-bold block mb-2">Address</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.address}
+                                        name="address"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.address && touched.address ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.address && touched.address && <div style={{ color: 'red' }}>{errors.address}</div>}
+                                </div>
+                            </div>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="">
+                                    <label className="font-bold block mb-2">Phone Number</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.phone}
+                                        name="phone"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.phone && touched.phone ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.phone && touched.phone && <div style={{ color: 'red' }}>{errors.phone}</div>}
+                                </div>
+                                <div className="">
+                                    <label className="font-bold block mb-2">Nationality</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.nationality}
+                                        name="nationality"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.nationality && touched.nationality ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.nationality && touched.nationality && <div style={{ color: 'red' }}>{errors.nationality}</div>}
+                                </div>
+                            </div>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="p-field">
+                                    <label className="font-bold block mb-2">Date of Birth</label>
+                                    <Calendar
+                                        value={values.dateOfBirth}
+                                        onChange={(e) => setFieldValue('dateOfBirth', e.value)}
+                                        inputId="dateOfBirth"
+                                        showTime
+                                        hourFormat="24"
+                                        showIcon
+                                        style={{ width: '550px' }}
+                                        className={`${errors.dateOfBirth && touched.dateOfBirth ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.dateOfBirth && touched.dateOfBirth && <div style={{ color: 'red' }}>{errors.dateOfBirth}</div>}
+                                </div>
+                                <div>
+                                    <label className="font-bold block ">Gender</label>
+                                    <div className='flex flex-wrap gap-5 mt-2'>
+                                        <div className="flex align-items-center">
+                                            <RadioButton
+                                                inputId="male"
+                                                name="sex"
+                                                onBlur={handleBlur}
+                                                onChange={() => setFieldValue('sex', 'male')}
+                                                checked={values.sex === 'male'}
+                                            />
+                                            <label htmlFor="male" className="ml-2">Male</label>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <RadioButton
+                                                inputId="female"
+                                                name="sex"
+                                                onBlur={handleBlur}
+                                                onChange={() => setFieldValue('sex', 'female')}
+                                                checked={values.sex === 'female'}
+                                            />
+                                            <label htmlFor="female" className="ml-2">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex justify-between mt-12'>
+                                <Button
+                                    type="button"
+                                    label="Back"
+                                    severity="info"
+                                    icon="pi pi-eye"
+                                    raised
+                                    className='w-28 h-14'
+                                    onClick={() => navigate('/dashboard/users')}
+                                />
+                                <Button
+                                    type="submit"
+                                    label="Update"
+                                    icon="pi pi-check"
+                                    severity="warning"
+                                    className='w-32 h-14'
+                                    raised
+                                />
+                            </div>
+                        </form>
+                    )}
+                </Formik>
+            </div>
         </>
     );
 }

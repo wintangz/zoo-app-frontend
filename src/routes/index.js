@@ -100,6 +100,9 @@ import AnimalsCreate from '~/pages/Dashboard/ZooTrainer/AnimalsCreate';
 import AnimalsUpdate from '~/pages/Dashboard/ZooTrainer/AnimalsUpdate';
 import FeedingSchedulesCreate from '~/pages/Dashboard/ZooTrainer/FeedingScheduleCreate';
 import FeedingScheduleUpdate from '~/pages/Dashboard/ZooTrainer/FeedingScheduleUpdate';
+import MoveInAnimals from '~/pages/Dashboard/ZooTrainer/MoveIn';
+// import { updateTicket } from '~/api/ticketService';
+// import UpdateTicket from '~/pages/AdminPage/Ticket/updateTicket';
 import FeedingSchedules from '~/pages/Dashboard/ZooTrainer/FeedingSchedules';
 import Calendar from '~/pages/Dashboard/ZooTrainer/FeedingSchedulesCalendar';
 import Foods from '~/pages/Dashboard/ZooTrainer/Foods';
@@ -108,7 +111,7 @@ import FoodsUpdate from '~/pages/Dashboard/ZooTrainer/FoodsUpdate';
 import HealthRecords from '~/pages/Dashboard/ZooTrainer/HealthRecords';
 import HealthRecordsCreate from '~/pages/Dashboard/ZooTrainer/HealthRecordsCreate';
 import HealthRecordsUpdate from '~/pages/Dashboard/ZooTrainer/HealthRecordsUpdate';
-import MoveInAnimals from '~/pages/Dashboard/ZooTrainer/MoveIn';
+// import MoveInAnimals from '~/pages/Dashboard/ZooTrainer/MoveIn';
 import AssignAnimal from '~/pages/Dashboard/Staff/AssignAnimal';
 import UnAssignAnimal from '~/pages/Dashboard/Staff/UnAssignAnimal';
 import Species from '~/pages/Dashboard/ZooTrainer/Species';
@@ -202,7 +205,7 @@ const publicRoutes = [
     //ADMIN
     { path: 'dashboard/users', component: Users, layout: DashboardLayout, name: 'AdminUsers', Authen: "private" },
     { path: 'dashboard/users/create', component: Form, layout: DashboardLayout, name: 'AdminUsers', Authen: "private" },
-    { path: 'dashboard/users/update', component: UpdateStaff, layout: DashboardLayout, name: 'AdminUsers', Authen: "private" },
+    { path: 'dashboard/users/update/:userId', component: UpdateStaff, layout: DashboardLayout, name: 'AdminUsers', Authen: "private" },
     { path: 'dashboard/tickets', component: TicketTypes, layout: DashboardLayout, name: 'AdminTicketTypes', Authen: "private" },
     { path: 'dashboard/tickets/create', component: TicketCreate, layout: DashboardLayout, name: 'AdminTicketTypes', Authen: "private" },
     { path: 'dashboard/tickets/update', component: TicketUpdate, layout: DashboardLayout, name: 'AdminTicketTypes', Authen: "private" },

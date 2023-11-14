@@ -15,6 +15,8 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { createHabitats } from '~/api/animalsService';
 import uploadFile from '~/utils/transferFile';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
+
 function HabitatsCreate() {
     const navigate = useNavigate();
     const toast = useRef(null);
@@ -168,38 +170,60 @@ function HabitatsCreate() {
                                 />
                                 {errors.info && touched.info && <div style={{ color: 'red' }}>{errors.info}</div>}
                             </div>
-                            <div className="flex flex-row gap-20 mt-5">
+                            <div className="flex flex-row space-x-20 mt-5 gap-20">
                                 <div>
-                                    <label className="font-bold block">Image Url</label>
-                                    <Input
-                                        className='m-0 w-96'
-                                        type="file"
-                                        label="imgUrl"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                        }}
-                                        name="imgUrl"
-                                        error={!!touched.imgUrl && !!errors.imgUrl}
-                                    />
+                                    <label className="font-bold block mb-2">Image Url</label>
+                                    <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                                setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                            }}
+                                            onBlur={handleBlur}
+                                            name="imgUrl"
+                                            id="imgUrlInput"
+                                        />
+                                        <label
+                                            htmlFor="imgUrlInput"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                        >
+                                            Upload
+                                        </label>
+                                        <span className={`ml-2 ${values.imgUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.imgUrl ? 'File Uploaded' : 'No File chosen'}
+                                        </span>
+                                    </div>
                                     {touched.imgUrl && errors.imgUrl && (
                                         <div style={{ color: 'red' }}>{errors.imgUrl}</div>
                                     )}
                                 </div>
 
                                 <div>
-                                    <label className="font-bold block ">Banner Url</label>
-                                    <Input
-                                        className='m-0 w-96'
-                                        type="file"
-                                        label="bannerUrl"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            setFieldValue('bannerUrl', e.currentTarget.files[0]);
-                                        }}
-                                        name="bannerUrl"
-                                        error={!!touched.bannerUrl && !!errors.bannerUrl}
-                                    />
+                                    <label className="font-bold block mb-2">Banner Url</label>
+                                    <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                                setFieldValue('bannerUrl', e.currentTarget.files[0]);
+                                            }}
+                                            onBlur={handleBlur}
+                                            name="bannerUrl"
+                                            id="bannerUrlInput"
+                                        />
+                                        <label
+                                            htmlFor="bannerUrlInput"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                        >
+                                            Upload
+                                        </label>
+                                        <span className={`ml-2 ${values.bannerUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.bannerUrl ? 'File Uploaded' : 'No File chosen'}
+                                        </span>
+                                    </div>
                                     {touched.bannerUrl && errors.bannerUrl && (
                                         <div style={{ color: 'red' }}>{errors.bannerUrl}</div>
                                     )}

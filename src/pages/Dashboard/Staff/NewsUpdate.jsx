@@ -1,5 +1,5 @@
-import { FormControl, Input } from '@mui/material';
-
+import { Dialog } from 'primereact/dialog';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
@@ -7,8 +7,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { RadioButton } from 'primereact/radiobutton';
 import { Toast } from 'primereact/toast';
 
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { Formik } from 'formik';
-import { useEffect, useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -39,7 +39,7 @@ const NewsUpdate = () => {
     const labels = {
         title: 'Update News',
         subtitle: 'Update a News',
-        apiPath: '/news/update'
+        // apiPath: '/news/update'
     }
 
     const [editorContent, setEditorContent] = useState('');
@@ -114,7 +114,8 @@ const NewsUpdate = () => {
             response.then((result) => {
                 const status = result.status;
                 if (status === 200) {
-                    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update News Successfully', life: 3000 })
+                    handleCloseClick();
+                    // toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update News Successfully', life: 3000 })
                 } else {
                     toast.current.show({ severity: 'error', summary: 'Error ' + result.status, detail: result.data.error, life: 3000 });
                 }
@@ -151,9 +152,31 @@ const NewsUpdate = () => {
         'video',
         'formula',
     ];
+
+    const [close, setClose] = useState(false);
+    const closeFooter = (
+        <React.Fragment>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard/news')} />
+        </React.Fragment>
+    );
+    const handleCloseClick = () => {
+        setClose(true)
+    }
+
     return (
         <>
             <Toast ref={toast} />
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
+            </Dialog>
             <div className='p-5'>
                 <div className=''>
                     <p className='text-3xl font-bold'>{labels.title}</p>
@@ -238,47 +261,65 @@ const NewsUpdate = () => {
                                     options={typeOptions}
                                 />
                             </div>
-                            <div className="flex flex-row gap-28 mt-5">
-                                <div className="flex flex-col">
-                                    <FormControl className="" component="fieldset" >
-                                        <label className="font-bold block" >Image Url</label>
-                                        <Input
-                                            className='m-0'
+                            <div className="flex flex-row space-x-20 mt-5 gap-20">
+                                <div>
+                                    <label className="font-bold block mb-2">Image Url</label>
+                                    <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                        <input
                                             type="file"
-                                            label="imgUrl"
-                                            onBlur={handleBlur}
+                                            className="hidden"
                                             onChange={(e) => {
                                                 setFieldValue('imgUrl', e.currentTarget.files[0]);
                                             }}
-                                            name="imgUrl"
-                                            error={!!touched.imgUrl && !!errors.imgUrl}
-
-                                        />
-                                        {touched.imgUrl && errors.imgUrl && (
-                                            <div style={{ color: 'red' }}>{errors.imgUrl}</div>
-                                        )}
-                                        <img src={values.imgUrl} className='w-40 h-20' />
-                                    </FormControl>
-                                </div>
-                                <div className="flex flex-col">
-                                    <FormControl className="" component="fieldset" >
-                                        <label className="font-bold block" >Image Url</label>
-                                        <Input
-                                            className='m-0'
-                                            type="file"
-                                            label="thumbnailUrl"
                                             onBlur={handleBlur}
+                                            name="imgUrl"
+                                            id="imgUrlInput"
+                                        />
+                                        <label
+                                            htmlFor="imgUrlInput"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                        >
+                                            Upload
+                                        </label>
+                                        <span className={`ml-2 ${values.imgUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.imgUrl ? 'File Uploaded' : 'No File chosen'}
+                                        </span>
+                                    </div>
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                    <img src={values.imgUrl} className='w-96 h-44 mt-3 rounded-md' />
+                                </div>
+
+                                <div>
+                                    <label className="font-bold block mb-2">Thumbnail Url</label>
+                                    <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                        <input
+                                            type="file"
+                                            className="hidden"
                                             onChange={(e) => {
                                                 setFieldValue('thumbnailUrl', e.currentTarget.files[0]);
                                             }}
+                                            onBlur={handleBlur}
                                             name="thumbnailUrl"
-                                            error={!!touched.thumbnailUrl && !!errors.thumbnailUrl}
+                                            id="thumbnailUrlInput"
                                         />
-                                        {touched.thumbnailUrl && errors.thumbnailUrl && (
-                                            <div style={{ color: 'red' }}>{errors.thumbnailUrl}</div>
-                                        )}
-                                        <img src={values.thumbnailUrl} className='w-40 h-20' />
-                                    </FormControl>
+                                        <label
+                                            htmlFor="thumbnailUrlInput"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                        >
+                                            Upload
+                                        </label>
+                                        <span className={`ml-2 ${values.thumbnailUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.thumbnailUrl ? 'File Uploaded' : 'No File chosen'}
+                                        </span>
+                                    </div>
+                                    {touched.thumbnailUrl && errors.thumbnailUrl && (
+                                        <div style={{ color: 'red' }}>{errors.thumbnailUrl}</div>
+                                    )}
+                                    <img src={values.thumbnailUrl} className='w-96 h-44 mt-3 rounded-md' />
                                 </div>
                             </div>
                             <div>

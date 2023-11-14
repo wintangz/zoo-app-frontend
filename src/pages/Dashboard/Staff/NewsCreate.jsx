@@ -1,6 +1,4 @@
-import { FormControl, Input } from '@mui/material';
-
-
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { RadioButton } from 'primereact/radiobutton';
@@ -192,44 +190,62 @@ function NewsCreate() {
                                 />
                             </div>
                             <div className="flex flex-row gap-28 mt-5">
-                                <div className="flex flex-col">
-                                    <div>
-                                        <label className="font-bold block" >Image Url</label>
-                                        <Input
-                                            className='m-0'
+                                <div>
+                                    <label className="font-bold block mb-2">Image Url</label>
+                                    <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                        <input
                                             type="file"
-                                            label="imgUrl"
-                                            onBlur={handleBlur}
+                                            className="hidden"
                                             onChange={(e) => {
                                                 setFieldValue('imgUrl', e.currentTarget.files[0]);
                                             }}
-                                            name="imgUrl"
-                                            error={!!touched.imgUrl && !!errors.imgUrl}
-
-                                        />
-                                        {touched.imgUrl && errors.imgUrl && (
-                                            <div style={{ color: 'red' }}>{errors.imgUrl}</div>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className="flex flex-col">
-                                    <div>
-                                        <label className="font-bold block" >Image Url</label>
-                                        <Input
-                                            className='m-0'
-                                            type="file"
-                                            label="thumbnailUrl"
                                             onBlur={handleBlur}
+                                            name="imgUrl"
+                                            id="imgUrlInput"
+                                        />
+                                        <label
+                                            htmlFor="imgUrlInput"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                        >
+                                            Upload
+                                        </label>
+                                        <span className={`ml-2 ${values.imgUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.imgUrl ? 'File Uploaded' : 'No File chosen'}
+                                        </span>
+                                    </div>
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <label className="font-bold block mb-2">Thumbnail Url</label>
+                                    <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                        <input
+                                            type="file"
+                                            className="hidden"
                                             onChange={(e) => {
                                                 setFieldValue('thumbnailUrl', e.currentTarget.files[0]);
                                             }}
+                                            onBlur={handleBlur}
                                             name="thumbnailUrl"
-                                            error={!!touched.thumbnailUrl && !!errors.thumbnailUrl}
+                                            id="thumbnailUrlInput"
                                         />
-                                        {touched.thumbnailUrl && errors.thumbnailUrl && (
-                                            <div style={{ color: 'red' }}>{errors.thumbnailUrl}</div>
-                                        )}
+                                        <label
+                                            htmlFor="thumbnailUrlInput"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                        >
+                                            Upload
+                                        </label>
+                                        <span className={`ml-2 ${values.thumbnailUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.thumbnailUrl ? 'File Uploaded' : 'No File chosen'}
+                                        </span>
                                     </div>
+                                    {touched.thumbnailUrl && errors.thumbnailUrl && (
+                                        <div style={{ color: 'red' }}>{errors.thumbnailUrl}</div>
+                                    )}
                                 </div>
                             </div>
 

@@ -12,6 +12,7 @@ import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useSWR from 'swr';
+import { decode } from '~/utils/axiosClient';
 import { get, remove } from '../AxiosClient';
 
 const statusFilterTemplate = (options) => {
@@ -37,6 +38,7 @@ const statusFilterTemplate = (options) => {
 };
 
 const Enclosures = () => {
+    const userRole = decode(localStorage.getItem('token')).roles[0];
     const [deleteModal, openDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(0);
     const toast = useRef(null);
@@ -78,14 +80,18 @@ const Enclosures = () => {
         )
     }
     const createdDate = (item) => {
-        return <span>{new Date(item.createdDate).toLocaleString()}</span>
+        return <div className='w-52'>{new Date(item.createdDate).toLocaleString()}</div>
     }
 
 
     const actionBody = (item) => {
         return <div className='space-x-2 flex'>
-            <Link to="/dashboard/enclosures/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined tooltip="Update" tooltipOptions={{ position: 'bottom' }} /></Link>
-            <Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} tooltip="Delete" tooltipOptions={{ position: 'bottom' }} /></Link>
+            {userRole === 'STAFF' && (
+                <React.Fragment>
+                    <Link to="/dashboard/enclosures/update" state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined tooltip="Update" tooltipOptions={{ position: 'bottom' }} /></Link>
+                    <Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} tooltip="Delete" tooltipOptions={{ position: 'bottom' }} /></Link>
+                </React.Fragment>
+            )}
             <Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-calendar-plus" severity="secondary" aria-label="Bookmark" rounded outlined tooltip="Create Feeding Schedule" tooltipOptions={{ position: 'left' }} /></Link>
         </div>
     }
@@ -172,7 +178,9 @@ const Enclosures = () => {
     const renderHeader = () => {
         return (
             <div className="flex justify-content-between">
-                <Link to="/dashboard/enclosures/create"><Button label='Create' severity='success' /></Link>
+                {userRole === 'STAFF' && (
+                    <Link to="/dashboard/enclosures/create"><Button label='Create' severity='success' /></Link>
+                )}
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />

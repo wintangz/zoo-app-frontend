@@ -2,11 +2,11 @@
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
-import { InputTextarea } from 'primereact/inputtextarea';
 import { Toast } from 'primereact/toast';
 import { RadioButton } from 'primereact/radiobutton';
-
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { Formik } from 'formik';
+import { Dialog } from 'primereact/dialog';
 import React, { useEffect, useState, useRef } from 'react';
 import * as yup from 'yup';
 import { updateTicket } from '~/api/ticketService';
@@ -17,7 +17,7 @@ function TicketUpdate() {
     const location = useLocation()
     const navigate = useNavigate();
     const toast = useRef(null);
-    const [formKey, setFormKey] = useState(0);
+    // const [formKey, setFormKey] = useState(0);
     const [ticket, setTicket] = useState({});
     const ticketType = ['Children', 'Adult', 'Elder'];
 
@@ -49,23 +49,36 @@ function TicketUpdate() {
         price: yup.number().required('Price is required'),
         type: yup.string().required('required'),
         description: yup.string().required('required'),
-        imgUrl: yup
-            .mixed()
-            .required('A file is required')
-            .test('fileSize', 'File too large', (value) => value && value.size <= FILE_SIZE)
-            .test('fileFormat', 'Unsupported Format', (value) => value && SUPPORTED_FORMATS.includes(value.type)),
+        imgUrl: yup.mixed()
+            .notRequired()
+            .nullable()
+            .test('is-file', 'Invalid file', function (value) {
+                if (typeof value === 'string') {
+                    return true;
+                }
+                if (value === null || value === undefined) {
+                    return true;
+                }
+                if (value instanceof File) {
+                    return value.size <= FILE_SIZE && SUPPORTED_FORMATS.includes(value.type);
+                }
+                return false;
+            }),
     });
 
     const handleFormSubmit = async (values) => {
         try {
-            const imgURL = await uploadFile(values.imgUrl, 'tickets'); // Wait for the file upload to complete
-            values.imgUrl = imgURL;
+            if (values.imgUrl instanceof File) {
+                const imgURL = await uploadFile(values.imgUrl, 'update-news');
+                values.imgUrl = imgURL;
+            }
             console.log(values);
             const res = await updateTicket(ticket.id, values);
             if (res.status === 200) {
-                console.log(values);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Ticket Type Successfully', life: 3000 })
-                setFormKey((prevKey) => prevKey + 1);
+                // console.log(values);
+                handleCloseClick();
+                // toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Ticket Type Successfully', life: 3000 })
+                // setFormKey((prevKey) => prevKey + 1);
             } else {
                 toast.current.show({ severity: 'error', summary: 'Error ' + res.status, detail: res.data.error, life: 3000 });
             }
@@ -73,17 +86,37 @@ function TicketUpdate() {
             console.error(error);
         }
     };
+    const [close, setClose] = useState(false);
+    const closeFooter = (
+        <React.Fragment>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard/tickets')} />
+        </React.Fragment>
+    );
+    const handleCloseClick = () => {
+        setClose(true)
+    }
 
-    console.log(location.state)
+    // console.log(location.state)
     return (
         <>
             <Toast ref={toast} />
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
+            </Dialog>
             <div className='p-5'>
                 <div className=''>
                     <p className='text-3xl font-bold'>{labels.title}</p>
                     <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
                 </div>
-                <Formik key={formKey} // Add key to trigger re-render
+                <Formik
                     onSubmit={(values, { setValues }) => {
                         // Trim all values before submitting
                         const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
@@ -163,22 +196,35 @@ function TicketUpdate() {
                                 </div>
                             </div>
                             <div className='mt-5'>
-                                <label className="font-bold block">Image Url</label>
-                                <input
-                                    className='m-0 w-96'
-                                    type="file"
-                                    label="imgUrl"
-                                    onBlur={handleBlur}
-                                    onChange={(e) => {
-                                        setFieldValue('imgUrl', e.currentTarget.files[0]);
-                                    }}
-                                    name="imgUrl"
-                                    error={!!touched.imgUrl && !!errors.imgUrl}
-                                />
-                                {touched.imgUrl && errors.imgUrl && (
-                                    <div style={{ color: 'red' }}>{errors.imgUrl}</div>
-                                )}
-                                <img src={values.imgUrl} className='w-40 h-20 ' />
+                                <div>
+                                    <label className="font-bold block mb-2">Image Url</label>
+                                    <div className="relative">
+                                        <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            onChange={(e) => {
+                                                setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                            }}
+                                            onBlur={handleBlur}
+                                            name="imgUrl"
+                                            id="imgUrlInput"
+                                        />
+                                        <label
+                                            htmlFor="imgUrlInput"
+                                            className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                                        >
+                                            Upload
+                                        </label>
+                                        <span className={`ml-2 ${values.imgUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                            {values.imgUrl ? 'File Uploaded' : 'No File chosen'}
+                                        </span>
+                                    </div>
+                                    {touched.imgUrl && errors.imgUrl && (
+                                        <div style={{ color: 'red' }}>{errors.imgUrl}</div>
+                                    )}
+                                    <img src={values.imgUrl} className='w-96 h-44 mt-3 rounded-md' />
+                                </div>
                             </div>
                             <div>
                                 <div className="mt-5">
@@ -219,9 +265,9 @@ function TicketUpdate() {
                                 />
                                 <Button
                                     type="submit"
-                                    label="Create"
+                                    label="Update"
                                     icon="pi pi-check"
-                                    severity="success"
+                                    severity="warning"
                                     className='w-32 h-14'
                                     raised
                                 />
