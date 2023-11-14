@@ -28,7 +28,6 @@ import UnassignAnimal from '~/pages/AdminPage/Animal/UnassignAnimal';
 import History from '~/pages/AdminPage/Animal/history';
 import UpdateAnimal from '~/pages/AdminPage/Animal/update';
 import TicketScanner from '~/pages/AdminPage/CheckTicket/checkTicket';
-import Confirm from '~/pages/AdminPage/Confirm/confirm';
 import CreateCustomer from '~/pages/AdminPage/Customer/CreateCustomer';
 import ViewCustomers from '~/pages/AdminPage/Customer/ViewCustomers';
 import CreateDiet from '~/pages/AdminPage/Diet/CreateDiet';
@@ -118,7 +117,7 @@ import Species from '~/pages/Dashboard/ZooTrainer/Species';
 import SpeciesCreate from '~/pages/Dashboard/ZooTrainer/SpeciesCreate';
 import SpeciesUpdate from '~/pages/Dashboard/ZooTrainer/SpeciesUpdate';
 import AnimalHistory from '~/pages/Dashboard/ZooTrainer/AnimalHistory';
-
+import Confirm from '~/pages/Dashboard/ZooTrainer/Confirm/confirm';
 
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },

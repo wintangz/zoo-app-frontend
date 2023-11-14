@@ -73,15 +73,8 @@ const Sidebar = () => {
     const handleLogout = () => {
         const res = logout(localStorage.getItem('token'));
         console.log(res);
-        res.then((result) => {
-            if (result.status === 200) {
-                localStorage.removeItem('token');
-                window.location = '/';
-            } else {
-                localStorage.removeItem('token');
-                window.location = '/';
-            }
-        });
+        localStorage.removeItem('token');
+        window.location = '/';
     };
 
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
@@ -150,7 +143,7 @@ const Sidebar = () => {
             sx={{
                 '& .pro-sidebar-inner': {
                     background: `${colors.primary[900]}!important`,
-                    height: '100vh',
+                    height: '100%',
                 },
                 '& .pro-icon-wrapper': {
                     backgroundColor: 'transparent !important',

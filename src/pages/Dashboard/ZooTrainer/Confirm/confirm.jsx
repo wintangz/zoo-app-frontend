@@ -1,13 +1,9 @@
 import {
-    Box,
-    Button,
     FormControl,
     Typography,
     useTheme,
     Input,
 } from '@mui/material';
-import Modal from '@mui/material/Modal';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import * as yup from 'yup';
@@ -17,6 +13,7 @@ import WebcamCapture from './WebcamCapture';
 import uploadFile from '~/utils/transferFile';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { conFirm } from '~/api/animalsService';
+import { Button } from 'primereact/button';
 
 
 const FACING_MODE_USER = "user";
@@ -95,10 +92,10 @@ function Confirm() {
     const labels = {
         title: 'Feeding Schedule Management',
         subtitle: 'Feeding Schedule Confirmation',
-        apiPath: `/feeding_schedules/zoo-trainers/${trainerId}`,
+        // apiPath: `/feeding_schedules/zoo-trainers/${trainerId}`,
     }
     return (
-        <div className='w-[100%]'>
+        <div className='w-[80vw] p-5'>
             <div className=''>
                 <p className='text-3xl font-bold'>{labels.title}</p>
                 <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
@@ -107,20 +104,12 @@ function Confirm() {
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={userSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
-                            <Box
-                                display="inline-flex"
-                                gap="30px"
-                                gridTemplateColumns="repeat(4,minmax(0,1fr))"
-                                sx={{
-                                    '& > div': { gridColumn: 'span 4' },
-                                    margin: '30px',
-                                    flexDirection: 'column'
-                                }}
-                            >
-                                <FormControl component="fieldset">
-                                    <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
+                            <div
+                                className='flex gap-8 flex-col'>
+                                <div component="fieldset block">
+                                    <h2 variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
                                         Image File
-                                    </Typography>
+                                    </h2>
                                     <Input
                                         type="file"
                                         label="ImgUrl"
@@ -134,24 +123,24 @@ function Confirm() {
                                     {touched.imgUrl && errors.imgUrl && (
                                         <div style={{ color: 'red' }}>{errors.imgUrl}</div>
                                     )}
-                                </FormControl>
-                                <Button color="secondary" variant="contained" onClick={() => {
+                                </div>
+                                <Button type='button' className='h-[50%] w-[15%] float-left' onClick={() => {
                                     setCamera(true)
-                                }} sx={{ width: "100%", height: "50%", float: "right" }}>
+                                }} >
                                     Get photo from your Camera
                                 </Button>
-                                {camera && <Button color="secondary" variant="contained" sx={{ color: 'white', fontWeight: "bold" }} onClick={() => {
+                                {camera && <Button className='text-white bold h-[50%] w-[15%] float-left justify-center' onClick={() => {
                                     setCamera(false)
                                 }}>
                                     Close Camera
                                 </Button>}
-                            </Box>
+                            </div>
 
-                            <Box display="flex" justifyContent="end" mt="20px" mr="20px">
-                                <Button sx={{ color: 'white', fontWeight: "bold" }} type="submit" color="secondary" variant="contained">
+                            <div className='flex justify-end mt-4 mr-4' mt="20px" mr="20px">
+                                <Button className='text-white bold' type="submit" color="secondary" variant="contained">
                                     CONFIRM
                                 </Button>
-                            </Box>
+                            </div>
                         </form>
                     )}
                 </Formik>

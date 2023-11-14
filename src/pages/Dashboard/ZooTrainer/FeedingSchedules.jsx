@@ -54,7 +54,7 @@ const FeedingSchedules = () => {
         return <div className='space-x-2 flex'>
             <Tippy content='Update' placement='bottom'><Link to='/dashboard/animals/feeding/update' state={item}><Button icon='pi pi-pencil' className='border-amber-500 text-amber-500' rounded outlined /></Link></Tippy>
             <Tippy content='Delete' placement='bottom'><Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} /></Link></Tippy>
-            <Tippy content='Confirm' placement='bottom'><Link to="/dashboard/animals/feeding/confirm" state={item} ><Button icon='pi pi-check' className='border-green-500 text-green-500' rounded outlined /></Link></Tippy>
+            {!item.fed && <Tippy content='Confirm' placement='bottom'><Link to="/dashboard/animals/feeding/confirm" state={item} ><Button icon='pi pi-check' className='border-green-500 text-green-500' rounded outlined /></Link></Tippy>}
         </div>
     }
 

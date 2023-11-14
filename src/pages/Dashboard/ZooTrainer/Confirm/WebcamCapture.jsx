@@ -1,3 +1,4 @@
+import { Button } from 'primereact/button';
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 
@@ -65,16 +66,16 @@ export default function WebcamCapture({ setWebcam }) {
     return (
         <>
             <div className="webcam-container" style={{
-                left: '40%',
+                left: '35%',
                 position: 'absolute',
                 top: '20%'
             }}  >
-                <div className="webcam-img">
+                <div className="webcam-img mb-2">
                     {image ? (
                         <img src={image} alt="Captured" />
                     ) : (
                         <Webcam
-                            className="webcam"
+                            className="webcam w-[95%]"
                             audio={false}
                             ref={webcamRef}
                             screenshotFormat="image/jpeg"
@@ -83,15 +84,17 @@ export default function WebcamCapture({ setWebcam }) {
                         />
                     )}
                 </div>
-                <button onClick={handleClick}>Switch camera</button>
-                <button onClick={handleCaptureClick} disabled={image !== null}>
-                    Capture Photo
-                </button>
-                <button onClick={handleSaveImage} >
-                    Save Image
-                </button>
+                <div className='flex'>
+                    <Button className="mr-4" onClick={handleClick}>Switch camera</Button>
+                    <Button className="mr-4" onClick={handleCaptureClick} disabled={image !== null}>
+                        Capture Photo
+                    </Button>
+                    <Button className="mr-4" onClick={handleSaveImage} >
+                        Save Image
+                    </Button>
+                </div>
                 {image && (
-                    <button onClick={handleRetakePhoto}>Retake Photo</button>
+                    <Button className="mr-4" onClick={handleRetakePhoto}>Retake Photo</Button>
                 )}
                 {capturedImage && (
                     <>

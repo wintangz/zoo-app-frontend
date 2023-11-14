@@ -39,6 +39,21 @@ const AnimalsUpdate = () => {
             inputId: 'sex',
         },
     ]
+
+    const status = [
+        {
+            id: 'status',
+            name: 'True',
+            value: true,
+            inputId: 'status',
+        },
+        {
+            id: 'status',
+            name: 'False',
+            value: false,
+            inputId: 'status',
+        },
+    ]
     console.log(location.state)
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
     const initialValues = {
@@ -225,6 +240,30 @@ const AnimalsUpdate = () => {
                             })}
                         </div>
                         {getFormErrorMessage('sex')}
+                    </div>
+
+                    <div className='p-field w-[30%] mt-2'>
+                        <label>Status</label>
+                        <div className="flex mt-1">
+                            <Toast ref={toast} />
+                            {status.map((btn, i) => {
+                                return (
+                                    <div key={i} className="flex align-items-center mr-3">
+                                        <RadioButton
+                                            {...btn}
+                                            checked={formik.values.status === btn.value}
+                                            onChange={(e) => {
+                                                formik.setFieldValue('status', e.value);
+                                            }}
+                                        />
+                                        <label htmlFor={btn.inputId} className="ml-1">
+                                            {btn.name}
+                                        </label>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        {getFormErrorMessage('status')}
                     </div>
 
                     <div className='p-field w-[30%]'>
