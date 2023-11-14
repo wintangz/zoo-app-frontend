@@ -44,10 +44,11 @@ function Calendar() {
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
 
     const handleEventClick = (selected) => {
-        const current = schedule.find((s) => s.id.toString() === selected.event.id)
+        console.log(selected.event.id)
+        const current = data.data.find((s) => s.id.toString() === selected.event.id)
+        console.log(current)
         setCurrentSchedule(current)
         setOpen(true)
-
     };
     const handleClose = () => {
         setOpen(false);
