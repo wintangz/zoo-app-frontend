@@ -1,19 +1,18 @@
-import { Link, useLocation } from 'react-router-dom'
-import React, { useRef, useState } from 'react'
-import useSWR from 'swr'
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { decode, get, remove } from '../AxiosClient'
-import { Tag } from 'primereact/tag';
-import { BsGenderFemale, BsGenderMale } from 'react-icons/bs'
+import Tippy from '@tippyjs/react';
+import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'primereact/button';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { Toast } from 'primereact/toast';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { FilterMatchMode } from 'primereact/api';
-import { useEffect } from 'react';
-import Tippy from '@tippyjs/react';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Tag } from 'primereact/tag';
+import { Toast } from 'primereact/toast';
+import React, { useRef, useState } from 'react';
+import { BsGenderFemale, BsGenderMale } from 'react-icons/bs';
+import { Link, useLocation } from 'react-router-dom';
+import useSWR from 'swr';
+import { decode, get, remove } from '../AxiosClient';
 const FeedingSchedules = () => {
     const location = useLocation();
     const [expandedRows, setExpandedRows] = useState(true);

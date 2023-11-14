@@ -73,8 +73,9 @@ import ThankYouPage from '~/pages/Ticket/Thanks';
 
 //import for dashboard pages
 import DashboardLayout from '~/component/Layout/DashboardLayout';
-import TicketTypes from '~/pages/Dashboard/Admin/TicketTypes';
+import UpdateTicket from '~/pages/AdminPage/Ticket/updateTicket';
 import TicketCreate from '~/pages/Dashboard/Admin/TicketCreate';
+import TicketTypes from '~/pages/Dashboard/Admin/TicketTypes';
 import TicketUpdate from '~/pages/Dashboard/Admin/TicketUpdate';
 import Users from '~/pages/Dashboard/Admin/Users';
 import Dashboard from '~/pages/Dashboard/Dashboard';
@@ -100,15 +101,6 @@ import AnimalsCreate from '~/pages/Dashboard/ZooTrainer/AnimalsCreate';
 import AnimalsUpdate from '~/pages/Dashboard/ZooTrainer/AnimalsUpdate';
 import FeedingSchedulesCreate from '~/pages/Dashboard/ZooTrainer/FeedingScheduleCreate';
 import FeedingScheduleUpdate from '~/pages/Dashboard/ZooTrainer/FeedingScheduleUpdate';
-<<<<<<< Updated upstream
-import AnimalsUpdate from '~/pages/Dashboard/ZooTrainer/AnimalsUpdate';
-<<<<<<< Updated upstream
-import MoveInAnimals from '~/pages/Dashboard/ZooTrainer/MoveIn';
-=======
-import { updateTicket } from '~/api/ticketService';
-import UpdateTicket from '~/pages/AdminPage/Ticket/updateTicket';
->>>>>>> Stashed changes
-=======
 import FeedingSchedules from '~/pages/Dashboard/ZooTrainer/FeedingSchedules';
 import Calendar from '~/pages/Dashboard/ZooTrainer/FeedingSchedulesCalendar';
 import Foods from '~/pages/Dashboard/ZooTrainer/Foods';
@@ -117,10 +109,10 @@ import FoodsUpdate from '~/pages/Dashboard/ZooTrainer/FoodsUpdate';
 import HealthRecords from '~/pages/Dashboard/ZooTrainer/HealthRecords';
 import HealthRecordsCreate from '~/pages/Dashboard/ZooTrainer/HealthRecordsCreate';
 import HealthRecordsUpdate from '~/pages/Dashboard/ZooTrainer/HealthRecordsUpdate';
+import MoveInAnimals from '~/pages/Dashboard/ZooTrainer/MoveIn';
 import Species from '~/pages/Dashboard/ZooTrainer/Species';
 import SpeciesCreate from '~/pages/Dashboard/ZooTrainer/SpeciesCreate';
 import SpeciesUpdate from '~/pages/Dashboard/ZooTrainer/SpeciesUpdate';
->>>>>>> Stashed changes
 
 
 const publicRoutes = [
