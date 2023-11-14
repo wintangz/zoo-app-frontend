@@ -1,18 +1,18 @@
-import React, { useRef, useState } from 'react'
-import useSWR from 'swr'
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
-import { get, remove } from '../AxiosClient'
-import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { Toast } from 'primereact/toast';
-import { Dialog } from 'primereact/dialog';
 import { Calendar } from 'primereact/calendar';
-import { TriStateCheckbox } from 'primereact/tristatecheckbox';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Tag } from 'primereact/tag';
+import { Toast } from 'primereact/toast';
+import { TriStateCheckbox } from 'primereact/tristatecheckbox';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import useSWR from 'swr';
+import { get, remove } from '../AxiosClient';
 
 const statusFilterTemplate = (options) => {
     const filterValue = options.value;

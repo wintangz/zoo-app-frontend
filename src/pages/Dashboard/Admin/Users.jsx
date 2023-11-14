@@ -1,4 +1,4 @@
-import { FilterMatchMode } from 'primereact/api';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
@@ -109,29 +109,31 @@ const Users = () => {
     };
 
     const columns = [
-        { field: 'id', header: 'ID', sortable: true, filterField: "id" },
+        { field: 'id', header: 'ID', sortable: true, filterField: "id", filter: true },
         { header: 'Avatar', body: avatarBody },
-        { field: 'username', header: 'Username', sortable: true, filterField: "username" },
-        { field: 'firstname', header: 'First Name', sortable: true, filterField: "firstname" },
-        { field: 'lastname', header: 'Last Name', sortable: true, filterField: "lastname" },
+        { field: 'username', header: 'Username', sortable: true, filterField: "username", filter: true },
+        { field: 'firstname', header: 'First Name', sortable: true, filterField: "firstname", filter: true },
+        { field: 'lastname', header: 'Last Name', sortable: true, filterField: "lastname", filter: true },
         { header: 'Sex', body: sexBody, sortable: true, filterField: "sex" },
-        { header: 'Date of Birth', body: dateOfBirthBody, sortable: true, dataType: 'date', filterElement: dateFilterTemplate, filterField: 'dateOfBirth' },
-        { field: 'email', header: 'Email', sortable: true, filterField: "email" },
+        { header: 'Date of Birth', body: dateOfBirthBody, sortable: true, dataType: 'date', filterElement: dateFilterTemplate, filterField: 'dateOfBirth', filter: true },
+        { field: 'email', header: 'Email', sortable: true, filterField: "email", filter: true },
         { field: 'phone', header: 'Phone', sortable: true, filterField: "phone" },
         { field: 'address', header: 'Address', sortable: true, filterField: "address" },
-        { field: 'nationality', header: 'Nationality', sortable: true, filterField: "nationality" },
-        { header: 'Status', body: statusBody, filterField: "status" },
+        { field: 'nationality', header: 'Nationality', sortable: true, filterField: "nationality", filter: true },
+        { header: 'Status', body: statusBody, filterField: "status", filter: true },
         { header: 'Actions', body: actionBody },
     ]
 
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
         id: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        username: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        lastname: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        email: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-        dateOfBirth: { value: null, matchMode: FilterMatchMode.DATE_IS },
-        status: { value: null, matchMode: FilterMatchMode.EQUALS },
+        username: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+        lastname: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+        firstname: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+        email: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+        dateOfBirth: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+        nationality: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+        status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const onGlobalFilterChange = (e) => {
@@ -146,7 +148,7 @@ const Users = () => {
     const renderHeader = () => {
         return (
             <div className="flex justify-content-between">
-                <Link to="/dashboard/news/create"><Button label='Create' severity='success' /></Link>
+                <Link to="/dashboard/users/create"><Button label='Create' severity='success' /></Link>
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
@@ -181,17 +183,20 @@ const Users = () => {
                         filters={filters}
                         header={header}
                         paginator rows={10}
-                        globalFilterFields={['id', 'username', 'lastname', 'email', 'status', 'dateOfBirth']}
+                        globalFilterFields={['id', 'username', 'lastname', 'firstname', 'email', 'status', 'dateOfBirth', 'nationality']}
                         emptyMessage="No users found.">
                         {columns.map((col) => (
                             (
                                 <Column key={col.field} field={col.field} header={col.header} body={col.body}
                                     sortable={col.sortable}
-                                    filter
+                                    filter={col.filter}
                                     filterElement={col.filterElement}
                                     filterPlaceholder={`Search by ${col.header.toLowerCase()}`}
                                     filterField={col.filterField}
-                                    dataType={col.dataType} />
+                                    dataType={col.dataType}
+                                    style={(col.header === 'Actions' && { minWidth: '8.75rem' })
+                                    }
+                                />
                             )
                         ))}
                     </DataTable>

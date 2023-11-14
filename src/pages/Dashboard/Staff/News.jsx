@@ -4,16 +4,15 @@ import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
-import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import { InputText } from 'primereact/inputtext';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Tag } from 'primereact/tag';
 import { Toast } from 'primereact/toast';
+import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
 import { get, remove } from '../AxiosClient';
-import Tippy from '@tippyjs/react';
 
 
 const statusFilterTemplate = (options) => {
@@ -56,7 +55,7 @@ const News = () => {
     }
 
     const { data, mutate, isLoading } = useSWR(labels.apiPath, () => {
-        const response = get(labels.apiPath); // Assuming get is an asynchronous function fetching the data
+        const response = get(labels.apiPath);
         return response.then((data) => {
             if (data && data.data) {
                 data.data = data.data.map(news => {
@@ -216,7 +215,7 @@ const News = () => {
                         filters={filters}
                         header={header}
                         paginator rows={10}
-                        globalFilterFields={['id', 'title', 'content', 'shortDescription', 'status', 'createdDate']}
+                        globalFilterFields={['id', 'title', 'content', 'type', 'shortDescription', 'status', 'createdDate']}
                         emptyMessage="No news found."
                     >
                         {columns.map((col) => (
@@ -226,8 +225,9 @@ const News = () => {
                                     (col.header === 'Short Description' && { minWidth: '20rem' }) ||
                                     (col.header === 'ThumbnailUrl' && { minWidth: '10rem' }) ||
                                     (col.header === 'ImgUrl' && { minWidth: '10rem' }) ||
-                                    (col.header === 'Action' && { minWidth: '8.75rem' })}
-                                filter
+                                    (col.header === 'Actions' && { minWidth: '8.75rem' })
+                                }
+                                filter={col.filter}
                                 filterField={col.filterField}
                                 filterPlaceholder={`Search by ${col.header.toLowerCase()}`}
                                 filterElement={col.filterElement}

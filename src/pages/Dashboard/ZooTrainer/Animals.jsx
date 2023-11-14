@@ -1,21 +1,21 @@
-import React, { useRef, useState } from 'react'
-import useSWR from 'swr'
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { get, remove } from '../AxiosClient'
-import { Tag } from 'primereact/tag';
-import { BsGenderFemale, BsGenderMale } from 'react-icons/bs'
+import Tippy from '@tippyjs/react';
+import { FilterMatchMode } from 'primereact/api';
 import { Button } from 'primereact/button';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { Toast } from 'primereact/toast';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { FilterMatchMode } from 'primereact/api';
-import { Link, useNavigate } from 'react-router-dom';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Tag } from 'primereact/tag';
+import { Toast } from 'primereact/toast';
+import React, { useRef, useState } from 'react';
+import { BsGenderFemale, BsGenderMale } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import useSWR from 'swr';
 import 'tippy.js/dist/tippy.css';
-import Tippy from '@tippyjs/react';
-import { decode } from '~/utils/axiosClient';
 import { moveOutEnclosure } from '~/api/animalsService';
+import { decode } from '~/utils/axiosClient';
+import { get, remove } from '../AxiosClient';
 
 const Animals = () => {
 

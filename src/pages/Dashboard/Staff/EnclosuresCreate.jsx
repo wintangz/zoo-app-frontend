@@ -13,8 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { createEnclousures, getHabitats } from '~/api/animalsService';
 import uploadFile from '~/utils/transferFile';
 
-
-
 function EnclosuresCreate() {
     const navigate = useNavigate();
     const toast = useRef(null);

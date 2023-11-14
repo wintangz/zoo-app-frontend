@@ -76,7 +76,6 @@ const FoodsCreate = () => {
                     onClick={handleClose}
                 />
             </Dialog> */}
-
             <div className="p-m-5">
                 <div className=''>
                     <p className='text-3xl font-bold'>{labels.title}</p>
