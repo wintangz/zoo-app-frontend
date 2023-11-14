@@ -194,7 +194,11 @@ function FeedingScheduleUpdate() {
         submittedValue.feedingTime = moment(selectedDate).format('YYYY-MM-DDTHH:mm:ss');
         const res = updateSchedule(location.state.id, submittedValue)
         res.then((result) => {
-            console.log(result);
+            if (result.status === 200) {
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update schedule successfully', life: 3000 })
+            } else {
+                toast.current.show({ severity: 'error', summary: 'Error', detail: result.data.serverError, life: 3000 })
+            }
         })
     }
 

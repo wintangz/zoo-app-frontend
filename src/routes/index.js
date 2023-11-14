@@ -180,7 +180,7 @@ const publicRoutes = [
     { path: 'home/animals/unassign/', component: UnassignAnimal, layout: AdminMainPage, name: 'UnassignAnimal;', Authen: "private" },
     { path: 'home/animals/feed', component: FeedSchedule, layout: AdminMainPage, name: 'feed;', Authen: "private" },
     { path: 'home/animals/schedule', component: ViewSchedule, layout: AdminMainPage, name: 'viewSchedule;', Authen: "private" },
-    { path: 'home/animals/confirm', component: Confirm, layout: AdminMainPage, name: 'confirm;', Authen: "private" },
+    // { path: 'home/animals/confirm', component: Confirm, layout: AdminMainPage, name: 'confirm;', Authen: "private" },
     { path: 'home/animals/schedule/update', component: UpdateSchedule, layout: AdminMainPage, name: 'updateSchedule;', Authen: "private" },
 
     { path: 'home/enclosures/create', component: CreateEnclosure, layout: AdminMainPage, name: 'CreateEnclosure;', Authen: "private" },
@@ -249,6 +249,7 @@ const publicRoutes = [
     { path: 'dashboard/animals/unassign', component: UnAssignAnimal, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/animals/history', component: AnimalHistory, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/update/:id', component: SpeciesUpdate, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
+    { path: 'dashboard/animals/feeding/confirm', component: Confirm, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
 ];
 
 // private routes dont login will redirect to login pages
