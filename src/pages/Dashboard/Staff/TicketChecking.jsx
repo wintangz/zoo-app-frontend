@@ -79,7 +79,7 @@ const styles = {
         fontWeight: 'normal',
         h2: {
             fontSize: '0.9em',
-            color: '#525252',
+            color: 'black',
             margin: '0',
         },
         span: {
@@ -186,6 +186,12 @@ const TicketChecking = () => {
         }
     };
 
+    const labels = {
+        title: 'Check Ticket',
+        subtitle: 'Check Ticket',
+        // apiPath: '/foods'
+    }
+
     const handleOpenCamera = () => {
         setCameraOpen(true);
         setScannedData(null);
@@ -206,10 +212,15 @@ const TicketChecking = () => {
     }, [isCameraOpen]);
 
     return (
-        <div style={styles.container} className='p-5 flex justify-center items-center'>
-            {scannedData === 'success' && (
-                <>
-                    {/* <p style={{ color: 'green' }}>Ticket Checked Successfully!</p>
+        <div className='w-[80vw]'>
+            <div className="p-5">
+                <p className='text-3xl font-bold'>{labels.title}</p>
+                <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
+            </div>
+            <div style={styles.container} className='p-5 flex justify-center items-center '>
+                {scannedData === 'success' && (
+                    <>
+                        {/* <p style={{ color: 'green' }}>Ticket Checked Successfully!</p>
                     {response.data.ticket.name}
                     {response.data.ticket.description}
                     {response.data.ticket.price}
@@ -217,8 +228,8 @@ const TicketChecking = () => {
                     {response.data.order.customer.firstname}
                     {response.data.order.createdDate} */}
 
-                    <p style={{ color: 'green' }}>Ticket Checked Successfully!</p>
-                    {/* <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <p style={{ color: 'green' }}>Ticket Checked Successfully!</p>
+                        {/* <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                         <thead>
                             <tr>
                                 <th style={{ border: '1px solid black', padding: '15px', textAlign: 'left' }}>Ticket Name</th>
@@ -240,59 +251,61 @@ const TicketChecking = () => {
                             </tr>
                         </tbody>
                     </table> */}
-                    <div style={styles.cardWrap}>
-                        <div style={{ ...styles.card, ...styles.cardLeft }}>
-                            <h1>SaiGonZoo <span>Ticket</span></h1>
-                            <div style={styles.title}>
-                                <h2>{response.data.ticket.name}</h2>
-                                <span>{response.data.ticket.description}</span>
+                        <div style={styles.cardWrap}>
+                            <div style={{ ...styles.card, ...styles.cardLeft }}>
+                                <h1>SaiGonZoo <span>Ticket</span></h1>
+                                <div style={styles.title}>
+                                    <h2>{response.data.ticket.name}</h2>
+                                    <span>{response.data.ticket.description}</span>
+                                </div>
+                                <div style={styles.name}>
+                                    <h2>{response.data.order.customer.lastname} {response.data.order.customer.firstname}</h2>
+                                    <span>name</span>
+                                </div>
+                                <div style={styles.time}>
+                                    <h2>{response.data.order.createdDate}</h2>
+                                    <span>time</span>
+                                </div>
+
                             </div>
-                            <div style={styles.name}>
-                                <h2>{response.data.order.customer.lastname} {response.data.order.customer.firstname}</h2>
-                                <span>name</span>
-                            </div>
-                            <div style={styles.time}>
-                                <h2>{response.data.order.createdDate}</h2>
-                                <span>time</span>
+                            <div style={{ ...styles.card, ...styles.cardRight }}>
+                                <div style={styles.eye}></div>
+                                <div style={styles.number}>
+                                    <h3>{response.data.ticket.price}</h3>
+                                    <span>price</span>
+                                </div>
+                                {/* <div class="barcode"></div> */}
                             </div>
 
                         </div>
-                        <div style={{ ...styles.card, ...styles.cardRight }}>
-                            <div style={styles.eye}></div>
-                            <div style={styles.number}>
-                                <h3>{response.data.ticket.price}</h3>
-                                <span>price</span>
-                            </div>
-                            {/* <div class="barcode"></div> */}
-                        </div>
-
-                    </div>
 
 
-                </>
-            )}
-            {scannedData && scannedData !== 'success' && (
-                <p style={{ color: 'red' }}>Error checking ticket. {scannedData && `${scannedData}`}. Please try again. </p>
+                    </>
+                )}
+                {scannedData && scannedData !== 'success' && (
+                    <p style={{ color: 'red' }}>Error checking ticket. {scannedData && `${scannedData}`}. Please try again. </p>
 
-            )}
-            {!isCameraOpen && (
-                <button style={styles.button} onClick={handleOpenCamera}>
-                    Let Check
-                </button>
-            )}
-            {isCameraOpen && (
-                <>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    <QrReader
-                        id="qr-scanner"
-                        delay={300}
-                        onError={handleError}
-                        onScan={handleScan}
-                        style={styles.scanner}
-                    />
-                </>
-            )}
+                )}
+                {!isCameraOpen && (
+                    <button style={styles.button} onClick={handleOpenCamera}>
+                        Let Check
+                    </button>
+                )}
+                {isCameraOpen && (
+                    <>
+                        {error && <p style={{ color: 'red' }}>{error}</p>}
+                        <QrReader
+                            id="qr-scanner"
+                            delay={300}
+                            onError={handleError}
+                            onScan={handleScan}
+                            style={styles.scanner}
+                        />
+                    </>
+                )}
+            </div>
         </div>
+
     );
 }
 

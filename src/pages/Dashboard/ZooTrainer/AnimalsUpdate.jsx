@@ -9,7 +9,6 @@ import useSWR from 'swr'
 import { get } from '../AxiosClient'
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { useRef } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 
 import { Dropdown } from 'primereact/dropdown';
@@ -18,8 +17,9 @@ import { classNames } from 'primereact/utils';
 import { RadioButton } from 'primereact/radiobutton';
 import { Image } from 'primereact/image';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-const AnimalsUpdate = () => {
+import { Dialog } from 'primereact/dialog';
+
+import React, { useEffect, useRef, useState } from 'react'; const AnimalsUpdate = () => {
     const navigate = useNavigate()
     const location = useLocation();
     const toast = useRef(null);
@@ -113,7 +113,8 @@ const AnimalsUpdate = () => {
                 res.then((result) => {
                     console.log(result)
                     if (result.status === 200) {
-                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update food successfully', life: 3000 })
+                        handleCloseClick();
+                        // toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update food successfully', life: 3000 })
                     }
                 })
 
@@ -148,9 +149,30 @@ const AnimalsUpdate = () => {
 
     const icon = (<i className="pi pi-check"></i>)
 
+    const [close, setClose] = useState(false);
+    const closeFooter = (
+        <React.Fragment>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard/animals')} />
+        </React.Fragment>
+    );
+    const handleCloseClick = () => {
+        setClose(true)
+    }
+
     return (
         <div className="p-5 w-[80vw]">
             <Toast ref={toast} />
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
+            </Dialog>
             <div className="p-m-5 w-[100%]">
                 <div >
                     <p className='text-3xl font-bold'>{labels.title}</p>
