@@ -1,23 +1,21 @@
 import { useFormik } from 'formik';
 import moment from 'moment/moment';
+import { Button } from 'primereact/button';
+import { Calendar } from 'primereact/calendar';
+import { Dialog } from 'primereact/dialog';
+import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
+import { RadioButton } from 'primereact/radiobutton';
+import { Toast } from 'primereact/toast';
+import { classNames } from 'primereact/utils';
+import { useRef, useState } from 'react';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
+import { Link, useNavigate } from 'react-router-dom';
+import useSWR from 'swr';
 import * as yup from 'yup';
 import { createAnimals } from '~/api/animalsService';
 import uploadFile from '~/utils/transferFile';
-import useSWR from 'swr'
-import { get } from '../AxiosClient'
-import { Button } from 'primereact/button';
-import { Toast } from 'primereact/toast';
-import { AiOutlineCloudUpload } from 'react-icons/ai';
-import { useEffect, useRef } from 'react';
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
-import { classNames } from 'primereact/utils';
-import { RadioButton } from 'primereact/radiobutton';
-import { FileUpload } from 'primereact/fileupload';
-import { Dialog } from 'primereact/dialog';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { get } from '../AxiosClient';
 
 function AnimalsCreate() {
     const toast = useRef(null);
@@ -133,12 +131,12 @@ function AnimalsCreate() {
                 onHide={() => openDeleteModal(false)}
                 footer={deleteModalFooter}>
                 <div className="confirmation-content">
-                    <span className=' flex items-center justify-evenly'>
+                    <span className=' flex items-center justify-between'>
                         Do you want to move this animal to an enclosure?<Link
                             to={`/dashboard/animals/movein/${createdAnimal?.id}`} target="_blank"
                         ><Button icon='pi pi-home' className='border-green-500 text-green-500' rounded outlined /></Link>
                     </span>
-                    <span className=' flex items-center justify-evenly mt-2'>
+                    <span className=' flex items-center justify-between mt-2'>
                         Do you want to assign this animal to zoo trainer(s)?<Link to={`/dashboard/animals/assign/${createdAnimal?.id}`} target="_blank"><Button icon='pi pi-user-edit' className='border-pink-500 text-pink-500' rounded outlined />  </Link>
                     </span>
                 </div>

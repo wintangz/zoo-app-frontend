@@ -6,10 +6,10 @@ import { InputText } from 'primereact/inputtext';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Tag } from 'primereact/tag';
 import { TriStateCheckbox } from 'primereact/tristatecheckbox';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useSWR from 'swr';
 import 'tippy.js/dist/tippy.css';
-import { getOrdersTickets } from '~/api/orderService';
+import { getOrderDetailByOderId } from '~/api/orderService';
 import { get } from '../AxiosClient';
 
 const statusFilterTemplate = (options) => {
@@ -40,6 +40,8 @@ const Orders = () => {
         subtitle: 'Table of Orders',
         apiPath: '/orders'
     }
+
+    const [expandedRows, setExpandedRows] = useState(true);
 
     const { data, isLoading } = useSWR(labels.apiPath, () => {
         const response = get(labels.apiPath);
@@ -81,9 +83,6 @@ const Orders = () => {
         return <Calendar value={options.value} onChange={(e) => options.filterCallback(e.value, options.index)} dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" mask="99/99/9999" />;
     };
     //
-    const checkedByStatus = (item) => {
-        return item.checkedBy ? item.checkedBy.username : 'Not Checked';
-    };
 
     const columns = [
         { field: 'id', header: 'ID', sortable: true, filterField: "id", filter: true },
@@ -96,33 +95,35 @@ const Orders = () => {
     //
 
     const [ordersTicketsResult, setOrdersTicketsResult] = useState(null);
-    const fetchApi = async () => {
-        const resultTitle = await getOrdersTickets();
-        setOrdersTicketsResult(resultTitle);
+    const fetchApi = async (values) => {
+        const resultTitle = await getOrderDetailByOderId(values);
+        setOrdersTicketsResult(resultTitle.data);
     };
 
-    useEffect(() => {
-        fetchApi();
-    }, []);
-    const [expandedRows, setExpandedRows] = useState(true);
-
     const allowExpansion = (rowData) => {
+        console.log(rowData);
         return rowData.id !== 0;
     };
 
+    const checked = (item) => {
+        return item.checkedBy ? item.checkedBy.username : 'Not Checked';
+    };
     const expandRow = [
         { field: 'id', header: 'ID' },
-        { field: 'order.customer.username', header: 'Customer', filterField: "customer", filter: true },
-        { header: 'Checked By', field: 'checkedBy.username', sortable: false, filterField: false, body: checkedByStatus },
-        { header: 'Checked', field: 'checked', sortable: false, filterField: false, body: status },
+        { field: 'ticket.name', header: 'Name', filterField: "name", filter: true },
+        { field: 'ticket.description', header: 'Description', filterField: "description", filter: true },
+        { field: 'ticket.price', header: 'Price', filterField: "price", filter: true },
+        { field: 'checked', header: 'Checked', filterField: "isChecked", filter: true },
+        { header: 'Checked By', field: 'checkedBy.username', sortable: false, filterField: false, body: checked },
     ]
+    console.log(ordersTicketsResult);
     const rowExpansionTemplate = (data) => {
         return (
             <div className="p-3">
                 <h5>Order ID: {data.id}</h5>
                 <h5>Customer: {data.customer.firstname}</h5>
-                <h5>Created Date: {new Date(data.createdDate).toLocaleString()}</h5>
-                <DataTable value={ordersTicketsResult}
+                <h5>Cretaed Date: {new Date(data.createdDate).toLocaleString()}</h5>
+                {ordersTicketsResult && <DataTable value={ordersTicketsResult}
                     filters={filters}
                     globalFilterFields={['customer.username']} emptyMessage="No entity found."
                 >
@@ -130,7 +131,7 @@ const Orders = () => {
                         <Column key={col.field} field={col.field} header={col.header} body={col.body}
                             sortable={col.sortable} style={{ minWidth: '150px' }} filterField={col.filterField} />
                     ))}
-                </DataTable>
+                </DataTable>}
             </div>
         );
     };
@@ -187,7 +188,13 @@ const Orders = () => {
                         emptyMessage="No orders found."
                         dataKey="id" tableStyle={{ minWidth: '60rem' }}
                         expandedRows={expandedRows}
-                        onRowToggle={(e) => setExpandedRows(e.data)}
+                        onRowToggle={(e) => {
+                            setExpandedRows(e.data)
+                            const expandedRowIndex = Object.keys(e.data).find((key) => e.data[key]);
+                            if (expandedRowIndex !== undefined) {
+                                fetchApi(expandedRowIndex);
+                            }
+                        }}
                         rowExpansionTemplate={rowExpansionTemplate}
                     >
                         <Column expander={allowExpansion} style={{ width: '5rem' }} />

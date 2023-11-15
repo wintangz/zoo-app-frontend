@@ -1,21 +1,18 @@
 import {
-    FormControl,
-    Typography,
-    useTheme,
     Input,
+    useTheme
 } from '@mui/material';
 import { Formik } from 'formik';
-import { useState } from 'react';
-import * as yup from 'yup';
-import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
-import { tokens } from '~/theme';
-import WebcamCapture from './WebcamCapture';
-import uploadFile from '~/utils/transferFile';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { conFirm } from '~/api/animalsService';
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { InputNumber } from 'primereact/inputnumber';
+import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
+import { conFirm } from '~/api/animalsService';
+import { tokens } from '~/theme';
+import uploadFile from '~/utils/transferFile';
+import WebcamCapture from './WebcamCapture';
 
 
 const FACING_MODE_USER = "user";
@@ -105,12 +102,21 @@ function Confirm() {
             })
         }
         console.log(details);
-        const response = conFirm(location.state.id, details);
+        const response = conFirm(location.state.id, { details: details });
         response.then((result) => {
-            console.log(response);
-            console.log(result);
+            if (result.status === "Ok") {
+                handleCloseClick();
+            }
         })
     }
+
+    const [close, setClose] = useState(false);
+    const handleCloseClick = () => {
+        setClose(true)
+    }
+    const closeFooter = (
+        <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard/animals/feeding')} />
+    );
     const labels = {
         title: 'Feeding Schedule Management',
         subtitle: 'Feeding Schedule Confirmation',
@@ -118,6 +124,17 @@ function Confirm() {
     }
     return (
         <div className='w-[80vw] p-5'>
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
+            </Dialog>
             <div className=''>
                 <p className='text-3xl font-bold'>{labels.title}</p>
                 <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
