@@ -20,9 +20,9 @@ function TicketCreate() {
     const ticketType = ['Children', 'Adult', 'Elder'];
 
     const labels = {
-        title: 'Create Ticket Type',
-        subtitle: 'Create new Ticket Type',
-        apiPath: '/tickets/create'
+        title: 'Ticket Management',
+        subtitle: 'Create Ticket',
+        // apiPath: '/tickets/create'
     }
 
     const initialValues = {

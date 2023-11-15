@@ -37,7 +37,7 @@ function EditProfile() {
     }, [userId]);
 
     const labels = {
-        title: 'Update User',
+        title: 'User Management',
         subtitle: 'Update User',
         // apiPath: '/customer/update',
     };

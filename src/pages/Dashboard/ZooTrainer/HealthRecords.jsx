@@ -36,6 +36,13 @@ const HealthRecords = () => {
             </div>
         )
     }
+    const imgAnimalBody = (item) => {
+        return (
+            <div className='w-32 h-16 shadow-2 rounded-md '>
+                <img className="w-32 h-16 rounded-md object-cover" src={item.animal.imgUrl} alt={item.name} />
+            </div>
+        )
+    }
 
     const recordDateTimeBody = (item) => {
         return <span>{new Date(item.recordedDateTime).toLocaleString()}</span>
@@ -53,6 +60,7 @@ const HealthRecords = () => {
 
     const columns = [
         { field: 'id', header: 'ID', body: idBody, sortable: true, filterField: "id" },
+        { header: 'Image', body: imgBody, sortable: false, showFilterMenu: false },
         { field: 'animal.name', header: 'Animal Name', body: idAnimalName, sortable: true, filterField: "animal.name" },
         { field: 'diagnosis', header: 'Diagnosis', sortable: true, filterField: "diagnosis" },
         { field: 'height', header: 'Height', sortable: true, filterField: "height" },
@@ -61,7 +69,7 @@ const HealthRecords = () => {
         { field: 'temperature', header: 'Temperature', sortable: true, filterField: "temperature" },
         { field: 'lifeStage', header: 'Life Stage', sortable: true, filterField: "lifeStage" },
         { field: "recordedDateTime", header: 'Record Date', body: recordDateTimeBody, dataType: "date", sortable: false, filterField: false, filterElement: dateFilterTemplate },
-        { header: 'Image', body: imgBody, sortable: false, showFilterMenu: false },
+        { field: 'animal.imgUrl', header: 'Animal Image', body: imgAnimalBody, sortable: false, showFilterMenu: false },
         { header: 'Action', body: actionBody, sortable: false, showFilterMenu: false },
     ]
 
@@ -118,6 +126,7 @@ const HealthRecords = () => {
     };
     const header = renderHeader();
 
+    console.log(data)
     return (
         <div className='p-5 '>
             {isLoading && <ProgressSpinner style={{ width: '50px', height: '50px' }} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />}
@@ -131,6 +140,7 @@ const HealthRecords = () => {
                 <div className='mt-5 overflow-x-auto'>
                     <DataTable value={data.data}
                         loading={isLoading}
+                        size='small'
                         showGridlines scrollHeight="77vh"
                         scrollable
                         style={{ width: "77vw" }}

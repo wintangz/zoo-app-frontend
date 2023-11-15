@@ -184,6 +184,7 @@ const Foods = () => {
                 <div className='mt-5'>
                     <DataTable value={data.data} loading={isLoading} showGridlines scrollHeight="77vh" scrollable style={{ width: "77vw" }}
                         filters={filters}
+                        size='small'
                         header={header}
                         paginator rows={10}
                         globalFilterFields={['id', 'type', 'status', 'createdDate', 'creator', 'quantity']}

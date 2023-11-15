@@ -37,8 +37,8 @@ const NewsUpdate = () => {
     }, []);
 
     const labels = {
-        title: 'Update News',
-        subtitle: 'Update a News',
+        title: 'News Management',
+        subtitle: 'Update News',
         // apiPath: '/news/update'
     }
 

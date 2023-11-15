@@ -43,7 +43,6 @@ const Orders = () => {
 
     const { data, isLoading } = useSWR(labels.apiPath, () => {
         const response = get(labels.apiPath);
-        console.log(response);
         return response.then((data) => {
             if (data && data.data) {
                 data.data = data.data.map(news => {
@@ -108,7 +107,7 @@ const Orders = () => {
     const [expandedRows, setExpandedRows] = useState(true);
 
     const allowExpansion = (rowData) => {
-        return rowData.id > 0;
+        return rowData.id !== 0;
     };
 
     const expandRow = [

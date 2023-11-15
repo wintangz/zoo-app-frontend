@@ -25,9 +25,9 @@ function HabitatsCreate() {
     const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
 
     const labels = {
-        title: 'Create Habitat',
-        subtitle: 'Create new Habitat',
-        apiPath: '/habitats/create'
+        title: 'Habitat Management',
+        subtitle: 'Create Habitat',
+        // apiPath: '/habitats/create'
     }
 
 

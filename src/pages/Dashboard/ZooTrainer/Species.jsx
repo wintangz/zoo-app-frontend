@@ -168,6 +168,7 @@ const Species = () => {
                 <div className='mt-5'>
                     <DataTable value={data.data} loading={isLoading} showGridlines scrollHeight="77vh" scrollable style={{ width: "77vw" }}
                         filters={filters}
+                        size='small'
                         paginator rows={10}
                         globalFilterFields={['id', 'name', 'genus', 'diet', 'family', 'habitat', 'species', 'status']} header={header} emptyMessage="No customers found."
                     >

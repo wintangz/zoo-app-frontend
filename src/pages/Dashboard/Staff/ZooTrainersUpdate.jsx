@@ -37,7 +37,7 @@ function ZooTrainersUpdate() {
     }, [userId]);
 
     const labels = {
-        title: 'Update Zoo Trainer',
+        title: 'Zoo Trainer Management',
         subtitle: 'Update Zoo Trainer',
         // apiPath: '/customer/update',
     };
@@ -314,7 +314,7 @@ function ZooTrainersUpdate() {
                                     icon="pi pi-eye"
                                     raised
                                     className='w-28 h-14'
-                                    onClick={() => navigate('/dashboard/customers')}
+                                    onClick={() => navigate('/dashboard/zoo_trainers')}
                                 />
                                 <Button
                                     type="submit"
