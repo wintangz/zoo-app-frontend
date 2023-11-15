@@ -83,7 +83,7 @@ function Footer() {
                             </li>
                         </ul>
                     </div>
-                    <div className="mx-7">
+                    <div>
                         <div className="column-title text-white text-lg font-semibold mb-4">Recent Posts</div>
                         {posts && posts.slice(-2).map((post, index) => (
                             <div key={post.id} className={cx({
