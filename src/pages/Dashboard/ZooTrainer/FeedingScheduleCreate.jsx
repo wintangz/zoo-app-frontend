@@ -183,7 +183,7 @@ function FeedingSchedulesCreate() {
                                             )}
                                         </div>
                                         <div className="p-field flex w-[300px]">
-                                            <label htmlFor="expectedQuantity" className=' flex justify-center items-center mr-2 '>Expected Quantity</label>
+                                            <label htmlFor="expectedQuantity" className=' flex justify-center items-center mr-2 '>Expected Quantity (kg)</label>
                                             <InputText
                                                 id="expectedQuantity"
                                                 name="expectedQuantity"
