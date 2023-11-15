@@ -1,0 +1,46 @@
+/* .fc-scrollgrid-sync-inner a {
+    color: black !important;
+    text-decoration: none !important;
+} */
+
+.fc--button {
+    display: none !important;
+}
+.fc-timeGridWeek-button {
+    background: #2c3e50;
+}
+.fc-header-toolbar {
+    /*
+    the calendar will be butting up against the edges,
+    but let's scoot in the header's buttons
+    */
+    padding-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.fc-timegrid-slots tr {
+    height: 50px;
+}
+.fc-event-title {
+    font-size: 0.9em;
+}
+
+.schedule-detail-food {
+    padding-top: 2rem;
+}
+.schedule-detail-food table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.schedule-detail-food td,
+th {
+    border: 1px solid black;
+    text-align: left;
+    padding: 8px;
+}
+
+.schedule-detail-food tr:nth-child(even) {
+    background-color: #dddddd;
+}

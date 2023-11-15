@@ -1,427 +1,335 @@
-import {
-    Box,
-    Button,
-    FormControl,
-    FormControlLabel,
-    Radio,
-    RadioGroup,
-    TextField,
-    Typography,
-    useTheme,
-} from '@mui/material';
-import Modal from '@mui/material/Modal';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { Formik } from 'formik';
-import moment from 'moment/moment';
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import * as yup from 'yup';
+import { Dialog } from 'primereact/dialog';
+import React, { useEffect, useState, useRef } from 'react';
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { Toast } from 'primereact/toast';
+import { RadioButton } from 'primereact/radiobutton';
+import { Calendar } from 'primereact/calendar';
+
 import * as mockData from '~/api/userService';
 import { updateUser } from '~/api/userService';
-import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
-import { tokens } from '~/theme';
+import { Formik } from 'formik';
+import { useNavigate, useParams } from 'react-router-dom';
+import * as yup from 'yup';
 
 function EditProfile() {
     const navigate = useNavigate();
-    //--------------- Call API GET USER ---------------------------------//'
     const { userId } = useParams();
     const [users, setUsers] = useState({});
+    const toast = useRef(null);
+
     const fetchapi = async (id) => {
         const result = await mockData.getUserById(id);
         return result;
     };
+
     useEffect(() => {
-        const res = fetchapi(userId);
-        res.then((result) => {
-            setUsers(result);
-        });
-    }, []);
-
-    const [openSercurity, setOpenSercurity] = useState(false);
-
-    const handleSercurity = () => {
-        setOpenSercurity(!openSercurity);
-    };
-
-    //****************---------------------- Config Color Theme ****************************/
-    const theme = useTheme({ isDashboard: false });
-    const colors = tokens(theme.palette.mode);
-    const isNonMobile = useMediaQuery('(min-width: 600px)');
-
-    // ******************************** MODAL FUCTION ********************************/
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: colors.grey[500],
-        border: '2px solid #000',
-        color: colors.grey[100],
-        boxShadow: 24,
-        pt: 2,
-        px: 4,
-        pb: 3,
-    };
-    const [open, setOpen] = useState(false);
-    const handleClose = () => {
-        navigate('/home');
-    };
-
-    //---------------------------------------- Handle Submit----------------------------------/
-
-    const handleFormSubmit = async (values, { resetForm }) => {
-        const inputDate = new Date(values.dateOfBirth);
-        const formattedDate = `${inputDate.getFullYear()}-${(inputDate.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}-${inputDate.getDate().toString().padStart(2, '0')}`;
-        // Get the time zone offset and convert it to the "hh:mm" format
-        const timeZoneOffsetHours = inputDate.getTimezoneOffset() / 60;
-        const timeZoneOffsetMinutes = Math.abs(inputDate.getTimezoneOffset() % 60);
-        const formattedTimeZoneOffset = `${Math.abs(timeZoneOffsetHours)
-            .toString()
-            .padStart(2, '0')}:${timeZoneOffsetMinutes.toString().padStart(2, '0')}:00`;
-
-        // Combine the date and time zone offset to get the final formatted string
-        const formattedDateTime = `${formattedDate}T${formattedTimeZoneOffset}`;
-        values.dateOfBirth = formattedDateTime;
-        if (values.sex === 'male') {
-            values.sex = true;
-        } else if (values.sex === 'female') {
-            values.sex = false;
-        }
-        console.log(values);
-        const res = updateUser(userId, values);
-        res.then((result) => {
-            const status = result.status;
-            if (status === 200) {
-                setOpen(true);
+        const fetchData = async () => {
+            try {
+                const result = await fetchapi(userId);
+                setUsers(result);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
             }
-        });
+        };
+
+        fetchData();
+    }, [userId]);
+
+    const labels = {
+        title: 'User Management',
+        subtitle: 'Update User',
+        // apiPath: '/customer/update',
     };
 
-    //********************************** INITIAL VALUE*********************************** */
+
+
     const initialValues = {
         username: users?.username || '',
         lastname: users?.lastname || '',
         firstname: users?.firstname || '',
         sex: users?.sex ? 'male' : 'female',
-        dateOfBirth: moment(users?.dateOfBirth),
+        dateOfBirth: new Date(users.dateOfBirth),
         address: users?.address || '',
         nationality: users?.nationality || '',
         phone: users?.phone || '',
         email: users?.email || '',
-        status: users?.status || false,
+        status: users?.status ? 'True' : 'False',
     };
-    console.log(users);
 
-    //****************************** VALIDATION ********************************
-    const phoneRegExp = /^\s*(?:\+?(\d{1,3}))?[- (]*(\d{3})[- )]*(\d{3})[- ]*(\d{4})(?: *[x/#]{1}(\d+))?\s*$/;
+
     const userSchema = yup.object().shape({
-        lastname: yup.string().required('required'),
-        firstname: yup.string().required('required'),
-        sex: yup.string().required('required'),
-        dateOfBirth: yup.date().required('required'),
-        address: yup.string().required('required'),
-        nationality: yup.string().required('required'),
-        phone: yup.string().matches(phoneRegExp, 'Phone numbers is not valid').required('required'),
-        email: yup.string().email('Invalid email').required('required'),
-        status: yup.string().required('required'),
+        // username: yup.string()
+        //     .required('Username is required')
+        //     .min(3, 'Username must be at least 3 characters')
+        //     .max(20, 'Username must be at most 20 characters'),
+        // password: yup.string()
+        //     .required('Password is required')
+        //     .min(8, 'Password must be at least 8 characters'),
+        lastname: yup.string().required('Last Name is required'),
+        firstname: yup.string().required('First Name is required'),
+        dateOfBirth: yup.date()
+            .required('Birth Date is required')
+            .max(new Date(), 'Date of Birth cannot be in the future'),
+        address: yup.string().required('Address is required'),
+        nationality: yup.string().required('Country is required'),
+        phone: yup.string()
+            .required('Phone Number is required')
+            .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/, 'Invalid phone number format'),
+        email: yup.string().email('Invalid email address').required('Email is required'),
     });
+    // console.log(userId);
+    // console.log(users);
+    // console.log(users.id);
 
-    //------------------ROLE------------------------------
-    // const userRole = decode(localStorage.getItem('token')).roles[0];
+    const handleFormSubmit = async (values) => {
+        try {
+            if (values.sex === 'male') {
+                values.sex = true;
+            } else if (values.sex === 'female') {
+                values.sex = false;
+            }
+            const userid = users.id;
+            const res = updateUser(userid, values);
+
+            res.then((result) => {
+                console.log(result);
+                const status = result.status;
+                if (status === 200) {
+                    handleCloseClick();
+                    //toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Update Customer Successfully', life: 3000 })
+                } else {
+                    toast.current.show({ severity: 'error', summary: 'Error ' + result.status, detail: result.data.error, life: 3000 });
+                }
+            });
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
+
+    const [close, setClose] = useState(false);
+    const closeFooter = (
+        <React.Fragment>
+            <Button label="Close" icon="pi pi-times" outlined onClick={() => navigate('/dashboard/users')} />
+        </React.Fragment>
+    );
+    const handleCloseClick = () => {
+        setClose(true)
+    }
+
     return (
         <>
-            <div>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="parent-modal-title"
-                    aria-describedby="parent-modal-description"
-                >
-                    <Box sx={{ ...style, width: 400 }}>
-                        <h2 id="parent-modal-title">Update User Successfully!</h2>
-                        <p id="parent-modal-description">User have been update to DataBase!</p>
-                        <Button onClick={handleClose} color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Close</Button>
-                    </Box>
-                </Modal>
-            </div>
-            <Box m="20px">
-                <AdminHeader title="Update User" subtitle="Update user to database" />
-            </Box>
+            <Toast ref={toast} />
+            <Dialog visible={close} style={{ width: '20rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
+                // header="Update Successfully"
+                onHide={() => setClose(false)}
+                footer={closeFooter}>
+                <div className="confirmation-content">
+                    <i className="pi pi-check-circle mr-3 text-3xl text-green-400" />
+                    <span className='font-bold text-green-400 text-xl'>
+                        Update Successfully
+                    </span>
+                </div>
+            </Dialog>
+            <div className='p-5'>
+                <div className=''>
+                    <p className='text-3xl font-bold'>{labels.title}</p>
+                    <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
+                </div>
+                <Formik // Add key to trigger re-render
+                    onSubmit={(values, { setValues }) => {
+                        // Trim all values before submitting
+                        const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
+                            acc[key] = typeof value === 'string' ? value.trim() : value;
+                            return acc;
+                        }, {});
 
-            <>
-                <Box m="20px">
-                    <Box mb="20px" display="flex" justifyContent="left">
-                        <Button
-                            type="button"
-                            color="secondary"
-                            variant="contained"
-                            onClick={() => navigate('/home')}
-                        >
-                            VIEW ALL USER
-                        </Button>
-                    </Box>
-                    <Formik
-                        onSubmit={handleFormSubmit}
-                        initialValues={initialValues}
-                        validationSchema={userSchema}
-                        enableReinitialize={true}
-                    >
-                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
-                            <form onSubmit={handleSubmit}>
-                                <Box
-                                    display="grid"
-                                    gap="30px"
-                                    gridTemplateColumns="repeat(4,minmax(0,1fr))"
-                                    sx={{
-                                        '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
-                                    }}
-                                >
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
+                        handleFormSubmit(trimmedValues);
+                        // Optionally, update the form state with trimmed values
+                        setValues(trimmedValues);
+                    }}
+                    initialValues={initialValues}
+                    validationSchema={userSchema}
+                    enableReinitialize={true}
+                >
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
+                        <form onSubmit={handleSubmit}>
+
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="">
+                                    <label className="font-bold block mb-2">Last Name</label>
+                                    <InputText
                                         type="text"
-                                        label="Last Name"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
                                         value={values.lastname}
                                         name="lastname"
-                                        error={!!touched.lastname && !!errors.lastname}
-                                        helperText={touched.lastname && errors.lastname}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
+                                        style={{ width: '550px' }}
+                                        className={`${errors.lastname && touched.lastname ? 'p-invalid' : ''}`}
                                     />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="First Name"
+                                    {errors.lastname && touched.lastname && <div style={{ color: 'red' }}>{errors.lastname}</div>}
+                                </div>
+                                <div className="">
+                                    <label className="font-bold block mb-2">First Name</label>
+                                    <InputText
+                                        type="firstname"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
                                         value={values.firstname}
                                         name="firstname"
-                                        error={!!touched.firstname && !!errors.firstname}
-                                        helperText={touched.firstname && errors.firstname}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
+                                        style={{ width: '550px' }}
+                                        className={`${errors.firstname && touched.firstname ? 'p-invalid' : ''}`}
                                     />
-
-                                    <FormControl
-                                        component="fieldset"
-                                        width="75%"
-                                        sx={{
-                                            gridColumn: 'span 1',
-                                        }}
-                                        label="Gender"
-                                    >
-                                        <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
-                                            Gender
-                                        </Typography>
-                                        <RadioGroup
-                                            aria-label="Gender"
-                                            name="sex"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            defaultValue=" "
-                                            value={values.sex}
-                                            sx={{ display: 'inline-block' }}
-                                            label="Gender"
-                                        >
-                                            <FormControlLabel
-                                                value="male"
-                                                control={
-                                                    <Radio
-                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                    />
-                                                }
-                                                label="Male"
-                                            />
-                                            <FormControlLabel
-                                                value="female"
-                                                control={
-                                                    <Radio
-                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                    />
-                                                }
-                                                label="Female"
-                                            />
-                                        </RadioGroup>
-                                    </FormControl>
-
-                                    <FormControl
-                                        padding="0"
-                                        component="fieldset"
-                                        fullWidth
-                                        sx={{
-                                            gridColumn: 'span 1',
-                                        }}
-                                    >
-                                        <LocalizationProvider dateAdapter={AdapterMoment}>
-                                            <DatePicker
-                                                value={moment(values.dateOfBirth)}
-                                                onChange={(date) => {
-                                                    handleChange({
-                                                        target: { name: 'dateOfBirth', value: moment(date) },
-                                                    });
-                                                }}
-                                                textField={(params) => (
-                                                    <TextField
-                                                        {...params}
-                                                        fullWidth
-                                                        variant="outlined"
-                                                        label="Date of Birth"
-                                                    />
-                                                )}
-                                                name="dateOfBirth"
-                                                label="What is your date of birth?"
-                                                sx={{
-                                                    width: 250,
-                                                    '& .MuiOutlinedInput-root': {
-                                                        '& fieldset': {
-                                                            borderColor: colors.grey[100],
-                                                            color: colors.grey[100],
-                                                        },
-                                                        '&:hover fieldset': {
-                                                            borderColor: colors.grey[100],
-                                                            color: colors.grey[100],
-                                                        },
-                                                        '&.Mui-focused fieldset': {
-                                                            borderColor: colors.grey[100],
-                                                            color: colors.grey[100],
-                                                        },
-                                                    },
-                                                }}
-                                            />
-                                        </LocalizationProvider>
-                                    </FormControl>
-
-                                    <FormControl
-                                        component="fieldset"
-                                        width="75%"
-                                        sx={{
-                                            gridColumn: 'span 1',
-                                        }}
-                                        label="Status"
-                                    >
-                                        <Typography variant="h6" color={colors.grey[300]} sx={{ width: '100px' }}>
-                                            Status
-                                        </Typography>
-                                        <RadioGroup
-                                            aria-label="Status"
-                                            name="status"
-                                            onBlur={handleBlur}
-                                            onChange={handleChange}
-                                            defaultValue=" "
-                                            value={values.status}
-                                            sx={{ display: 'inline-block' }}
-                                            label="Status"
-                                        >
-                                            <FormControlLabel
-                                                value={true}
-                                                control={
-                                                    <Radio
-                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                    />
-                                                }
-                                                label="True"
-                                            />
-                                            <FormControlLabel
-                                                value={false}
-                                                control={
-                                                    <Radio
-                                                        sx={{ '&.Mui-checked': { color: colors.blueAccent[100] } }}
-                                                    />
-                                                }
-                                                label="False"
-                                            />
-                                        </RadioGroup>
-                                    </FormControl>
-
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
+                                    {errors.firstname && touched.firstname && <div style={{ color: 'red' }}>{errors.firstname}</div>}
+                                </div>
+                            </div>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="">
+                                    <label className="font-bold block mb-2">Email</label>
+                                    <InputText
                                         type="text"
-                                        label="Address"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.address}
-                                        name="address"
-                                        error={!!touched.address && !!errors.address}
-                                        helperText={touched.address && errors.address}
-                                        sx={{
-                                            gridColumn: 'span 4',
-                                        }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="National"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.nationality}
-                                        name="nationality"
-                                        error={!!touched.nationality && !!errors.nationality}
-                                        helperText={touched.nationality && errors.nationality}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="Contact"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
-                                        value={values.phone}
-                                        name="phone"
-                                        error={!!touched.phone && !!errors.phone}
-                                        helperText={touched.phone && errors.phone}
-                                        sx={{
-                                            gridColumn: 'span 2',
-                                        }}
-                                    />
-                                    <TextField
-                                        fullWidth
-                                        variant="filled"
-                                        type="text"
-                                        label="Emai"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        defaultValue=" "
                                         value={values.email}
                                         name="email"
-                                        error={!!touched.email && !!errors.email}
-                                        helperText={touched.email && errors.email}
-                                        sx={{
-                                            gridColumn: 'span 4',
-                                        }}
+                                        style={{ width: '550px' }}
+                                        className={`${errors.email && touched.email ? 'p-invalid' : ''}`}
                                     />
-                                </Box>
-                                <Box display="flex" justifyContent="space-between" mt="20px" sx={{ flexDirection: "row-reverse" }}>
-
-
-                                    <Button type="submit" color="secondary" variant="contained" >
-                                        EDIT ACCOUNT
-                                    </Button>
-                                </Box>
-                            </form>
-                        )}
-                    </Formik>
-                </Box>
-            </>
+                                    {errors.email && touched.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+                                </div>
+                                <div className="">
+                                    <label className="font-bold block mb-2">Address</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.address}
+                                        name="address"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.address && touched.address ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.address && touched.address && <div style={{ color: 'red' }}>{errors.address}</div>}
+                                </div>
+                            </div>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="">
+                                    <label className="font-bold block mb-2">Phone Number</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.phone}
+                                        name="phone"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.phone && touched.phone ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.phone && touched.phone && <div style={{ color: 'red' }}>{errors.phone}</div>}
+                                </div>
+                                <div className="">
+                                    <label className="font-bold block mb-2">Nationality</label>
+                                    <InputText
+                                        type="text"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        value={values.nationality}
+                                        name="nationality"
+                                        style={{ width: '550px' }}
+                                        className={`${errors.nationality && touched.nationality ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.nationality && touched.nationality && <div style={{ color: 'red' }}>{errors.nationality}</div>}
+                                </div>
+                            </div>
+                            <div className="flex flex-row space-x-10 mt-5">
+                                <div className="p-field">
+                                    <label className="font-bold block mb-2">Date of Birth</label>
+                                    <Calendar
+                                        value={values.dateOfBirth}
+                                        onChange={(e) => setFieldValue('dateOfBirth', e.value)}
+                                        inputId="dateOfBirth"
+                                        showTime
+                                        hourFormat="24"
+                                        showIcon
+                                        style={{ width: '550px' }}
+                                        className={`${errors.dateOfBirth && touched.dateOfBirth ? 'p-invalid' : ''}`}
+                                    />
+                                    {errors.dateOfBirth && touched.dateOfBirth && <div style={{ color: 'red' }}>{errors.dateOfBirth}</div>}
+                                </div>
+                                <div>
+                                    <label className="font-bold block ">Gender</label>
+                                    <div className='flex flex-wrap gap-5 mt-2'>
+                                        <div className="flex align-items-center">
+                                            <RadioButton
+                                                inputId="male"
+                                                name="sex"
+                                                onBlur={handleBlur}
+                                                onChange={() => setFieldValue('sex', 'male')}
+                                                checked={values.sex === 'male'}
+                                            />
+                                            <label htmlFor="male" className="ml-2">Male</label>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <RadioButton
+                                                inputId="female"
+                                                name="sex"
+                                                onBlur={handleBlur}
+                                                onChange={() => setFieldValue('sex', 'female')}
+                                                checked={values.sex === 'female'}
+                                            />
+                                            <label htmlFor="female" className="ml-2">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="mt-5">
+                                    <label className="font-bold block ">Status</label>
+                                    <div className='flex flex-wrap gap-5 mt-2'>
+                                        <div className="flex align-items-center">
+                                            <RadioButton
+                                                inputId="statusTrue"
+                                                name="status"
+                                                value="True"
+                                                onChange={handleChange}
+                                                checked={values.status === 'True'}
+                                            />
+                                            <label htmlFor="StatusTrue" className="ml-2">True</label>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <RadioButton
+                                                inputId="statusFalse"
+                                                name="status"
+                                                value="False"
+                                                onChange={handleChange}
+                                                checked={values.status === 'False'}
+                                            />
+                                            <label htmlFor="StatusTrue" className="ml-2">False</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='flex justify-between mt-12'>
+                                <Button
+                                    type="button"
+                                    label="Back"
+                                    severity="info"
+                                    icon="pi pi-eye"
+                                    raised
+                                    className='w-28 h-14'
+                                    onClick={() => navigate('/dashboard/customers')}
+                                />
+                                <Button
+                                    type="submit"
+                                    label="Update"
+                                    icon="pi pi-check"
+                                    severity="warning"
+                                    className='w-32 h-14'
+                                    raised
+                                />
+                            </div>
+                        </form>
+                    )}
+                </Formik>
+            </div >
         </>
     );
 }

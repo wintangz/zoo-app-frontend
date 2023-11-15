@@ -58,7 +58,7 @@ function UpdateEnclosure() {
     };
     const [open, setOpen] = useState(false);
     const handleClose = () => {
-        navigate('/home/enclosures');
+        navigate('/dashboard/enclosures');
     };
 
     //---------------------------------------- Handle Submit----------------------------------/
@@ -70,7 +70,7 @@ function UpdateEnclosure() {
         }
         console.log(location.state)
         console.log(values)
-        const res = updateEnclosures(enclosureId, values);
+        const res = updateEnclosures(location.state.id, values);
         console.log(res)
         res.then((result) => {
             const status = result.status;
@@ -263,8 +263,9 @@ function UpdateEnclosure() {
                                             }}
                                             name="imgUrl"
                                         />
+                                        <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
                                     </FormControl>
-                                    <img src={values.imgUrl} alt='' style={{ width: "150px", height: "70px" }} />
+
 
 
                                     <FormControl
@@ -314,7 +315,7 @@ function UpdateEnclosure() {
                                         type="button"
                                         color="secondary"
                                         variant="contained"
-                                        onClick={() => navigate('/home/enclosures')}
+                                        onClick={() => navigate('/dashboard/enclosures')}
                                     >
                                         VIEW ENCLOSUREs
                                     </Button>

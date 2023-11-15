@@ -68,9 +68,8 @@ const ThankYouPage = () => {
 
                 </>
             ) : (
-                // <p className={`waiting-text ${styles.waitingText}`}>Waiting...</p>
                 <>
-                    <h1 className={styles.thanks}>Warning</h1>
+                    <h1 className={styles.thanks}>Warning...</h1>
                     <h2 className={styles.mail}>You haven't paid for your order yet.</h2>
                     <div className={styles.check}>
                         <AttachEmailIcon />

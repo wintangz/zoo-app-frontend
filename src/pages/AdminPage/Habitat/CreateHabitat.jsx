@@ -111,7 +111,7 @@ function CreateHabitat() {
 
     });
     const handleClose = () => {
-        navigate('/home/habitats');
+        navigate('/dashboard/habitats');
     };
     return (
         <>
@@ -218,7 +218,7 @@ function CreateHabitat() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/home/habitats')}
+                                    onClick={() => navigate('/dashboard/habitats')}
                                 >
                                     VIEW HABITATS
                                 </Button>

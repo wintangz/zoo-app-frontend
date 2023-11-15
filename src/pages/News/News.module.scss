@@ -35,9 +35,11 @@
 
 .news_list {
     .category {
-        margin-top: 38px;
-        margin-left: 100px;
-        list-style-type: none;
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        column-gap: 1px;
+        margin: 40px 0 20px 40px;
 
         .item {
             display: inline-block;
@@ -58,7 +60,39 @@
                 color: #f8bf02 !important;
             }
         }
+
+        .searchBar {
+            margin-left: 150px;
+            display: flex;
+            position: relative;
+
+            input {
+                padding: 7px;
+                width: 500px;
+                border: 1px solid #ccc;
+                border-radius: 50px;
+                outline: none;
+            }
+
+            input:focus,
+            input:active {
+                outline: yellow !important; // Reset browser's default focus outline
+            }
+
+            .searchIcon {
+                position: absolute;
+                left: 470px;
+                top: 10px;
+                /* Adjust the left position as needed */
+                color: #333;
+                font-size: 1.2rem;
+                /* Adjust the color as needed */
+                pointer-events: none;
+            }
+        }
     }
+
+
 
     .news {
         margin-top: 38px;

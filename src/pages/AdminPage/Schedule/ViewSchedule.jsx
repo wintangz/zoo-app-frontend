@@ -22,7 +22,7 @@ function ViewSchedule() {
 
             if (userRole === "ZOO_TRAINER") {
                 const filter = result.filter(schedule => {
-                    return schedule.zooTrainerId === userId
+                    return schedule.zooTrainerId === userId;
                 });
                 setSchedule(filter)
             } else if (userRole === "STAFF") {

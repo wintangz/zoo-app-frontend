@@ -6,11 +6,13 @@ import { convertTicketToCart } from '~/utils/convertTicketToCart';
 const AppContext = createContext();
 export const useAppContext = () => useContext(AppContext);
 export default function Context({ children }) {
+
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalQuantity, setTotalQuantity] = useState(0)
-    const [auth, setAuth] = useState(false)//check Login
     const [tickets, setTickets] = useState([]);
     const [cart, setCart] = useState([]);
+
+    const [auth, setAuth] = useState(false)//check Login
     const [userAuth, setUserAuth] = useState(undefined);
     //news
     const [newsResult, setNewsResult] = useState(null);
@@ -23,10 +25,12 @@ export default function Context({ children }) {
         setCart(convertTicketToCart(result));
 
         const resultRecommend = await getRecommend();
-        setRecommendResult(resultRecommend);
+        const recommendWithTrueStatus = resultRecommend.filter((recommend) => recommend.status === true);
+        setRecommendResult(recommendWithTrueStatus);
 
         const resultTitle = await getNews();
-        setNewsResult(resultTitle);
+        const newsWithTrueStatus = resultTitle.filter((news) => news.status === true);
+        setNewsResult(newsWithTrueStatus);
     }
 
     useEffect(() => {

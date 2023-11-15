@@ -1,150 +1,69 @@
-import { Box, Button, useTheme } from '@mui/material';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Tag } from 'primereact/tag';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as newsService from '~/api/newsService';
 import AdminHeader from '~/component/Layout/components/AdminHeader/AdminHeader';
-import { tokens } from '~/theme';
-import Actions from './DeleteNews';
 
-function ViewNews() {
+export default function NewsDataTable() {
+    const [news, setNews] = useState(null);
+
     const navigate = useNavigate();
-    const [remove, setRemove] = useState(null);
-    const [newsResult, setNewsResult] = useState(null);
-    const fetchApi = async () => {
-        const resultTitle = await newsService.getNews();
-        console.log(resultTitle);
-        setNewsResult(resultTitle);
-    };
 
+    const fetchNews = async () => {
+        const result = await newsService.getNews();
+        setNews(result);
+    };
     useEffect(() => {
-        fetchApi();
-    }, [remove]);
+        fetchNews();
+    }, []);
     const handleRowDoubleClick = (params) => {
-        const homeNewsId = params.row.id;
+        const selectedNews = params.data;
+        const homeNewsId = selectedNews.id;
         navigate(`/home/news/${homeNewsId}`);
     };
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+
+    const imgUrl = (rowData) => {
+        return <img src={rowData.imgUrl} alt={rowData.title} width="100" />;
+    };
+    const thumbnailUrl = (rowData) => {
+        return <div><img src={rowData.thumbnailUrl} alt={rowData.title} width="100" /></div>;
+    };
+    const createdDate = (rowData) => {
+        return <span>{new Date(rowData.createdDate).toLocaleString()}</span>;
+    };
+
+    const status = (rowData) => {
+        return <Tag value={rowData.status ? 'True' : 'False'} />;
+    };
+
     const columns = [
-        {
-            field: 'id',
-            headerName: 'ID',
-            flex: 0.2,
-        },
-        {
-            field: 'title',
-            headerName: 'Title',
-            headerAlign: 'left',
-            align: 'left',
-            flex: 1,
-        },
-        {
-            field: 'content',
-            headerName: 'Content',
-            headerAlign: 'left',
-            align: 'left',
-            flex: 1,
-        },
-        {
-            field: 'author',
-            headerName: 'Author',
-            headerAlign: 'left',
-            align: 'left',
-            flex: 0.5,
-            valueGetter: (params) => `${params.row.authorLastname} ${params.row.authorFirstname}`,
-        },
-        {
-            field: 'type',
-            headerName: 'Type',
-            headerAlign: 'left',
-            align: 'left',
-            flex: 0.3,
-        },
-        {
-            field: 'imgUrl',
-            headerName: 'ImgUrl',
-            headerAlign: 'left',
-            align: 'left',
-        },
-        {
-            field: 'thumbnailUrl',
-            headerName: 'ThumbnailUrl',
-            headerAlign: 'left',
-            align: 'left',
-        },
-        {
-            field: 'status',
-            headerName: 'Status',
-            headerAlign: 'left',
-            align: 'left',
-        },
-        {
-            field: 'actions',
-            headerName: 'Actions',
-            type: 'actions',
-            width: 80,
-            renderCell: (params) => <Actions {...{ params }} setRemove={setRemove} />,
-        },
+        { field: 'id', header: 'ID' },
+        { field: 'title', header: 'Title' },
+        { field: 'shortDescription', header: 'Short Description' },
+        { field: 'content', header: 'Content' },
+        { header: 'ImgUrl', body: imgUrl },
+        { header: 'ThumbnailUrl', body: thumbnailUrl },
+        { field: 'type', header: 'Type' },
+        { field: 'createdDate', header: 'Created Date', body: createdDate },
+        { field: 'status', header: 'Status', body: status },
     ];
     return (
-        <Box m="20px">
-            <AdminHeader title="View News" subtitle="Table of News" />
-            <Box display="flex" justifyContent="left">
-                <Button
-                    type="button"
-                    color="secondary"
-                    variant="contained"
-                    onClick={() => navigate('/home/news/create')}
-                >
-                    CREATE NEWS
-                </Button>
-            </Box>
-            <Box
-                m="20px 0 0 0"
-                height="75vh"
-                sx={{
-                    '& .MuiDataGrid-root': {
-                        border: 'none',
-                        marginLeft: '0px',
-                    },
-                    '& .MuiDataGrid-cell': {
-                        borderBottom: 'none',
-                    },
-                    '& .name-column--cell': {
-                        color: colors.greenAccent[300],
-                    },
-                    '& .MuiDataGrid-columnHeaders': {
-                        backgroundColor: colors.blueAccent[700],
-                        borderBottom: 'none',
-                    },
-                    '& .MuiDataGrid-virtualScroller': {
-                        backgroundColor: colors.primary[400],
-                    },
-                    '& .MuiDataGrid-footerContainer': {
-                        borderTop: 'none',
-                        backgroundColor: colors.blueAccent[700],
-                    },
-                    '& .MuiCheckbox-root': {
-                        color: `${colors.greenAccent[200]} !important`,
-                    },
-                    '& .MuiDataGrid-toolbarContainer .MuiButton-text': {
-                        color: `${colors.grey[100]} !important`,
-                    },
-                }}
-            >
-                {newsResult && (
-                    <DataGrid
-                        rows={newsResult}
-                        columns={columns}
-                        getRowId={(row) => row.id}
-                        components={{ Toolbar: GridToolbar }}
-                        onRowDoubleClick={handleRowDoubleClick}
-                    />
-                )}
-            </Box>
-        </Box>
+        <div m="20px">
+            <AdminHeader m="20px" title="View News" subtitle="Table of News" />
+            {news && (
+                <DataTable value={news} paginator rows={10} dataKey="id" emptyMessage="No news found." onRowDoubleClick={handleRowDoubleClick}>
+                    {columns.map((col, index) => (
+                        <Column
+                            key={index}
+                            field={col.field}
+                            header={col.header}
+                            body={col.body}
+                        />
+                    ))}
+                </DataTable>
+            )}
+        </div>
     );
 }
-
-export default ViewNews;

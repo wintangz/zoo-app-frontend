@@ -1,6 +1,8 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import GlobalStyles from './component/GlobalStyles/GlobalStyles';
+import './index.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import Context from './context/Context';
 import reportWebVitals from './reportWebVitals';
 
@@ -11,7 +13,8 @@ root.render(
         <Context>
             <App />
         </Context>
-    </GlobalStyles>,
+    </GlobalStyles>
+    ,
     {/* </React.StrictMode>, */ }
 );
 

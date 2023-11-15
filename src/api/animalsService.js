@@ -9,11 +9,18 @@ export const getAnimals = async () => {
         return error.response;
     }
 }
-
+export const getAnimalsById = async (path) => {
+    try {
+        const res = await axiosClient.get(`/animals/${path}`)
+        return res;
+    } catch (error) {
+        return error.response;
+    }
+}
 export const createAnimals = async (values) => {
     try {
         const res = await axiosClient.post('animals', values)
-        return res.data;
+        return res;
     } catch (error) {
         return error.response;
     }
@@ -64,6 +71,7 @@ export const updateEnclosures = async (id, values) => {
         const res = await axiosClient.put(`enclosures/${id}`, values);
         return res;
     } catch (error) {
+        console.log(error);
         return error.response;
     }
 }
@@ -172,7 +180,7 @@ export const conFirm = async (path, values) => {
 export const moveInEnclosure = async (path, path2) => {
     try {
         const res = await axiosClient.post(`animals/${path}/enclosures/${path2}`)
-        return res.data;
+        return res;
     } catch (error) {
         return error.response;
     }
@@ -181,7 +189,7 @@ export const moveInEnclosure = async (path, path2) => {
 export const moveOutEnclosure = async (path, path2) => {
     try {
         const res = await axiosClient.put(`animals/${path}/enclosures/${path2}`)
-        return res.data;
+        return res;
     } catch (error) {
         return error.response;
     }

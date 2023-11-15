@@ -2,15 +2,10 @@ import { useEffect, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import { useParams } from 'react-router-dom';
 import { getNewsById } from '~/api/newsService';
-import Loader from "~/component/Layout/components/Loader/Loader"
+import Loader from "~/component/Layout/components/Loader/Loader";
 import NormalBanner from '~/component/Layout/components/NormalBanner/NormalBanner';
 import styles from './View.module.scss';
 
-function stripHtmlTags(html) {
-    const tmp = document.createElement("div");
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || "";
-}
 
 function ViewEachNews() {
     const { id } = useParams();
@@ -42,13 +37,6 @@ function ViewEachNews() {
 
     const formattedDateStr = `${day}/${month}/${year}`;
 
-    const sentences = selectedNews.content.split('. ');
-
-    // Map sentences into paragraphs while keeping the periods and removing <p> tags
-    const paragraphs = sentences.map((sentence, index) => (
-        stripHtmlTags(sentence + (index < sentences.length - 1 ? '.' : ''))
-    ));
-
     console.log(selectedNews)
     return (
         <>
@@ -79,10 +67,7 @@ function ViewEachNews() {
 
 
 
-                <div className={styles.ql_editor}>
-                    {paragraphs.map((paragraph, index) => (
-                        <p key={index}>{paragraph}</p>
-                    ))}
+                <div className={styles.ql_editor} dangerouslySetInnerHTML={{ __html: selectedNews.content }}>
                 </div>
 
 

@@ -2,6 +2,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import PaymentIcon from '@mui/icons-material/Payment';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { confirmTicketPurchase } from '~/api/confirmService';
 import { getInfo } from '~/api/informationService';
 import vnpayLogo from '~/assets/img/vnpayLogo.png';
@@ -10,7 +11,6 @@ import { useAppContext } from '~/context/Context';
 import styles from './Summary.module.scss';
 import ConfirmTickets from './confirmTickets';
 import Information from './information';
-import { useNavigate } from 'react-router-dom';
 
 function Summary() {
     const navigate = useNavigate()
@@ -104,7 +104,7 @@ function Summary() {
                         </tr>
                         <tr className={styles.allTotal}>
                             <td>Total:</td>
-                            <td><td>{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND</td></td>
+                            <td>{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND</td>
                         </tr>
                     </table>
                     <div className={styles.submit}>

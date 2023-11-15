@@ -50,7 +50,7 @@ export const updateNews = async (id, values) => {
 export const deleteNews = async (id) => {
     try {
         const res = await axiosClient.remove(`news/${id}`);
-        return res.data
+        return res
     } catch (error) {
         console.log(error.response);
         return error.response;

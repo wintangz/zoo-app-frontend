@@ -4,45 +4,45 @@ import styles from './Banner.module.scss';
 import classNames from 'classnames/bind';
 import { Carousel } from 'react-bootstrap';
 import ReactPlayer from 'react-player';
-import 'bootstrap/dist/css/bootstrap.css';
+import bootstrap from './bootstrap.css';
 import { Link } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import * as assets from '~/utils/assets-src.js';
 const VideoProperties = [
     {
-        id: 1,
+        id: 0,
         title: 'Video 1',
         src: assets.video1,
         credit: 'Video about tiger',
         duration: 30000,
     },
     {
-        id: 2,
+        id: 1,
         title: 'Video 2',
         src: assets.video2,
         credit: 'Video about crocodile',
-        duration: 8,
+        duration: 8000,
     },
     {
-        id: 3,
+        id: 2,
         title: 'Video 3',
         src: assets.video3,
         credit: 'Video about giraffe',
-        duration: 16,
+        duration: 16000,
     },
     {
-        id: 4,
+        id: 3,
         title: 'Video 4',
         src: assets.video4,
         credit: 'Video about elephant',
-        duration: 8,
+        duration: 8000,
     },
     {
-        id: 5,
+        id: 4,
         title: 'Video 5',
         src: assets.video5,
         credit: 'Video about panda',
-        duration: 8,
+        duration: 8000,
     },
 ];
 function Banner() {
@@ -57,6 +57,7 @@ function Banner() {
     };
 
     const handleVideoEnded = () => {
+        console.log('Video ended')
         // Calculate the index of the next video
         const nextIndex = (activeIndex + 1) % VideoProperties.length;
         setActiveIndex(nextIndex);
@@ -66,9 +67,10 @@ function Banner() {
         // When the component mounts or activeIndex changes, set playbackReady to true
         setPlaybackReady(true);
     }, [activeIndex]);
-
+    console.log(activeIndex)
     return (
         <div className={'banner--container ' + ' ' + cx('container-content')}>
+
             <Carousel
                 activeIndex={activeIndex}
                 onSelect={handleSlide}
@@ -77,6 +79,7 @@ function Banner() {
                 touch={false} // Disable touch gestures for manual slide
             >
                 {VideoProperties.map((videoObj, index) => (
+
                     <Carousel.Item key={videoObj.id}>
                         <div className="video-container">
                             <ReactPlayer
@@ -87,7 +90,10 @@ function Banner() {
                                 playing={index === activeIndex && playbackReady}
                                 muted={true}
                                 loop={false}
-                                onEnded={handleVideoEnded} // Handle video end event
+                                onEnded={() => {
+                                    console.log('hard-coded video');
+                                    handleVideoEnded()
+                                }} // Handle video end event
                             />
                         </div>
                     </Carousel.Item>

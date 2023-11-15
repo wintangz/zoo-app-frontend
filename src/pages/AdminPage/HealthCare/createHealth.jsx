@@ -84,7 +84,7 @@ function CreateHealth() {
             <div>
                 <Modal
                     open={open}
-                    onClose={() => navigate('/home/animals/health')}
+                    onClose={() => navigate('/dashboard/animals/health')}
                     aria-labelledby="parent-modal-title"
                     aria-describedby="parent-modal-description"
                 >
@@ -93,7 +93,7 @@ function CreateHealth() {
                         <p id="parent-modal-description">Animal health have been recorded !</p>
                         <Button
                             color='secondary' style={{ fontSize: '0.9rem', fontWeight: 'bold' }}
-                            onClick={() => { navigate('/home/animals/health') }}
+                            onClick={() => { navigate('/dashboard/animals/health') }}
                         >
                             Close
                         </Button>
@@ -297,7 +297,7 @@ function CreateHealth() {
                                     type="button"
                                     color="secondary"
                                     variant="contained"
-                                    onClick={() => navigate('/home/animals/health')}
+                                    onClick={() => navigate('/dashboard/animals/health')}
                                 >
                                     VIEW All HEALTH RECORD
                                 </Button>
