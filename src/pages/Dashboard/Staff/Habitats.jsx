@@ -96,14 +96,14 @@ const Habitats = () => {
     };
 
     const columns = [
-        { field: 'id', header: 'ID', body: idBody, sortable: true, filterField: "id" },
-        { field: 'name', header: 'Name', sortable: true, filterField: "name" },
-        { field: 'info', header: 'Infomation', sortable: true, filterField: "info" },
-        { field: "createdDate", header: 'Created Date', dataType: "date", body: createdDate, sortable: false, filterField: false, filterElement: dateFilterTemplate },
+        { field: 'id', header: 'ID', body: idBody, sortable: true, filterField: "id", filter: true },
+        { field: 'name', header: 'Name', sortable: true, filterField: "name", filter: true },
+        { field: 'info', header: 'Infomation', sortable: true, filterField: "info", filter: true },
+        { field: "createdDate", header: 'Created Date', dataType: "date", body: createdDate, sortable: false, filterField: false, filterElement: dateFilterTemplate, filter: true },
         { header: 'Image', body: imgBody, sortable: false, filterField: false, showFilterMenu: false },
         { header: 'Banner Image', body: imgBannerBody, sortable: false, filterField: false, showFilterMenu: false },
-        { field: "status", header: 'Status', dataType: "boolean", body: statusBody, sortable: false, filterField: false, filterElement: statusFilterTemplate },
-        userRole === 'STAFF' && { header: 'Action', body: actionBody, sortable: false, filterField: false, showFilterMenu: false }
+        { field: "status", header: 'Status', dataType: "boolean", body: statusBody, sortable: false, filterField: false, filterElement: statusFilterTemplate, filter: true },
+        userRole === 'STAFF' && { header: 'Action', body: actionBody, sortable: false, filterField: false, showFilterMenu: false },
     ]
 
     const { data, mutate, isLoading } = useSWR(labels.apiPath, () => {
@@ -220,14 +220,14 @@ const Habitats = () => {
                         emptyMessage="No Habitat found."
                     >
                         {columns.map((col) => (
-                            <Column kkey={col.field}
+                            <Column key={col.field}
                                 dataType={col.dataType}
                                 field={col.field}
                                 header={col.header}
                                 body={col.body}
                                 sortable={col.sortable}
                                 className='min-w-max'
-                                filter
+                                filter={col.filter}
                                 filterField={col.filterField}
                                 filterElement={col.filterElement}
                                 showFilterMenu={col.showFilterMenu} />

@@ -22,9 +22,9 @@ function NewsCreate() {
     const navigate = useNavigate();
 
     const labels = {
-        title: 'Create News',
-        subtitle: 'Create new News',
-        apiPath: '/news/create'
+        title: 'News Management',
+        subtitle: 'Create News',
+        // apiPath: '/news/create'
     }
 
     const [editorContent, setEditorContent] = useState('');

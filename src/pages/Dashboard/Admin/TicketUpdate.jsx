@@ -27,9 +27,9 @@ function TicketUpdate() {
     }, [location.state]);
 
     const labels = {
-        title: 'Update Ticket Type',
-        subtitle: 'Update Ticket Type',
-        apiPath: 'tickets'
+        title: 'Ticket Management',
+        subtitle: 'Update Ticket',
+        // apiPath: 'tickets'
     }
 
     const initialValues = {

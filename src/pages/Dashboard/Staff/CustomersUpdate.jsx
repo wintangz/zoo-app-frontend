@@ -37,7 +37,7 @@ function CustomersUpdate() {
     }, [userId]);
 
     const labels = {
-        title: 'Update Customer',
+        title: 'Customer Management',
         subtitle: 'Update Customer',
         // apiPath: '/customer/update',
     };

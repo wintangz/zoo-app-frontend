@@ -267,6 +267,7 @@ const SpeciesUpdate = () => {
                         <div className="flex flex-col">
                             <label className="font-bold block mb-2" htmlFor="habitatId">Habitat</label>
                             <Dropdown
+                                filter
                                 style={{ width: '550px' }}
                                 id="habitatId"
                                 name="habitatId"

@@ -196,6 +196,7 @@ const SpeciesCreate = () => {
                             style={{ width: '550px' }}
                             id="habitatId"
                             name="habitatId"
+                            filter
                             onBlur={formik.handleBlur}
                             onChange={handleChangeHabitatId}
                             value={habitats.find(habitat => habitat.id === habitattId)}

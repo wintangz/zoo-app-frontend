@@ -33,9 +33,9 @@ function HabitatsUpdate() {
     }, []);
 
     const labels = {
-        title: 'Update Habitat',
-        subtitle: 'Update a Habitat',
-        apiPath: '/habitats/update'
+        title: 'Habitat Management',
+        subtitle: 'Update Habitat',
+        // apiPath: '/habitats/update'
     }
 
 
