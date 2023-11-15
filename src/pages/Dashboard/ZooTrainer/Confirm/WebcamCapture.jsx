@@ -70,12 +70,12 @@ export default function WebcamCapture({ setWebcam }) {
                 position: 'absolute',
                 top: '20%'
             }}  >
-                <div className="webcam-img mb-2">
+                <div className="webcam-img mb-2 flex justify-center">
                     {image ? (
-                        <img src={image} alt="Captured" />
+                        <img src={image} className='mt-4' alt="Captured" />
                     ) : (
                         <Webcam
-                            className="webcam w-[95%]"
+                            className="webcam w-[45%] mt-4 "
                             audio={false}
                             ref={webcamRef}
                             screenshotFormat="image/jpeg"
@@ -92,13 +92,14 @@ export default function WebcamCapture({ setWebcam }) {
                     <Button className="mr-4" onClick={handleSaveImage} >
                         Save Image
                     </Button>
+                    {image && (
+                        <Button className="mr-4" onClick={handleRetakePhoto}>Retake Photo</Button>
+                    )}
                 </div>
-                {image && (
-                    <Button className="mr-4" onClick={handleRetakePhoto}>Retake Photo</Button>
-                )}
+
                 {capturedImage && (
                     <>
-                        <div style={{ position: "absolute", top: "0", left: "115%" }}>
+                        <div className='mt-4' style={{ position: "absolute", top: "0", left: "115%" }}>
                             <img src={URL.createObjectURL(capturedImage)} alt="Captured" />
                         </div>
                     </>

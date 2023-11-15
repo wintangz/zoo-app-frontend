@@ -222,6 +222,7 @@ function FeedingScheduleUpdate() {
     const header = renderHeader();
     return (
         <div>
+            <Toast ref={toast} />
             <div className="p-5 w-[80vw]">
                 {/* <Toast ref={toast} /> */}
                 <div className="p-m-5 w-[100%]">

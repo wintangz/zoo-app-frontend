@@ -14,13 +14,16 @@ import uploadFile from '~/utils/transferFile';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { conFirm } from '~/api/animalsService';
 import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { InputNumber } from 'primereact/inputnumber';
 
 
 const FACING_MODE_USER = "user";
 const FACING_MODE_ENVIRONMENT = "environment";
 
 function Confirm() {
-    const location = useLocation().state
+    const location = useLocation()
+    console.log(location.state);
     const navigate = useNavigate()
     const [camera, setCamera] = useState(false);
     const theme = useTheme({ isDashboard: false });
@@ -49,6 +52,11 @@ function Confirm() {
 
     const initialValues = {
         imgUrl: '',
+        // actualQuantity: null,
+        actualQuantities: location.state.details.reduce((acc, detail) => {
+            acc[detail.id] = null;
+            return acc;
+        }, {}),
     };
     const userSchema = yup.object().shape({
         imgUrl: yup
@@ -60,13 +68,21 @@ function Confirm() {
                 }
                 return true;
             }),
+        // actualQuantity: yup.number().required("Quantity is required").min(1, 'Actual Quantity must be at least 1'),
+        actualQuantities: yup.object().shape(
+            location.state.details.reduce((acc, detail) => {
+                acc[detail.id] = yup.number().required("Quantity is required").min(1, 'Actual Quantity must be at least 1');
+                return acc;
+            }, {})
+        ),
     });
 
 
 
     const handleFormSubmit = (values) => {
+        const details = [];
+        console.log(values);
         let res = null;
-
         if (typeof (webcam.imgUrl) == "undefined") {
             res = uploadFile(values.imgUrl, "confirm");
         } else {
@@ -74,20 +90,26 @@ function Confirm() {
         }
         if (res) {
             res.then((result) => {
-                const confirmationImgUrl = {
-                    confirmationImgUrl: result
-                }
-                const response = conFirm(location.id, confirmationImgUrl);
-                console.log(response)
-                response.then((r) => {
-                    console.log(r.status);
-                    if (r.status === "Ok") {
-                        setOpen(true);
+                const promises = Object.entries(values.actualQuantities).map(([detailId, quantity]) => {
+                    const detail = location.state.details.find(d => d.id === parseInt(detailId));
+                    if (!detail) {
+                        throw new Error(`Detail with ID ${detailId} not found.`);
                     }
+                    const data = {
+                        id: detail.id,
+                        imgUrl: result,
+                        actualQuantity: parseInt(quantity),
+                    };
+                    details.push(data);
                 })
             })
         }
-
+        console.log(details);
+        const response = conFirm(location.state.id, details);
+        response.then((result) => {
+            console.log(response);
+            console.log(result);
+        })
     }
     const labels = {
         title: 'Feeding Schedule Management',
@@ -129,18 +151,56 @@ function Confirm() {
                                 }} >
                                     Get photo from your Camera
                                 </Button>
-                                {camera && <Button className='text-white bold h-[50%] w-[15%] float-left justify-center' onClick={() => {
+                                {camera && <Button className='text-white bold h-[50%] w-[15%] float-left justify-center mt-4' onClick={() => {
                                     setCamera(false)
                                 }}>
                                     Close Camera
                                 </Button>}
-                            </div>
 
+
+                            </div>
+                            {location.state.details.map((detail) => {
+                                return (
+                                    <div key={detail.id}>
+                                        {touched.actualQuantities && touched.actualQuantities[detail.id] && errors.actualQuantities && errors.actualQuantities[detail.id] && (
+                                            <div style={{ color: 'red' }}>{errors.actualQuantities[detail.id]}</div>
+                                        )}
+                                        <div className="card flex flex-column md:flex-row gap-3 mt-2">
+                                            <lable></lable>
+                                            <div className="p-inputgroup flex-1">
+                                                <span className="p-inputgroup-addon">
+                                                    Food Name
+                                                </span>
+                                                <InputText value={detail.food.name} />
+                                            </div>
+
+                                            <div className="p-inputgroup flex-1">
+                                                <span className="p-inputgroup-addon">Expected Quantity</span>
+                                                <InputText value={detail.expectedQuantity} />
+                                            </div>
+
+                                            <div className='flex flex-column'>
+                                                <div className="p-inputgroup flex-1">
+                                                    <span className="p-inputgroup-addon">Actual Quantity</span>
+                                                    <InputText
+                                                        // value={values.actualQuantity}
+                                                        value={values.actualQuantities[detail.id]}
+                                                        name={`actualQuantities[${detail.id}]`}
+                                                        onChange={handleChange} />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                )
+                            })}
                             <div className='flex justify-end mt-4 mr-4' mt="20px" mr="20px">
                                 <Button className='text-white bold' type="submit" color="secondary" variant="contained">
                                     CONFIRM
                                 </Button>
                             </div>
+
                         </form>
                     )}
                 </Formik>
