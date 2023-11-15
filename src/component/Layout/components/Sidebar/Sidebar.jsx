@@ -167,7 +167,7 @@ const Sidebar = () => {
 
             }}
         >
-            <ProSidebar style={{ height: '100%', background: colors.primary[900] }}>
+            <ProSidebar style={{ height: '100%', background: 'white' }}>
                 <Menu iconShape="square" initialValues={initialValues}>
                     {/* LOGO AND MENU ICON */}
                     <Box mb="25px">
@@ -227,13 +227,13 @@ const Sidebar = () => {
                             </Button>
                         </Dialog>
 
-                        <Item
+                        {/* <Item
                             title='Dashboard'
                             to="/dashboard"
                             icon={<InsightsOutlined />}
                             selected={selected}
                             setSelected={setSelected}
-                        />
+                        /> */}
 
                         {userRoles.includes('ADMIN') &&
                             <>
@@ -281,13 +281,6 @@ const Sidebar = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
-                                <Item
-                                    title="Orders"
-                                    to="/dashboard/orders"
-                                    icon={<ShoppingCartOutlined />}
-                                    selected={selected}
-                                    setSelected={setSelected}
-                                />
                                 {/* <Item
                                     title="Purchased Tickets"
                                     to="/home/purchased_tickets"
@@ -303,6 +296,15 @@ const Sidebar = () => {
                                     setSelected={setSelected}
                                 />
                             </>
+                        }
+                        {(userRoles.includes('STAFF') || userRoles.includes('ADMIN')) &&
+                            <Item
+                                title="Orders"
+                                to="/dashboard/orders"
+                                icon={<ShoppingCartOutlined />}
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
                         }
                         {(userRoles.includes('STAFF') || userRoles.includes('ZOO_TRAINER')) &&
                             <>
@@ -320,14 +322,17 @@ const Sidebar = () => {
                                     selected={selected}
                                     setSelected={setSelected}
                                 />
-                                <Item
-                                    title="Habitats"
-                                    to="/dashboard/habitats"
-                                    icon={<ForestOutlined />}
-                                    selected={selected}
-                                    setSelected={setSelected}
-                                />
                             </>}
+
+                        {userRoles.includes('STAFF') &&
+                            <Item
+                                title="Habitats"
+                                to="/dashboard/habitats"
+                                icon={<ForestOutlined />}
+                                selected={selected}
+                                setSelected={setSelected}
+                            />
+                        }
 
                         {userRoles.includes('ZOO_TRAINER') && (
                             <>

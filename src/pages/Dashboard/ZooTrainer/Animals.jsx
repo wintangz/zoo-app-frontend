@@ -170,7 +170,7 @@ const Animals = () => {
     const renderHeader = () => {
         return (
             <div className="flex justify-content-between">
-                <Link to="/dashboard/animals/create"><Button label='Create' severity='success' /></Link>
+                {decode(localStorage.getItem('token')).roles.includes('STAFF') && <Link to="/dashboard/animals/create"><Button label='Create' severity='success' /></Link>}
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
