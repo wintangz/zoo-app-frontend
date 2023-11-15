@@ -1,22 +1,15 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { useFormik } from 'formik';
 import moment from 'moment/moment';
-import { InputText } from 'primereact/inputtext';
-import * as yup from 'yup';
-import { createAnimals, getAnimalsById, moveInEnclosure, updateAnimal } from '~/api/animalsService';
-import uploadFile, { urlToFile } from '~/utils/transferFile';
-import useSWR from 'swr'
-import { get } from '../AxiosClient'
 import { Button } from 'primereact/button';
-import { Toast } from 'primereact/toast';
-import { useEffect, useRef } from 'react';
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
-import { classNames } from 'primereact/utils';
-import { RadioButton } from 'primereact/radiobutton';
-import { Image } from 'primereact/image';
-import { useState } from 'react';
 import { Dialog } from 'primereact/dialog';
+import { Dropdown } from 'primereact/dropdown';
+import { Image } from 'primereact/image';
+import { InputText } from 'primereact/inputtext';
+import { Toast } from 'primereact/toast';
+import { useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useSWR from 'swr';
+import { moveInEnclosure } from '~/api/animalsService';
+import { get } from '../AxiosClient';
 function MoveInAnimals() {
 
     const [selectedCage, setSelectedCage] = useState(null);
@@ -121,6 +114,7 @@ function MoveInAnimals() {
                                 options={data?.data.filter(cage => cage.status === true)}
                                 optionLabel='name'
                                 placeholder='Select Cage'
+                                filter
                                 onChange={(e) => {
                                     setSelectedCage(e.value)
                                 }}
