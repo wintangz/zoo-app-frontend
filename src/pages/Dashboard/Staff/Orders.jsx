@@ -121,7 +121,7 @@ const Orders = () => {
             <div className="p-3">
                 <h5>Order ID: {data.id}</h5>
                 <h5>Customer: {data.customer.firstname}</h5>
-                <h5>Cretaed Date: {new Date(data.createdDate).toLocaleString()}</h5>
+                <h5>Created Date: {new Date(data.createdDate).toLocaleString()}</h5>
                 <DataTable value={ordersTicketsResult}
                     filters={filters}
                     globalFilterFields={['customer.username']} emptyMessage="No entity found."

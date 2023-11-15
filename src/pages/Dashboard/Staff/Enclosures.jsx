@@ -92,7 +92,9 @@ const Enclosures = () => {
                     <Link><Button icon='pi pi-trash' className='border-red-500 text-red-500' rounded outlined onClick={() => handleDeleteClick(item)} tooltip="Delete" tooltipOptions={{ position: 'bottom' }} /></Link>
                 </React.Fragment>
             )}
-            <Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-calendar-plus" severity="secondary" aria-label="Bookmark" rounded outlined tooltip="Create Feeding Schedule" tooltipOptions={{ position: 'left' }} /></Link>
+            {userRole === 'ZOO_TRAINER' && (
+                <Link to="/dashboard/animals/feeding" state={item}><Button icon="pi pi-calendar-plus" severity="secondary" aria-label="Bookmark" rounded outlined tooltip="Create Feeding Schedule" tooltipOptions={{ position: 'left' }} /></Link>
+            )}
         </div>
     }
 

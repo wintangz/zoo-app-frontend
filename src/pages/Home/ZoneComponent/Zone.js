@@ -13,7 +13,8 @@ function Zone() {
     const fetchApi = async () => {
 
         const resultHabitat = await getHabitats();
-        setHabitats(resultHabitat);
+        const habitatsWithTrueStatus = resultHabitat.filter((habitats) => habitats.status === true);
+        setHabitats(habitatsWithTrueStatus);
     }
 
     useEffect(() => {
