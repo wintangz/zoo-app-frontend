@@ -76,7 +76,7 @@ import TicketCreate from '~/pages/Dashboard/Admin/TicketCreate';
 import TicketTypes from '~/pages/Dashboard/Admin/TicketTypes';
 import TicketUpdate from '~/pages/Dashboard/Admin/TicketUpdate';
 import Users from '~/pages/Dashboard/Admin/Users';
-import Dashboard from '~/pages/Dashboard/Dashboard';
+import Dashboard from '~/pages/Dashboard/Admin/Dashboard';
 import Customers from '~/pages/Dashboard/Staff/Customers';
 import CustomersCreate from '~/pages/Dashboard/Staff/CustomersCreate';
 import CustomersUpdate from '~/pages/Dashboard/Staff/CustomersUpdate';

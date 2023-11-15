@@ -36,7 +36,7 @@ function AssignAnimal() {
     }, [change])
     const filteredTrainers = data?.data.filter((trainer) => {
         return (
-            !location.state.animalTrainerAssignors.some((existingTrainer) => existingTrainer.trainer.id === trainer.id) &&
+            location.state.animalTrainerAssignors && !location.state.animalTrainerAssignors.some((existingTrainer) => existingTrainer.trainer.id === trainer.id) &&
             trainer.status === true
         );
     }).map(trainer => {
