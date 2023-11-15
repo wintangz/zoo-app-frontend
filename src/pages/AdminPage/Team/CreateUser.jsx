@@ -9,9 +9,6 @@ import {
     FormControlLabel,
     Radio,
     RadioGroup,
-    TextField,
-    Typography,
-    useTheme,
 } from '@mui/material';
 
 import { Formik } from 'formik';
@@ -29,8 +26,8 @@ function Form() {
     const userRole = decode(localStorage.getItem('token')).roles[0];
 
     const labels = {
-        title: 'Create User',
-        subtitle: 'Create new User',
+        title: 'User Management',
+        subtitle: 'Create User',
         // apiPath: '/customer/create'
     }
 
@@ -48,7 +45,7 @@ function Form() {
                     const status = response.status;
                     console.log(response);
                     if (status === 200) {
-                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create Customer Successfully', life: 3000 })
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create Staff Successfully', life: 3000 })
                         setFormKey((prevKey) => prevKey + 1);
                     } else if (status === 400) {
                         response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
@@ -64,7 +61,7 @@ function Form() {
                     const status = response.status;
                     console.log(response)
                     if (status === 200) {
-                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create Customer Successfully', life: 3000 })
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Create Zoo Trainer Successfully', life: 3000 })
                         setFormKey((prevKey) => prevKey + 1);
                     } else if (status === 400) {
                         response.data.clientErrors !== "" ? document.getElementById('error-message').innerHTML = response.data.clientErrors.map(res => res)
@@ -164,7 +161,7 @@ function Form() {
             .required('Phone Number is required')
             .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/, 'Invalid phone number format'),
         email: yup.string().email('Invalid email address').required('Email is required'),
-        role: yup.string().required('Role is required')
+        // role: yup.string().required('Role is required')
     });
 
 
@@ -193,48 +190,41 @@ function Form() {
                 >
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue }) => (
                         <form onSubmit={handleSubmit}>
-                            <div>
-                                {userRole === "ADMIN" && <FormControl
-                                    component="fieldset"
-                                    width="75%"
-                                    sx={{
-                                        gridColumn: 'span 4',
-                                    }}
-                                    label="Gender"
-                                >
-                                    <label className="font-bold block mb-2">Role</label>
-                                    <RadioGroup
-                                        aria-label="role"
-                                        name="role"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        value={values.role}
-                                        sx={{ display: 'inline-block' }}
-                                        label="Role"
-                                    >
-                                        <FormControlLabel
-                                            value="STAFF"
-                                            control={
-                                                <Radio sx={{ '&.Mui-checked': { color: blueGrey } }} />
-                                            }
-                                            label="Staff"
+                            <div className='mt-5'>
+                                <label className="font-bold block mb-2">Role</label>
+                                <div className="flex flex-wrap gap-5 mt-2">
+                                    <div className="flex align-items-center">
+                                        <RadioButton
+                                            inputId="staff"
+                                            name="role"
+                                            onBlur={handleBlur}
+                                            onChange={() => setFieldValue('role', 'STAFF')}
+                                            checked={values.role === 'STAFF'}
                                         />
-                                        <FormControlLabel
-                                            value="ZOO_TRAINER"
-                                            control={
-                                                <Radio sx={{ '&.Mui-checked': { color: blueGrey } }} />
-                                            }
-                                            label="Zoo trainer"
+                                        <label htmlFor="staff" className="ml-2">Staff</label>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <RadioButton
+                                            inputId="zooTrainer"
+                                            name="role"
+                                            onBlur={handleBlur}
+                                            onChange={() => setFieldValue('role', 'ZOO_TRAINER')}
+                                            checked={values.role === 'ZOO_TRAINER'}
                                         />
-                                        <FormControlLabel
-                                            value="CUSTOMER"
-                                            control={
-                                                <Radio sx={{ '&.Mui-checked': { color: blueGrey } }} />
-                                            }
-                                            label="Customer"
+                                        <label htmlFor="zooTrainer" className="ml-2">Zoo trainer</label>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <RadioButton
+                                            inputId="customer"
+                                            name="role"
+                                            onBlur={handleBlur}
+                                            onChange={() => setFieldValue('role', 'CUSTOMER')}
+                                            checked={values.role === 'CUSTOMER'}
                                         />
-                                    </RadioGroup>
-                                </FormControl>}
+                                        <label htmlFor="customer" className="ml-2">Customer</label>
+                                    </div>
+                                </div>
+                                {errors.role && touched.role && <div style={{ color: 'red' }}>{errors.role}</div>}
                             </div>
                             <div className="flex flex-row space-x-10 mt-5">
                                 <div className="">

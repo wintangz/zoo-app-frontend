@@ -8,6 +8,7 @@ import useSWR from 'swr'
 import { get } from '../AxiosClient'
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { useEffect, useRef } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
@@ -170,7 +171,6 @@ function AnimalsCreate() {
                                 options={data?.data.filter(data => data.status === true)}
                                 optionLabel='name'
                                 optionValue='id'
-                                placeholder='Select species'
                                 onChange={(e) => {
                                     formik.setFieldValue('species', e.value);
                                 }}
@@ -255,20 +255,32 @@ function AnimalsCreate() {
 
                     </div>
 
-                    <div className="card mt-4">
-                        <label className='font-bold block mb-2'>Animal Image</label>
-                        <FileUpload
-                            name="imgUrl"
-                            accept="image/*"
-                            uploadOptions={{ className: 'hidden' }}
-                            maxFileSize={1000000}
-                            emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>}
-                            onSelect={handleFileUpload}
-                        />
-                        {formik.errors.imgUrl && formik.touched.imgUrl && (
-                            <small className='text-red-500 font-bold'>
-                                {formik.errors.imgUrl}
-                            </small>
+                    <div className='mt-5'>
+                        <label className="font-bold block mb-2" htmlFor="imgUrl">Image File</label>
+                        <div className="relative">
+                            <AiOutlineCloudUpload className='top-2 left-5 absolute text-white text-2xl' />
+                            <input
+                                type="file"
+                                className="hidden"
+                                onChange={(e) => {
+                                    formik.setFieldValue('imgUrl', e.currentTarget.files[0]);
+                                }}
+                                onBlur={formik.handleBlur}
+                                name="imgUrl"
+                                id="imgUrl"
+                            />
+                            <label
+                                htmlFor="imgUrl"
+                                className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white py-2 pl-6 pr-4 rounded-md inline-block transition duration-300 font-bold"
+                            >
+                                Upload
+                            </label>
+                            <span className={`ml-2 ${formik.values.imgUrl ? 'text-green-500 font-bold' : 'text-red-500 font-bold'}`} id="fileName">
+                                {formik.values.imgUrl ? 'File Uploaded' : 'No File chosen'}
+                            </span>
+                        </div>
+                        {formik.touched.imgUrl && formik.errors.imgUrl && (
+                            <div style={{ color: 'red' }}>{formik.errors.imgUrl}</div>
                         )}
                     </div>
                     <div className='flex justify-between mt-12'>

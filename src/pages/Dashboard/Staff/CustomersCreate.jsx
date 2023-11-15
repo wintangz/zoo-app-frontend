@@ -17,8 +17,8 @@ function CustomersCreate() {
     const [formKey, setFormKey] = useState(0);
 
     const labels = {
-        title: 'Create Customer',
-        subtitle: 'Create new Customer',
+        title: 'Customer Management',
+        subtitle: 'Create Customer',
         // apiPath: '/customer/create'
     }
 

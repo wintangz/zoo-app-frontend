@@ -17,9 +17,9 @@ const ZooTrainersCreate = () => {
     const [formKey, setFormKey] = useState(0);
 
     const labels = {
-        title: 'Create Customer',
-        subtitle: 'Create new Customer',
-        apiPath: '/customer/create'
+        title: 'Zoo Trainer Management',
+        subtitle: 'Create Zoo Trainer',
+        // apiPath: '/customer/create'
     }
 
     const handleFormSubmit = async (values) => {
@@ -272,7 +272,7 @@ const ZooTrainersCreate = () => {
                                     icon="pi pi-eye"
                                     raised
                                     className='w-28 h-14'
-                                    onClick={() => navigate('/dashboard/customers')}
+                                    onClick={() => navigate('/dashboard/zoo_trainers')}
                                 />
                                 <Button
                                     type="submit"

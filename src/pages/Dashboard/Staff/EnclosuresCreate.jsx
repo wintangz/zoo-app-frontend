@@ -157,6 +157,7 @@ function EnclosuresCreate() {
                                 <div >
                                     <label className="font-bold block mb-2" >Habitat</label>
                                     <Dropdown
+                                        filter
                                         style={{ width: '340px' }}
                                         defaultValue={habitats.name === 1}
                                         name='habitatId'
