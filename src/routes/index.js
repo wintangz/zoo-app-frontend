@@ -117,6 +117,8 @@ import SpeciesCreate from '~/pages/Dashboard/ZooTrainer/SpeciesCreate';
 import SpeciesUpdate from '~/pages/Dashboard/ZooTrainer/SpeciesUpdate';
 import AnimalHistory from '~/pages/Dashboard/ZooTrainer/AnimalHistory';
 import Confirm from '~/pages/Dashboard/ZooTrainer/Confirm/confirm';
+import MoveInAnimalsWithParams from '~/pages/Dashboard/ZooTrainer/MoveInWithParam';
+import AssignAnimalWithPrams from '~/pages/Dashboard/Staff/AssignAnimalWithParams';
 
 const publicRoutes = [
     { path: '/', component: Home, name: 'Home' },
@@ -230,6 +232,8 @@ const publicRoutes = [
 
     //ZOO TRAINER
     { path: 'dashboard/animals', component: AnimalsDB, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
+    // { path: 'dashboard/animals/movein/:id', component: MoveInAnimals, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
+    { path: 'dashboard/animals/movein/:id', component: MoveInAnimalsWithParams, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
     { path: 'dashboard/animals/movein', component: MoveInAnimals, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
     { path: 'dashboard/animals/create', component: AnimalsCreate, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
     { path: 'dashboard/animals/update', component: AnimalsUpdate, layout: DashboardLayout, name: 'ZTAnimals', Authen: "private" },
@@ -246,6 +250,7 @@ const publicRoutes = [
     { path: 'dashboard/species', component: Species, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/create', component: SpeciesCreate, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/species/update', component: SpeciesUpdate, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
+    { path: 'dashboard/animals/assign/:id', component: AssignAnimalWithPrams, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/animals/assign', component: AssignAnimal, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/animals/unassign', component: UnAssignAnimal, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },
     { path: 'dashboard/animals/history', component: AnimalHistory, layout: DashboardLayout, name: 'ZTSpecies', Authen: "private" },

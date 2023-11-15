@@ -114,6 +114,10 @@ function AnimalsCreate() {
         console.log(event.files[0]);
     };
 
+    const handleLinkList = () => {
+        navigate('/dashboard/animals/movein', { state: createdAnimal })
+    }
+
     const deleteModalFooter = (
         <div>
             <Button label="Close" icon="pi pi-times" outlined onClick={() => openDeleteModal(false)} />
@@ -125,15 +129,17 @@ function AnimalsCreate() {
         <div className="p-5 w-[80vw]">
 
             <Dialog visible={deleteModal} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }}
-                header="Actions"
+                header="Create Animals Successfully"
                 onHide={() => openDeleteModal(false)}
                 footer={deleteModalFooter}>
                 <div className="confirmation-content">
                     <span className=' flex items-center justify-evenly'>
-                        Do you want to move this animal to an enclosure?<Link to='/dashboard/animals/movein' state={createdAnimal}><Button icon='pi pi-home' className='border-green-500 text-green-500' rounded outlined /></Link>
+                        Do you want to move this animal to an enclosure?<Link
+                            to={`/dashboard/animals/movein/${createdAnimal?.id}`} target="_blank"
+                        ><Button icon='pi pi-home' className='border-green-500 text-green-500' rounded outlined /></Link>
                     </span>
                     <span className=' flex items-center justify-evenly mt-2'>
-                        Do you want to assign this animal to zoo trainer(s)?<Link to="/dashboard/animals/assign"><Button icon='pi pi-user-edit' className='border-pink-500 text-pink-500' rounded outlined />  </Link>
+                        Do you want to assign this animal to zoo trainer(s)?<Link to={`/dashboard/animals/assign/${createdAnimal?.id}`} target="_blank"><Button icon='pi pi-user-edit' className='border-pink-500 text-pink-500' rounded outlined />  </Link>
                     </span>
                 </div>
             </Dialog>

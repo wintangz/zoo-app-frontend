@@ -30,7 +30,13 @@ function AnimalHistory() {
     }, []);
     console.log(enclosure);
     const moveoutdate = (item) => {
-        return <span>{new Date(item.moveOutDate).toLocaleString()}</span>
+        return <span>{item.moveOutDate ? new Date(item.moveOutDate).toLocaleString() : " "}</span>
+    }
+
+    const labels = {
+        title: 'History Of Animal',
+        subtitle: 'Table of history enclosures',
+        apiPath: '/users/customers'
     }
 
     const moveindate = (item) => {
@@ -64,8 +70,7 @@ function AnimalHistory() {
     };
     const renderHeader = () => {
         return (
-            <div className="flex justify-content-between">
-                <Link to="/dashboard/customers/create"><Button label='Create' severity='success' /></Link>
+            <div className="flex justify-end">
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
@@ -75,8 +80,13 @@ function AnimalHistory() {
     };
     const header = renderHeader();
     return (
-        <div className='mt-5 p-5'>
+        <div className=' p-5'>
+            <div className=''>
+                <p className='text-3xl font-bold'>{labels.title}</p>
+                <p className='text-lg text-yellow-500 font-bold'>{labels.subtitle}</p>
+            </div>
             {enclosure && <DataTable
+                className='mt-5'
                 size='small'
                 value={enclosure}
                 showGridlines

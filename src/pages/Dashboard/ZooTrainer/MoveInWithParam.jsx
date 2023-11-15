@@ -17,26 +17,32 @@ import { RadioButton } from 'primereact/radiobutton';
 import { Image } from 'primereact/image';
 import { useState } from 'react';
 import { Dialog } from 'primereact/dialog';
-function MoveInAnimals() {
-
+function MoveInAnimalsWithParams() {
     const [selectedCage, setSelectedCage] = useState(null);
-    const location = useLocation()
     const toast = useRef(null);
     const navigate = useNavigate()
+    const [animals, setAnimals] = useState(null);
     const labels = {
         title: 'Animal Management',
         subtitle: 'Move In Animal To Cage',
         apiPath: '/enclosures'
     }
 
+    const { id } = useParams()
+    useEffect(() => {
+        const res = getAnimalsById(id);
+        console.log(res)
+        res.then(result => {
+            setAnimals(result.data)
+        })
+    }, [])
     const [dialogVisible, setDialogVisible] = useState(false);
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
-    console.log(location.state)
     data && console.log(data.data)
     console.log(selectedCage)
     const handleSubmit = () => {
         console.log(selectedCage);
-        const res = moveInEnclosure(location.state.id, selectedCage.id)
+        const res = moveInEnclosure(id, selectedCage.id)
         res.then(result => {
             console.log(result)
             if (result.status === 200) {
@@ -79,7 +85,7 @@ function MoveInAnimals() {
                             <label className='font-bold block mb-2' >Animal Name</label>
                             <InputText
                                 disabled
-                                value={location.state.name}
+                                value={animals?.name}
                             />
                         </div>
 
@@ -87,7 +93,7 @@ function MoveInAnimals() {
                             <label className='font-bold block mb-2' >Date of birth</label>
                             <InputText
                                 disabled
-                                value={moment(location.state.dateOfBirth).format("YYYY/MM/DD hh:mm:ss")}
+                                value={moment(animals?.dateOfBirth).format("YYYY/MM/DD hh:mm:ss")}
                             />
                         </div>
 
@@ -95,7 +101,7 @@ function MoveInAnimals() {
                             <label className='font-bold block mb-2' >Species</label>
                             <InputText
                                 disabled
-                                value={location.state.species.name}
+                                value={animals?.species.name}
                             />
                         </div>
 
@@ -103,12 +109,12 @@ function MoveInAnimals() {
                             <label className='font-bold block mb-2' >Origin</label>
                             <InputText
                                 disabled
-                                value={location.state.origin}
+                                value={animals?.origin}
                             />
                         </div>
                         <div className='p-field w-[70%] mt-2 flex flex-col'>
                             <label className='font-bold block mb-2' >Animal Image</label>
-                            <Image className='inline w-[30%]' src={location.state.imgUrl} alt="Image" width="400" preview />
+                            <Image className='inline w-[30%]' src={animals?.imgUrl} alt="Image" width="400" preview />
                         </div>
                     </div>
 
@@ -162,4 +168,4 @@ function MoveInAnimals() {
     );
 }
 
-export default MoveInAnimals;
+export default MoveInAnimalsWithParams;

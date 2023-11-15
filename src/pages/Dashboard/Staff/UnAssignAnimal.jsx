@@ -19,7 +19,6 @@ function UnAssignAnimal() {
     useEffect(() => {
         const res = getAnimalsById(location.state.id);
         res.then((result) => {
-            console.log(result.data)
             setAnimals(result.data);
         })
     }, [change])

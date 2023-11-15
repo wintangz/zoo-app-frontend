@@ -7,29 +7,35 @@ import { Tag } from "primereact/tag";
 import { Toast } from "primereact/toast";
 import { useRef } from "react";
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
 import { assignZooTrainerToAnimal, getAllAnimals, getAnimals, getAnimalsById } from "~/api/animalsService";
 import { get } from "~/utils/axiosClient";
 import { decode } from "../AxiosClient";
 import { useEffect } from "react";
 
-function AssignAnimal() {
+function AssignAnimalWithPrams() {
+    const { id } = useParams();
     const navigate = useNavigate();
+    const [location, setLocation] = useState(null);
     const [selectedTrainer, setSelectedTrainer] = useState(null);
     const toast = useRef(null);
-    const location = useLocation()
     const [animals, setAnimals] = useState(null);
     const [change, setChange] = useState(null);
+    useEffect(() => {
+        const res = getAnimalsById(id)
+        res.then((result) => {
+            setLocation({ state: result })
+        })
+    }, [])
     const labels = {
         title: 'Animal Management',
         subtitle: 'Assign Zoo trainer to animal',
         apiPath: '/users/zoo-trainers'
     }
-    console.log(location.state);
     const { data, mutate, isLoading } = useSWR(labels.apiPath, get)
     useEffect(() => {
-        const res = getAnimalsById(location.state.id);
+        const res = getAnimalsById(id);
         console.log(res);
         res.then((result) => {
             console.log(result);
@@ -51,11 +57,11 @@ function AssignAnimal() {
     const handleSubmit = () => {
         try {
             const values = {
-                animal_id: location.state.id,
+                animal_id: id,
                 assigned_by: parseInt(decode(localStorage.getItem('token')).sub),
                 trainer_id: selectedTrainer.id,
             }
-            const path = `animals/${location.state.id}/zoo-trainers/${selectedTrainer.id}`;
+            const path = `animals/${id}/zoo-trainers/${selectedTrainer.id}`;
             const res = assignZooTrainerToAnimal(values, path);
             res.then(result => {
                 console.log(result)
@@ -117,9 +123,9 @@ function AssignAnimal() {
                         <label className='font-bold block mb-2' >Trainer</label>
                         {/* <div className='p-field w-[100%] mt-2 flex flex-col border-2 rounded-lg h-[50px] flex justify-normal p-2'> */}
                         <div className="border-2 p-2 rounded-lg">
-                            {animals?.assignZooTrainerToAnimal != null ? animals?.animalTrainerAssignors.map(trainer => (
+                            {animals?.animalTrainerAssignors.map(trainer => (
                                 <Tag className="mr-2" key={trainer.trainer.id} value={trainer.trainer.firstname} />
-                            )) : (<div className="text-zinc-500" >Not yet</div>)}
+                            ))}
                         </div  >
                         {/* </div> */}
                     </div>
@@ -212,4 +218,4 @@ function AssignAnimal() {
     );
 }
 
-export default AssignAnimal;
+export default AssignAnimalWithPrams;
