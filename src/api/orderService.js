@@ -27,7 +27,7 @@ export const getOrderByCusId = async (values) => {
 
 export const getOrderDetailByOderId = async (values) => {
     try {
-        const res = await axiosClient.get(`orders/${values}/tickets`)
+        const res = await axiosClient.get(`orders/${values}`)
         return res;
     } catch (error) {
         return error.response;
