@@ -21,7 +21,6 @@ import Ticket from '~/pages/Ticket/Ticket';
 
 //Admin routes
 // import Bar from '~/pages/AdminPage/Bar/index';
-import BannerLayout from '~/component/Layout/BannerLayout/BannerLayout';
 import ViewAnimals from '~/pages/AdminPage/Animal';
 import CreateAnimal from '~/pages/AdminPage/Animal/CreateAnimal';
 import UnassignAnimal from '~/pages/AdminPage/Animal/UnassignAnimal';
@@ -135,7 +134,7 @@ const publicRoutes = [
     { path: 'thanks', component: ThankYouPage, layout: NormalLayout, name: 'Thanks' },
     { path: 'verify', component: Verify, layout: NormalLayout, name: 'Verify', Authen: 'public' },
     { path: 'inputnewpassword', component: InputNewPassword, layout: NormalLayout, name: 'InputNewPassword', Authen: "public" },
-    { path: 'orders', component: Order, layout: BannerLayout, name: 'Order', Authen: "public" },
+    { path: 'orders', component: Order, layout: NormalLayout, name: 'Order', Authen: "public" },
     { path: '/animals/:habitat/:animalId', component: Animals, layout: AnimalLayout, name: 'Animal', Authen: "public" },
 
 
