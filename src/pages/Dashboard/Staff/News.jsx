@@ -80,7 +80,7 @@ const News = () => {
     const thumbnailUrl = (item) => {
         return (
             <div className='w-32 h-16 shadow-2 rounded-md '>
-                <img className="w-32 h-16 rounded-md object-cover" src={item.imgUrl} alt={item.name} />
+                <img className="w-32 h-16 rounded-md object-cover" src={item.thumbnailUrl} alt={item.name} />
             </div>
         )
     }
